@@ -3,17 +3,7 @@
 // Editorial content in new block-based format
 // ============================================================================
 
-import type {
-  JournalArticle,
-  JournalType,
-  JournalCategory,
-  Person,
-  JournalMedia,
-  JournalSection,
-  Credit,
-  JournalEvent,
-  ProjectReference,
-} from "./types";
+import type { JournalArticle, JournalType, JournalCategory } from "./types";
 
 // ----------------------------------------------------------------------------
 // EXAMPLE: ESSAY — "The Language of Light"
@@ -24,21 +14,21 @@ const languageOfLightArticle: JournalArticle = {
   slug: "language-of-light",
   type: "essay",
   category: "ideas",
-  
+
   title: "The Language of Light",
   subtitle: "How the quality of daylight shapes our architectural decisions",
   excerpt:
     "An exploration of light as material — and why we design for shadows as much as for sun.",
-  
+
   publishedAt: "2026-06-18",
-  
+
   author: {
     id: "rafael-mendes",
     name: "Rafael Mendes",
     role: "Founding Architect",
     organization: "RAFA Design Hub",
   },
-  
+
   hero: {
     src: "/images/journal/language-of-light.jpg",
     alt: "Interior with dramatic daylight filtering through deep reveals",
@@ -49,9 +39,9 @@ const languageOfLightArticle: JournalArticle = {
     },
     aspectRatio: "hero",
   },
-  
+
   estimatedReadingTime: 8,
-  
+
   sections: [
     {
       id: "introduction",
@@ -131,9 +121,9 @@ const languageOfLightArticle: JournalArticle = {
       ],
     },
   ],
-  
+
   relatedProjects: ["casa-monte", "studio-patio", "villa-marim"],
-  
+
   credits: [
     {
       role: "photography",
@@ -141,7 +131,7 @@ const languageOfLightArticle: JournalArticle = {
       url: "https://joaomorgado.com",
     },
   ],
-  
+
   keywords: ["light", "design philosophy", "architecture", "shadow"],
 };
 
@@ -154,19 +144,19 @@ const openHousePortoArticle: JournalArticle = {
   slug: "open-house-porto-2026",
   type: "event",
   category: "events",
-  
+
   title: "Open House Porto — Studio Patio",
   subtitle: "Join us for a weekend celebrating architecture in Porto",
   excerpt:
     "This September, our own studio will open its doors as part of the Open House Porto festival.",
-  
+
   publishedAt: "2026-07-12",
-  
+
   author: {
     id: "rafa-design-hub",
     name: "RAFA Design Hub",
   },
-  
+
   hero: {
     src: "/images/journal/open-house-porto.jpg",
     alt: "Studio Patio courtyard with natural light",
@@ -177,7 +167,7 @@ const openHousePortoArticle: JournalArticle = {
     },
     aspectRatio: "hero",
   },
-  
+
   event: {
     date: "2026-09-20",
     endDate: "2026-09-21",
@@ -192,9 +182,9 @@ const openHousePortoArticle: JournalArticle = {
     admission: "Free",
     moreInfoLink: "https://openhouseporto.org",
   },
-  
+
   estimatedReadingTime: 3,
-  
+
   sections: [
     {
       id: "about",
@@ -241,9 +231,9 @@ const openHousePortoArticle: JournalArticle = {
       ],
     },
   ],
-  
+
   relatedProjects: ["studio-patio"],
-  
+
   keywords: ["event", "open house", "porto", "studio visit"],
 };
 
@@ -256,18 +246,18 @@ const casaMonteAwardArticle: JournalArticle = {
   slug: "casa-monte-archdaily-award",
   type: "award",
   category: "awards",
-  
+
   title: "Casa Monte Named ArchDaily Building of the Year",
   excerpt:
     "Our hillside residence in the Algarve has been recognised as one of the year's most significant buildings.",
-  
+
   publishedAt: "2025-06-08",
-  
+
   author: {
     id: "rafa-design-hub",
     name: "RAFA Design Hub",
   },
-  
+
   hero: {
     src: "/images/journal/casa-monte-award.jpg",
     alt: "Casa Monte exterior view",
@@ -279,9 +269,9 @@ const casaMonteAwardArticle: JournalArticle = {
     },
     aspectRatio: "hero",
   },
-  
+
   estimatedReadingTime: 2,
-  
+
   sections: [
     {
       id: "announcement",
@@ -340,9 +330,9 @@ const casaMonteAwardArticle: JournalArticle = {
       ],
     },
   ],
-  
+
   relatedProjects: ["casa-monte"],
-  
+
   credits: [
     {
       role: "photography",
@@ -350,7 +340,7 @@ const casaMonteAwardArticle: JournalArticle = {
       url: "https://joaomorgado.com",
     },
   ],
-  
+
   keywords: ["award", "casa monte", "archdaily", "recognition"],
 };
 

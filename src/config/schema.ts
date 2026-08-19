@@ -90,13 +90,12 @@ export function projectSchema(project: Project): Record<string, unknown> {
 
 export function articleSchema(article: JournalArticle): Record<string, unknown> {
   // Handle both new format (hero) and legacy format (coverImage)
-  const coverImage = article.hero || (article as any).coverImage;
+  const coverImage =
+    article.hero || (article as { coverImage?: { src: string; alt: string } }).coverImage;
   const imageSrc = coverImage?.src;
-  
+
   // Handle both new format (author object) and legacy format (author string)
-  const authorName = typeof article.author === "object" 
-    ? article.author?.name 
-    : article.author;
+  const authorName = typeof article.author === "object" ? article.author?.name : article.author;
 
   return {
     "@context": "https://schema.org",

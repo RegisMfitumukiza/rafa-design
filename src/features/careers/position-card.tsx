@@ -21,8 +21,8 @@ export function PositionCard({ position, index, titleAs = "h3", className }: Pos
         <div className="gap-sm flex items-center justify-between">
           <Heading as={titleAs} variant="h3">
             {positionNumber && (
-              <span className="text-foreground/30 font-mono text-sm mr-sm">
-                {positionNumber} //
+              <span className="text-foreground/30 mr-sm font-mono text-sm">
+                {positionNumber} {/* divider */}
               </span>
             )}
             {position.title}

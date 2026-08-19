@@ -67,11 +67,13 @@ export function Footer({ className }: FooterProps) {
       <div className="container-standard py-xl md:py-2xl">
         <div className="gap-xl lg:gap-md grid items-start lg:grid-cols-12">
           {/* Brand & Studio Location Anchor */}
-          <div className="lg:col-span-4 flex flex-col gap-sm">
+          <div className="gap-sm flex flex-col lg:col-span-4">
             <Logo variant="footer" />
             <p className="text-foreground/60 max-w-[20rem] text-sm">{studio.tagline}</p>
             <p className="text-foreground/40 font-mono text-[10px] tracking-[0.2em] uppercase">
-              PORTO · LISBON {contactInformation.coordinates ? `[${contactInformation.coordinates}]` : ""} · {studioTimeFormatted}
+              PORTO · LISBON{" "}
+              {contactInformation.coordinates ? `[${contactInformation.coordinates}]` : ""} ·{" "}
+              {studioTimeFormatted}
             </p>
 
             <div className="border-border/30 mt-md pt-md border-t">
@@ -101,7 +103,9 @@ export function Footer({ className }: FooterProps) {
 
           {/* Directory Column 3 — Practice & Connect */}
           <div className="lg:col-span-3">
-            <p className={overlineClassName}>{ui.navigation.menu} // Practice</p>
+            <p className={overlineClassName}>
+              {ui.navigation.menu} {/* Practice */}
+            </p>
             <ul className="gap-xs flex flex-col">
               {supportingNavLinks.map((link) => (
                 <li key={link.path}>
@@ -116,7 +120,7 @@ export function Footer({ className }: FooterProps) {
                 </li>
               ))}
             </ul>
-            <div className="gap-xs mt-md flex flex-col pt-xs border-t border-border/30">
+            <div className="gap-xs mt-md pt-xs border-border/30 flex flex-col border-t">
               <a href={`mailto:${contactInformation.email}`} className={directoryLinkClassName}>
                 {contactInformation.email}
               </a>

@@ -64,7 +64,7 @@ export function ProjectsArchive({ initialProjects, categories }: ProjectsArchive
 
   // Reset visible batch count whenever active filters change
   useEffect(() => {
-    setVisibleCount(BATCH_SIZE);
+    setTimeout(() => setVisibleCount(BATCH_SIZE), 0);
   }, [selectedCategory, selectedTypology, searchQuery]);
 
   // Cursor-following image preview state (list view only)
@@ -242,7 +242,7 @@ export function ProjectsArchive({ initialProjects, categories }: ProjectsArchive
                   key={mode}
                   onClick={() => setViewMode(mode)}
                   className={cn(
-                    "py-0.5 uppercase transition-colors flex items-center gap-xs",
+                    "gap-xs flex items-center py-0.5 uppercase transition-colors",
                     viewMode === mode
                       ? "text-foreground font-medium"
                       : "text-foreground/40 hover:text-foreground/70",
@@ -252,12 +252,11 @@ export function ProjectsArchive({ initialProjects, categories }: ProjectsArchive
                   <span
                     className={cn(
                       "inline-block h-1 w-1 rounded-full transition-all duration-300",
-                      viewMode === mode ? "bg-accent scale-100" : "bg-transparent scale-0",
+                      viewMode === mode ? "bg-accent scale-100" : "scale-0 bg-transparent",
                     )}
                     aria-hidden="true"
                   />
-                  0{i + 1}{" "}
-                  {mode === "grid" ? "GRID" : mode === "list" ? "SPEC TABLE" : "MAP INDEX"}
+                  0{i + 1} {mode === "grid" ? "GRID" : mode === "list" ? "SPEC TABLE" : "MAP INDEX"}
                 </button>
               ))}
             </div>
@@ -284,14 +283,14 @@ export function ProjectsArchive({ initialProjects, categories }: ProjectsArchive
           </div>
 
           {/* Row 2 — Category + Typology filter rails (Horizontal Scroll Rails with Gradient Fade & Count Badges) */}
-          <div className="py-sm flex flex-col gap-sm font-mono text-xs">
+          <div className="py-sm gap-sm flex flex-col font-mono text-xs">
             {/* Discipline Scroll Rail */}
-            <div className="relative flex items-center min-w-0">
-              <span className="text-foreground/35 mr-md uppercase tracking-widest text-[10px] flex-shrink-0 select-none w-20">
+            <div className="relative flex min-w-0 items-center">
+              <span className="text-foreground/35 mr-md w-20 flex-shrink-0 text-[10px] tracking-widest uppercase select-none">
                 Discipline
               </span>
-              <div className="relative flex-1 min-w-0 overflow-hidden">
-                <div className="flex items-center gap-sm overflow-x-auto scrollbar-hide whitespace-nowrap pr-lg py-0.5">
+              <div className="relative min-w-0 flex-1 overflow-hidden">
+                <div className="gap-sm scrollbar-hide pr-lg flex items-center overflow-x-auto py-0.5 whitespace-nowrap">
                   {["all", ...categories].map((cat) => {
                     const count = categoryCounts[cat] ?? 0;
                     const isActive = selectedCategory === cat;
@@ -300,16 +299,16 @@ export function ProjectsArchive({ initialProjects, categories }: ProjectsArchive
                         key={cat}
                         onClick={() => setSelectedCategory(cat)}
                         className={cn(
-                          "px-xs py-0.5 uppercase transition-colors tracking-wide flex items-center gap-1 flex-shrink-0",
+                          "px-xs flex flex-shrink-0 items-center gap-1 py-0.5 tracking-wide uppercase transition-colors",
                           isActive
-                            ? "text-foreground font-medium underline underline-offset-4 decoration-accent"
+                            ? "text-foreground decoration-accent font-medium underline underline-offset-4"
                             : "text-foreground/40 hover:text-foreground/70",
                         )}
                       >
                         <span>{cat === "all" ? "All" : cat.replace("-", " ")}</span>
                         <span
                           className={cn(
-                            "text-[9px] font-mono",
+                            "font-mono text-[9px]",
                             isActive ? "text-accent font-semibold" : "text-foreground/35",
                           )}
                         >
@@ -322,19 +321,19 @@ export function ProjectsArchive({ initialProjects, categories }: ProjectsArchive
                 {/* Right fade gradient */}
                 <div
                   aria-hidden="true"
-                  className="pointer-events-none absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-background to-transparent"
+                  className="from-background pointer-events-none absolute top-0 right-0 bottom-0 w-8 bg-gradient-to-l to-transparent"
                 />
               </div>
             </div>
 
             {/* Typology Scroll Rail */}
             {typologies.length > 0 && (
-              <div className="relative flex items-center min-w-0 border-border/15 border-t pt-xs">
-                <span className="text-foreground/35 mr-md uppercase tracking-widest text-[10px] flex-shrink-0 select-none w-20">
+              <div className="border-border/15 pt-xs relative flex min-w-0 items-center border-t">
+                <span className="text-foreground/35 mr-md w-20 flex-shrink-0 text-[10px] tracking-widest uppercase select-none">
                   Typology
                 </span>
-                <div className="relative flex-1 min-w-0 overflow-hidden">
-                  <div className="flex items-center gap-sm overflow-x-auto scrollbar-hide whitespace-nowrap pr-lg py-0.5">
+                <div className="relative min-w-0 flex-1 overflow-hidden">
+                  <div className="gap-sm scrollbar-hide pr-lg flex items-center overflow-x-auto py-0.5 whitespace-nowrap">
                     {["all", ...typologies].map((typ) => {
                       const count = typologyCounts[typ] ?? 0;
                       const isActive = selectedTypology === typ;
@@ -343,16 +342,16 @@ export function ProjectsArchive({ initialProjects, categories }: ProjectsArchive
                           key={typ}
                           onClick={() => setSelectedTypology(typ)}
                           className={cn(
-                            "px-xs py-0.5 uppercase transition-colors tracking-wide flex items-center gap-1 flex-shrink-0",
+                            "px-xs flex flex-shrink-0 items-center gap-1 py-0.5 tracking-wide uppercase transition-colors",
                             isActive
-                              ? "text-foreground font-medium underline underline-offset-4 decoration-accent"
+                              ? "text-foreground decoration-accent font-medium underline underline-offset-4"
                               : "text-foreground/40 hover:text-foreground/70",
                           )}
                         >
                           <span>{typ === "all" ? "All" : typ}</span>
                           <span
                             className={cn(
-                              "text-[9px] font-mono",
+                              "font-mono text-[9px]",
                               isActive ? "text-accent font-semibold" : "text-foreground/35",
                             )}
                           >
@@ -365,7 +364,7 @@ export function ProjectsArchive({ initialProjects, categories }: ProjectsArchive
                   {/* Right fade gradient */}
                   <div
                     aria-hidden="true"
-                    className="pointer-events-none absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-background to-transparent"
+                    className="from-background pointer-events-none absolute top-0 right-0 bottom-0 w-8 bg-gradient-to-l to-transparent"
                   />
                 </div>
               </div>
@@ -383,7 +382,7 @@ export function ProjectsArchive({ initialProjects, categories }: ProjectsArchive
         </div>
       ) : viewMode === "grid" ? (
         /* ── MODE A: Editorial Grid ─────────────────────────────────────────── */
-        <div className="flex flex-col gap-xl">
+        <div className="gap-xl flex flex-col">
           {/* Featured cinematic hero card — always first */}
           {featured && (
             <Reveal>
@@ -393,10 +392,7 @@ export function ProjectsArchive({ initialProjects, categories }: ProjectsArchive
 
           {/* Editorial grid — non-uniform column rhythm */}
           {restProjects.length > 0 && (
-            <Stagger
-              className="grid gap-xl md:grid-cols-2 lg:grid-cols-3"
-              stagger={0.07}
-            >
+            <Stagger className="gap-xl grid md:grid-cols-2 lg:grid-cols-3" stagger={0.07}>
               {restProjects.map((project, idx) => (
                 <ProjectCard
                   key={project.slug}
@@ -412,11 +408,11 @@ export function ProjectsArchive({ initialProjects, categories }: ProjectsArchive
 
           {/* Progressive Load More Action Button */}
           {visibleCount < filteredProjects.length && (
-            <div className="pt-xl flex flex-col items-center justify-center border-t border-border/20">
+            <div className="pt-xl border-border/20 flex flex-col items-center justify-center border-t">
               <button
                 type="button"
                 onClick={() => setVisibleCount((prev) => prev + BATCH_SIZE)}
-                className="px-lg py-md border border-border/40 hover:border-foreground text-foreground font-mono text-xs tracking-widest uppercase transition-all duration-300 group flex items-center gap-md"
+                className="px-lg py-md border-border/40 hover:border-foreground text-foreground group gap-md flex items-center border font-mono text-xs tracking-widest uppercase transition-all duration-300"
               >
                 <span>LOAD MORE COMMISSIONS</span>
                 <span className="text-foreground/40 group-hover:text-foreground font-light">
@@ -426,7 +422,6 @@ export function ProjectsArchive({ initialProjects, categories }: ProjectsArchive
             </div>
           )}
         </div>
-
       ) : viewMode === "list" ? (
         /* ── MODE B: Architectural Spec Table with cursor preview ───────────── */
         <div className="relative">
@@ -435,7 +430,7 @@ export function ProjectsArchive({ initialProjects, categories }: ProjectsArchive
             ref={followerRef}
             aria-hidden="true"
             style={{ visibility: "hidden", opacity: 0, pointerEvents: "none" }}
-            className="fixed z-[100] top-0 left-0 hidden md:block w-56 h-40 overflow-hidden shadow-2xl"
+            className="fixed top-0 left-0 z-[100] hidden h-40 w-56 overflow-hidden shadow-2xl md:block"
           >
             {hoveredProject && (
               <Image
@@ -451,7 +446,9 @@ export function ProjectsArchive({ initialProjects, categories }: ProjectsArchive
               <thead>
                 <tr className="text-foreground/35 border-border/30 border-b uppercase">
                   <th className="py-sm px-xs font-mono font-medium tracking-widest">REF</th>
-                  <th className="py-sm px-xs font-mono font-medium tracking-widest">PROJECT TITLE</th>
+                  <th className="py-sm px-xs font-mono font-medium tracking-widest">
+                    PROJECT TITLE
+                  </th>
                   <th className="py-sm px-xs font-mono font-medium tracking-widest">TYPOLOGY</th>
                   <th className="py-sm px-xs font-mono font-medium tracking-widest">LOCATION</th>
                   <th className="py-sm px-xs font-mono font-medium tracking-widest">AREA (M²)</th>
@@ -473,7 +470,7 @@ export function ProjectsArchive({ initialProjects, categories }: ProjectsArchive
                     <td className="py-md px-xs text-foreground/30">
                       {String(i + 1).padStart(2, "0")}
                     </td>
-                    <td className="py-md px-xs text-foreground font-medium group-hover:underline underline-offset-4">
+                    <td className="py-md px-xs text-foreground font-medium underline-offset-4 group-hover:underline">
                       <Link href={`/projects/${project.slug}`}>{project.title}</Link>
                     </td>
                     <td className="py-md px-xs text-foreground/55">{project.typology ?? "—"}</td>
@@ -514,7 +511,7 @@ export function ProjectsArchive({ initialProjects, categories }: ProjectsArchive
             </span>
           </div>
 
-          <div className="gap-px flex flex-col border-border/30 border-t">
+          <div className="border-border/30 flex flex-col gap-px border-t">
             {filteredProjects.map((project, i) => (
               /**
                * Stretched-link card pattern — avoids nesting <a> inside <a>.
@@ -523,18 +520,18 @@ export function ProjectsArchive({ initialProjects, categories }: ProjectsArchive
                */
               <div
                 key={project.slug}
-                className="group relative border-border/30 border-b transition-colors hover:bg-foreground/[0.02]"
+                className="group border-border/30 hover:bg-foreground/[0.02] relative border-b transition-colors"
               >
-                <div className="gap-md grid items-start p-md md:grid-cols-[2rem_1fr_auto]">
+                <div className="gap-md p-md grid items-start md:grid-cols-[2rem_1fr_auto]">
                   {/* REF number */}
-                  <span className="text-foreground/25 font-mono text-[10px] tracking-widest pt-[3px] hidden md:block">
+                  <span className="text-foreground/25 hidden pt-[3px] font-mono text-[10px] tracking-widest md:block">
                     {String(i + 1).padStart(2, "0")}
                   </span>
 
                   {/* Main content */}
                   <div className="min-w-0">
                     {/* Location label + coordinates */}
-                    <div className="mb-xs flex flex-wrap items-center gap-x-md gap-y-xs">
+                    <div className="mb-xs gap-x-md gap-y-xs flex flex-wrap items-center">
                       <span className="text-foreground/40 font-mono text-[10px] tracking-wider uppercase">
                         {project.coordinates?.label ??
                           `${project.location.city}, ${project.location.country}`}
@@ -545,14 +542,12 @@ export function ProjectsArchive({ initialProjects, categories }: ProjectsArchive
                           target="_blank"
                           rel="noopener noreferrer"
                           title={`Open ${project.title} site on satellite maps`}
-                          className="relative z-10 text-foreground/35 hover:text-foreground font-mono text-[10px] tracking-wide transition-colors hover:underline underline-offset-4"
+                          className="text-foreground/35 hover:text-foreground relative z-10 font-mono text-[10px] tracking-wide underline-offset-4 transition-colors hover:underline"
                         >
                           {project.coordinates.lat}°N {project.coordinates.lng}°W ↗
                         </a>
                       ) : (
-                        <span className="text-foreground/20 font-mono text-[10px]">
-                          COORDS N/A
-                        </span>
+                        <span className="text-foreground/20 font-mono text-[10px]">COORDS N/A</span>
                       )}
                     </div>
 
@@ -561,15 +556,15 @@ export function ProjectsArchive({ initialProjects, categories }: ProjectsArchive
                       href={`/projects/${project.slug}`}
                       className="after:absolute after:inset-0 after:z-0"
                     >
-                      <h3 className="text-foreground text-xl font-medium tracking-tight group-hover:underline underline-offset-4">
+                      <h3 className="text-foreground text-xl font-medium tracking-tight underline-offset-4 group-hover:underline">
                         {project.title}
                       </h3>
                     </Link>
 
                     {/* Metadata row */}
-                    <div className="mt-xs flex flex-wrap items-center gap-x-sm gap-y-xs">
+                    <div className="mt-xs gap-x-sm gap-y-xs flex flex-wrap items-center">
                       {/* Status dot */}
-                      <span className="flex items-center gap-xs font-mono text-[10px] text-foreground/40 uppercase tracking-widest">
+                      <span className="gap-xs text-foreground/40 flex items-center font-mono text-[10px] tracking-widest uppercase">
                         <span
                           className={cn(
                             "inline-block h-1.5 w-1.5 rounded-full",
@@ -603,7 +598,7 @@ export function ProjectsArchive({ initialProjects, categories }: ProjectsArchive
                   </div>
 
                   {/* Hero image thumbnail — visible on hover (desktop) */}
-                  <div className="hidden md:block w-24 h-16 overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex-shrink-0">
+                  <div className="hidden h-16 w-24 flex-shrink-0 overflow-hidden opacity-0 transition-opacity duration-300 group-hover:opacity-100 md:block">
                     <Image
                       asset={project.heroImage}
                       className="h-full w-full object-cover"
@@ -616,7 +611,6 @@ export function ProjectsArchive({ initialProjects, categories }: ProjectsArchive
           </div>
         </div>
       )}
-
     </div>
   );
 }

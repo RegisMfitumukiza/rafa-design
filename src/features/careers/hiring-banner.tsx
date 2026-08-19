@@ -13,16 +13,16 @@ interface HiringBannerProps {
 
 /**
  * HiringBanner
- * 
+ *
  * Elegant notification banner shown on the homepage when there are open positions.
- * 
+ *
  * Features:
  * - Minimalist architectural design (ruled hairline, mono label, restrained typography)
  * - Dismissible (stores state in localStorage)
  * - Shows position count ("We're hiring • 3 open positions")
  * - Smooth entrance animation
  * - Respects reduced motion
- * 
+ *
  * Design Philosophy:
  * - Not a "marketing banner" (no bright colors, no urgency tactics)
  * - Feels like an editorial note, not an advertisement
@@ -33,12 +33,15 @@ export function HiringBanner({ positionCount, className }: HiringBannerProps) {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    setIsClient(true);
-    // Check if user has dismissed the banner
-    const dismissed = localStorage.getItem("hiring-banner-dismissed");
-    if (!dismissed) {
-      setIsVisible(true);
-    }
+    // Defer state updates to avoid cascading renders
+    setTimeout(() => {
+      setIsClient(true);
+      // Check if user has dismissed the banner
+      const dismissed = localStorage.getItem("hiring-banner-dismissed");
+      if (!dismissed) {
+        setIsVisible(true);
+      }
+    }, 0);
   }, []);
 
   const handleDismiss = () => {
@@ -54,12 +57,12 @@ export function HiringBanner({ positionCount, className }: HiringBannerProps) {
   return (
     <div
       className={cn(
-        "border-border fixed top-[var(--header-height)] left-0 right-0 z-[45] border-b bg-background/95 backdrop-blur-sm transition-all motion-reduce:transition-none",
+        "border-border bg-background/95 fixed top-[var(--header-height)] right-0 left-0 z-[45] border-b backdrop-blur-sm transition-all motion-reduce:transition-none",
         "animate-in slide-in-from-top-2 fade-in duration-500 motion-reduce:animate-none",
         className,
       )}
     >
-      <div className="container-standard py-sm flex items-center justify-between gap-md">
+      <div className="container-standard py-sm gap-md flex items-center justify-between">
         {/* Left: Label + Message */}
         <div className="gap-md flex flex-1 items-center">
           <span className="text-foreground/40 hidden font-mono text-[10px] tracking-widest uppercase sm:block">
@@ -78,7 +81,7 @@ export function HiringBanner({ positionCount, className }: HiringBannerProps) {
         <div className="gap-md flex items-center">
           <Link
             href="/careers"
-            className="link-underline text-foreground hover:text-foreground/80 whitespace-nowrap text-sm font-medium transition-colors md:text-base"
+            className="link-underline text-foreground hover:text-foreground/80 text-sm font-medium whitespace-nowrap transition-colors md:text-base"
           >
             {ui.careers.hiringBannerCta} →
           </Link>

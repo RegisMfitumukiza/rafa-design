@@ -29,11 +29,14 @@ export function PaginatedArticles({
 
   // Load view preference from localStorage after mount
   useEffect(() => {
-    setMounted(true);
-    const savedView = localStorage.getItem("journal-view") as ViewMode | null;
-    if (savedView === "grid" || savedView === "list") {
-      setView(savedView);
-    }
+    // Defer state updates to avoid cascading renders
+    setTimeout(() => {
+      setMounted(true);
+      const savedView = localStorage.getItem("journal-view") as ViewMode | null;
+      if (savedView === "grid" || savedView === "list") {
+        setView(savedView);
+      }
+    }, 0);
   }, []);
 
   const visibleArticles = articles.slice(0, visibleCount);
@@ -50,7 +53,7 @@ export function PaginatedArticles({
 
   // Reset visible count when view changes
   useEffect(() => {
-    setVisibleCount(initialBatchSize);
+    setTimeout(() => setVisibleCount(initialBatchSize), 0);
   }, [view, initialBatchSize]);
 
   return (
@@ -73,19 +76,17 @@ export function PaginatedArticles({
 
       {/* Load More */}
       {hasMore && (
-        <div className="mt-2xl flex flex-col items-center gap-sm">
+        <div className="mt-2xl gap-sm flex flex-col items-center">
           <button
             type="button"
             onClick={loadMore}
-            className="group inline-flex items-center gap-xs font-mono text-xs uppercase tracking-wider text-foreground/60 hover:text-foreground transition-colors"
+            className="group gap-xs text-foreground/60 hover:text-foreground inline-flex items-center font-mono text-xs tracking-wider uppercase transition-colors"
             aria-label={`Load ${Math.min(batchSize, articles.length - visibleCount)} more articles`}
           >
             {ui.journal.loadMore}
-            <span className="inline-block transition-transform group-hover:translate-x-1">
-              →
-            </span>
+            <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
           </button>
-          <p className="font-mono text-[10px] uppercase tracking-wider text-foreground/40">
+          <p className="text-foreground/40 font-mono text-[10px] tracking-wider uppercase">
             {ui.journal.showing} {visibleCount} {ui.journal.of} {articles.length}
           </p>
         </div>
