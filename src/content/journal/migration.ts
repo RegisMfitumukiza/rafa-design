@@ -11,6 +11,7 @@ import type {
   JournalType,
   Person,
   Credit,
+  CreditRole,
   JournalEvent,
   ExternalLinkBlock,
 } from "./types";
