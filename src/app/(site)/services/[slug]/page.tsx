@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 
 import { Section } from "@/components/layout/Section";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { Heading } from "@/components/typography/Heading";
 import { breadcrumbSchema, serviceSchema } from "@/config/schema";
 import { getProjectBySlug, type Project } from "@/content/projects";
 import {
@@ -55,7 +54,6 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
 
   // Lead project drives the cinematic hero image at the top of the page
   const leadProject = selectedProjects[0];
-
 
   // Editorial image narrative:
   // - Collected from ALL related projects (not just the first)
@@ -114,14 +112,14 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
             {/* Left 6 cols: overline + monumental title */}
             <div className="md:col-span-6 lg:col-span-6">
               <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
-                {index} // {service.title}
+                {index} {/* divider */} {service.title}
               </p>
               <h1 className="font-display text-foreground mt-sm text-4xl font-medium tracking-tight sm:text-5xl lg:text-6xl xl:text-7xl">
                 {service.title}
               </h1>
             </div>
             {/* Right 6 cols: concise positioning statement */}
-            <div className="md:col-span-6 lg:col-span-6 md:pt-md">
+            <div className="md:pt-md md:col-span-6 lg:col-span-6">
               <p className="text-foreground/70 w-full text-xl leading-relaxed md:text-2xl">
                 {service.intro}
               </p>
@@ -145,9 +143,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
               </p>
             </div>
             <div className="md:col-span-9">
-              <p className="text-foreground/70 text-lg leading-relaxed">
-                {service.description}
-              </p>
+              <p className="text-foreground/70 text-lg leading-relaxed">{service.description}</p>
             </div>
           </div>
         </Reveal>
@@ -160,8 +156,8 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
       {narrativeImages.length > 0 && (
         <Section container="wide" className="mt-2xl">
           <Reveal>
-            <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase mb-xl">
-              {service.title} // In Practice
+            <p className="text-foreground/40 mb-xl font-mono text-[10px] tracking-widest uppercase">
+              {service.title} {/* In Practice */}
             </p>
           </Reveal>
           <DisciplineImageNarrative images={narrativeImages} />
