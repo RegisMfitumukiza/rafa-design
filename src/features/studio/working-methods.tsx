@@ -46,24 +46,24 @@ export function WorkingMethods({ studio, className }: WorkingMethodsProps) {
 
       {/* Ruled grid for working methods */}
       <Stagger
-        className="border-border/40 divide-border/40 grid border-y divide-y sm:grid-cols-2 lg:grid-cols-4 sm:divide-y-0 sm:divide-x"
+        className="border-border/40 divide-border/40 grid divide-y border-y sm:grid-cols-2 sm:divide-x sm:divide-y-0 lg:grid-cols-4"
         stagger={0.08}
       >
         {studio.workingMethods.map((method) => (
           <div
             key={method.code}
-            className="group p-md md:p-lg flex flex-col justify-between transition-colors hover:bg-foreground/[0.02]"
+            className="group p-md md:p-lg hover:bg-foreground/[0.02] flex flex-col justify-between transition-colors"
           >
             <div>
               <span className="text-foreground/40 mb-md block font-mono text-[10px] tracking-wider uppercase">
                 {method.code}
               </span>
-              
+
               {/* Title — plain h3 so text-xl isn't overridden by inline styles */}
               <h3 className="font-display text-foreground/90 group-hover:text-foreground mb-sm text-xl font-medium tracking-tight transition-colors">
                 {method.title}
               </h3>
-              
+
               <Text variant="small" className="text-foreground/60 leading-relaxed">
                 {method.description}
               </Text>

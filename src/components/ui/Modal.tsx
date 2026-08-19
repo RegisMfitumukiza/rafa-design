@@ -48,7 +48,7 @@ export function Modal({ open, onClose, title, children, size = "md", className }
     >
       {/* Backdrop */}
       <div
-        className="bg-black/60 fixed inset-0 backdrop-blur-md transition-opacity duration-300"
+        className="fixed inset-0 bg-black/60 backdrop-blur-md transition-opacity duration-300"
         onClick={onClose}
         aria-hidden="true"
       />
@@ -58,13 +58,13 @@ export function Modal({ open, onClose, title, children, size = "md", className }
         ref={panelRef}
         tabIndex={-1}
         className={cn(
-          "bg-surface shadow-medium border-border/40 relative z-10 shrink-0 overflow-hidden rounded-md border my-auto",
+          "bg-surface shadow-medium border-border/40 relative z-10 my-auto shrink-0 overflow-hidden rounded-md border",
           modalSizes[size],
           className,
         )}
       >
         {title && (
-          <div className="border-border/40 px-lg py-md flex items-center justify-between border-b bg-surface/50 backdrop-blur-sm">
+          <div className="border-border/40 px-lg py-md bg-surface/50 flex items-center justify-between border-b backdrop-blur-sm">
             <h2 id={titleId} className="text-foreground text-lg font-medium">
               {title}
             </h2>

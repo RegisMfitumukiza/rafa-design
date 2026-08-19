@@ -99,21 +99,19 @@ export function ProjectLightbox({
     >
       {/* Top bar — close + counter */}
       <div
-        className="flex items-center justify-between px-md py-sm"
+        className="px-md py-sm flex items-center justify-between"
         onClick={(e) => e.stopPropagation()}
       >
-        <p className="text-white/40 font-mono text-[10px] tracking-widest uppercase">
+        <p className="font-mono text-[10px] tracking-widest text-white/40 uppercase">
           SPATIAL ARCHIVE /{" "}
-          <span className="text-white/70">
-            {String(currentIndex + 1).padStart(2, "0")}
-          </span>{" "}
-          OF {String(images.length).padStart(2, "0")}
+          <span className="text-white/70">{String(currentIndex + 1).padStart(2, "0")}</span> OF{" "}
+          {String(images.length).padStart(2, "0")}
         </p>
         <button
           type="button"
           onClick={onClose}
           aria-label="Close lightbox"
-          className="text-white/50 hover:text-white font-mono text-[10px] tracking-widest uppercase transition-colors"
+          className="font-mono text-[10px] tracking-widest text-white/50 uppercase transition-colors hover:text-white"
         >
           ESC · CLOSE
         </button>
@@ -122,10 +120,10 @@ export function ProjectLightbox({
       {/* Image container */}
       <div
         ref={imageRef}
-        className="relative flex flex-1 items-center justify-center p-md"
+        className="p-md relative flex flex-1 items-center justify-center"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="relative h-full w-full max-w-6xl mx-auto">
+        <div className="relative mx-auto h-full w-full max-w-6xl">
           <Image
             asset={image}
             className="h-full w-full object-contain"
@@ -137,13 +135,13 @@ export function ProjectLightbox({
 
       {/* Caption + navigation row */}
       <div
-        className="flex items-center justify-between px-md py-sm gap-md"
+        className="px-md py-sm gap-md flex items-center justify-between"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Caption */}
         <p
           className={cn(
-            "text-white/40 font-mono text-[11px] tracking-wide italic flex-1",
+            "flex-1 font-mono text-[11px] tracking-wide text-white/40 italic",
             !image.caption && "opacity-0 select-none",
           )}
         >
@@ -151,7 +149,7 @@ export function ProjectLightbox({
         </p>
 
         {/* Prev / Next */}
-        <div className="flex items-center gap-md font-mono text-[10px] tracking-widest uppercase">
+        <div className="gap-md flex items-center font-mono text-[10px] tracking-widest uppercase">
           <button
             type="button"
             onClick={handlePrev}
@@ -159,7 +157,7 @@ export function ProjectLightbox({
             aria-label="Previous image"
             className={cn(
               "transition-colors",
-              hasPrev ? "text-white/60 hover:text-white" : "text-white/20 cursor-not-allowed",
+              hasPrev ? "text-white/60 hover:text-white" : "cursor-not-allowed text-white/20",
             )}
           >
             ← PREV
@@ -172,7 +170,7 @@ export function ProjectLightbox({
             aria-label="Next image"
             className={cn(
               "transition-colors",
-              hasNext ? "text-white/60 hover:text-white" : "text-white/20 cursor-not-allowed",
+              hasNext ? "text-white/60 hover:text-white" : "cursor-not-allowed text-white/20",
             )}
           >
             NEXT →

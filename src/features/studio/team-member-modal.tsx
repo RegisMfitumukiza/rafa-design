@@ -53,7 +53,7 @@ export function TeamMemberModal({ member, onClose, className }: TeamMemberModalP
     >
       {/* Backdrop scrim */}
       <div
-        className="bg-black/70 fixed inset-0 backdrop-blur-md transition-opacity duration-300"
+        className="fixed inset-0 bg-black/70 backdrop-blur-md transition-opacity duration-300"
         onClick={onClose}
         aria-hidden="true"
       />
@@ -64,15 +64,15 @@ export function TeamMemberModal({ member, onClose, className }: TeamMemberModalP
         tabIndex={-1}
         className={cn(
           "bg-surface shadow-medium border-border/40 relative z-10 w-[min(92vw,48rem)] shrink-0 overflow-hidden rounded-md border",
-          "max-h-[88vh] flex flex-col my-auto",
+          "my-auto flex max-h-[88vh] flex-col",
           className,
         )}
       >
         {/* Top Header Bar */}
-        <div className="border-border/40 px-lg py-md flex items-center justify-between border-b bg-surface/80 backdrop-blur-sm shrink-0">
-          <div className="flex items-center gap-xs">
+        <div className="border-border/40 px-lg py-md bg-surface/80 flex shrink-0 items-center justify-between border-b backdrop-blur-sm">
+          <div className="gap-xs flex items-center">
             <span className="bg-foreground/40 size-2 rounded-full" />
-            <p className="font-mono text-[10px] tracking-widest text-foreground/60 uppercase">
+            <p className="text-foreground/60 font-mono text-[10px] tracking-widest uppercase">
               DOSSIER // {member.role}
             </p>
           </div>
@@ -87,12 +87,11 @@ export function TeamMemberModal({ member, onClose, className }: TeamMemberModalP
         </div>
 
         {/* Modal Scrollable Body */}
-        <div className="p-lg md:p-xl overflow-y-auto scrollbar-hide">
+        <div className="p-lg md:p-xl scrollbar-hide overflow-y-auto">
           <div className="gap-xl grid md:grid-cols-12 md:items-start">
-            
             {/* Left Column (5 cols) — Portrait & Quick Actions */}
-            <div className="md:col-span-5 flex flex-col gap-md">
-              <div className="relative overflow-hidden rounded-md border border-border/30">
+            <div className="gap-md flex flex-col md:col-span-5">
+              <div className="border-border/30 relative overflow-hidden rounded-md border">
                 <Image
                   asset={member.image}
                   className="aspect-portrait w-full"
@@ -103,11 +102,11 @@ export function TeamMemberModal({ member, onClose, className }: TeamMemberModalP
 
               {/* Direct Quick Contact Buttons */}
               {hasContact && (
-                <div className="flex flex-col gap-xs">
+                <div className="gap-xs flex flex-col">
                   {member.email && (
                     <a
                       href={`mailto:${member.email}`}
-                      className="border-border/60 hover:border-foreground hover:bg-foreground hover:text-background px-md py-xs font-mono text-[10px] flex items-center justify-between border uppercase tracking-wider transition-all duration-300 rounded-sm"
+                      className="border-border/60 hover:border-foreground hover:bg-foreground hover:text-background px-md py-xs flex items-center justify-between rounded-sm border font-mono text-[10px] tracking-wider uppercase transition-all duration-300"
                       title={`Send email to ${member.email}`}
                     >
                       <span className="truncate">{member.email}</span>
@@ -117,7 +116,7 @@ export function TeamMemberModal({ member, onClose, className }: TeamMemberModalP
                   {member.phone && (
                     <a
                       href={`tel:${member.phone.replace(/\s/g, "")}`}
-                      className="border-border/60 hover:border-foreground hover:bg-foreground hover:text-background px-md py-xs font-mono text-[10px] flex items-center justify-between border uppercase tracking-wider transition-all duration-300 rounded-sm"
+                      className="border-border/60 hover:border-foreground hover:bg-foreground hover:text-background px-md py-xs flex items-center justify-between rounded-sm border font-mono text-[10px] tracking-wider uppercase transition-all duration-300"
                       title={`Call ${member.phone}`}
                     >
                       <span>{member.phone}</span>
@@ -130,20 +129,20 @@ export function TeamMemberModal({ member, onClose, className }: TeamMemberModalP
               {/* Social & Portfolio links */}
               {socialLinks.length > 0 && (
                 <div className="border-border/30 pt-sm border-t">
-                  <p className="mb-xs font-mono text-[9px] tracking-widest text-foreground/35 uppercase">
+                  <p className="mb-xs text-foreground/35 font-mono text-[9px] tracking-widest uppercase">
                     Profiles & Networks
                   </p>
-                  <div className="flex flex-wrap gap-x-md gap-y-xs">
+                  <div className="gap-x-md gap-y-xs flex flex-wrap">
                     {socialLinks.map((link) => (
                       <a
                         key={link.platform}
                         href={link.url}
-                        className="font-mono text-[10px] tracking-wider text-foreground/60 hover:text-foreground inline-flex items-center uppercase transition-colors"
+                        className="text-foreground/60 hover:text-foreground inline-flex items-center font-mono text-[10px] tracking-wider uppercase transition-colors"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
                         {link.label ?? platformLabels[link.platform] ?? link.platform}
-                        <span className="ml-[3px] text-foreground/30">↗</span>
+                        <span className="text-foreground/30 ml-[3px]">↗</span>
                       </a>
                     ))}
                   </div>
@@ -152,29 +151,32 @@ export function TeamMemberModal({ member, onClose, className }: TeamMemberModalP
             </div>
 
             {/* Right Column (7 cols) — Narrative, Interests, External Roles */}
-            <div className="md:col-span-7 flex flex-col gap-lg">
+            <div className="gap-lg flex flex-col md:col-span-7">
               <div>
-                <div className="flex items-baseline justify-between gap-sm mb-xs flex-wrap">
-                  <h3 id={titleId} className="font-display text-2xl font-medium tracking-tight text-foreground">
+                <div className="gap-sm mb-xs flex flex-wrap items-baseline justify-between">
+                  <h3
+                    id={titleId}
+                    className="font-display text-foreground text-2xl font-medium tracking-tight"
+                  >
                     {member.name}
                   </h3>
                   {member.experience !== undefined && (
-                    <span className="font-mono text-[10px] tracking-wider text-foreground/40 uppercase whitespace-nowrap">
+                    <span className="text-foreground/40 font-mono text-[10px] tracking-wider whitespace-nowrap uppercase">
                       {member.experience} years experience
                     </span>
                   )}
                 </div>
-                <p className="font-mono text-xs text-foreground/50 tracking-wide uppercase">
+                <p className="text-foreground/50 font-mono text-xs tracking-wide uppercase">
                   {member.role}
                 </p>
               </div>
 
               {/* Biography / Personal Story */}
               <div>
-                <p className="mb-xs font-mono text-[9px] tracking-widest text-foreground/35 uppercase">
+                <p className="mb-xs text-foreground/35 font-mono text-[9px] tracking-widest uppercase">
                   Biography & Story
                 </p>
-                <Text variant="body" className="leading-relaxed text-foreground/75 text-balance">
+                <Text variant="body" className="text-foreground/75 leading-relaxed text-balance">
                   {member.biography}
                 </Text>
               </div>
@@ -182,17 +184,17 @@ export function TeamMemberModal({ member, onClose, className }: TeamMemberModalP
               {/* Disciplines & Interests */}
               {((member.disciplines && member.disciplines.length > 0) ||
                 (member.interests && member.interests.length > 0)) && (
-                <div className="border-border/30 pt-md border-t flex flex-col gap-sm">
+                <div className="border-border/30 pt-md gap-sm flex flex-col border-t">
                   {member.disciplines && member.disciplines.length > 0 && (
                     <div>
-                      <p className="mb-xs font-mono text-[9px] tracking-widest text-foreground/35 uppercase">
+                      <p className="mb-xs text-foreground/35 font-mono text-[9px] tracking-widest uppercase">
                         Core Disciplines
                       </p>
-                      <div className="flex flex-wrap gap-xs">
+                      <div className="gap-xs flex flex-wrap">
                         {member.disciplines.map((discipline) => (
                           <span
                             key={discipline}
-                            className="bg-foreground/5 border-border/40 px-xs py-[2px] font-mono text-[10px] tracking-wider text-foreground/70 uppercase border rounded-sm"
+                            className="bg-foreground/5 border-border/40 px-xs text-foreground/70 rounded-sm border py-[2px] font-mono text-[10px] tracking-wider uppercase"
                           >
                             {discipline}
                           </span>
@@ -203,10 +205,10 @@ export function TeamMemberModal({ member, onClose, className }: TeamMemberModalP
 
                   {member.interests && member.interests.length > 0 && (
                     <div>
-                      <p className="mb-xs font-mono text-[9px] tracking-widest text-foreground/35 uppercase">
+                      <p className="mb-xs text-foreground/35 font-mono text-[9px] tracking-widest uppercase">
                         Design Interests & Focus
                       </p>
-                      <p className="font-mono text-[11px] text-foreground/60">
+                      <p className="text-foreground/60 font-mono text-[11px]">
                         {member.interests.join(" · ")}
                       </p>
                     </div>
@@ -217,19 +219,19 @@ export function TeamMemberModal({ member, onClose, className }: TeamMemberModalP
               {/* External Affiliations & Other Roles */}
               {member.otherRoles && member.otherRoles.length > 0 && (
                 <div className="border-border/30 pt-md border-t">
-                  <p className="mb-sm font-mono text-[9px] tracking-widest text-foreground/35 uppercase">
+                  <p className="mb-sm text-foreground/35 font-mono text-[9px] tracking-widest uppercase">
                     Parallel Practice & Affiliations (Also At)
                   </p>
                   <div className="border-border/40 divide-border/40 divide-y border-y">
                     {member.otherRoles.map((roleItem) => (
                       <div
                         key={`${roleItem.company}-${roleItem.title}`}
-                        className="py-xs flex flex-col justify-between sm:flex-row sm:items-baseline gap-xs"
+                        className="py-xs gap-xs flex flex-col justify-between sm:flex-row sm:items-baseline"
                       >
-                        <span className="text-xs font-medium text-foreground/85">
+                        <span className="text-foreground/85 text-xs font-medium">
                           {roleItem.title}
                         </span>
-                        <span className="font-mono text-[10px] text-foreground/50">
+                        <span className="text-foreground/50 font-mono text-[10px]">
                           {roleItem.company}
                           {roleItem.location && ` (${roleItem.location})`}
                         </span>
@@ -239,7 +241,6 @@ export function TeamMemberModal({ member, onClose, className }: TeamMemberModalP
                 </div>
               )}
             </div>
-
           </div>
         </div>
       </div>

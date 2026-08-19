@@ -41,10 +41,10 @@ export function Stagger({
       if (items.length === 0) {
         return;
       }
-      
+
       // Set initial state
       gsap.set(items, { autoAlpha: 0, y });
-      
+
       gsap.to(items, {
         autoAlpha: 1,
         y: 0,

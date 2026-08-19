@@ -36,7 +36,10 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
         return;
       }
 
-      if ((event.key === "/" || ((event.metaKey || event.ctrlKey) && event.key === "k")) && !isMenuOpen) {
+      if (
+        (event.key === "/" || ((event.metaKey || event.ctrlKey) && event.key === "k")) &&
+        !isMenuOpen
+      ) {
         event.preventDefault();
         setMenuOpen(true);
       }

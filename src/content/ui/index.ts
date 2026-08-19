@@ -56,7 +56,8 @@ export const ui = {
     featuredArticle: "Featured",
   },
   careers: {
-    emptyState: "We don't have any open positions at the moment, but we are always interested in meeting talented people who care about architecture. If you would like to introduce yourself, please send an",
+    emptyState:
+      "We don't have any open positions at the moment, but we are always interested in meeting talented people who care about architecture. If you would like to introduce yourself, please send an",
     openApplication: "open application",
     hiringBannerText: "We're hiring",
     hiringBannerCta: "View open positions",
@@ -72,7 +73,8 @@ export const ui = {
     inquiryOverline: "Specification // Inquiry",
     locationOverline: "Specification // Atelier Location Viewer",
     responseTime: "Response Time",
-    responseTimeMessage: "We respond to all inquiries within 48 hours (Monday–Friday, 09:00–18:00 WET).",
+    responseTimeMessage:
+      "We respond to all inquiries within 48 hours (Monday–Friday, 09:00–18:00 WET).",
   },
   overlines: {
     principles: "Specification // Principles",
@@ -116,7 +118,8 @@ export const ui = {
     },
     message: {
       label: "06 // PROJECT BRIEF",
-      placeholder: "Tell us about the site, the ambition, the spatial requirements, and any specific constraints...",
+      placeholder:
+        "Tell us about the site, the ambition, the spatial requirements, and any specific constraints...",
       required: "Please tell us a little more about your project.",
     },
     timeline: {

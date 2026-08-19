@@ -40,8 +40,7 @@ export function DisciplineImageNarrative({ images, className }: DisciplineImageN
   const [first, second, third, fourth, fifth] = images;
 
   return (
-    <div className={cn("w-full space-y-2xl", className)}>
-
+    <div className={cn("space-y-2xl w-full", className)}>
       {/* ── 01: Full-width cinematic opener ── */}
       {first && (
         <div>
@@ -91,7 +90,7 @@ export function DisciplineImageNarrative({ images, className }: DisciplineImageN
             </ImageReveal>
           </div>
           {(second.caption || second.narrative) && (
-            <Reveal delay={0.1} className="md:col-span-5 md:pb-sm">
+            <Reveal delay={0.1} className="md:pb-sm md:col-span-5">
               <p className="text-foreground/30 font-mono text-[10px] tracking-widest uppercase">
                 02
               </p>
@@ -114,7 +113,7 @@ export function DisciplineImageNarrative({ images, className }: DisciplineImageN
       {third && (
         <div className="gap-md grid items-end md:grid-cols-12">
           {(third.caption || third.narrative) && (
-            <Reveal delay={0.1} className="md:col-span-4 md:pb-sm">
+            <Reveal delay={0.1} className="md:pb-sm md:col-span-4">
               <p className="text-foreground/30 font-mono text-[10px] tracking-widest uppercase">
                 03
               </p>
@@ -130,7 +129,9 @@ export function DisciplineImageNarrative({ images, className }: DisciplineImageN
               )}
             </Reveal>
           )}
-          <div className={cn(third.caption || third.narrative ? "md:col-span-8" : "md:col-span-12")}>
+          <div
+            className={cn(third.caption || third.narrative ? "md:col-span-8" : "md:col-span-12")}
+          >
             <ImageReveal>
               <Image
                 asset={third.image}

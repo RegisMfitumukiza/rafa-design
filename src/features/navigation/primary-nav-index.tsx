@@ -125,14 +125,18 @@ export function PrimaryNavIndex({
               className={cn(
                 "group relative inline-flex min-h-(--touch-target) items-center transition-colors",
                 display ? "gap-md" : "gap-sm",
-                isActive ? "text-foreground font-semibold" : "text-foreground/60 hover:text-foreground",
+                isActive
+                  ? "text-foreground font-semibold"
+                  : "text-foreground/60 hover:text-foreground",
               )}
             >
               <span
                 data-nav-index-number
                 className={cn(
                   "font-mono text-xs tabular-nums",
-                  isActive ? "text-foreground font-semibold" : "text-foreground/40 group-hover:text-foreground/60",
+                  isActive
+                    ? "text-foreground font-semibold"
+                    : "text-foreground/40 group-hover:text-foreground/60",
                 )}
               >
                 {String(index + 1).padStart(2, "0")}

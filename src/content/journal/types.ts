@@ -12,24 +12,18 @@
  * Each type has its own compositional template and rendering strategy.
  */
 export type JournalType =
-  | "essay"              // Long-form architectural thinking
-  | "project-story"      // Mini monograph about a project
-  | "material-study"     // Experimental/editorial material exploration
-  | "news"               // Short studio announcements
-  | "event"              // Calendar-integrated event pages
-  | "award";             // Recognition announcements
+  | "essay" // Long-form architectural thinking
+  | "project-story" // Mini monograph about a project
+  | "material-study" // Experimental/editorial material exploration
+  | "news" // Short studio announcements
+  | "event" // Calendar-integrated event pages
+  | "award"; // Recognition announcements
 
 /**
  * Legacy categories for filtering/organization.
  * Maintained for backward compatibility.
  */
-export type JournalCategory = 
-  | "news" 
-  | "research" 
-  | "awards" 
-  | "events" 
-  | "ideas" 
-  | "publications";
+export type JournalCategory = "news" | "research" | "awards" | "events" | "ideas" | "publications";
 
 // ----------------------------------------------------------------------------
 // MEDIA SYSTEM
@@ -61,22 +55,22 @@ export interface Credit {
 /**
  * Aspect ratio presets for editorial composition
  */
-export type AspectRatio = 
-  | "landscape"    // 3:2
-  | "portrait"     // 2:3
-  | "square"       // 1:1
-  | "wide"         // 21:9
-  | "hero";        // 16:9
+export type AspectRatio =
+  | "landscape" // 3:2
+  | "portrait" // 2:3
+  | "square" // 1:1
+  | "wide" // 21:9
+  | "hero"; // 16:9
 
 /**
  * Image size variants for editorial plates
  */
 export type ImageSize =
-  | "full"         // Full bleed
-  | "large"        // 80% container
-  | "medium"       // 60% container
-  | "small"        // 40% container
-  | "thumbnail";   // 20% container
+  | "full" // Full bleed
+  | "large" // 80% container
+  | "medium" // 60% container
+  | "small" // 40% container
+  | "thumbnail"; // 20% container
 
 /**
  * Professional media model with captions and credits
@@ -162,7 +156,7 @@ export interface HeadingBlock {
   type: "heading";
   level: 1 | 2 | 3;
   content: string;
-  id?: string;  // For section navigation
+  id?: string; // For section navigation
 }
 
 /**
@@ -282,7 +276,7 @@ export type JournalBlock =
  */
 export interface JournalSection {
   id: string;
-  number?: string;  // "01", "02", etc.
+  number?: string; // "01", "02", etc.
   title: string;
   blocks: JournalBlock[];
 }
@@ -298,41 +292,41 @@ export interface JournalArticle {
   // Identity
   id: string;
   slug: string;
-  
+
   // Type & Classification
   type: JournalType;
   category: JournalCategory;
-  
+
   // Metadata
   title: string;
   subtitle?: string;
   excerpt?: string;
   publishedAt: string;
   updatedAt?: string;
-  
+
   // Author
   author?: Person;
-  
+
   // Hero
   hero?: JournalMedia;
-  
+
   // Content Structure
-  sections?: JournalSection[];  // Structured content
-  content?: string;             // Legacy simple content (for migration)
-  
+  sections?: JournalSection[]; // Structured content
+  content?: string; // Legacy simple content (for migration)
+
   // Event-specific
   event?: JournalEvent;
-  
+
   // Cross-references
   relatedProjects?: string[];
   relatedArticles?: string[];
-  
+
   // Reading metadata
-  estimatedReadingTime?: number;  // In minutes
-  
+  estimatedReadingTime?: number; // In minutes
+
   // SEO
   keywords?: string[];
-  
+
   // Credits (can also be in CreditsBlock)
   credits?: Credit[];
 }
@@ -351,7 +345,7 @@ export interface LegacyJournalArticle {
   title: string;
   subtitle?: string;
   excerpt: string;
-  content: string;  // Plain text content
+  content: string; // Plain text content
   coverImage: {
     src: string;
     alt: string;

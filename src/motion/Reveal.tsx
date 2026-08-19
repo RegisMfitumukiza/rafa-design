@@ -37,10 +37,10 @@ export function Reveal({
       if (reduced || !scopeRef.current) {
         return;
       }
-      
+
       // Set initial state
       gsap.set(scopeRef.current, { autoAlpha: 0, y });
-      
+
       const tweenVars: gsap.TweenVars = {
         autoAlpha: 1,
         y: 0,

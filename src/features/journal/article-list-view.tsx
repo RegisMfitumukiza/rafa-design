@@ -35,33 +35,31 @@ export function ArticleListView({ articles, className }: ArticleListViewProps) {
             key={article.id}
             href={`/journal/${article.slug}` as Route}
             className={cn(
-              "group border-border py-2xl grid gap-lg md:grid-cols-12 border-t transition-all",
+              "group border-border py-2xl gap-lg grid border-t transition-all md:grid-cols-12",
               idx === articles.length - 1 ? "border-b" : "",
             )}
           >
             {/* Number */}
-            <span className="text-foreground/30 font-mono text-sm font-medium tracking-widest group-hover:text-foreground/50 group-hover:scale-105 transition-all origin-left md:col-span-1">
+            <span className="text-foreground/30 group-hover:text-foreground/50 origin-left font-mono text-sm font-medium tracking-widest transition-all group-hover:scale-105 md:col-span-1">
               {String(idx + 1).padStart(2, "0")}
             </span>
 
             {/* Title & Excerpt */}
             <div className="md:col-span-7 lg:col-span-8">
-              <h3 className="text-foreground/90 group-hover:text-foreground font-display text-xl font-medium leading-tight tracking-tight transition-colors md:text-2xl lg:text-3xl mb-sm">
+              <h3 className="text-foreground/90 group-hover:text-foreground font-display mb-sm text-xl leading-tight font-medium tracking-tight transition-colors md:text-2xl lg:text-3xl">
                 {article.title}
               </h3>
-              <p className="text-foreground/60 text-sm md:text-base leading-relaxed line-clamp-2">
+              <p className="text-foreground/60 line-clamp-2 text-sm leading-relaxed md:text-base">
                 {article.excerpt}
               </p>
             </div>
 
             {/* Metadata */}
-            <div className="md:col-span-4 lg:col-span-3 md:text-right md:pt-xs">
+            <div className="md:pt-xs md:col-span-4 md:text-right lg:col-span-3">
               <p className="text-foreground/50 text-sm md:text-base">
                 {categoryLabels[article.category] || article.category}
               </p>
-              <p className="text-foreground/40 font-mono text-xs mt-xs">
-                {formattedDate}
-              </p>
+              <p className="text-foreground/40 mt-xs font-mono text-xs">{formattedDate}</p>
             </div>
           </Link>
         );

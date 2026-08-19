@@ -36,16 +36,10 @@ export function Landing() {
       const primary = root.querySelectorAll<HTMLElement>(
         "[data-landing-label], [data-nav-index-item]",
       );
-      const socialMobile = root.querySelector<HTMLElement>(
-        "[data-landing-social-mobile]",
-      );
+      const socialMobile = root.querySelector<HTMLElement>("[data-landing-social-mobile]");
 
       const tl = gsap.timeline({ defaults: { ease: easeEmphasized } });
-      tl.fromTo(
-        bar,
-        { autoAlpha: 0, y: -12 },
-        { autoAlpha: 1, y: 0, duration: durationBase },
-      )
+      tl.fromTo(bar, { autoAlpha: 0, y: -12 }, { autoAlpha: 1, y: 0, duration: durationBase })
         .fromTo(
           divider,
           { scaleX: 0, transformOrigin: "left center" },
@@ -75,9 +69,7 @@ export function Landing() {
     return () => context.revert();
   }, [reduced]);
 
-  const socialLinks = contactInformation.socialLinks.filter(
-    (link) => link.url !== "#",
-  );
+  const socialLinks = contactInformation.socialLinks.filter((link) => link.url !== "#");
 
   return (
     <div ref={rootRef} className="relative flex min-h-svh flex-col">
@@ -89,13 +81,13 @@ export function Landing() {
         <Link
           href="/"
           aria-label="RAFA Design Hub — Home"
-          className="inline-flex min-h-(--touch-target) items-center gap-[0.4em] transition-opacity hover:opacity-70 select-none"
+          className="inline-flex min-h-(--touch-target) items-center gap-[0.4em] transition-opacity select-none hover:opacity-70"
         >
-          <span className="font-sans text-xs font-semibold tracking-[0.22em] uppercase text-foreground">
+          <span className="text-foreground font-sans text-xs font-semibold tracking-[0.22em] uppercase">
             RAFA
           </span>
-          <span className="h-3 w-px bg-foreground/30" aria-hidden="true" />
-          <span className="font-sans text-xs font-light tracking-[0.22em] uppercase text-foreground/70">
+          <span className="bg-foreground/30 h-3 w-px" aria-hidden="true" />
+          <span className="text-foreground/70 font-sans text-xs font-light tracking-[0.22em] uppercase">
             DESIGN HUB
           </span>
         </Link>
@@ -103,22 +95,16 @@ export function Landing() {
       </div>
 
       {/* Editorial divider */}
-      <div
-        data-landing-divider
-        className="border-border/30 border-t"
-        aria-hidden="true"
-      />
+      <div data-landing-divider className="border-border/30 border-t" aria-hidden="true" />
 
       {/* Cover Composition — fills remaining viewport */}
       <div className="container-standard relative flex flex-1 flex-col">
-
         {/* Hero Logo
             Mobile / Tablet : in document flow, top-padded, sizes off viewport height
             Desktop (lg+)   : lifted out of flow, absolutely centered in full container */}
         <div
           data-landing-logo
-          className="flex justify-center pt-xl
-                     lg:pointer-events-none lg:absolute lg:inset-0 lg:items-center lg:pt-0 lg:justify-center"
+          className="pt-xl flex justify-center lg:pointer-events-none lg:absolute lg:inset-0 lg:items-center lg:justify-center lg:pt-0"
         >
           {/*
             We render <Image> directly here (NOT the <Logo> wrapper component) because
@@ -131,16 +117,12 @@ export function Landing() {
             width={2325}
             height={2159}
             priority
-            className="w-auto object-contain invert dark:invert-0
-                       h-[clamp(8rem,26vh,20rem)]
-                       md:h-[clamp(10rem,30vh,26rem)]
-                       lg:h-[clamp(26rem,62vh,68rem)]"
+            className="h-[clamp(8rem,26vh,20rem)] w-auto object-contain invert md:h-[clamp(10rem,30vh,26rem)] lg:h-[clamp(26rem,62vh,68rem)] dark:invert-0"
           />
         </div>
 
         {/* Bottom Section — nav + mobile social row */}
-        <div className="relative z-10 mt-auto flex flex-col pb-lg lg:pb-xl">
-
+        <div className="pb-lg lg:pb-xl relative z-10 mt-auto flex flex-col">
           {/* Primary nav */}
           <nav aria-label={ui.navigation.menu} className="flex flex-col">
             <p
@@ -160,7 +142,7 @@ export function Landing() {
           */}
           <div
             data-landing-social-mobile
-            className="mt-lg flex flex-wrap items-center gap-md lg:hidden"
+            className="mt-lg gap-md flex flex-wrap items-center lg:hidden"
             aria-label="Social links"
           >
             <a

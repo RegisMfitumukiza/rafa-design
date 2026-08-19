@@ -33,7 +33,7 @@ export default function ServicesPage() {
                 {pageContent.services.title}
               </h1>
             </div>
-            <div className="md:col-span-6 lg:col-span-6 md:pt-md">
+            <div className="md:pt-md md:col-span-6 lg:col-span-6">
               <p className="text-foreground/70 w-full text-xl leading-relaxed md:text-2xl">
                 {description}
               </p>

@@ -27,25 +27,27 @@ export default function SustainabilityPage() {
       {/* 01 — Monograph Cover / Manifesto */}
       <Section container="standard">
         <div className="gap-2xl grid items-start md:grid-cols-12">
-  <div className="md:col-span-8 lg:col-span-7">
-    <Reveal>
-      <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase mb-sm">
-        Specification // {manifesto.overline}
-      </p>
-    </Reveal>
-    <Reveal delay={0.1}>
-      <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-[0.95] tracking-tight text-balance mb-xl">
-        {manifesto.heading}
-      </h1>
-    </Reveal>
-    <Reveal delay={0.2}>
-      <Text variant="body" className="text-foreground/60 text-lg md:text-xl leading-relaxed max-w-prose">
-        {manifesto.body}
-      </Text>
-    </Reveal>
-  </div>
-</div>
-
+          <div className="md:col-span-8 lg:col-span-7">
+            <Reveal>
+              <p className="text-foreground/40 mb-sm font-mono text-[10px] tracking-widest uppercase">
+                Specification // {manifesto.overline}
+              </p>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <h1 className="font-display mb-xl text-5xl leading-[0.95] tracking-tight text-balance sm:text-6xl md:text-7xl lg:text-8xl">
+                {manifesto.heading}
+              </h1>
+            </Reveal>
+            <Reveal delay={0.2}>
+              <Text
+                variant="body"
+                className="text-foreground/60 max-w-prose text-lg leading-relaxed md:text-xl"
+              >
+                {manifesto.body}
+              </Text>
+            </Reveal>
+          </div>
+        </div>
       </Section>
 
       {/* 02 — Philosophy Statement */}
@@ -53,14 +55,17 @@ export default function SustainabilityPage() {
         <Reveal>
           <div className="gap-2xl grid items-start md:grid-cols-12">
             <div className="md:col-span-5">
-              <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase mb-sm">
+              <p className="text-foreground/40 mb-sm font-mono text-[10px] tracking-widest uppercase">
                 Specification // Philosophy
               </p>
-              <Heading variant="h2" className="text-3xl md:text-4xl lg:text-5xl leading-tight text-balance">
+              <Heading
+                variant="h2"
+                className="text-3xl leading-tight text-balance md:text-4xl lg:text-5xl"
+              >
                 {philosophy.heading}
               </Heading>
             </div>
-            <div className="md:col-span-7 md:pt-lg">
+            <div className="md:pt-lg md:col-span-7">
               <Text variant="body" className="text-foreground/65 text-lg leading-relaxed">
                 {philosophy.body}
               </Text>
@@ -92,7 +97,7 @@ export default function SustainabilityPage() {
       <Section container="standard">
         <Reveal>
           <div className="mb-2xl">
-            <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase mb-sm">
+            <p className="text-foreground/40 mb-sm font-mono text-[10px] tracking-widest uppercase">
               Specification // Commitments
             </p>
             <Heading variant="h2" className="text-3xl md:text-4xl">
@@ -105,24 +110,27 @@ export default function SustainabilityPage() {
           {commitments.map((commitment, idx) => (
             <div
               key={commitment.id}
-              className={`group border-border py-2xl grid gap-lg md:grid-cols-12 border-t transition-all ${
+              className={`group border-border py-2xl gap-lg grid border-t transition-all md:grid-cols-12 ${
                 idx === commitments.length - 1 ? "border-b" : ""
               }`}
             >
-              <span className="text-foreground/30 font-mono text-sm font-medium tracking-widest group-hover:text-foreground/50 group-hover:scale-105 transition-all origin-left md:col-span-1">
+              <span className="text-foreground/30 group-hover:text-foreground/50 origin-left font-mono text-sm font-medium tracking-widest transition-all group-hover:scale-105 md:col-span-1">
                 {commitment.number}
               </span>
               <div className="md:col-span-3 lg:col-span-4">
                 <Heading
                   as="h3"
                   variant="h3"
-                  className="text-foreground/90 group-hover:text-foreground text-xl md:text-2xl lg:text-3xl transition-colors"
+                  className="text-foreground/90 group-hover:text-foreground text-xl transition-colors md:text-2xl lg:text-3xl"
                 >
                   {commitment.title}
                 </Heading>
               </div>
               <div className="md:col-span-8 lg:col-span-7">
-                <Text variant="body" className="text-foreground/60 text-base md:text-lg leading-relaxed">
+                <Text
+                  variant="body"
+                  className="text-foreground/60 text-base leading-relaxed md:text-lg"
+                >
                   {commitment.description}
                 </Text>
               </div>
@@ -136,21 +144,30 @@ export default function SustainabilityPage() {
         <Reveal>
           <div className="gap-2xl grid items-start md:grid-cols-12">
             <div className="md:col-span-4">
-              <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase mb-sm">
+              <p className="text-foreground/40 mb-sm font-mono text-[10px] tracking-widest uppercase">
                 Specification // Principles
               </p>
-              <Heading variant="h2" className="text-3xl md:text-4xl lg:text-5xl leading-tight text-balance">
+              <Heading
+                variant="h2"
+                className="text-3xl leading-tight text-balance md:text-4xl lg:text-5xl"
+              >
                 Our guiding rules.
               </Heading>
             </div>
             <div className="md:col-span-7 md:col-start-6">
               <Stagger className="gap-xl flex flex-col">
                 {principles.map((principle, idx) => (
-                  <div key={idx} className="border-border/30 gap-lg pb-xl flex items-start border-b last:border-0 last:pb-0">
+                  <div
+                    key={idx}
+                    className="border-border/30 gap-lg pb-xl flex items-start border-b last:border-0 last:pb-0"
+                  >
                     <span className="text-foreground/30 mt-1 shrink-0 font-mono text-sm tabular-nums">
                       {String(idx + 1).padStart(2, "0")}
                     </span>
-                    <Text variant="body" className="text-foreground/70 text-lg md:text-xl leading-relaxed italic">
+                    <Text
+                      variant="body"
+                      className="text-foreground/70 text-lg leading-relaxed italic md:text-xl"
+                    >
                       &ldquo;{principle}&rdquo;
                     </Text>
                   </div>
@@ -166,19 +183,32 @@ export default function SustainabilityPage() {
         <Reveal>
           <div className="gap-2xl grid items-end md:grid-cols-12">
             <div className="md:col-span-7">
-              <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase mb-sm">
+              <p className="text-foreground/40 mb-sm font-mono text-[10px] tracking-widest uppercase">
                 Specification // Collaboration
               </p>
-              <Heading variant="h2" className="text-3xl md:text-4xl lg:text-5xl leading-tight text-balance">
+              <Heading
+                variant="h2"
+                className="text-3xl leading-tight text-balance md:text-4xl lg:text-5xl"
+              >
                 {collaboration.heading}
               </Heading>
             </div>
-            <div className="md:col-span-4 md:col-start-9 md:pb-xs">
-              <Text variant="body" className="text-foreground/60 text-base md:text-lg mb-lg leading-relaxed">
+            <div className="md:pb-xs md:col-span-4 md:col-start-9">
+              <Text
+                variant="body"
+                className="text-foreground/60 mb-lg text-base leading-relaxed md:text-lg"
+              >
                 {collaboration.body}
               </Text>
-              <TextLink href="/contact" variant="underline" className="font-medium text-base md:text-lg group">
-                {collaboration.cta} <span className="inline-block transition-transform group-hover:translate-x-1">&rarr;</span>
+              <TextLink
+                href="/contact"
+                variant="underline"
+                className="group text-base font-medium md:text-lg"
+              >
+                {collaboration.cta}{" "}
+                <span className="inline-block transition-transform group-hover:translate-x-1">
+                  &rarr;
+                </span>
               </TextLink>
             </div>
           </div>

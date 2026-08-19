@@ -28,4 +28,3 @@ export interface Person {
   avatar?: string;
   email?: string;
 }
-

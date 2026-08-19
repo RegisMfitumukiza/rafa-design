@@ -5,24 +5,24 @@ import type { ImageAsset, SocialLink } from "@/content/types";
  * Used to communicate credibility and wider industry presence.
  */
 export interface OtherRole {
-  title: string;      // e.g. "Junior Architect"
-  company: string;    // e.g. "Foster + Partners Lisbon"
-  location?: string;  // e.g. "Lisbon, Portugal"
+  title: string; // e.g. "Junior Architect"
+  company: string; // e.g. "Foster + Partners Lisbon"
+  location?: string; // e.g. "Lisbon, Portugal"
 }
 
 export interface TeamMember {
   id: string;
   name: string;
-  role: string;              // Their role at RAFA Design Hub
-  biography: string;         // Short editorial bio / personal story
+  role: string; // Their role at RAFA Design Hub
+  biography: string; // Short editorial bio / personal story
   image: ImageAsset;
   disciplines?: string[];
-  experience?: number;       // Years of experience
+  experience?: number; // Years of experience
   interests?: string[];
   socialLinks?: SocialLink[]; // Instagram, LinkedIn, website, etc.
-  email?: string | undefined;             // Direct contact email
-  phone?: string | undefined;             // Direct contact phone
-  otherRoles?: OtherRole[] | undefined;   // Roles at other studios, universities, etc.
+  email?: string | undefined; // Direct contact email
+  phone?: string | undefined; // Direct contact phone
+  otherRoles?: OtherRole[] | undefined; // Roles at other studios, universities, etc.
 }
 
 export interface Award {
@@ -186,7 +186,11 @@ export const teamMembers: TeamMember[] = [
       { platform: "website", url: "#", label: "Portfolio" },
     ],
     otherRoles: [
-      { title: "Guest Critic", company: "Faculdade de Arquitectura da Universidade do Porto", location: "Porto, Portugal" },
+      {
+        title: "Guest Critic",
+        company: "Faculdade de Arquitectura da Universidade do Porto",
+        location: "Porto, Portugal",
+      },
     ],
   },
   {
@@ -205,9 +209,7 @@ export const teamMembers: TeamMember[] = [
       { platform: "linkedin", url: "#" },
       { platform: "website", url: "#", label: "Portfolio" },
     ],
-    otherRoles: [
-      { title: "Architect", company: "Atelier Bugio", location: "Lisboa, Portugal" },
-    ],
+    otherRoles: [{ title: "Architect", company: "Atelier Bugio", location: "Lisboa, Portugal" }],
   },
   {
     id: "tiago-martins",
@@ -238,9 +240,7 @@ export const teamMembers: TeamMember[] = [
     image: { src: "/images/team/ana-pereira.jpg", alt: "Ana Pereira" },
     email: "ana@rafadesign.pt",
     phone: "+351 912 000 004",
-    socialLinks: [
-      { platform: "linkedin", url: "#" },
-    ],
+    socialLinks: [{ platform: "linkedin", url: "#" }],
     otherRoles: [
       { title: "Junior Project Architect", company: "OODA", location: "Porto, Portugal" },
       { title: "Architecture Tutor", company: "Universidade Lusíada", location: "Porto, Portugal" },
@@ -249,7 +249,6 @@ export const teamMembers: TeamMember[] = [
 ];
 
 export const awards: Award[] = [
-
   {
     title: "ArchDaily Building of the Year",
     organization: "ArchDaily",

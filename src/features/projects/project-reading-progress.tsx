@@ -39,7 +39,7 @@ export function ProjectReadingProgress() {
       ref={barRef}
       aria-hidden="true"
       style={{ transformOrigin: "left center", transform: "scaleX(0)" }}
-      className="fixed top-0 left-0 right-0 z-[200] h-px bg-accent transition-transform duration-75 will-change-transform"
+      className="bg-accent fixed top-0 right-0 left-0 z-[200] h-px transition-transform duration-75 will-change-transform"
     />
   );
 }

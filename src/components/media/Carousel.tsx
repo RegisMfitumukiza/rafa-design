@@ -58,7 +58,10 @@ export function Carousel({
     <div
       tabIndex={0}
       onKeyDown={handleKeyDown}
-      className={cn("relative focus:outline-hidden focus:ring-1 focus:ring-foreground/20 rounded-xs", className)}
+      className={cn(
+        "focus:ring-foreground/20 relative rounded-xs focus:ring-1 focus:outline-hidden",
+        className,
+      )}
       role="region"
       aria-roledescription="carousel"
       aria-label={ariaLabel}

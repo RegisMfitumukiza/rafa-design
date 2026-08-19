@@ -8,19 +8,19 @@ interface DividerBlockProps {
 
 export function DividerBlock({ block, className }: DividerBlockProps) {
   const { style = "ruled" } = block;
-  
+
   if (style === "space") {
     return <div className={cn("my-2xl", className)} />;
   }
-  
+
   if (style === "line") {
-    return <hr className={cn("border-border border-t my-2xl", className)} />;
+    return <hr className={cn("border-border my-2xl border-t", className)} />;
   }
-  
+
   // ruled (architectural separator)
   return (
     <div className={cn("my-2xl", className)}>
-      <div className="border-border border-t w-full" />
+      <div className="border-border w-full border-t" />
     </div>
   );
 }

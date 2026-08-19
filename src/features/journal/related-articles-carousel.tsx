@@ -47,14 +47,15 @@ export function RelatedArticlesCarousel({ articles, className }: RelatedArticles
     <div className={cn("space-y-lg", className)}>
       {/* Header controls & counter */}
       <Reveal>
-        <div className="flex items-baseline justify-between gap-md border-b border-border/40 pb-sm">
+        <div className="gap-md border-border/40 pb-sm flex items-baseline justify-between border-b">
           <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
-            Related Stories // {String(current + 1).padStart(2, "0")} — {String(total).padStart(2, "0")}
+            Related Stories // {String(current + 1).padStart(2, "0")} —{" "}
+            {String(total).padStart(2, "0")}
           </p>
 
           {/* Prev / Next controls */}
           {total > 1 && (
-            <div className="flex items-center gap-xs font-mono text-[10px] tracking-widest uppercase">
+            <div className="gap-xs flex items-center font-mono text-[10px] tracking-widest uppercase">
               <button
                 type="button"
                 onClick={prev}
@@ -79,11 +80,12 @@ export function RelatedArticlesCarousel({ articles, className }: RelatedArticles
       {/* Horizontal Snap Scroll Container */}
       <div
         ref={containerRef}
-        className="gap-lg scrollbar-hide flex snap-x snap-mandatory overflow-x-auto pb-sm"
+        className="gap-lg scrollbar-hide pb-sm flex snap-x snap-mandatory overflow-x-auto"
         onScroll={(e) => {
           const container = e.currentTarget;
           if (container.scrollWidth <= container.clientWidth) return;
-          const scrollFraction = container.scrollLeft / (container.scrollWidth - container.clientWidth);
+          const scrollFraction =
+            container.scrollLeft / (container.scrollWidth - container.clientWidth);
           const index = Math.round(scrollFraction * (total - 1));
           setCurrent(Math.max(0, Math.min(index, total - 1)));
         }}

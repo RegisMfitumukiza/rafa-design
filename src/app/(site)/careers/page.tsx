@@ -30,17 +30,20 @@ export default function CareersPage() {
         <div className="gap-2xl grid items-start md:grid-cols-12">
           <div className="md:col-span-8 lg:col-span-7">
             <Reveal>
-              <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase mb-sm">
+              <p className="text-foreground/40 mb-sm font-mono text-[10px] tracking-widest uppercase">
                 {ui.sections.careersOverline}
               </p>
             </Reveal>
             <Reveal delay={0.1}>
-              <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-[0.95] tracking-tight text-balance mb-xl">
+              <h1 className="font-display mb-xl text-5xl leading-[0.95] tracking-tight text-balance sm:text-6xl md:text-7xl lg:text-8xl">
                 {hero.heading}
               </h1>
             </Reveal>
             <Reveal delay={0.2}>
-              <Text variant="body" className="text-foreground/60 text-lg md:text-xl leading-relaxed max-w-prose">
+              <Text
+                variant="body"
+                className="text-foreground/60 max-w-prose text-lg leading-relaxed md:text-xl"
+              >
                 {hero.body}
               </Text>
             </Reveal>
@@ -52,7 +55,7 @@ export default function CareersPage() {
       <Section container="standard">
         <Reveal>
           <div className="mb-2xl">
-            <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase mb-sm">
+            <p className="text-foreground/40 mb-sm font-mono text-[10px] tracking-widest uppercase">
               {ui.sections.openPositionsOverline}
             </p>
             <Heading variant="h2" className="text-3xl md:text-4xl">
@@ -66,37 +69,43 @@ export default function CareersPage() {
             {careerPositions.map((position, idx) => (
               <div
                 key={position.id}
-                className={`group border-border py-2xl grid gap-lg md:grid-cols-12 border-t transition-all ${
+                className={`group border-border py-2xl gap-lg grid border-t transition-all md:grid-cols-12 ${
                   idx === careerPositions.length - 1 ? "border-b" : ""
                 }`}
               >
-                <span className="text-foreground/30 font-mono text-sm font-medium tracking-widest group-hover:text-foreground/50 group-hover:scale-105 transition-all origin-left md:col-span-1">
+                <span className="text-foreground/30 group-hover:text-foreground/50 origin-left font-mono text-sm font-medium tracking-widest transition-all group-hover:scale-105 md:col-span-1">
                   {String(idx + 1).padStart(2, "0")}
                 </span>
                 <div className="md:col-span-3 lg:col-span-4">
                   <Heading
                     as="h3"
                     variant="h3"
-                    className="text-foreground/90 group-hover:text-foreground text-xl md:text-2xl lg:text-3xl transition-colors mb-xs"
+                    className="text-foreground/90 group-hover:text-foreground mb-xs text-xl transition-colors md:text-2xl lg:text-3xl"
                   >
                     {position.title}
                   </Heading>
                   <div className="gap-sm flex flex-wrap items-center text-xs md:text-sm">
-                    <span className="text-foreground/40 font-mono uppercase tracking-wider">
+                    <span className="text-foreground/40 font-mono tracking-wider uppercase">
                       {position.type.replace("-", " ")}
                     </span>
                     <span className="text-foreground/30">·</span>
                     <span className="text-foreground/50">{position.location}</span>
                   </div>
                 </div>
-                <div className="md:col-span-8 lg:col-span-7 space-y-md">
-                  <Text variant="body" className="text-foreground/60 text-base md:text-lg leading-relaxed">
+                <div className="space-y-md md:col-span-8 lg:col-span-7">
+                  <Text
+                    variant="body"
+                    className="text-foreground/60 text-base leading-relaxed md:text-lg"
+                  >
                     {position.description}
                   </Text>
                   {position.requirements.length > 0 && (
                     <ul className="space-y-xs">
                       {position.requirements.map((req, i) => (
-                        <li key={i} className="gap-sm text-foreground/55 flex text-sm md:text-base leading-relaxed">
+                        <li
+                          key={i}
+                          className="gap-sm text-foreground/55 flex text-sm leading-relaxed md:text-base"
+                        >
                           <span className="text-foreground/30 mt-1 shrink-0">—</span>
                           <span>{req}</span>
                         </li>
@@ -112,7 +121,7 @@ export default function CareersPage() {
                       }
                       variant="underline"
                       external={!!position.applicationLink}
-                      className="font-medium text-sm md:text-base group/link inline-flex items-center gap-xs"
+                      className="group/link gap-xs inline-flex items-center text-sm font-medium md:text-base"
                     >
                       {ui.sections.applyForPosition}
                       <span className="inline-block transition-transform group-hover/link:translate-x-1">
@@ -126,8 +135,11 @@ export default function CareersPage() {
           </Stagger>
         ) : (
           <Reveal>
-            <div className="border-border border-y py-2xl">
-              <Text variant="body" className="text-foreground/60 text-base md:text-lg leading-relaxed max-w-prose">
+            <div className="border-border py-2xl border-y">
+              <Text
+                variant="body"
+                className="text-foreground/60 max-w-prose text-base leading-relaxed md:text-lg"
+              >
                 {ui.careers.emptyState}{" "}
                 <TextLink
                   href={`mailto:${contactInformation.email}?subject=Open Application`}
@@ -147,11 +159,7 @@ export default function CareersPage() {
       {studioImage && (
         <Section container="wide">
           <Parallax>
-            <Image
-              asset={studioImage}
-              className="aspect-[16/9] w-full"
-              sizes="100vw"
-            />
+            <Image asset={studioImage} className="aspect-[16/9] w-full" sizes="100vw" />
           </Parallax>
           {studioImage.caption && (
             <Reveal delay={0.1}>
@@ -170,7 +178,7 @@ export default function CareersPage() {
       <Section container="standard">
         <Reveal>
           <div className="mb-2xl">
-            <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase mb-sm">
+            <p className="text-foreground/40 mb-sm font-mono text-[10px] tracking-widest uppercase">
               {ui.sections.workingAtRafaOverline}
             </p>
             <Heading variant="h2" className="text-3xl md:text-4xl">
@@ -183,24 +191,27 @@ export default function CareersPage() {
           {benefits.map((benefit, idx) => (
             <div
               key={benefit.id}
-              className={`group border-border py-2xl grid gap-lg md:grid-cols-12 border-t transition-all ${
+              className={`group border-border py-2xl gap-lg grid border-t transition-all md:grid-cols-12 ${
                 idx === benefits.length - 1 ? "border-b" : ""
               }`}
             >
-              <span className="text-foreground/30 font-mono text-sm font-medium tracking-widest group-hover:text-foreground/50 group-hover:scale-105 transition-all origin-left md:col-span-1">
+              <span className="text-foreground/30 group-hover:text-foreground/50 origin-left font-mono text-sm font-medium tracking-widest transition-all group-hover:scale-105 md:col-span-1">
                 {benefit.number}
               </span>
               <div className="md:col-span-3 lg:col-span-4">
                 <Heading
                   as="h3"
                   variant="h3"
-                  className="text-foreground/90 group-hover:text-foreground text-xl md:text-2xl lg:text-3xl transition-colors"
+                  className="text-foreground/90 group-hover:text-foreground text-xl transition-colors md:text-2xl lg:text-3xl"
                 >
                   {benefit.title}
                 </Heading>
               </div>
               <div className="md:col-span-8 lg:col-span-7">
-                <Text variant="body" className="text-foreground/60 text-base md:text-lg leading-relaxed">
+                <Text
+                  variant="body"
+                  className="text-foreground/60 text-base leading-relaxed md:text-lg"
+                >
                   {benefit.description}
                 </Text>
               </div>
@@ -214,21 +225,27 @@ export default function CareersPage() {
         <Reveal>
           <div className="gap-2xl grid items-end md:grid-cols-12">
             <div className="md:col-span-7">
-              <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase mb-sm">
+              <p className="text-foreground/40 mb-sm font-mono text-[10px] tracking-widest uppercase">
                 Specification // {openApplication.overline}
               </p>
-              <Heading variant="h2" className="text-3xl md:text-4xl lg:text-5xl leading-tight text-balance">
+              <Heading
+                variant="h2"
+                className="text-3xl leading-tight text-balance md:text-4xl lg:text-5xl"
+              >
                 {openApplication.heading}
               </Heading>
             </div>
-            <div className="md:col-span-4 md:col-start-9 md:pb-xs">
-              <Text variant="body" className="text-foreground/60 text-base md:text-lg mb-lg leading-relaxed">
+            <div className="md:pb-xs md:col-span-4 md:col-start-9">
+              <Text
+                variant="body"
+                className="text-foreground/60 mb-lg text-base leading-relaxed md:text-lg"
+              >
                 {openApplication.body}
               </Text>
               <TextLink
                 href={`mailto:${contactInformation.email}?subject=Open Application`}
                 variant="underline"
-                className="font-medium text-base md:text-lg group"
+                className="group text-base font-medium md:text-lg"
               >
                 {openApplication.cta}{" "}
                 <span className="inline-block transition-transform group-hover:translate-x-1">

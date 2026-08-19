@@ -81,7 +81,7 @@ export function ContactForm() {
   return (
     <Form onSubmit={handleSubmit(onSubmit)} className="space-y-lg">
       {/* ── PRIMARY CONTACT INFORMATION ── */}
-      <div className="space-y-lg pb-lg border-b border-border/20">
+      <div className="space-y-lg pb-lg border-border/20 border-b">
         {/* 01 // NAME */}
         <Input
           label={ui.form.name.label}
@@ -101,7 +101,7 @@ export function ContactForm() {
       </div>
 
       {/* ── PROJECT DETAILS ── */}
-      <div className="space-y-lg pb-lg border-b border-border/20">
+      <div className="space-y-lg pb-lg border-border/20 border-b">
         {/* 03 // ORGANIZATION */}
         <Input
           label={ui.form.organization.label}
@@ -112,10 +112,10 @@ export function ContactForm() {
 
         {/* 04 // PROJECT TYPE */}
         <div className="space-y-xs">
-          <label className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase block">
+          <label className="text-foreground/40 block font-mono text-[10px] tracking-widest uppercase">
             {ui.form.projectType.label}
           </label>
-          <div className="gap-xs flex flex-wrap pt-xs">
+          <div className="gap-xs pt-xs flex flex-wrap">
             {projectTypes.map((type) => {
               const isSelected = selectedType === type;
               return (
@@ -124,7 +124,7 @@ export function ContactForm() {
                   type="button"
                   onClick={() => handleSelectType(type)}
                   className={cn(
-                    "px-md py-xs font-mono text-[10px] font-medium tracking-wider uppercase rounded-xs border transition-all duration-300",
+                    "px-md py-xs rounded-xs border font-mono text-[10px] font-medium tracking-wider uppercase transition-all duration-300",
                     isSelected
                       ? "border-foreground bg-foreground text-background"
                       : "border-border/50 text-foreground/60 hover:border-foreground/60 hover:text-foreground bg-transparent",
@@ -169,13 +169,11 @@ export function ContactForm() {
       {submitError && <ErrorState title={ui.form.errorTitle} message={submitError} />}
 
       {/* Response Time Indicator */}
-      <div className="border-t border-border/20 pt-md">
-        <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase mb-xs">
+      <div className="border-border/20 pt-md border-t">
+        <p className="text-foreground/40 mb-xs font-mono text-[10px] tracking-widest uppercase">
           {ui.contact.responseTime}
         </p>
-        <p className="text-foreground/60 text-sm">
-          {ui.contact.responseTimeMessage}
-        </p>
+        <p className="text-foreground/60 text-sm">{ui.contact.responseTimeMessage}</p>
       </div>
 
       {/* Submit Action */}

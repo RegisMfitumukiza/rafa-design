@@ -45,15 +45,19 @@ export function ProjectGallery({ images, className }: ProjectGalleryProps) {
                   <button
                     type="button"
                     onClick={() => setLightboxIndex(i)}
-                    className="block w-full cursor-zoom-in group relative"
+                    className="group relative block w-full cursor-zoom-in"
                     aria-label={`View full screen: ${img.alt}`}
                   >
                     <ImageReveal>
-                      <Image asset={img} className="aspect-hero w-full object-cover" sizes="100vw" />
+                      <Image
+                        asset={img}
+                        className="aspect-hero w-full object-cover"
+                        sizes="100vw"
+                      />
                     </ImageReveal>
                     {/* Hover cue */}
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500" />
-                    <span className="absolute bottom-md right-md font-mono text-[10px] tracking-widest text-white/0 group-hover:text-white/60 transition-colors duration-300 uppercase">
+                    <div className="absolute inset-0 bg-black/0 transition-colors duration-500 group-hover:bg-black/10" />
+                    <span className="bottom-md right-md absolute font-mono text-[10px] tracking-widest text-white/0 uppercase transition-colors duration-300 group-hover:text-white/60">
                       EXPAND ↗
                     </span>
                   </button>
@@ -90,14 +94,17 @@ export function ProjectGallery({ images, className }: ProjectGalleryProps) {
             <div key={i}>
               <Reveal>
                 <div
-                  className={cn("gap-lg items-start", hasNarrative ? "md:grid md:grid-cols-12" : "")}
+                  className={cn(
+                    "gap-lg items-start",
+                    hasNarrative ? "md:grid md:grid-cols-12" : "",
+                  )}
                 >
                   {/* Image */}
                   <div className={hasNarrative ? "md:col-span-8" : ""}>
                     <button
                       type="button"
                       onClick={() => setLightboxIndex(i)}
-                      className="block w-full cursor-zoom-in group relative"
+                      className="group relative block w-full cursor-zoom-in"
                       aria-label={`View full screen: ${img.alt}`}
                     >
                       <ImageReveal>
@@ -107,13 +114,15 @@ export function ProjectGallery({ images, className }: ProjectGalleryProps) {
                           sizes="(max-width: 48rem) 100vw, (max-width: 64rem) 70vw, 960px"
                         />
                       </ImageReveal>
-                      <div className="absolute inset-0 rounded-sm bg-black/0 group-hover:bg-black/10 transition-colors duration-500" />
-                      <span className="absolute bottom-xs right-xs font-mono text-[9px] tracking-widest text-white/0 group-hover:text-white/60 transition-colors duration-300 uppercase">
+                      <div className="absolute inset-0 rounded-sm bg-black/0 transition-colors duration-500 group-hover:bg-black/10" />
+                      <span className="bottom-xs right-xs absolute font-mono text-[9px] tracking-widest text-white/0 uppercase transition-colors duration-300 group-hover:text-white/60">
                         EXPAND ↗
                       </span>
                     </button>
                     {img.caption && !img.narrative && (
-                      <p className="text-foreground/35 mt-xs font-mono text-[11px]">{img.caption}</p>
+                      <p className="text-foreground/35 mt-xs font-mono text-[11px]">
+                        {img.caption}
+                      </p>
                     )}
                   </div>
 

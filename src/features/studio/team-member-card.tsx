@@ -24,11 +24,11 @@ export function TeamMemberCard({ member, onSelect, className }: TeamMemberCardPr
       <button
         type="button"
         onClick={() => onSelect(member)}
-        className="block w-full text-left cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-foreground/50 rounded-sm"
+        className="focus-visible:ring-foreground/50 block w-full cursor-pointer rounded-sm text-left focus:outline-none focus-visible:ring-1"
         aria-label={`View dossier for ${member.name}`}
       >
         {/* Portrait image with hover scale & gradient overlay */}
-        <div className="relative overflow-hidden rounded-md border border-border/20">
+        <div className="border-border/20 relative overflow-hidden rounded-md border">
           <Image
             asset={member.image}
             className="aspect-portrait w-full"
@@ -39,11 +39,11 @@ export function TeamMemberCard({ member, onSelect, className }: TeamMemberCardPr
           {/* Hover scrim & trigger cue */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 flex flex-col justify-between bg-black/0 p-md transition-colors duration-500 group-hover:bg-black/35"
+            className="p-md pointer-events-none absolute inset-0 flex flex-col justify-between bg-black/0 transition-colors duration-500 group-hover:bg-black/35"
           >
             {/* Top right tag */}
-            <div className="flex justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <span className="bg-black/60 backdrop-blur-sm text-white/80 font-mono text-[9px] tracking-widest px-xs py-[2px] uppercase rounded-sm border border-white/10">
+            <div className="flex justify-end opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+              <span className="px-xs rounded-sm border border-white/10 bg-black/60 py-[2px] font-mono text-[9px] tracking-widest text-white/80 uppercase backdrop-blur-sm">
                 DOSSIER +
               </span>
             </div>
@@ -60,12 +60,15 @@ export function TeamMemberCard({ member, onSelect, className }: TeamMemberCardPr
         </div>
 
         {/* Name + experience */}
-        <div className="mt-md flex items-baseline justify-between gap-sm">
-          <Heading variant="h3" className="text-xl font-medium tracking-tight group-hover:text-foreground/80 transition-colors">
+        <div className="mt-md gap-sm flex items-baseline justify-between">
+          <Heading
+            variant="h3"
+            className="group-hover:text-foreground/80 text-xl font-medium tracking-tight transition-colors"
+          >
             {member.name}
           </Heading>
           {member.experience !== undefined && (
-            <span className="whitespace-nowrap font-mono text-[10px] tracking-wider text-foreground/40 uppercase">
+            <span className="text-foreground/40 font-mono text-[10px] tracking-wider whitespace-nowrap uppercase">
               {member.experience} yrs
             </span>
           )}
@@ -77,7 +80,7 @@ export function TeamMemberCard({ member, onSelect, className }: TeamMemberCardPr
         </Text>
 
         {/* Action link cue at bottom */}
-        <div className="mt-sm flex items-center justify-between border-t border-border/30 pt-xs font-mono text-[10px] tracking-widest text-foreground/40 uppercase group-hover:text-foreground transition-colors">
+        <div className="mt-sm border-border/30 pt-xs text-foreground/40 group-hover:text-foreground flex items-center justify-between border-t font-mono text-[10px] tracking-widest uppercase transition-colors">
           <span>View Dossier</span>
           <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
         </div>

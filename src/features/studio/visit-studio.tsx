@@ -39,7 +39,7 @@ export function VisitStudio({ studio, className }: VisitStudioProps) {
               <p className="text-foreground/50 mb-xs font-mono text-xs tracking-widest uppercase">
                 {studio.visit.overline}
               </p>
-              <h2 className="font-display text-3xl font-medium tracking-tight leading-tight text-foreground sm:text-4xl md:text-5xl text-balance">
+              <h2 className="font-display text-foreground text-3xl leading-tight font-medium tracking-tight text-balance sm:text-4xl md:text-5xl">
                 {studio.visit.heading}
               </h2>
               <Text
@@ -66,13 +66,13 @@ export function VisitStudio({ studio, className }: VisitStudioProps) {
                         href={mapsUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-foreground/80 hover:text-foreground font-mono transition-colors group inline-flex flex-col"
+                        className="text-foreground/80 hover:text-foreground group inline-flex flex-col font-mono transition-colors"
                       >
-                        <span className="group-hover:underline underline-offset-4">
+                        <span className="underline-offset-4 group-hover:underline">
                           {office.address} ↗
                         </span>
                         {contactInformation.coordinates && (
-                          <span className="text-foreground/35 text-[10px] mt-[2px]">
+                          <span className="text-foreground/35 mt-[2px] text-[10px]">
                             {contactInformation.coordinates}
                           </span>
                         )}
@@ -127,7 +127,7 @@ export function VisitStudio({ studio, className }: VisitStudioProps) {
                 <Link
                   href={"/contact" as Route}
                   className={cn(
-                    "group border-border/60 hover:border-foreground hover:bg-foreground hover:text-background px-md py-sm flex items-center justify-between border transition-all duration-300 rounded-sm",
+                    "group border-border/60 hover:border-foreground hover:bg-foreground hover:text-background px-md py-sm flex items-center justify-between rounded-sm border transition-all duration-300",
                     "font-mono text-xs font-medium tracking-widest uppercase",
                   )}
                 >

@@ -57,10 +57,10 @@ export function ProjectCard({
                 {project.year}
                 {project.typology && ` · ${project.typology}`}
               </p>
-              <p className="text-white text-sm font-medium mt-[2px] leading-snug">
+              <p className="mt-[2px] text-sm leading-snug font-medium text-white">
                 {project.title}
               </p>
-              <p className="font-mono text-[9px] tracking-[0.18em] text-white/45 uppercase mt-xs">
+              <p className="mt-xs font-mono text-[9px] tracking-[0.18em] text-white/45 uppercase">
                 View Project →
               </p>
             </div>

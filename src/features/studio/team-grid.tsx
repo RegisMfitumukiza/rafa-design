@@ -31,19 +31,22 @@ export function TeamGrid({ members, className }: TeamGridProps) {
         <Reveal>
           <div className="mb-xl flex items-baseline justify-between">
             <div>
-              <p className="mb-xs font-mono text-xs tracking-widest text-foreground/50 uppercase">
+              <p className="mb-xs text-foreground/50 font-mono text-xs tracking-widest uppercase">
                 {ui.overlines.team}
               </p>
               <Heading variant="h2">{ui.sections.team}</Heading>
             </div>
-            <p className="hidden font-mono text-xs tracking-wider text-foreground/40 uppercase sm:block">
+            <p className="text-foreground/40 hidden font-mono text-xs tracking-wider uppercase sm:block">
               {members.length} Members // Click card for dossier
             </p>
           </div>
         </Reveal>
 
         {/* Scalable fluid grid */}
-        <Stagger className="gap-xl grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" stagger={0.08}>
+        <Stagger
+          className="gap-xl grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+          stagger={0.08}
+        >
           {members.map((member) => (
             <TeamMemberCard
               key={member.id}
@@ -55,10 +58,7 @@ export function TeamGrid({ members, className }: TeamGridProps) {
       </Section>
 
       {/* Industrial Monograph Dossier Modal */}
-      <TeamMemberModal
-        member={activeMember}
-        onClose={() => setActiveMember(null)}
-      />
+      <TeamMemberModal member={activeMember} onClose={() => setActiveMember(null)} />
     </>
   );
 }

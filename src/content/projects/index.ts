@@ -971,4 +971,3 @@ export function getRelatedProjects(project: Project, count = 3): Project[] {
 
   return [...topMatches, ...fallback].slice(0, count);
 }
-

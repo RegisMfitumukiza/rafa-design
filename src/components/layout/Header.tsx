@@ -78,7 +78,7 @@ export function Header({ className }: HeaderProps) {
         {/* Center — Studio Local Time Anchor */}
         <div
           aria-hidden="true"
-          className="hidden md:flex items-center gap-xs font-mono text-[10px] tracking-[0.2em] text-foreground/40 uppercase select-none"
+          className="gap-xs text-foreground/40 hidden items-center font-mono text-[10px] tracking-[0.2em] uppercase select-none md:flex"
         >
           <span>PORTO · LISBON</span>
           <span className="text-foreground/20">|</span>
@@ -92,17 +92,20 @@ export function Header({ className }: HeaderProps) {
           <button
             type="button"
             onClick={toggleMenu}
-            className="group z-modal text-foreground/80 hover:text-foreground gap-xs px-xs flex min-h-(--touch-target) min-w-(--touch-target) items-center text-xs font-mono tracking-widest uppercase transition-colors"
+            className="group z-modal text-foreground/80 hover:text-foreground gap-xs px-xs flex min-h-(--touch-target) min-w-(--touch-target) items-center font-mono text-xs tracking-widest uppercase transition-colors"
             aria-label={isMenuOpen ? ui.navigation.closeMenu : ui.navigation.openMenu}
             aria-expanded={isMenuOpen}
             aria-haspopup="dialog"
             aria-controls="site-navigation"
           >
             {/* Architectural Line Icon */}
-            <span className="relative flex flex-col justify-between h-2.5 w-4 overflow-hidden" aria-hidden="true">
+            <span
+              className="relative flex h-2.5 w-4 flex-col justify-between overflow-hidden"
+              aria-hidden="true"
+            >
               <span
                 className={cn(
-                  "h-0.5 w-full transition-all duration-300 transform origin-center",
+                  "h-0.5 w-full origin-center transform transition-all duration-300",
                   isMenuOpen
                     ? "bg-accent translate-y-[4px] rotate-45"
                     : "bg-foreground/60 group-hover:bg-foreground",
@@ -110,7 +113,7 @@ export function Header({ className }: HeaderProps) {
               />
               <span
                 className={cn(
-                  "h-0.5 w-full transition-all duration-300 transform origin-center",
+                  "h-0.5 w-full origin-center transform transition-all duration-300",
                   isMenuOpen
                     ? "bg-accent -translate-y-[4px] -rotate-45"
                     : "bg-foreground/60 group-hover:bg-foreground",
@@ -123,7 +126,7 @@ export function Header({ className }: HeaderProps) {
             {/* Keyboard hint indicator on desktop */}
             <span
               aria-hidden="true"
-              className="hidden lg:inline-block ml-xs font-mono text-[9px] text-foreground/30 border border-border/40 px-1 py-0.5 rounded-xs"
+              className="ml-xs text-foreground/30 border-border/40 hidden rounded-xs border px-1 py-0.5 font-mono text-[9px] lg:inline-block"
             >
               /
             </span>

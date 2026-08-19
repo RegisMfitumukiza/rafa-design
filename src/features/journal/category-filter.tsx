@@ -34,7 +34,7 @@ export function CategoryFilter({ categories, active, className }: CategoryFilter
 
   return (
     <nav
-      className={cn("flex flex-wrap items-center gap-x-md gap-y-xs", className)}
+      className={cn("gap-x-md gap-y-xs flex flex-wrap items-center", className)}
       aria-label="Filter articles by category"
     >
       <button
@@ -43,7 +43,7 @@ export function CategoryFilter({ categories, active, className }: CategoryFilter
         className={cn(
           "font-mono text-xs tracking-wider uppercase transition-colors",
           active === null
-            ? "text-foreground underline underline-offset-4 decoration-1"
+            ? "text-foreground underline decoration-1 underline-offset-4"
             : "text-foreground/40 hover:text-foreground/70",
         )}
         aria-pressed={active === null}
@@ -52,7 +52,7 @@ export function CategoryFilter({ categories, active, className }: CategoryFilter
         {ui.filters.all}
       </button>
       {categories.map((cat) => (
-        <span key={cat} className="inline-flex items-center gap-x-md">
+        <span key={cat} className="gap-x-md inline-flex items-center">
           <span className="text-foreground/30 text-xs">·</span>
           <button
             type="button"
@@ -60,7 +60,7 @@ export function CategoryFilter({ categories, active, className }: CategoryFilter
             className={cn(
               "font-mono text-xs tracking-wider uppercase transition-colors",
               active === cat
-                ? "text-foreground underline underline-offset-4 decoration-1"
+                ? "text-foreground underline decoration-1 underline-offset-4"
                 : "text-foreground/40 hover:text-foreground/70",
             )}
             aria-pressed={active === cat}

@@ -61,7 +61,7 @@
     outline: 2px solid var(--color-accent);
     outline-offset: 4px;
   }
-  
+
   /* Prevent large focus backgrounds on navigation links */
   nav a:focus-visible,
   [data-nav-index-link]:focus-visible {

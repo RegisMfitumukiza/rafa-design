@@ -40,7 +40,7 @@ export function Timeline({ events, intro, className }: TimelineProps) {
         <div className="gap-md grid items-baseline md:grid-cols-12">
           {/* Title Column (5 cols) */}
           <Reveal className="md:col-span-5">
-            <p className="mb-xs font-mono text-xs tracking-widest text-foreground/50 uppercase">
+            <p className="mb-xs text-foreground/50 font-mono text-xs tracking-widest uppercase">
               {ui.overlines.chronology}
             </p>
             <Heading variant="h2">{ui.sections.timeline}</Heading>
@@ -49,10 +49,7 @@ export function Timeline({ events, intro, className }: TimelineProps) {
           {/* History / Intro Narrative Column (7 cols) — Inline beside title */}
           {intro && (
             <Reveal delay={0.1} className="md:col-span-7">
-              <Text
-                variant="body"
-                className="text-foreground/65 leading-relaxed text-balance"
-              >
+              <Text variant="body" className="text-foreground/65 leading-relaxed text-balance">
                 {intro}
               </Text>
             </Reveal>
@@ -65,7 +62,7 @@ export function Timeline({ events, intro, className }: TimelineProps) {
         ref={trackRef}
         className={cn(
           "hidden md:flex",
-          "overflow-x-auto scrollbar-hide",
+          "scrollbar-hide overflow-x-auto",
           "border-border/30 border-t",
           "px-[var(--container-gutter)]",
           "gap-0",
@@ -76,7 +73,7 @@ export function Timeline({ events, intro, className }: TimelineProps) {
           <div
             key={`${event.year}-${event.title}`}
             className={cn(
-              "group relative flex-none w-64 xl:w-72 pr-lg pb-xl pt-lg",
+              "group pr-lg pb-xl pt-lg relative w-64 flex-none xl:w-72",
               "border-border/30",
               i < events.length - 1 && "border-r",
             )}
@@ -87,12 +84,12 @@ export function Timeline({ events, intro, className }: TimelineProps) {
               aria-hidden="true"
               className={cn(
                 "absolute top-0 left-0",
-                "font-mono font-bold leading-none",
+                "font-mono leading-none font-bold",
                 "text-[7rem] xl:text-[8rem]",
                 "text-foreground/[0.06]",
-                "select-none pointer-events-none",
+                "pointer-events-none select-none",
                 "translate-y-[-0.15em]",
-                "transition-colors duration-500 group-hover:text-foreground/[0.12]",
+                "group-hover:text-foreground/[0.12] transition-colors duration-500",
               )}
             >
               {event.year}
@@ -100,10 +97,10 @@ export function Timeline({ events, intro, className }: TimelineProps) {
 
             {/* Layer 2 (Foreground): Monospace year tag, Title, Description */}
             <div className="relative z-10 pt-16 xl:pt-20">
-              <Text variant="small" className="mb-sm block font-mono text-foreground/40">
+              <Text variant="small" className="mb-sm text-foreground/40 block font-mono">
                 {event.year}
               </Text>
-              <h3 className="font-display mb-xs text-lg font-medium leading-snug tracking-tight text-foreground/90 group-hover:text-foreground transition-colors">
+              <h3 className="font-display mb-xs text-foreground/90 group-hover:text-foreground text-lg leading-snug font-medium tracking-tight transition-colors">
                 {event.title}
               </h3>
               <Text variant="small" className="text-foreground/55 leading-relaxed">
@@ -115,24 +112,18 @@ export function Timeline({ events, intro, className }: TimelineProps) {
       </div>
 
       {/* ─── Mobile: Vertical Ruled Stack ──────────────────────────────── */}
-      <div className="md:hidden px-[var(--container-gutter)]">
-        <Stagger
-          className="border-border/40 divide-border/40 divide-y border-y"
-          stagger={0.08}
-        >
+      <div className="px-[var(--container-gutter)] md:hidden">
+        <Stagger className="border-border/40 divide-border/40 divide-y border-y" stagger={0.08}>
           {events.map((event) => (
             <div
               key={`${event.year}-${event.title}-mobile`}
               className="gap-y-xs gap-x-md py-md grid grid-cols-12 items-baseline"
             >
-              <Text
-                variant="small"
-                className="col-span-3 font-mono text-[11px] text-foreground/40"
-              >
+              <Text variant="small" className="text-foreground/40 col-span-3 font-mono text-[11px]">
                 {event.year}
               </Text>
               <div className="col-span-9">
-                <h3 className="font-display mb-xs text-base font-medium tracking-tight text-foreground/90">
+                <h3 className="font-display mb-xs text-foreground/90 text-base font-medium tracking-tight">
                   {event.title}
                 </h3>
                 <Text variant="small" className="text-foreground/55 leading-relaxed">

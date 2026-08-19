@@ -48,7 +48,7 @@ export default function ProcessPage() {
               </h1>
             </div>
             {/* Right 6 cols: Description */}
-            <div className="md:col-span-6 lg:col-span-6 md:pt-md">
+            <div className="md:pt-md md:col-span-6 lg:col-span-6">
               <p className="text-foreground/70 w-full text-xl leading-relaxed md:text-2xl">
                 {pageContent.process.description}
               </p>
@@ -78,7 +78,7 @@ export default function ProcessPage() {
       {/* ── 3. METHODOLOGY INDEX ── */}
       <Section container="wide" className="mt-2xl" id="methodology">
         <Reveal>
-          <div className="mb-md gap-sm flex items-baseline justify-between border-b border-border/40 pb-sm">
+          <div className="mb-md gap-sm border-border/40 pb-sm flex items-baseline justify-between border-b">
             <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
               {ui.overlines.sequence}
             </p>
@@ -105,7 +105,8 @@ export default function ProcessPage() {
             </div>
             <div className="space-y-lg md:col-span-7">
               <p className="text-foreground/70 text-lg leading-relaxed md:text-xl">
-                Our methodology is tested and refined through every built project — from private residences to adaptive reuse.
+                Our methodology is tested and refined through every built project — from private
+                residences to adaptive reuse.
               </p>
               <Link
                 href={"/projects" as Route}

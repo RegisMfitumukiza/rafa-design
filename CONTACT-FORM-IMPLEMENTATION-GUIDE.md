@@ -37,26 +37,31 @@ Success State Displayed
 The form collects **7 fields** organized into 3 logical groups:
 
 #### Primary Contact Information
+
 - `01 // NAME` — Required (string, min 1 character)
 - `02 // EMAIL` — Required (valid email format)
 
 #### Project Details
+
 - `03 // ORGANIZATION` — Optional (string)
 - `04 // PROJECT TYPE` — Optional (button selector, CMS-driven)
 - `05 // LOCATION` — Optional (string)
 
 #### Project Description
+
 - `06 // PROJECT BRIEF` — Required (string, min 10 characters)
 - `07 // TIMELINE & SCHEDULE` — Optional (string)
 
 ### Technology Stack
 
 **Form Management:**
+
 - **React Hook Form** — Form state management
 - **Zod** — Runtime schema validation
 - **@hookform/resolvers/zod** — Connects Zod to React Hook Form
 
 **Key Features:**
+
 - Client-side validation before submission
 - Real-time error feedback
 - Accessible form inputs with ARIA attributes
@@ -78,6 +83,7 @@ const contactFormSchema = z.object({
 ```
 
 **Validation Rules:**
+
 - ✅ `name` — Must have at least 1 character after trimming
 - ✅ `email` — Must be valid email format (RFC 5322)
 - ✅ `message` — Must have at least 10 characters (prevents spam/accidental submissions)
@@ -87,6 +93,7 @@ const contactFormSchema = z.object({
 ### Project Type Selector
 
 **CMS-Ready Implementation:**
+
 ```typescript
 const projectTypes = contactInformation.projectTypes;
 // From: src/content/company/contact.ts
@@ -94,6 +101,7 @@ const projectTypes = contactInformation.projectTypes;
 ```
 
 **Visual Behavior:**
+
 - Renders as button group
 - Single selection (radio button behavior)
 - Selected state: `border-foreground bg-foreground text-background`
@@ -102,6 +110,7 @@ const projectTypes = contactInformation.projectTypes;
 
 **Future CMS Integration:**
 When Sanity CMS is integrated, project types will be managed from:
+
 ```
 Sanity Dashboard → Contact Information (singleton) → Project Types (array)
 ```
@@ -132,6 +141,7 @@ async function onSubmit(values: ContactFormValues) {
 ```
 
 **What Happens:**
+
 1. User clicks "SEND INQUIRY" button
 2. React Hook Form validates all fields using Zod schema
 3. If validation fails, errors display inline below fields
@@ -145,28 +155,35 @@ async function onSubmit(values: ContactFormValues) {
 **Three Possible States:**
 
 1. **Default (Form Visible)**
+
    ```typescript
-   submitted: false
-   submitError: null
-   isSubmitting: false
+   submitted: false;
+   submitError: null;
+   isSubmitting: false;
    ```
+
    User sees the form with all fields.
 
 2. **Submitting (Loading)**
+
    ```typescript
-   submitted: false
-   submitError: null
-   isSubmitting: true
+   submitted: false;
+   submitError: null;
+   isSubmitting: true;
    ```
+
    Button disabled, text shows "SENDING INQUIRY...", user waits.
 
 3. **Success**
+
    ```typescript
-   submitted: true
+   submitted: true;
    ```
+
    Form is replaced with success message:
+
    ```tsx
-   <SuccessState 
+   <SuccessState
      title="Message sent"
      message="Thank you for reaching out. We will respond within two working days."
    />
@@ -174,18 +191,19 @@ async function onSubmit(values: ContactFormValues) {
 
 4. **Error**
    ```typescript
-   submitted: false
-   submitError: "Failed to send your message. Please try again."
-   isSubmitting: false
+   submitted: false;
+   submitError: "Failed to send your message. Please try again.";
+   isSubmitting: false;
    ```
    Form stays visible, error banner displays above submit button, user can retry.
 
 ### Response Time Indicator
 
 **Trust-Building Element:**
+
 ```tsx
-<div className="border-t border-border/20 pt-md">
-  <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase mb-xs">
+<div className="border-border/20 pt-md border-t">
+  <p className="text-foreground/40 mb-xs font-mono text-[10px] tracking-widest uppercase">
     Response Time
   </p>
   <p className="text-foreground/60 text-sm">
@@ -195,6 +213,7 @@ async function onSubmit(values: ContactFormValues) {
 ```
 
 **Purpose:**
+
 - Sets clear expectations
 - Reduces prospect anxiety
 - Builds trust through transparency
@@ -209,31 +228,31 @@ async function onSubmit(values: ContactFormValues) {
 ### Request Flow
 
 ```typescript
-export async function POST(request: Request)
+export async function POST(request: Request);
 ```
 
 **Step-by-Step Process:**
 
 #### Step 1: Parse Request Body
+
 ```typescript
 let payload: ContactPayload;
 
 try {
   payload = await request.json();
 } catch {
-  return NextResponse.json(
-    { error: "Invalid request body." }, 
-    { status: 400 }
-  );
+  return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
 }
 ```
 
 **What It Does:**
+
 - Attempts to parse JSON from request body
 - If malformed JSON, returns 400 Bad Request
 - Type-safe payload extraction
 
 #### Step 2: Server-Side Validation
+
 ```typescript
 const { name, email, subject, message } = payload;
 
@@ -242,10 +261,7 @@ if (!name || !name.trim()) {
 }
 
 if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-  return NextResponse.json(
-    { error: "A valid email address is required." }, 
-    { status: 400 }
-  );
+  return NextResponse.json({ error: "A valid email address is required." }, { status: 400 });
 }
 
 if (!message || !message.trim()) {
@@ -254,16 +270,19 @@ if (!message || !message.trim()) {
 ```
 
 **Why Double Validation?**
+
 - ✅ **Frontend validation** — Better UX, instant feedback
 - ✅ **Backend validation** — Security, handles direct API calls
 - ✅ Never trust client-side validation alone
 
 **Validation Checks:**
+
 1. Name exists and is not empty after trimming
 2. Email matches RFC-compliant regex pattern
 3. Message exists and is not empty after trimming
 
 #### Step 3: Check Environment Configuration
+
 ```typescript
 const apiKey = process.env.RESEND_API_KEY;
 
@@ -278,16 +297,19 @@ if (!apiKey) {
 ```
 
 **Service Unavailable Handling:**
+
 - If `RESEND_API_KEY` is missing from environment variables
 - Returns 503 Service Unavailable
 - Provides fallback message to user
 - Prevents application crash
 
 **Where API Key Comes From:**
+
 - Development: `.env.local` file (not committed to git)
 - Production: Environment variables on hosting platform (Vercel/Netlify)
 
 #### Step 4: Send Email via Resend
+
 ```typescript
 try {
   const { Resend } = await import("resend");
@@ -311,11 +333,13 @@ try {
 ```
 
 **Resend SDK:**
+
 - Dynamic import (only loads when needed)
 - Instantiates Resend client with API key
 - Sends transactional email
 
 **Email Parameters:**
+
 - `from` — Sender address (must be verified domain in Resend)
 - `to` — Studio email from `contactInformation.email` (CMS-ready)
 - `replyTo` — User's email (allows studio to reply directly)
@@ -323,6 +347,7 @@ try {
 - `text` — Plain text email body with form data
 
 **Error Handling:**
+
 - Any error during email sending is caught
 - Returns 500 Internal Server Error
 - Generic error message to user (doesn't expose internal details)
@@ -336,6 +361,7 @@ try {
 **Resend** is a modern transactional email API designed for developers.
 
 **Why Resend?**
+
 - ✅ Simple API (easier than SendGrid, Mailgun, AWS SES)
 - ✅ Built for React/Next.js ecosystems
 - ✅ Great developer experience
@@ -343,6 +369,7 @@ try {
 - ✅ Affordable pricing ($0.10 per 1,000 emails)
 
 **Alternative Services:**
+
 - SendGrid
 - Mailgun
 - AWS SES
@@ -352,16 +379,19 @@ try {
 ### Resend Configuration
 
 **Installation:**
+
 ```bash
 npm install resend
 ```
 
 **Environment Variable:**
+
 ```env
 RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
 **Get API Key:**
+
 1. Sign up at https://resend.com
 2. Navigate to API Keys
 3. Create new API key
@@ -369,20 +399,25 @@ RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 **Domain Verification:**
 Before sending from a custom domain (`no-reply@rafadesign.pt`), you must:
+
 1. Add your domain in Resend dashboard
 2. Add DNS records (SPF, DKIM, DMARC)
 3. Wait for verification (usually 5-10 minutes)
 
 **Temporary Sender:**
+
 ```typescript
-from: "RAFA Design Hub <onboarding@resend.dev>"
+from: "RAFA Design Hub <onboarding@resend.dev>";
 ```
+
 This is a **sandbox domain** provided by Resend for testing.
 
 **Production Sender:**
+
 ```typescript
-from: "RAFA Design <no-reply@rafadesign.pt>"
+from: "RAFA Design <no-reply@rafadesign.pt>";
 ```
+
 Requires domain verification.
 
 ### Email Delivery Flow
@@ -418,12 +453,13 @@ Subject: New message from John Doe
 Name: John Doe
 Email: john.doe@example.com
 
-We are looking to design a coastal residence in Algarve. 
-The site is approximately 2,000 sqm with ocean views. 
+We are looking to design a coastal residence in Algarve.
+The site is approximately 2,000 sqm with ocean views.
 We would like to start design work in Q2 2027.
 ```
 
 **Key Features:**
+
 - ✅ **Reply-To** header set to user's email (studio can hit "Reply")
 - ✅ **Plain text format** (simple, compatible with all email clients)
 - ✅ Structured data (Name, Email clearly labeled)
@@ -431,6 +467,7 @@ We would like to start design work in Q2 2027.
 
 **Future Enhancement:**
 Could be upgraded to HTML emails with:
+
 - Studio branding
 - Formatted fields
 - Better typography
@@ -443,6 +480,7 @@ Could be upgraded to HTML emails with:
 ### Request Payload Example
 
 **What Gets Sent to `/api/contact`:**
+
 ```json
 {
   "name": "João Silva",
@@ -458,6 +496,7 @@ Could be upgraded to HTML emails with:
 ### API Response Examples
 
 **Success (200 OK):**
+
 ```json
 {
   "ok": true
@@ -465,6 +504,7 @@ Could be upgraded to HTML emails with:
 ```
 
 **Validation Error (400 Bad Request):**
+
 ```json
 {
   "error": "A valid email address is required."
@@ -472,6 +512,7 @@ Could be upgraded to HTML emails with:
 ```
 
 **Not Configured (503 Service Unavailable):**
+
 ```json
 {
   "error": "The contact form is not configured yet. Please email us directly."
@@ -479,6 +520,7 @@ Could be upgraded to HTML emails with:
 ```
 
 **Server Error (500 Internal Server Error):**
+
 ```json
 {
   "error": "Failed to send your message. Please try again."
@@ -492,12 +534,14 @@ Could be upgraded to HTML emails with:
 ### Development (.env.local)
 
 **Required Variables:**
+
 ```env
 # Contact form delivery
 RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
 **Optional for Full Development:**
+
 ```env
 # Public canonical site URL
 NEXT_PUBLIC_SITE_URL=http://localhost:8000
@@ -517,6 +561,7 @@ CMS_API_TOKEN=
 ### Production (Vercel/Netlify)
 
 **Environment Variables to Set:**
+
 ```env
 NEXT_PUBLIC_SITE_URL=https://rafadesign.pt
 RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -524,6 +569,7 @@ NEXT_PUBLIC_MAPBOX_TOKEN=pk.xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
 **Security Note:**
+
 - ✅ `RESEND_API_KEY` is server-only (never exposed to browser)
 - ✅ Next.js automatically keeps server-side env vars private
 - ✅ Only `NEXT_PUBLIC_*` variables are bundled into client code
@@ -535,6 +581,7 @@ NEXT_PUBLIC_MAPBOX_TOKEN=pk.xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ### Client-Side Error States
 
 **1. Validation Errors (Before Submit)**
+
 ```tsx
 <Input
   label="02 // EMAIL"
@@ -544,27 +591,28 @@ NEXT_PUBLIC_MAPBOX_TOKEN=pk.xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
 **Visual Treatment:**
+
 - Red text below input field
 - Input border turns red
 - Screen reader announces error
 - Inline, no modal/toast
 
 **2. Network Errors (During Submit)**
+
 ```tsx
-{submitError && (
-  <ErrorState 
-    title="Message not sent"
-    message={submitError}
-  />
-)}
+{
+  submitError && <ErrorState title="Message not sent" message={submitError} />;
+}
 ```
 
 **Possible Errors:**
+
 - API route returned error response
 - Network connection failed
 - Timeout (if implemented)
 
 **Visual Treatment:**
+
 - Error banner above submit button
 - Red background with error icon
 - User can retry immediately
@@ -572,26 +620,26 @@ NEXT_PUBLIC_MAPBOX_TOKEN=pk.xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ### Server-Side Error Handling
 
 **1. Validation Errors (400)**
+
 ```typescript
 if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-  return NextResponse.json(
-    { error: "A valid email address is required." },
-    { status: 400 }
-  );
+  return NextResponse.json({ error: "A valid email address is required." }, { status: 400 });
 }
 ```
 
 **2. Configuration Errors (503)**
+
 ```typescript
 if (!apiKey) {
   return NextResponse.json(
     { error: "The contact form is not configured yet. Please email us directly." },
-    { status: 503 }
+    { status: 503 },
   );
 }
 ```
 
 **3. Email Service Errors (500)**
+
 ```typescript
 try {
   await resend.emails.send({...});
@@ -605,6 +653,7 @@ try {
 ```
 
 **Security Best Practice:**
+
 - Generic error messages to users
 - Detailed errors logged server-side (not implemented yet)
 - Never expose API keys or internal details
@@ -616,28 +665,33 @@ try {
 ### Manual Testing Checklist
 
 **Validation Testing:**
+
 - [ ] Submit empty form → See name required error
 - [ ] Enter invalid email → See email format error
 - [ ] Enter valid email but short message → See message required error
 - [ ] Fill all required fields → Form submits successfully
 
 **Project Type Selector:**
+
 - [ ] Default selection is "Architecture"
 - [ ] Click different type → Selection changes
 - [ ] Selected type has inverted colors
 - [ ] Hover states work on unselected types
 
 **Success State:**
+
 - [ ] After successful submit → Form replaced with success message
 - [ ] Success message shows "Message sent" title
 - [ ] Success message mentions "two working days" response time
 
 **Error States:**
+
 - [ ] Without RESEND_API_KEY → See "not configured" error
 - [ ] With invalid API key → See "failed to send" error
 - [ ] With network disconnected → See error state
 
 **Email Delivery:**
+
 - [ ] Check studio inbox (`contactInformation.email`)
 - [ ] Email contains all form fields
 - [ ] Reply-To header is user's email
@@ -646,11 +700,13 @@ try {
 ### Testing Without Resend API Key
 
 **What Happens:**
+
 1. Form validates successfully
 2. API route returns 503 error
 3. User sees: "The contact form is not configured yet. Please email us directly."
 
 **Development Workflow:**
+
 - Can develop/test UI without Resend account
 - Add API key when ready for email testing
 - Production deployment requires valid API key
@@ -658,11 +714,13 @@ try {
 ### Resend Testing Modes
 
 **Sandbox Mode (Free):**
+
 - Use `onboarding@resend.dev` as sender
 - Can send to verified email addresses only
 - Good for development/staging
 
 **Production Mode:**
+
 - Verify custom domain
 - Can send to any email address
 - Better deliverability
@@ -674,26 +732,28 @@ try {
 ### Potential Improvements
 
 **1. Email Templates**
+
 ```typescript
 // Instead of plain text
-text: `Name: ${name}\nEmail: ${email}\n\n${message}`
+text: `Name: ${name}\nEmail: ${email}\n\n${message}`;
 
 // Use HTML template
 html: `
   <div style="font-family: sans-serif;">
     <h2>New Inquiry from ${name}</h2>
     <p><strong>Email:</strong> ${email}</p>
-    <p><strong>Organization:</strong> ${organization || 'N/A'}</p>
+    <p><strong>Organization:</strong> ${organization || "N/A"}</p>
     <p><strong>Project Type:</strong> ${projectType}</p>
-    <p><strong>Location:</strong> ${location || 'N/A'}</p>
-    <p><strong>Timeline:</strong> ${timeline || 'N/A'}</p>
+    <p><strong>Location:</strong> ${location || "N/A"}</p>
+    <p><strong>Timeline:</strong> ${timeline || "N/A"}</p>
     <hr>
     <p>${message}</p>
   </div>
-`
+`;
 ```
 
 **2. Auto-Reply to User**
+
 ```typescript
 // Send confirmation email to user
 await resend.emails.send({
@@ -705,11 +765,13 @@ await resend.emails.send({
 ```
 
 **3. Spam Protection**
+
 - Add Google reCAPTCHA v3
 - Implement rate limiting (max submissions per IP)
 - Honeypot field (hidden field to catch bots)
 
 **4. Database Logging**
+
 ```typescript
 // Store all inquiries in database
 await db.inquiries.create({
@@ -721,28 +783,32 @@ await db.inquiries.create({
   message,
   timeline,
   submittedAt: new Date(),
-  ipAddress: request.headers.get('x-forwarded-for'),
+  ipAddress: request.headers.get("x-forwarded-for"),
 });
 ```
 
 **5. Notification Systems**
+
 - Slack notification when inquiry received
 - SMS notification for urgent inquiries
 - Dashboard to view/manage inquiries
 
 **6. File Uploads**
+
 - Allow users to attach reference images
 - Site photos
 - Sketches
 - Budget documents
 
 **7. Multi-Step Form**
+
 - Step 1: Basic contact info
 - Step 2: Project details
 - Step 3: Project description
 - Step 4: Review & submit
 
 **8. Form Analytics**
+
 - Track completion rate
 - Identify drop-off points
 - A/B test form layouts
@@ -755,58 +821,57 @@ await db.inquiries.create({
 ### Sanity CMS Integration Plan
 
 **Contact Information Singleton:**
+
 ```typescript
 // sanity/schemas/singletons/contact-information.ts
 export default {
-  name: 'contactInformation',
-  type: 'document',
-  title: 'Contact Information',
+  name: "contactInformation",
+  type: "document",
+  title: "Contact Information",
   fields: [
     {
-      name: 'email',
-      type: 'string',
-      title: 'Studio Email',
-      validation: Rule => Rule.required().email(),
+      name: "email",
+      type: "string",
+      title: "Studio Email",
+      validation: (Rule) => Rule.required().email(),
     },
     {
-      name: 'projectTypes',
-      type: 'array',
-      title: 'Project Types',
-      of: [{ type: 'string' }],
-      validation: Rule => Rule.required().min(1),
+      name: "projectTypes",
+      type: "array",
+      title: "Project Types",
+      of: [{ type: "string" }],
+      validation: (Rule) => Rule.required().min(1),
     },
     {
-      name: 'offices',
-      type: 'array',
-      title: 'Studio Locations',
-      of: [{ type: 'reference', to: [{ type: 'office' }] }],
+      name: "offices",
+      type: "array",
+      title: "Studio Locations",
+      of: [{ type: "reference", to: [{ type: "office" }] }],
     },
   ],
-}
+};
 ```
 
 **Benefits:**
+
 - Content team can update project types without code changes
 - Add/remove types through CMS dashboard
 - Change studio email address without deployment
 - Multi-language support for form labels
 
 **Current Static Content:**
+
 ```typescript
 // src/content/company/contact.ts
 export const contactInformation = {
   email: "studio@rafadesign.pt",
-  projectTypes: [
-    "Architecture",
-    "Interior Design",
-    "Consultation",
-    "Other",
-  ],
+  projectTypes: ["Architecture", "Interior Design", "Consultation", "Other"],
   // ...
-}
+};
 ```
 
 **Future CMS-Driven:**
+
 ```typescript
 // API route fetches from Sanity
 const contactInfo = await client.fetch(`*[_type == "contactInformation"][0]`);
@@ -820,16 +885,19 @@ const recipientEmail = contactInfo.email;
 ### Current Security Measures
 
 **1. Server-Side Validation**
+
 - ✅ All inputs validated on backend
 - ✅ Email regex prevents invalid formats
 - ✅ Trimming prevents whitespace-only submissions
 
 **2. Environment Variable Protection**
+
 - ✅ API keys never exposed to client
 - ✅ `.env.local` excluded from git
 - ✅ Production secrets managed by hosting platform
 
 **3. Error Message Safety**
+
 - ✅ Generic error messages to users
 - ✅ No stack traces or internal details exposed
 - ✅ No API key leakage in responses
@@ -837,6 +905,7 @@ const recipientEmail = contactInfo.email;
 ### Recommended Additions
 
 **1. Rate Limiting**
+
 ```typescript
 import { Ratelimit } from "@upstash/ratelimit";
 
@@ -848,19 +917,20 @@ const ratelimit = new Ratelimit({
 export async function POST(request: Request) {
   const ip = request.headers.get("x-forwarded-for") ?? "127.0.0.1";
   const { success } = await ratelimit.limit(ip);
-  
+
   if (!success) {
     return NextResponse.json(
       { error: "Too many requests. Please try again later." },
-      { status: 429 }
+      { status: 429 },
     );
   }
-  
+
   // Continue with normal flow...
 }
 ```
 
 **2. CAPTCHA Protection**
+
 ```typescript
 // Add to form
 <ReCAPTCHA
@@ -879,6 +949,7 @@ const captchaResponse = await fetch(
 ```
 
 **3. Input Sanitization**
+
 ```typescript
 import { sanitize } from "isomorphic-dompurify";
 
@@ -895,26 +966,31 @@ const cleanMessage = sanitize(message, {
 ### Common Issues
 
 **Issue: "The contact form is not configured yet"**
+
 - **Cause:** `RESEND_API_KEY` missing from environment
 - **Fix:** Add API key to `.env.local` or hosting platform
 - **Verify:** Check env var exists with `echo $RESEND_API_KEY`
 
 **Issue: "Failed to send your message"**
+
 - **Cause:** Invalid API key or Resend service error
 - **Fix:** Verify API key is correct, check Resend dashboard
 - **Debug:** Check Resend logs for delivery attempts
 
 **Issue: Form submits but no email received**
+
 - **Cause:** Wrong recipient email or spam filter
 - **Fix:** Check `contactInformation.email` is correct
 - **Verify:** Check spam folder, verify domain in Resend
 
 **Issue: "Invalid request body" error**
+
 - **Cause:** Malformed JSON in request
 - **Fix:** Check network tab for request payload
 - **Debug:** Ensure form data serializes correctly
 
 **Issue: Validation errors not showing**
+
 - **Cause:** Error messages not displaying
 - **Fix:** Check `errors` object in React Hook Form
 - **Verify:** Ensure error messages defined in `ui.form.*`
@@ -976,11 +1052,13 @@ const cleanMessage = sanitize(message, {
 ### Configuration Required
 
 **Minimum:**
+
 - `RESEND_API_KEY` environment variable
 - Verified sender domain (for production)
 - `contactInformation.email` set to studio email
 
 **Optional:**
+
 - Custom HTML email templates
 - Rate limiting
 - CAPTCHA protection
@@ -1004,15 +1082,15 @@ const cleanMessage = sanitize(message, {
 
 ## Files Involved
 
-| File | Purpose |
-|------|---------|
-| `src/features/contact/contact-form.tsx` | Frontend form component with validation |
-| `src/app/api/contact/route.ts` | Backend API handler for email sending |
-| `src/content/company/contact.ts` | Contact information content (CMS-ready) |
-| `src/content/ui/index.ts` | Form labels and messages (CMS-ready) |
-| `.env.local` | Development environment variables |
-| `.env.example` | Example environment variables template |
-| `package.json` | Dependencies (resend, react-hook-form, zod) |
+| File                                    | Purpose                                     |
+| --------------------------------------- | ------------------------------------------- |
+| `src/features/contact/contact-form.tsx` | Frontend form component with validation     |
+| `src/app/api/contact/route.ts`          | Backend API handler for email sending       |
+| `src/content/company/contact.ts`        | Contact information content (CMS-ready)     |
+| `src/content/ui/index.ts`               | Form labels and messages (CMS-ready)        |
+| `.env.local`                            | Development environment variables           |
+| `.env.example`                          | Example environment variables template      |
+| `package.json`                          | Dependencies (resend, react-hook-form, zod) |
 
 ---
 

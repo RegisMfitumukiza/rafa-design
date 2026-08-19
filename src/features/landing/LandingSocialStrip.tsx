@@ -13,9 +13,7 @@ export function LandingSocialStrip() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const linksRef = useRef<HTMLElement[]>([]);
 
-  const socialLinks = contactInformation.socialLinks.filter(
-    (link) => link.url !== "#",
-  );
+  const socialLinks = contactInformation.socialLinks.filter((link) => link.url !== "#");
 
   useLayoutEffect(() => {
     if (reduced) return;
@@ -73,21 +71,21 @@ export function LandingSocialStrip() {
       ref={containerRef}
       data-landing-social
       aria-label="Social links"
-      className="fixed right-0 top-1/2 z-10 hidden -translate-y-1/2 cursor-default flex-col items-end gap-0 lg:flex"
+      className="fixed top-1/2 right-0 z-10 hidden -translate-y-1/2 cursor-default flex-col items-end gap-0 lg:flex"
     >
       {/* Hover trigger zone — thin visible strip */}
       <div className="group flex flex-col items-end">
         {/* Vertical label — always visible hint */}
         <span
           aria-hidden="true"
-          className="text-foreground/50 hover:text-foreground/80 mb-4 block rotate-180 select-none font-mono text-[11px] tracking-[0.2em] uppercase transition-colors duration-300"
+          className="text-foreground/50 hover:text-foreground/80 mb-4 block rotate-180 font-mono text-[11px] tracking-[0.2em] uppercase transition-colors duration-300 select-none"
           style={{ writingMode: "vertical-rl" }}
         >
           Follow
         </span>
 
         {/* Social links — animated in/out */}
-        <div className="flex flex-col items-end gap-xs pr-sm">
+        <div className="gap-xs pr-sm flex flex-col items-end">
           <a
             ref={(el) => {
               if (el) linksRef.current[0] = el;

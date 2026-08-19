@@ -20,18 +20,16 @@ const variantSizes = {
   display: "h-36 md:h-52",
 };
 
-export function Logo({
-  className,
-  imgClassName,
-  variant = "header",
-  showWordmark,
-}: LogoProps) {
+export function Logo({ className, imgClassName, variant = "header", showWordmark }: LogoProps) {
   const sizeClass = imgClassName ?? variantSizes[variant];
 
   return (
     <Link
       href="/"
-      className={cn("inline-flex min-h-(--touch-target) items-center gap-xs select-none", className)}
+      className={cn(
+        "gap-xs inline-flex min-h-(--touch-target) items-center select-none",
+        className,
+      )}
       aria-label={`${siteConfig.name} — Home`}
     >
       <Image
@@ -41,15 +39,15 @@ export function Logo({
         height={2159}
         priority
         className={cn(
-          "w-auto object-contain invert dark:invert-0 transition-opacity hover:opacity-85",
+          "w-auto object-contain invert transition-opacity hover:opacity-85 dark:invert-0",
           sizeClass,
         )}
       />
       {showWordmark && (
-        <span className="inline-flex items-center gap-xs font-mono text-xs tracking-[0.2em] uppercase">
-          <span className="font-semibold text-foreground">RAFA</span>
+        <span className="gap-xs inline-flex items-center font-mono text-xs tracking-[0.2em] uppercase">
+          <span className="text-foreground font-semibold">RAFA</span>
           <span className="text-foreground/30">|</span>
-          <span className="font-light text-foreground/70">DESIGN HUB</span>
+          <span className="text-foreground/70 font-light">DESIGN HUB</span>
         </span>
       )}
     </Link>

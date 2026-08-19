@@ -41,16 +41,11 @@ export function ProjectChapterBlock({ chapter, index, className = "" }: ProjectC
           <Reveal delay={index * 0.05}>
             <div className="gap-xl grid items-center md:grid-cols-12">
               {/* Image Column (Column 7 on desktop, alternating left/right) */}
-              <div
-                className={cn(
-                  "md:col-span-7",
-                  !isEven && "md:order-2",
-                )}
-              >
+              <div className={cn("md:col-span-7", !isEven && "md:order-2")}>
                 <button
                   type="button"
                   onClick={() => setIsLightboxOpen(true)}
-                  className="block w-full cursor-zoom-in group relative text-left"
+                  className="group relative block w-full cursor-zoom-in text-left"
                   aria-label={`View full screen image: ${image.alt}`}
                 >
                   <ImageReveal>
@@ -60,8 +55,8 @@ export function ProjectChapterBlock({ chapter, index, className = "" }: ProjectC
                       sizes="(max-width: 48rem) 100vw, (max-width: 64rem) 60vw, 864px"
                     />
                   </ImageReveal>
-                  <div className="absolute inset-0 rounded-sm bg-black/0 group-hover:bg-black/10 transition-colors duration-500" />
-                  <span className="absolute bottom-xs right-xs font-mono text-[9px] tracking-widest text-white/0 group-hover:text-white/60 transition-colors duration-300 uppercase">
+                  <div className="absolute inset-0 rounded-sm bg-black/0 transition-colors duration-500 group-hover:bg-black/10" />
+                  <span className="bottom-xs right-xs absolute font-mono text-[9px] tracking-widest text-white/0 uppercase transition-colors duration-300 group-hover:text-white/60">
                     EXPAND ↗
                   </span>
                 </button>
@@ -73,12 +68,12 @@ export function ProjectChapterBlock({ chapter, index, className = "" }: ProjectC
               {/* Text & Narrative Column (Column 5 on desktop) */}
               <div
                 className={cn(
-                  "md:col-span-5 flex flex-col justify-center",
+                  "flex flex-col justify-center md:col-span-5",
                   !isEven && "md:order-1",
                 )}
               >
                 {/* Heading / Intent label */}
-                <div className="mb-xs flex flex-wrap items-center gap-xs">
+                <div className="mb-xs gap-xs flex flex-wrap items-center">
                   {chapter.heading && (
                     <span className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
                       {chapter.heading}
@@ -104,7 +99,7 @@ export function ProjectChapterBlock({ chapter, index, className = "" }: ProjectC
 
                 {/* Image narrative note if present */}
                 {image.narrative && (
-                  <p className="border-border/30 text-foreground/60 mt-md border-l-2 pl-md font-serif text-sm leading-relaxed italic">
+                  <p className="border-border/30 text-foreground/60 mt-md pl-md border-l-2 font-serif text-sm leading-relaxed italic">
                     {image.narrative}
                   </p>
                 )}
@@ -138,26 +133,26 @@ export function ProjectChapterBlock({ chapter, index, className = "" }: ProjectC
               <button
                 type="button"
                 onClick={() => setIsLightboxOpen(true)}
-                className="block w-full cursor-zoom-in group relative text-left"
+                className="group relative block w-full cursor-zoom-in text-left"
                 aria-label={`View full screen image: ${image.alt}`}
               >
                 <ImageReveal>
                   <Image asset={image} className="aspect-hero w-full object-cover" sizes="100vw" />
                 </ImageReveal>
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500" />
-                <span className="absolute bottom-md right-md font-mono text-[10px] tracking-widest text-white/0 group-hover:text-white/60 transition-colors duration-300 uppercase">
+                <div className="absolute inset-0 bg-black/0 transition-colors duration-500 group-hover:bg-black/10" />
+                <span className="bottom-md right-md absolute font-mono text-[10px] tracking-widest text-white/0 uppercase transition-colors duration-300 group-hover:text-white/60">
                   EXPAND ↗
                 </span>
               </button>
               {image.narrative && (
                 <Reveal>
-                  <div className="container-standard mt-sm flex flex-col md:flex-row md:items-baseline justify-between gap-md border-border/20 border-b pb-md">
+                  <div className="container-standard mt-sm gap-md border-border/20 pb-md flex flex-col justify-between border-b md:flex-row md:items-baseline">
                     {image.intent && (
-                      <span className="text-accent font-mono text-[10px] tracking-widest uppercase flex-shrink-0">
+                      <span className="text-accent flex-shrink-0 font-mono text-[10px] tracking-widest uppercase">
                         {intentLabels[image.intent]}
                       </span>
                     )}
-                    <p className="text-foreground/70 text-sm leading-relaxed italic max-w-3xl">
+                    <p className="text-foreground/70 max-w-3xl text-sm leading-relaxed italic">
                       {image.narrative}
                       {image.caption && (
                         <span className="text-foreground/40 ml-xs font-mono text-[11px] not-italic">
@@ -185,4 +180,3 @@ export function ProjectChapterBlock({ chapter, index, className = "" }: ProjectC
     </div>
   );
 }
-

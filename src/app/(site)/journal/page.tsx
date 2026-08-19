@@ -39,7 +39,7 @@ export default async function JournalPage({
   return (
     <>
       <JsonLd data={breadcrumbSchema([{ name: "Journal", path: "/journal" }])} />
-      
+
       {/* Pattern B: 12-Column Split Header */}
       <Section container="wide">
         <Reveal>
@@ -52,7 +52,7 @@ export default async function JournalPage({
                 {pageContent.journal.title}
               </h1>
             </div>
-            <div className="md:col-span-7 lg:col-span-7 md:pt-md">
+            <div className="md:pt-md md:col-span-7 lg:col-span-7">
               <p className="text-foreground/70 w-full text-xl leading-relaxed md:text-2xl">
                 {pageContent.journal.description}
               </p>

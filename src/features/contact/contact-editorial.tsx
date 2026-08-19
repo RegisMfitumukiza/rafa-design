@@ -32,7 +32,7 @@ export function ContactEditorial({ className }: ContactEditorialProps) {
           <Image
             asset={contactInfo.editorialImage}
             sizes="100vw"
-            className="aspect-[16/9] w-full md:aspect-[21/9] rounded-sm"
+            className="aspect-[16/9] w-full rounded-sm md:aspect-[21/9]"
             imgClassName="object-cover"
           />
         </ImageReveal>
@@ -51,12 +51,12 @@ export function ContactEditorial({ className }: ContactEditorialProps) {
               <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
                 {contact.dialogueOverline}
               </p>
-              <h2 className="font-display text-foreground mt-sm text-3xl font-medium tracking-tight md:text-4xl text-balance">
+              <h2 className="font-display text-foreground mt-sm text-3xl font-medium tracking-tight text-balance md:text-4xl">
                 {contact.closingHeading}
               </h2>
             </div>
             <div className="space-y-md md:col-span-7">
-              <p className="text-foreground/70 text-lg leading-relaxed md:text-xl text-balance">
+              <p className="text-foreground/70 text-lg leading-relaxed text-balance md:text-xl">
                 {contact.closingBody}
               </p>
               <div className="pt-xs">
@@ -65,7 +65,9 @@ export function ContactEditorial({ className }: ContactEditorialProps) {
                   className="border-border/60 hover:border-foreground hover:bg-foreground hover:text-background group px-md py-sm gap-md inline-flex items-center rounded-xs border font-mono text-xs font-medium tracking-widest uppercase transition-all duration-300"
                 >
                   <span>{contactInfo.email}</span>
-                  <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                  <span className="transition-transform duration-300 group-hover:translate-x-1">
+                    →
+                  </span>
                 </a>
               </div>
             </div>

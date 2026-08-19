@@ -83,10 +83,7 @@ export default function StudioPage() {
       <Awards awards={awards} />
 
       {/* 8 — Timeline (History merged in as intro paragraph) */}
-      <Timeline
-        events={timeline}
-        intro={studioContent.history}
-      />
+      <Timeline events={timeline} intro={studioContent.history} />
 
       {/* 9 — Client Sectors / Partners */}
       <Partners sectors={clientSectors} note={clientReferencesNote} />

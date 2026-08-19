@@ -121,7 +121,7 @@ export function DisciplineIndex({ services, defaultImage, className }: Disciplin
       {/* Sticky image preview — desktop only */}
       <aside className="hidden lg:col-span-4 lg:block">
         <div className="lg:sticky lg:top-(--header-height)">
-          <div className="border-border/40 aspect-standard bg-muted relative overflow-hidden border rounded-sm">
+          <div className="border-border/40 aspect-standard bg-muted relative overflow-hidden rounded-sm border">
             <Image
               key={displayImage.src}
               asset={displayImage}

@@ -12,14 +12,18 @@ interface ViewToggleProps {
 
 export function ViewToggle({ view, onViewChange, className }: ViewToggleProps) {
   return (
-    <div className={cn("flex items-center gap-x-md", className)} role="group" aria-label="View mode toggle">
+    <div
+      className={cn("gap-x-md flex items-center", className)}
+      role="group"
+      aria-label="View mode toggle"
+    >
       <button
         type="button"
         onClick={() => onViewChange("grid")}
         className={cn(
           "font-mono text-xs tracking-wider uppercase transition-colors",
           view === "grid"
-            ? "text-foreground underline underline-offset-4 decoration-1"
+            ? "text-foreground underline decoration-1 underline-offset-4"
             : "text-foreground/40 hover:text-foreground/70",
         )}
         aria-pressed={view === "grid"}
@@ -34,7 +38,7 @@ export function ViewToggle({ view, onViewChange, className }: ViewToggleProps) {
         className={cn(
           "font-mono text-xs tracking-wider uppercase transition-colors",
           view === "list"
-            ? "text-foreground underline underline-offset-4 decoration-1"
+            ? "text-foreground underline decoration-1 underline-offset-4"
             : "text-foreground/40 hover:text-foreground/70",
         )}
         aria-pressed={view === "list"}
