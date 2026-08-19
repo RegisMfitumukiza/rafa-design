@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Image } from "@/components/media/Image";
 import { Text } from "@/components/typography/Text";
 import type { JournalArticle } from "@/content/journal";
+import type { ImageAsset } from "@/content/types";
 import { cn } from "@/lib/cn";
 import { ImageReveal, Reveal } from "@/motion";
 

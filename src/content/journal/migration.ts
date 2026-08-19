@@ -54,10 +54,16 @@ function convertCredits(
   if (!legacyCredits) return [];
 
   return legacyCredits.map((credit) => {
+    // Map legacy roles to valid CreditRole types
+    const legacyRole = credit.role?.toLowerCase();
+    let role: CreditRole = "photography";
+
+    if (legacyRole === "photography") role = "photography";
+    else if (legacyRole === "styling" || legacyRole === "text") role = "artwork";
+    else if (legacyRole === "project") role = "source";
+
     const mappedCredit: Credit = {
-      role:
-        (credit.role?.toLowerCase() as "photography" | "styling" | "text" | "project") ||
-        "photography",
+      role,
       name: credit.name,
     };
 

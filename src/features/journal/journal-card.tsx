@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Image } from "@/components/media/Image";
 import type { HeadingTag } from "@/components/typography/Heading";
 import type { JournalArticle } from "@/content/journal";
+import type { ImageAsset } from "@/content/types";
 import { cn } from "@/lib/cn";
 
 interface JournalCardProps {
