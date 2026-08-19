@@ -47,8 +47,10 @@ export async function POST(request: Request) {
     const { Resend } = await import("resend");
     const resend = new Resend(apiKey);
 
+    const fromEmail = process.env.RESEND_FROM_EMAIL || "RAFA Design Hub <onboarding@resend.dev>";
+
     await resend.emails.send({
-      from: "RAFA Design Hub <onboarding@resend.dev>",
+      from: fromEmail,
       to: contactInformation.email,
       replyTo: email,
       subject: subject?.trim() || `New message from ${name}`,

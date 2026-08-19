@@ -2,23 +2,33 @@ import Link from "next/link";
 
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Section } from "@/components/layout/Section";
-import { Heading } from "@/components/typography/Heading";
-import { Text } from "@/components/typography/Text";
 
 export default function NotFound() {
   return (
     <PageContainer>
-      <Section container="narrow">
-        <Heading variant="display">404</Heading>
-        <Text variant="body" className="mt-lg text-foreground/60 text-balance">
-          The page you are looking for does not exist or has moved.
-        </Text>
-        <Link
-          href="/"
-          className="link-underline mt-lg inline-block text-sm font-medium tracking-wide uppercase"
-        >
-          Back to home
-        </Link>
+      <Section container="narrow" className="py-3xl">
+        <div className="space-y-md">
+          <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
+            Specification // 404 Spatial Error
+          </p>
+
+          <h1 className="font-display text-foreground text-7xl font-medium tracking-tight sm:text-8xl md:text-9xl">
+            404
+          </h1>
+
+          <p className="text-foreground/70 max-w-xl text-lg leading-relaxed font-medium text-balance md:text-xl">
+            The spatial document or page you requested does not exist within the studio archive.
+          </p>
+
+          <div className="pt-md">
+            <Link
+              href="/"
+              className="border-border/50 text-foreground hover:border-foreground hover:bg-foreground hover:text-background gap-xs px-md py-sm inline-flex items-center rounded-xs border font-mono text-xs tracking-widest uppercase transition-all duration-300"
+            >
+              ← RETURN TO STUDIO ARCHIVE
+            </Link>
+          </div>
+        </div>
       </Section>
     </PageContainer>
   );
