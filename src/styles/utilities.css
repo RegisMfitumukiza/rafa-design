@@ -1,0 +1,125 @@
+@layer utilities {
+  .container-narrow,
+  .container-content,
+  .container-standard,
+  .container-wide,
+  .container-full {
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: var(--container-gutter);
+  }
+
+  .container-narrow {
+    max-width: var(--container-narrow);
+  }
+
+  .container-content {
+    max-width: var(--container-content);
+  }
+
+  .container-standard {
+    max-width: var(--container-standard);
+  }
+
+  .container-wide {
+    max-width: var(--container-wide);
+  }
+
+  .container-full {
+    max-width: 100%;
+  }
+
+  .grid-site {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--spacing-md);
+  }
+
+  /* --breakpoint-desktop */
+  @media (width < 64rem) {
+    .grid-site {
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+      column-gap: var(--spacing-md);
+    }
+  }
+
+  /* --breakpoint-tablet */
+  @media (width < 48rem) {
+    .grid-site {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      column-gap: var(--spacing-sm);
+    }
+  }
+
+  .link-underline {
+    position: relative;
+  }
+
+  .link-underline::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    bottom: -0.2em;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform var(--motion-duration-base) var(--motion-ease-standard);
+  }
+
+  .link-underline:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  .transition-micro {
+    transition:
+      transform var(--motion-duration-base) var(--motion-ease-standard),
+      opacity var(--motion-duration-base) var(--motion-ease-standard),
+      color var(--motion-duration-base) var(--motion-ease-standard);
+  }
+}
+
+@utility scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility transition-grid {
+  transition-property: grid-template-rows;
+  transition-timing-function: var(--motion-ease-standard);
+}
+
+@keyframes animate-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@utility animate-in {
+  animation: animate-in var(--motion-duration-base) var(--motion-ease-emphasized) both;
+}
+
+@utility fade-in {
+  animation-name: fade-in;
+}

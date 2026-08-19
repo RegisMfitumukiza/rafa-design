@@ -1,0 +1,125 @@
+/* =============================================================================
+   CENTURY GOTHIC PANEUROPEAN — Self-Hosted Web Font Declarations
+   Full weight axis: Thin (100) → Light (300) → Regular (400) → SemiBold (600)
+   → Bold (700) → ExtraBold (800) → Black (900)
+   Italic variants included for all weights.
+   ============================================================================= */
+
+/* Thin — 100 */
+@font-face {
+  font-family: "Century Gothic";
+  src: url("/fonts/CenturyGothicPaneuropeanThin.ttf") format("truetype");
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Century Gothic";
+  src: url("/fonts/CenturyGothicPaneuropeanThinItalic.ttf") format("truetype");
+  font-weight: 100;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Light — 300 */
+@font-face {
+  font-family: "Century Gothic";
+  src: url("/fonts/CenturyGothicPaneuropeanLight.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Century Gothic";
+  src: url("/fonts/CenturyGothicPaneuropeanLightItalic.ttf") format("truetype");
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Regular — 400 */
+@font-face {
+  font-family: "Century Gothic";
+  src: url("/fonts/CenturyGothicPaneuropeanRegular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Century Gothic";
+  src: url("/fonts/CenturyGothicPaneuropeanItalic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* SemiBold — 600 */
+@font-face {
+  font-family: "Century Gothic";
+  src: url("/fonts/CenturyGothicPaneuropeanSemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Century Gothic";
+  src: url("/fonts/CenturyGothicPaneuropeanSemiBoldItalic.ttf") format("truetype");
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Bold — 700 */
+@font-face {
+  font-family: "Century Gothic";
+  src: url("/fonts/CenturyGothicPaneuropeanBold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Century Gothic";
+  src: url("/fonts/CenturyGothicPaneuropeanBoldItalic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ExtraBold — 800 */
+@font-face {
+  font-family: "Century Gothic";
+  src: url("/fonts/CenturyGothicPaneuropeanExtraBold.ttf") format("truetype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Century Gothic";
+  src: url("/fonts/CenturyGothicPaneuropeanExtraBoldItalic.ttf") format("truetype");
+  font-weight: 800;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Black — 900 */
+@font-face {
+  font-family: "Century Gothic";
+  src: url("/fonts/CenturyGothicPaneuropeanBlack.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Century Gothic";
+  src: url("/fonts/CenturyGothicPaneuropeanBlackItalic.ttf") format("truetype");
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}

@@ -2,9 +2,14 @@
   "compilerOptions": {
     "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
+    "allowJs": false,
     "skipLibCheck": true,
     "strict": true,
+    "exactOptionalPropertyTypes": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noUncheckedIndexedAccess": true,
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
@@ -19,7 +24,28 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@/app/*": ["./src/app/*"],
+      "@/assets/*": ["./src/assets/*"],
+      "@/components/*": ["./src/components/*"],
+      "@/config/*": ["./src/config/*"],
+      "@/constants/*": ["./src/constants/*"],
+      "@/content/*": ["./src/content/*"],
+      "@/contexts/*": ["./src/contexts/*"],
+      "@/design-system/*": ["./src/design-system/*"],
+      "@/features/*": ["./src/features/*"],
+      "@/hooks/*": ["./src/hooks/*"],
+      "@/layouts/*": ["./src/layouts/*"],
+      "@/lib/*": ["./src/lib/*"],
+      "@/motion/*": ["./src/motion/*"],
+      "@/providers/*": ["./src/providers/*"],
+      "@/sections/*": ["./src/sections/*"],
+      "@/services/*": ["./src/services/*"],
+      "@/stores/*": ["./src/stores/*"],
+      "@/styles/*": ["./src/styles/*"],
+      "@/three/*": ["./src/three/*"],
+      "@/types/*": ["./src/types/*"],
+      "@/utils/*": ["./src/utils/*"]
     }
   },
   "include": [
