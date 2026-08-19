@@ -18,8 +18,8 @@ export default function TwitterImage() {
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        backgroundColor: "#171614",
-        color: "#f5f1e8",
+        backgroundColor: "#0a0a0a",
+        color: "#fafafa",
         padding: 72,
       }}
     >

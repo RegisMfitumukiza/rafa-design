@@ -1,6 +1,10 @@
 @theme {
-  --font-sans: "Century Gothic", "CenturyGothic", AppleGothic, var(--font-manrope), Manrope, system-ui, sans-serif;
-  --font-display: "Century Gothic", "CenturyGothic", AppleGothic, var(--font-manrope), Manrope, system-ui, sans-serif;
+  --font-sans:
+    "Century Gothic", "CenturyGothic", AppleGothic, var(--font-manrope), Manrope, system-ui,
+    sans-serif;
+  --font-display:
+    "Century Gothic", "CenturyGothic", AppleGothic, var(--font-manrope), Manrope, system-ui,
+    sans-serif;
   --font-mono: ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 
   --color-background: var(--rafa-background);
@@ -25,8 +29,8 @@
   --radius-lg: 0.75rem;
   --radius-full: 9999px;
 
-  --shadow-soft: 0 1rem 3rem rgb(23 22 20 / 0.08);
-  --shadow-medium: 0 1.5rem 5rem rgb(23 22 20 / 0.12);
+  --shadow-soft: 0 1rem 3rem rgb(0 0 0 / 0.06);
+  --shadow-medium: 0 1.5rem 5rem rgb(0 0 0 / 0.1);
 
   --breakpoint-mobile: 30rem;
   --breakpoint-tablet: 48rem;
@@ -60,13 +64,19 @@
   --aspect-portrait: 3 / 4;
 }
 
+/* =============================================================================
+   RAFA DESIGN HUB — MONOCHROMATIC BLACK & WHITE BRAND PALETTE
+   Light Mode: Architectural Gallery White (#FAFAFA) & High-Contrast Onyx (#0A0A0A)
+   Dark Mode: Architectural Noir Black (#0A0A0A) & High-Contrast White (#FAFAFA)
+   ============================================================================= */
+
 :root {
-  --rafa-background: #f5f1e8;
-  --rafa-foreground: #171614;
-  --rafa-surface: #fffaf2;
-  --rafa-accent: #986f45;
-  --rafa-border: #d8d0c3;
-  --rafa-muted: #e9e1d3;
+  --rafa-background: #fafafa;
+  --rafa-foreground: #0a0a0a;
+  --rafa-surface: #ffffff;
+  --rafa-accent: #0a0a0a;
+  --rafa-border: #e5e5e5;
+  --rafa-muted: #f0f0f0;
   --container-gutter: clamp(1rem, 3vw, 3rem);
   --container-narrow: 44rem;
   --container-content: 54rem;
@@ -88,10 +98,10 @@
 }
 
 .dark {
-  --rafa-background: #14120f;
-  --rafa-foreground: #ece7de;
-  --rafa-surface: #1d1a16;
-  --rafa-accent: #c49a6c;
-  --rafa-border: #322e28;
-  --rafa-muted: #26221d;
+  --rafa-background: #0a0a0a;
+  --rafa-foreground: #fafafa;
+  --rafa-surface: #141414;
+  --rafa-accent: #fafafa;
+  --rafa-border: #262626;
+  --rafa-muted: #1a1a1a;
 }

@@ -1,8 +1,8 @@
 export const theme = {
   name: "RAFA Design Hub",
   colorScheme: "light dark",
-  background: "#f5f1e8",
-  backgroundDark: "#14120f",
+  background: "#fafafa",
+  backgroundDark: "#0a0a0a",
   storageKey: "rafa-theme",
 } as const;
 

@@ -2,16 +2,13 @@
 
 import { type ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
 
-import { motion } from "@/design-system/motion";
-
 import { SplashScreen, type SplashPhase } from "./SplashScreen";
 
 const SPLASH_SESSION_KEY = "rafa-splash-played";
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
-const READY_BUFFER_MS = 150;
-const MAX_READY_WAIT_MS = 3000;
+const MAX_READY_WAIT_MS = 2000;
 
-type SplashState = "idle" | "cover" | "playing" | "fading" | "done";
+type SplashState = "cover" | "playing" | "done";
 
 interface SplashProviderProps {
   children: ReactNode;
@@ -57,7 +54,9 @@ function lockScroll(): () => void {
 }
 
 export function SplashProvider({ children }: SplashProviderProps) {
-  const [state, setState] = useState<SplashState>("idle");
+  // Start in "cover" phase on frame 0 so the SplashScreen is rendered immediately
+  // without any flash of the page underneath during initial render/hydration.
+  const [state, setState] = useState<SplashState>("cover");
   const completed = useRef(false);
 
   useLayoutEffect(() => {
@@ -65,12 +64,12 @@ export function SplashProvider({ children }: SplashProviderProps) {
     const alreadyPlayed = sessionStorage.getItem(SPLASH_SESSION_KEY) === "1";
 
     if (reducedMotion || alreadyPlayed) {
-      queueMicrotask(() => setState("done"));
+      // Defer state update to avoid synchronous setState in effect
+      setTimeout(() => setState("done"), 0);
       return;
     }
 
     window.scrollTo(0, 0);
-    queueMicrotask(() => setState("cover"));
   }, []);
 
   useEffect(() => {
@@ -78,31 +77,20 @@ export function SplashProvider({ children }: SplashProviderProps) {
       return;
     }
 
-    const startedAt = Date.now();
     let cancelled = false;
 
-    const startVideo = async () => {
+    const startAnim = async () => {
       await waitForPageReady();
       await document.fonts.ready;
 
-      const elapsed = Date.now() - startedAt;
-      const remaining = READY_BUFFER_MS - elapsed;
-
-      if (remaining > 0) {
-        await new Promise((resolve) => setTimeout(resolve, remaining));
-      }
-
-      if (!cancelled && document.readyState === "complete") {
+      if (!cancelled) {
         setState("playing");
       }
     };
 
-    void startVideo();
+    void startAnim();
 
-    const fallback = setTimeout(
-      () => setState("playing"),
-      Math.max(READY_BUFFER_MS, MAX_READY_WAIT_MS),
-    );
+    const fallback = setTimeout(() => setState("playing"), MAX_READY_WAIT_MS);
 
     return () => {
       cancelled = true;
@@ -111,7 +99,7 @@ export function SplashProvider({ children }: SplashProviderProps) {
   }, [state]);
 
   useEffect(() => {
-    if (state !== "cover" && state !== "playing" && state !== "fading") {
+    if (state !== "cover" && state !== "playing") {
       return;
     }
 
@@ -119,25 +107,9 @@ export function SplashProvider({ children }: SplashProviderProps) {
     return unlock;
   }, [state]);
 
-  useEffect(() => {
-    if (state !== "fading") {
-      return;
-    }
-
-    const fallback = setTimeout(() => finishSplash(), motion.values.duration.slow * 1000 + 100);
-
-    return () => clearTimeout(fallback);
-  }, [state]);
-
   if (state === "done") {
     return <>{children}</>;
   }
-
-  const handleVideoEnded = () => {
-    if (state === "playing") {
-      setState("fading");
-    }
-  };
 
   function finishSplash() {
     if (completed.current) {
@@ -148,15 +120,12 @@ export function SplashProvider({ children }: SplashProviderProps) {
     setState("done");
   }
 
-  const phase: SplashPhase | null =
-    state === "cover" || state === "playing" || state === "fading" ? state : null;
+  const phase: SplashPhase = state;
 
   return (
     <>
       {children}
-      {phase ? (
-        <SplashScreen phase={phase} onVideoEnded={handleVideoEnded} onFadeComplete={finishSplash} />
-      ) : null}
+      <SplashScreen phase={phase} onFadeComplete={finishSplash} />
     </>
   );
 }
