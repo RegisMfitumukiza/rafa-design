@@ -4,11 +4,12 @@
 // ============================================================================
 
 import type { JournalArticle } from "@/content/journal";
+
 import { JournalDocument } from "../document";
+import { BackToTop } from "../document/back-to-top";
 import { ReadingIndex } from "../document/reading-index";
 import { ReadingIndexMobile } from "../document/reading-index-mobile";
 import { ScrollProgress } from "../document/scroll-progress";
-import { BackToTop } from "../document/back-to-top";
 
 interface EssayTemplateProps {
   article: JournalArticle;
@@ -16,11 +17,7 @@ interface EssayTemplateProps {
   currentSection?: string;
 }
 
-export function EssayTemplate({ 
-  article, 
-  categoryLabel,
-  currentSection 
-}: EssayTemplateProps) {
+export function EssayTemplate({ article, categoryLabel, currentSection }: EssayTemplateProps) {
   return (
     <>
       {/* Scroll Progress Bar */}
@@ -33,7 +30,9 @@ export function EssayTemplate({
       {article.sections && (
         <ReadingIndex
           sections={article.sections}
-          {...(article.estimatedReadingTime !== undefined && { estimatedReadingTime: article.estimatedReadingTime })}
+          {...(article.estimatedReadingTime !== undefined && {
+            estimatedReadingTime: article.estimatedReadingTime,
+          })}
         />
       )}
 

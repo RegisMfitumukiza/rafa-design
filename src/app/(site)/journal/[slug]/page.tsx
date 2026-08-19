@@ -1,15 +1,10 @@
 import { notFound } from "next/navigation";
 
-import { JsonLd } from "@/components/seo/JsonLd";
 import { Section } from "@/components/layout/Section";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { articleSchema, breadcrumbSchema } from "@/config/schema";
 import { getArticles, getArticleBySlug, getRelatedArticles } from "@/content/journal";
-import { ui } from "@/content/ui";
-import { JournalCard } from "@/features/journal/journal-card";
 import { RelatedArticlesCarousel } from "@/features/journal/related-articles-carousel";
-import { Reveal, Stagger } from "@/motion";
-
-// Import templates
 import {
   EssayTemplate,
   ProjectStoryTemplate,
@@ -18,6 +13,8 @@ import {
   NewsTemplate,
   AwardTemplate,
 } from "@/features/journal/templates";
+
+// Import templates
 
 const categoryLabels: Record<string, string> = {
   news: "News",
@@ -59,22 +56,22 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
     switch (type) {
       case "essay":
         return <EssayTemplate article={article} categoryLabel={categoryLabel} />;
-      
+
       case "project-story":
         return <ProjectStoryTemplate article={article} categoryLabel={categoryLabel} />;
-      
+
       case "material-study":
         return <MaterialStudyTemplate article={article} categoryLabel={categoryLabel} />;
-      
+
       case "event":
         return <EventTemplate article={article} categoryLabel={categoryLabel} />;
-      
+
       case "news":
         return <NewsTemplate article={article} categoryLabel={categoryLabel} />;
-      
+
       case "award":
         return <AwardTemplate article={article} categoryLabel={categoryLabel} />;
-      
+
       default:
         // Fallback to essay template
         return <EssayTemplate article={article} categoryLabel={categoryLabel} />;

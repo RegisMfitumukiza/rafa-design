@@ -4,11 +4,12 @@
 // ============================================================================
 
 import type { JournalArticle } from "@/content/journal";
+
 import { JournalDocument } from "../document";
+import { BackToTop } from "../document/back-to-top";
 import { ReadingIndex } from "../document/reading-index";
 import { ReadingIndexMobile } from "../document/reading-index-mobile";
 import { ScrollProgress } from "../document/scroll-progress";
-import { BackToTop } from "../document/back-to-top";
 
 interface MaterialStudyTemplateProps {
   article: JournalArticle;
@@ -16,10 +17,10 @@ interface MaterialStudyTemplateProps {
   currentSection?: string;
 }
 
-export function MaterialStudyTemplate({ 
-  article, 
+export function MaterialStudyTemplate({
+  article,
   categoryLabel,
-  currentSection 
+  currentSection,
 }: MaterialStudyTemplateProps) {
   return (
     <>
@@ -34,7 +35,9 @@ export function MaterialStudyTemplate({
         <>
           <ReadingIndex
             sections={article.sections}
-            {...(article.estimatedReadingTime !== undefined && { estimatedReadingTime: article.estimatedReadingTime })}
+            {...(article.estimatedReadingTime !== undefined && {
+              estimatedReadingTime: article.estimatedReadingTime,
+            })}
           />
           <ReadingIndexMobile
             sections={article.sections}

@@ -32,10 +32,8 @@ export function JournalCard({ article, titleAs = "h3", className }: JournalCardP
   const Title = titleAs;
 
   // Handle both new and legacy formats
-  const coverImage = article.hero || (article as any).coverImage;
-  const authorName = typeof article.author === "object" 
-    ? article.author?.name 
-    : article.author;
+  const coverImage = article.hero || (article as { coverImage?: ImageAsset }).coverImage;
+  const authorName = typeof article.author === "object" ? article.author?.name : article.author;
 
   return (
     <article className={cn("group", className ?? "")}>
@@ -46,15 +44,15 @@ export function JournalCard({ article, titleAs = "h3", className }: JournalCardP
               src: coverImage.src,
               alt: coverImage.alt,
             }}
-            className="aspect-[16/9] w-full mb-md"
+            className="mb-md aspect-[16/9] w-full"
             imgClassName="transition-micro motion-safe:group-hover:scale-(--micro-scale)"
             sizes="(max-width: 48rem) 100vw, (max-width: 64rem) 50vw, 33vw"
           />
         )}
-        <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase mb-xs">
+        <p className="text-foreground/40 mb-xs font-mono text-[10px] tracking-widest uppercase">
           Specification // {categoryLabels[article.category] || article.category}
         </p>
-        <Title className="text-foreground group-hover:text-foreground/70 font-display text-xl font-medium leading-tight tracking-tight transition-colors sm:text-2xl mb-sm">
+        <Title className="text-foreground group-hover:text-foreground/70 font-display mb-sm text-xl leading-tight font-medium tracking-tight transition-colors sm:text-2xl">
           {article.title}
         </Title>
         <p className="text-foreground/40 font-mono text-xs">

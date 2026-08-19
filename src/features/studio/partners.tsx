@@ -1,3 +1,5 @@
+import type { Route } from "next";
+
 import Link from "next/link";
 
 import { Section } from "@/components/layout/Section";
@@ -65,18 +67,18 @@ export function Partners({ sectors, note, className }: PartnersProps) {
               </h3>
 
               {/* Sector Description + Differentiated Categories */}
-              <div className="md:col-span-5 flex flex-col gap-xs">
+              <div className="gap-xs flex flex-col md:col-span-5">
                 <Text variant="small" className="text-foreground/60 leading-relaxed">
                   {sector.description}
                 </Text>
 
                 {/* Interactive Commissions / Projects Links */}
                 {hasProjects && (
-                  <div className="mt-xs flex flex-wrap items-baseline gap-x-xs font-mono text-[10px]">
+                  <div className="mt-xs gap-x-xs flex flex-wrap items-baseline font-mono text-[10px]">
                     <span className="text-foreground/35 tracking-widest uppercase">
                       Commissions //
                     </span>
-                    <div className="inline-flex flex-wrap items-center gap-x-xs">
+                    <div className="gap-x-xs inline-flex flex-wrap items-center">
                       {sector.projects!.map((title, index) => {
                         const project = getProjectByTitle(title);
                         const href = project ? `/projects/${project.slug}` : "/projects";
@@ -84,12 +86,12 @@ export function Partners({ sectors, note, className }: PartnersProps) {
                         return (
                           <span key={title} className="inline-flex items-center">
                             <Link
-                              href={href as any}
-                              className="text-foreground/75 hover:text-foreground underline-offset-4 hover:underline transition-colors uppercase"
+                              href={href as Route}
+                              className="text-foreground/75 hover:text-foreground uppercase underline-offset-4 transition-colors hover:underline"
                               title={`View ${title} monograph`}
                             >
                               {title}
-                              <span className="ml-[2px] text-foreground/35 font-normal">↗</span>
+                              <span className="text-foreground/35 ml-[2px] font-normal">↗</span>
                             </Link>
                             {index < sector.projects!.length - 1 && (
                               <span className="ml-xs text-foreground/25">—</span>
@@ -103,7 +105,7 @@ export function Partners({ sectors, note, className }: PartnersProps) {
 
                 {/* Collaborators */}
                 {hasCollaborators && (
-                  <div className="mt-xs flex flex-wrap items-baseline gap-x-xs font-mono text-[10px]">
+                  <div className="mt-xs gap-x-xs flex flex-wrap items-baseline font-mono text-[10px]">
                     <span className="text-foreground/35 tracking-widest uppercase">
                       Collaborators //
                     </span>
@@ -115,7 +117,7 @@ export function Partners({ sectors, note, className }: PartnersProps) {
 
                 {/* Key Clients */}
                 {hasClients && (
-                  <div className="mt-xs flex flex-wrap items-baseline gap-x-xs font-mono text-[10px]">
+                  <div className="mt-xs gap-x-xs flex flex-wrap items-baseline font-mono text-[10px]">
                     <span className="text-foreground/35 tracking-widest uppercase">
                       Key Clients //
                     </span>

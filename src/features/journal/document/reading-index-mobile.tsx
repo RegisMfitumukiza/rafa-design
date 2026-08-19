@@ -6,8 +6,9 @@
 // ============================================================================
 
 import { useState, useEffect } from "react";
-import { cn } from "@/lib/cn";
+
 import type { JournalSection } from "@/content/journal";
+import { cn } from "@/lib/cn";
 
 interface ReadingIndexMobileProps {
   sections: JournalSection[];
@@ -15,10 +16,10 @@ interface ReadingIndexMobileProps {
   className?: string;
 }
 
-export function ReadingIndexMobile({ 
-  sections, 
+export function ReadingIndexMobile({
+  sections,
   currentSection,
-  className 
+  className,
 }: ReadingIndexMobileProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
@@ -60,10 +61,9 @@ export function ReadingIndexMobile({
   if (!shouldShow) return null;
 
   // Filter out introduction
-  const displaySections = sections.filter(s => s.id !== "introduction");
-  
-  const currentSectionData = displaySections.find(s => s.id === currentSection);
-  const currentIndex = displaySections.findIndex(s => s.id === currentSection);
+  const displaySections = sections.filter((s) => s.id !== "introduction");
+
+  const currentIndex = displaySections.findIndex((s) => s.id === currentSection);
 
   return (
     <>
@@ -72,19 +72,19 @@ export function ReadingIndexMobile({
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          "xl:hidden fixed bottom-6 right-6 z-40",
-          "bg-background border-border border shadow-lg rounded-sm",
+          "fixed right-6 bottom-6 z-40 xl:hidden",
+          "bg-background border-border rounded-sm border shadow-lg",
           "px-md py-sm",
-          "flex items-center gap-xs",
+          "gap-xs flex items-center",
           "transition-all duration-300",
           "hover:shadow-xl",
-          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none",
+          isVisible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-4 opacity-0",
           className,
         )}
         aria-label="Open article navigation"
         aria-expanded={isOpen}
       >
-        <span className="font-mono text-xs text-foreground/60">
+        <span className="text-foreground/60 font-mono text-xs">
           ≡ {currentIndex + 1}/{displaySections.length}
         </span>
       </button>
@@ -92,7 +92,7 @@ export function ReadingIndexMobile({
       {/* Overlay */}
       {isOpen && (
         <div
-          className="xl:hidden fixed inset-0 bg-background/80 backdrop-blur-sm z-40"
+          className="bg-background/80 fixed inset-0 z-40 backdrop-blur-sm xl:hidden"
           onClick={() => setIsOpen(false)}
           aria-hidden="true"
         />
@@ -101,7 +101,7 @@ export function ReadingIndexMobile({
       {/* Bottom Sheet */}
       <div
         className={cn(
-          "xl:hidden fixed bottom-0 left-0 right-0 z-50",
+          "fixed right-0 bottom-0 left-0 z-50 xl:hidden",
           "bg-background border-border border-t",
           "rounded-t-lg shadow-2xl",
           "transition-transform duration-300",
@@ -113,7 +113,7 @@ export function ReadingIndexMobile({
       >
         <div className="p-lg">
           {/* Header */}
-          <div className="flex items-center justify-between mb-lg">
+          <div className="mb-lg flex items-center justify-between">
             <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
               Index
             </p>
@@ -136,14 +136,14 @@ export function ReadingIndexMobile({
                     type="button"
                     onClick={() => scrollToSection(section.id)}
                     className={cn(
-                      "text-left w-full py-sm transition-colors",
+                      "py-sm w-full text-left transition-colors",
                       section.id === currentSection
                         ? "text-foreground font-medium"
                         : "text-foreground/60",
                     )}
                   >
                     {section.number && (
-                      <span className="font-mono text-xs text-foreground/40 mr-sm">
+                      <span className="text-foreground/40 mr-sm font-mono text-xs">
                         {section.number}
                       </span>
                     )}

@@ -1,5 +1,5 @@
-import type { CreditsBlock as CreditsBlockType } from "@/content/journal";
 import { Link as TextLink } from "@/components/ui/Link";
+import type { CreditsBlock as CreditsBlockType } from "@/content/journal";
 import { cn } from "@/lib/cn";
 
 interface CreditsBlockProps {
@@ -20,8 +20,8 @@ export function CreditsBlock({ block, className }: CreditsBlockProps) {
   if (!credits || credits.length === 0) return null;
 
   return (
-    <div className={cn("border-border/40 border-t pt-2xl mt-3xl", className)}>
-      <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase mb-lg">
+    <div className={cn("border-border/40 pt-2xl mt-3xl border-t", className)}>
+      <p className="text-foreground/40 mb-lg font-mono text-[10px] tracking-widest uppercase">
         Specification // Credits & Attribution
       </p>
 
@@ -29,16 +29,16 @@ export function CreditsBlock({ block, className }: CreditsBlockProps) {
         {credits.map((credit, idx) => {
           const roleFormatted = credit.role.charAt(0).toUpperCase() + credit.role.slice(1);
           return (
-            <div key={idx} className="py-md gap-x-lg gap-y-xs grid md:grid-cols-12 items-baseline">
+            <div key={idx} className="py-md gap-x-lg gap-y-xs grid items-baseline md:grid-cols-12">
               {/* Role */}
               <div className="md:col-span-4">
-                <p className="text-foreground/40 font-mono text-[10px] uppercase tracking-widest">
+                <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
                   {roleFormatted}
                 </p>
               </div>
 
               {/* Name & Organization */}
-              <div className="md:col-span-8 flex flex-col items-start justify-between sm:flex-row sm:items-center gap-xs">
+              <div className="gap-xs flex flex-col items-start justify-between sm:flex-row sm:items-center md:col-span-8">
                 <div>
                   {credit.url ? (
                     <TextLink
@@ -53,7 +53,9 @@ export function CreditsBlock({ block, className }: CreditsBlockProps) {
                     <p className="text-foreground font-mono text-sm font-medium">{credit.name}</p>
                   )}
                   {credit.organization && (
-                    <p className="text-foreground/50 text-xs font-mono mt-xs">{credit.organization}</p>
+                    <p className="text-foreground/50 mt-xs font-mono text-xs">
+                      {credit.organization}
+                    </p>
                   )}
                 </div>
               </div>

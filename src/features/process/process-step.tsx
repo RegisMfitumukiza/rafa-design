@@ -51,7 +51,7 @@ export function ProcessStep({ step, index, titleAs = "h3", className }: ProcessS
             {step.title}
           </Tag>
           {step.duration && (
-            <div className="mt-xs flex items-center gap-xs">
+            <div className="mt-xs gap-xs flex items-center">
               <span className="bg-foreground/40 inline-block h-px w-3" />
               <span className="text-foreground/50 font-mono text-[10px] tracking-widest uppercase">
                 {step.duration}
@@ -69,14 +69,14 @@ export function ProcessStep({ step, index, titleAs = "h3", className }: ProcessS
           {/* Deliverables micro-tags */}
           {step.deliverables && step.deliverables.length > 0 && (
             <div className="pt-xs">
-              <p className="text-foreground/30 font-mono text-[9px] tracking-widest uppercase mb-xs">
+              <p className="text-foreground/30 mb-xs font-mono text-[9px] tracking-widest uppercase">
                 Deliverables
               </p>
-              <div className="gap-x-xs gap-y-1.5 flex flex-wrap items-center">
+              <div className="gap-x-xs flex flex-wrap items-center gap-y-1.5">
                 {step.deliverables.map((item) => (
                   <span
                     key={item}
-                    className="border-border/50 text-foreground/65 px-2 py-0.5 font-mono text-[10px] tracking-wider uppercase rounded-xs border bg-foreground/[0.02]"
+                    className="border-border/50 text-foreground/65 bg-foreground/[0.02] rounded-xs border px-2 py-0.5 font-mono text-[10px] tracking-wider uppercase"
                   >
                     {item}
                   </span>
@@ -101,7 +101,7 @@ export function ProcessStep({ step, index, titleAs = "h3", className }: ProcessS
             </ImageReveal>
             {caption && (
               <p className="text-foreground/40 mt-sm font-mono text-[10px] tracking-widest uppercase">
-                {code} // {caption}
+                {code} {"//"} {caption}
               </p>
             )}
           </div>

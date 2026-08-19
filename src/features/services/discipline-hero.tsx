@@ -53,36 +53,42 @@ export function DisciplineHero({ service, leadProject, className }: DisciplineHe
             imgClassName="object-cover"
           />
         ) : (
-          <div className="bg-muted aspect-[16/9] w-full md:aspect-[21/9]" role="img" aria-label={`${service.title} practice — image unavailable`} />
+          <div
+            className="bg-muted aspect-[16/9] w-full md:aspect-[21/9]"
+            role="img"
+            aria-label={`${service.title} practice — image unavailable`}
+          />
         )}
       </ImageReveal>
 
       {/* Caption row */}
       <Reveal delay={0.15}>
-        <div className="mt-sm flex items-baseline justify-between gap-md">
+        <div className="mt-sm gap-md flex items-baseline justify-between">
           {/* Left: project reference link */}
           {leadProject && projectSlug ? (
             <Link
               href={`/projects/${projectSlug}` as Route}
-              className="group text-foreground/40 hover:text-foreground/70 inline-flex items-center gap-xs font-mono text-[10px] tracking-widest uppercase transition-colors"
+              className="group text-foreground/40 hover:text-foreground/70 gap-xs inline-flex items-center font-mono text-[10px] tracking-widest uppercase transition-colors"
             >
               <span>
-                {index} // {service.title}
+                {index} {"//"} {service.title}
                 {projectTitle && ` — ${projectTitle}`}
                 {projectLocation && ` — ${projectLocation}`}
                 {projectYear && ` · ${projectYear}`}
               </span>
-              <span className="transition-transform duration-300 group-hover:translate-x-0.5">↗</span>
+              <span className="transition-transform duration-300 group-hover:translate-x-0.5">
+                ↗
+              </span>
             </Link>
           ) : (
             <span className="text-foreground/30 font-mono text-[10px] tracking-widest uppercase">
-              {index} // {service.title}
+              {index} {"//"} {service.title}
             </span>
           )}
 
           {/* Right: photographer credit */}
           {credit && (
-            <span className="text-foreground/30 font-mono text-[10px] tracking-widest uppercase shrink-0">
+            <span className="text-foreground/30 shrink-0 font-mono text-[10px] tracking-widest uppercase">
               Photography // {credit}
             </span>
           )}

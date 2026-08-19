@@ -28,8 +28,10 @@ const defaultDrawings: DrawingLayer[] = [
     code: "DWG // 01",
     scale: "1:100 @ A1",
     imageSrc: "/images/projects/casa-monte-01.jpg",
-    caption: "Primary spatial layout showing living courtyard integration and natural ventilation axis.",
-    description: "The ground plan prioritizes continuous indoor-outdoor flow, wrapping communal living spaces around an internal rainwater garden.",
+    caption:
+      "Primary spatial layout showing living courtyard integration and natural ventilation axis.",
+    description:
+      "The ground plan prioritizes continuous indoor-outdoor flow, wrapping communal living spaces around an internal rainwater garden.",
   },
   {
     id: "section-aa",
@@ -37,8 +39,10 @@ const defaultDrawings: DrawingLayer[] = [
     code: "DWG // 02",
     scale: "1:50 @ A1",
     imageSrc: "/images/projects/atelier-norte-hero.jpg",
-    caption: "Sectional relationship between rammed earth envelope and cantilevered timber roof frame.",
-    description: "Longitudinal section demonstrating thermal mass optimization and deep roof overhangs for solar shading.",
+    caption:
+      "Sectional relationship between rammed earth envelope and cantilevered timber roof frame.",
+    description:
+      "Longitudinal section demonstrating thermal mass optimization and deep roof overhangs for solar shading.",
   },
   {
     id: "detail-spec",
@@ -46,8 +50,10 @@ const defaultDrawings: DrawingLayer[] = [
     code: "DWG // 03",
     scale: "1:10 @ A1",
     imageSrc: "/images/projects/villa-marim-hero.jpg",
-    caption: "Recessed window threshold detail linking local granite flooring with concealed aluminum track.",
-    description: "Custom floor-to-ceiling glazing pocket concealing window frame within local granite stonework.",
+    caption:
+      "Recessed window threshold detail linking local granite flooring with concealed aluminum track.",
+    description:
+      "Custom floor-to-ceiling glazing pocket concealing window frame within local granite stonework.",
   },
 ];
 
@@ -58,7 +64,10 @@ const defaultDrawings: DrawingLayer[] = [
  * Allows visitors and clients to toggle between architectural drawings (Ground Plan, Section A-A, Detail Spec),
  * inspect technical scales, view vector plates, and read architectural descriptions.
  */
-export function ProjectDrawingViewer({ drawings = defaultDrawings, className }: ProjectDrawingViewerProps) {
+export function ProjectDrawingViewer({
+  drawings = defaultDrawings,
+  className,
+}: ProjectDrawingViewerProps) {
   const [activeId, setActiveId] = useState(drawings[0]?.id || "plan-01");
 
   if (!drawings || drawings.length === 0) return null;
@@ -68,9 +77,9 @@ export function ProjectDrawingViewer({ drawings = defaultDrawings, className }: 
   return (
     <section aria-label="Architectural Drawings" className={cn("space-y-xl", className)}>
       <Reveal>
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-md border-b border-border/40 pb-sm">
+        <div className="gap-md border-border/40 pb-sm flex flex-col justify-between border-b md:flex-row md:items-end">
           <div>
-            <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase mb-xs">
+            <p className="text-foreground/40 mb-xs font-mono text-[10px] tracking-widest uppercase">
               Specification // Architectural Drawings & Plans
             </p>
             <h3 className="font-display text-foreground text-2xl font-medium tracking-tight md:text-3xl">
@@ -79,7 +88,7 @@ export function ProjectDrawingViewer({ drawings = defaultDrawings, className }: 
           </div>
 
           {/* Layer Selector Tabs */}
-          <div className="flex flex-wrap items-center gap-xs font-mono text-[10px] tracking-widest uppercase">
+          <div className="gap-xs flex flex-wrap items-center font-mono text-[10px] tracking-widest uppercase">
             {drawings.map((dwg) => {
               const isActive = dwg.id === activeId;
               return (
@@ -88,7 +97,7 @@ export function ProjectDrawingViewer({ drawings = defaultDrawings, className }: 
                   type="button"
                   onClick={() => setActiveId(dwg.id)}
                   className={cn(
-                    "border px-3 py-1.5 rounded-xs transition-all duration-300 cursor-pointer",
+                    "cursor-pointer rounded-xs border px-3 py-1.5 transition-all duration-300",
                     isActive
                       ? "border-foreground bg-foreground text-background font-semibold"
                       : "border-border/50 text-foreground/70 hover:border-foreground hover:text-foreground",
@@ -106,17 +115,17 @@ export function ProjectDrawingViewer({ drawings = defaultDrawings, className }: 
       {/* Active Drawing Plate */}
       <div className="space-y-md">
         <ImageReveal>
-          <figure className="relative overflow-hidden rounded-sm border border-border/30 bg-muted/20">
+          <figure className="border-border/30 bg-muted/20 relative overflow-hidden rounded-sm border">
             <Image
               asset={{
                 src: activeDrawing.imageSrc,
                 alt: activeDrawing.title,
               }}
-              className="aspect-landscape w-full object-cover filter grayscale contrast-110"
+              className="aspect-landscape w-full object-cover contrast-110 grayscale filter"
               sizes="100vw"
             />
             {/* Architectural Drawing Badge Overlay */}
-            <div className="absolute top-md right-md bg-background/90 backdrop-blur-md px-sm py-xs border border-border/40 rounded-xs font-mono text-[10px] tracking-widest text-foreground/70 uppercase">
+            <div className="top-md right-md bg-background/90 px-sm py-xs border-border/40 text-foreground/70 absolute rounded-xs border font-mono text-[10px] tracking-widest uppercase backdrop-blur-md">
               SCALE: {activeDrawing.scale}
             </div>
           </figure>
@@ -124,21 +133,19 @@ export function ProjectDrawingViewer({ drawings = defaultDrawings, className }: 
 
         {/* Technical Caption & Narrative */}
         <Reveal>
-          <div className="grid md:grid-cols-12 gap-md pt-xs">
+          <div className="gap-md pt-xs grid md:grid-cols-12">
             <div className="md:col-span-4">
-              <p className="font-mono text-xs font-semibold text-foreground uppercase tracking-wider">
-                {activeDrawing.code} // {activeDrawing.title}
+              <p className="text-foreground font-mono text-xs font-semibold tracking-wider uppercase">
+                {activeDrawing.code} {"//"} {activeDrawing.title}
               </p>
-              <p className="font-mono text-[10px] text-foreground/40 mt-xs uppercase tracking-widest">
+              <p className="text-foreground/40 mt-xs font-mono text-[10px] tracking-widest uppercase">
                 SCALE {activeDrawing.scale}
               </p>
             </div>
-            <div className="md:col-span-8 space-y-xs">
-              <p className="text-foreground/80 text-sm leading-relaxed">
-                {activeDrawing.caption}
-              </p>
+            <div className="space-y-xs md:col-span-8">
+              <p className="text-foreground/80 text-sm leading-relaxed">{activeDrawing.caption}</p>
               {activeDrawing.description && (
-                <p className="text-foreground/60 text-xs font-mono leading-relaxed">
+                <p className="text-foreground/60 font-mono text-xs leading-relaxed">
                   {activeDrawing.description}
                 </p>
               )}

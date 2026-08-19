@@ -3,14 +3,13 @@
 // Unified interface for legacy and new article formats
 // ============================================================================
 
-import type { ImageAsset } from "@/content/types";
+import type { JournalArticle, LegacyJournalArticle } from "./types";
 
 // Export new types
 export * from "./types";
 
 // Import new articles
 import { articles as newArticles } from "./articles";
-import type { JournalArticle, LegacyJournalArticle } from "./types";
 import { migrateLegacyArticle } from "./migration";
 
 // ----------------------------------------------------------------------------
@@ -111,10 +110,7 @@ const legacyArticles: LegacyJournalArticle[] = [
 /**
  * All articles (new format + migrated legacy)
  */
-const allArticles: JournalArticle[] = [
-  ...newArticles,
-  ...legacyArticles.map(migrateLegacyArticle),
-];
+const allArticles: JournalArticle[] = [...newArticles, ...legacyArticles.map(migrateLegacyArticle)];
 
 const categories: JournalCategory[] = [
   "news",

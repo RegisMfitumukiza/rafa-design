@@ -1,4 +1,5 @@
 import React from "react";
+
 import type { HeadingBlock as HeadingBlockType } from "@/content/journal";
 import { cn } from "@/lib/cn";
 
@@ -10,7 +11,7 @@ interface HeadingBlockProps {
 
 export function HeadingBlock({ block, sectionNumber, className }: HeadingBlockProps) {
   const Tag = `h${block.level}` as "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
-  
+
   const headingClasses = cn(
     "font-display text-foreground font-medium tracking-tight",
     block.level === 1 && "text-3xl md:text-4xl lg:text-5xl",
@@ -22,7 +23,7 @@ export function HeadingBlock({ block, sectionNumber, className }: HeadingBlockPr
   return (
     <div>
       {sectionNumber && (
-        <p className="text-foreground/40 font-mono text-xs tracking-widest uppercase mb-xs">
+        <p className="text-foreground/40 mb-xs font-mono text-xs tracking-widest uppercase">
           {sectionNumber}
         </p>
       )}

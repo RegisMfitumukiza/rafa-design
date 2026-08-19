@@ -1,5 +1,5 @@
-import type { TextBlock as TextBlockType } from "@/content/journal";
 import { Text } from "@/components/typography/Text";
+import type { TextBlock as TextBlockType } from "@/content/journal";
 import { cn } from "@/lib/cn";
 
 interface TextBlockProps {
@@ -14,7 +14,7 @@ export function TextBlock({ block, isFirstInSection, className }: TextBlockProps
       variant="body"
       className={cn(
         "text-foreground/80 leading-relaxed",
-        isFirstInSection && "text-lg md:text-xl font-medium",
+        isFirstInSection && "text-lg font-medium md:text-xl",
         className,
       )}
     >

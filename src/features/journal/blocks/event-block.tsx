@@ -1,5 +1,5 @@
-import type { EventBlock as EventBlockType } from "@/content/journal";
 import { Link as TextLink } from "@/components/ui/Link";
+import type { EventBlock as EventBlockType } from "@/content/journal";
 import { cn } from "@/lib/cn";
 
 interface EventBlockProps {
@@ -69,15 +69,15 @@ export function EventBlock({ block, className }: EventBlockProps) {
   };
 
   return (
-    <div className={cn("border-border border-y py-2xl my-2xl", className)}>
-      <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase mb-md">
+    <div className={cn("border-border py-2xl my-2xl border-y", className)}>
+      <p className="text-foreground/40 mb-md font-mono text-[10px] tracking-widest uppercase">
         Specification // Event Details
       </p>
 
       <div className="gap-y-lg grid md:grid-cols-12">
         {/* Date */}
         <div className="md:col-span-3">
-          <p className="text-foreground/50 font-mono text-xs uppercase tracking-wider mb-xs">
+          <p className="text-foreground/50 mb-xs font-mono text-xs tracking-wider uppercase">
             Date
           </p>
           <p className="text-foreground text-base">{formatDateRange()}</p>
@@ -86,7 +86,7 @@ export function EventBlock({ block, className }: EventBlockProps) {
         {/* Time */}
         {formatTime() && (
           <div className="md:col-span-3">
-            <p className="text-foreground/50 font-mono text-xs uppercase tracking-wider mb-xs">
+            <p className="text-foreground/50 mb-xs font-mono text-xs tracking-wider uppercase">
               Time
             </p>
             <p className="text-foreground text-base">{formatTime()}</p>
@@ -95,19 +95,17 @@ export function EventBlock({ block, className }: EventBlockProps) {
 
         {/* Location */}
         <div className="md:col-span-3">
-          <p className="text-foreground/50 font-mono text-xs uppercase tracking-wider mb-xs">
+          <p className="text-foreground/50 mb-xs font-mono text-xs tracking-wider uppercase">
             Location
           </p>
           <p className="text-foreground text-base">{event.venue || event.location}</p>
-          {event.address && (
-            <p className="text-foreground/60 text-sm mt-xs">{event.address}</p>
-          )}
+          {event.address && <p className="text-foreground/60 mt-xs text-sm">{event.address}</p>}
         </div>
 
         {/* Admission */}
         {event.admission && (
           <div className="md:col-span-3">
-            <p className="text-foreground/50 font-mono text-xs uppercase tracking-wider mb-xs">
+            <p className="text-foreground/50 mb-xs font-mono text-xs tracking-wider uppercase">
               Admission
             </p>
             <p className="text-foreground text-base">{event.admission}</p>
@@ -118,16 +116,14 @@ export function EventBlock({ block, className }: EventBlockProps) {
       {/* Speakers */}
       {event.speakers && event.speakers.length > 0 && (
         <div className="mt-lg">
-          <p className="text-foreground/50 font-mono text-xs uppercase tracking-wider mb-md">
+          <p className="text-foreground/50 mb-md font-mono text-xs tracking-wider uppercase">
             Speakers
           </p>
           <div className="gap-md flex flex-col">
             {event.speakers.map((speaker, idx) => (
               <div key={idx}>
                 <p className="text-foreground text-base font-medium">{speaker.name}</p>
-                {speaker.role && (
-                  <p className="text-foreground/60 text-sm">{speaker.role}</p>
-                )}
+                {speaker.role && <p className="text-foreground/60 text-sm">{speaker.role}</p>}
               </div>
             ))}
           </div>
@@ -139,12 +135,10 @@ export function EventBlock({ block, className }: EventBlockProps) {
         <a
           href={generateICS()}
           download="event.ics"
-          className="group inline-flex items-center gap-xs font-mono text-xs uppercase tracking-wider text-foreground/60 hover:text-foreground transition-colors"
+          className="group gap-xs text-foreground/60 hover:text-foreground inline-flex items-center font-mono text-xs tracking-wider uppercase transition-colors"
         >
           Add to Calendar
-          <span className="inline-block transition-transform group-hover:translate-x-1">
-            →
-          </span>
+          <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
         </a>
 
         {event.moreInfoLink && (
@@ -154,7 +148,7 @@ export function EventBlock({ block, className }: EventBlockProps) {
               href={event.moreInfoLink}
               external
               variant="underline"
-              className="font-mono text-xs uppercase tracking-wider"
+              className="font-mono text-xs tracking-wider uppercase"
             >
               More Information
             </TextLink>
@@ -168,7 +162,7 @@ export function EventBlock({ block, className }: EventBlockProps) {
               href={event.registrationLink}
               external
               variant="underline"
-              className="font-mono text-xs uppercase tracking-wider"
+              className="font-mono text-xs tracking-wider uppercase"
             >
               Register
             </TextLink>

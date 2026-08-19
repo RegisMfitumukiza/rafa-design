@@ -1,5 +1,5 @@
-import type { ImageCredit } from "@/content/journal";
 import { Link as TextLink } from "@/components/ui/Link";
+import type { ImageCredit } from "@/content/journal";
 import { cn } from "@/lib/cn";
 
 interface CreditsSectionProps {
@@ -11,8 +11,8 @@ export function CreditsSection({ credits, className }: CreditsSectionProps) {
   if (credits.length === 0) return null;
 
   return (
-    <div className={cn("border-border border-t pt-2xl mt-2xl", className)}>
-      <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase mb-lg">
+    <div className={cn("border-border pt-2xl mt-2xl border-t", className)}>
+      <p className="text-foreground/40 mb-lg font-mono text-[10px] tracking-widest uppercase">
         Specification // Credits
       </p>
 
@@ -21,7 +21,7 @@ export function CreditsSection({ credits, className }: CreditsSectionProps) {
           <div key={idx} className="gap-x-lg grid md:grid-cols-12">
             {/* Role */}
             <div className="md:col-span-3">
-              <p className="text-foreground/50 font-mono text-xs uppercase tracking-wider">
+              <p className="text-foreground/50 font-mono text-xs tracking-wider uppercase">
                 {credit.role || "Credit"}
               </p>
             </div>
@@ -40,9 +40,7 @@ export function CreditsSection({ credits, className }: CreditsSectionProps) {
               ) : (
                 <p className="text-foreground text-base">{credit.name}</p>
               )}
-              {credit.images && (
-                <p className="text-foreground/60 text-sm mt-xs">{credit.images}</p>
-              )}
+              {credit.images && <p className="text-foreground/60 mt-xs text-sm">{credit.images}</p>}
             </div>
           </div>
         ))}

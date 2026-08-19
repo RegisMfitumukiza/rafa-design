@@ -2,16 +2,15 @@ import type { Metadata } from "next";
 
 import { Section } from "@/components/layout/Section";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { Heading } from "@/components/typography/Heading";
 import { breadcrumbSchema } from "@/config/schema";
 import { contactInformation } from "@/content/company/contact";
 import { pageContent } from "@/content/pages";
+import { ui } from "@/content/ui";
 import { ContactEditorial } from "@/features/contact/contact-editorial";
 import { ContactForm } from "@/features/contact/contact-form";
 import { ContactInformation } from "@/features/contact/contact-information";
 import { OfficeMap } from "@/features/contact/office-map";
 import { Reveal } from "@/motion";
-import { ui } from "@/content/ui";
 
 export const metadata: Metadata = {
   title: pageContent.contact.title,
@@ -43,7 +42,7 @@ export default function ContactPage() {
               </h1>
             </div>
             {/* Right 6 cols: Description */}
-            <div className="md:col-span-6 lg:col-span-6 md:pt-md">
+            <div className="md:pt-md md:col-span-6 lg:col-span-6">
               <p className="text-foreground/70 w-full text-xl leading-relaxed md:text-2xl">
                 {contact.description}
               </p>
@@ -66,10 +65,10 @@ export default function ContactPage() {
           <div className="md:col-span-7">
             <Reveal delay={0.1}>
               <div>
-                <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase mb-xs">
+                <p className="text-foreground/40 mb-xs font-mono text-[10px] tracking-widest uppercase">
                   {ui.contact.inquiryOverline}
                 </p>
-                <h2 className="font-display text-foreground text-2xl font-medium tracking-tight md:text-3xl mb-lg">
+                <h2 className="font-display text-foreground mb-lg text-2xl font-medium tracking-tight md:text-3xl">
                   {contact.briefHeading}
                 </h2>
                 <ContactForm />

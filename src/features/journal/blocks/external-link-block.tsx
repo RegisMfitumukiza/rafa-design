@@ -1,5 +1,5 @@
-import type { ExternalLinkBlock as ExternalLinkBlockType } from "@/content/journal";
 import { Link as TextLink } from "@/components/ui/Link";
+import type { ExternalLinkBlock as ExternalLinkBlockType } from "@/content/journal";
 import { cn } from "@/lib/cn";
 
 interface ExternalLinkBlockProps {
@@ -14,16 +14,12 @@ export function ExternalLinkBlock({ block, className }: ExternalLinkBlockProps) 
         href={block.url}
         external={block.url.startsWith("http")}
         variant="underline"
-        className="group inline-flex items-center gap-xs text-foreground text-base font-medium"
+        className="group gap-xs text-foreground inline-flex items-center text-base font-medium"
       >
         {block.label}
-        <span className="inline-block transition-transform group-hover:translate-x-1">
-          →
-        </span>
+        <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
       </TextLink>
-      {block.description && (
-        <p className="text-foreground/60 text-sm mt-xs">{block.description}</p>
-      )}
+      {block.description && <p className="text-foreground/60 mt-xs text-sm">{block.description}</p>}
     </div>
   );
 }

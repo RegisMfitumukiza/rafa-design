@@ -47,8 +47,8 @@ export function FullscreenNavigation() {
 
   useEffect(() => {
     if (!isMenuOpen) {
-      // Reset hover state when menu closes
-      setHoveredIndex(null);
+      // Reset hover state when menu closes (deferred to avoid cascading renders)
+      setTimeout(() => setHoveredIndex(null), 0);
       return;
     }
     queueMicrotask(() => setPresent(true));
@@ -139,9 +139,7 @@ export function FullscreenNavigation() {
     : null;
 
   const currentPreviewSrc =
-    hoveredIndex !== null && ambientPreviews[hoveredIndex]
-      ? ambientPreviews[hoveredIndex]
-      : null;
+    hoveredIndex !== null && ambientPreviews[hoveredIndex] ? ambientPreviews[hoveredIndex] : null;
 
   return (
     <div
@@ -160,7 +158,7 @@ export function FullscreenNavigation() {
       {currentPreviewSrc && !reduced && isMenuOpen && (
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 z-0 overflow-hidden transition-opacity duration-700 opacity-15 dark:opacity-20"
+          className="pointer-events-none absolute inset-0 z-0 overflow-hidden opacity-15 transition-opacity duration-700 dark:opacity-20"
         >
           <Image
             src={currentPreviewSrc}
@@ -168,7 +166,7 @@ export function FullscreenNavigation() {
             fill
             sizes="100vw"
             priority
-            className="object-cover filter grayscale contrast-125 scale-105 transition-transform duration-1000"
+            className="scale-105 object-cover contrast-125 grayscale filter transition-transform duration-1000"
           />
         </div>
       )}
@@ -176,14 +174,14 @@ export function FullscreenNavigation() {
       {/* Top Bar — sticky */}
       <div
         data-nav-bar
-        className="border-border/40 container-standard z-modal bg-background/90 backdrop-blur-md sticky top-0 flex h-(--header-height) items-center justify-between border-b"
+        className="border-border/40 container-standard z-modal bg-background/90 sticky top-0 flex h-(--header-height) items-center justify-between border-b backdrop-blur-md"
       >
         <Logo />
 
         {/* Center — Studio Local Time & Coordinates */}
         <div
           aria-hidden="true"
-          className="hidden md:flex items-center gap-xs font-mono text-[10px] tracking-[0.2em] text-foreground/40 uppercase select-none"
+          className="gap-xs text-foreground/40 hidden items-center font-mono text-[10px] tracking-[0.2em] uppercase select-none md:flex"
         >
           <span>PORTO · LISBON</span>
           <span className="text-foreground/20">|</span>
@@ -197,11 +195,14 @@ export function FullscreenNavigation() {
             onClick={closeMenu}
             aria-label={ui.navigation.closeMenu}
             aria-controls="site-navigation"
-            className="group z-modal text-foreground/80 hover:text-foreground gap-xs px-xs flex min-h-(--touch-target) min-w-(--touch-target) items-center text-xs font-mono tracking-widest uppercase transition-colors"
+            className="group z-modal text-foreground/80 hover:text-foreground gap-xs px-xs flex min-h-(--touch-target) min-w-(--touch-target) items-center font-mono text-xs tracking-widest uppercase transition-colors"
           >
-            <span className="relative flex flex-col justify-between h-2.5 w-4 overflow-hidden" aria-hidden="true">
-              <span className="h-0.5 w-full bg-accent translate-y-[4px] rotate-45 transition-all duration-300" />
-              <span className="h-0.5 w-full bg-accent -translate-y-[4px] -rotate-45 transition-all duration-300" />
+            <span
+              className="relative flex h-2.5 w-4 flex-col justify-between overflow-hidden"
+              aria-hidden="true"
+            >
+              <span className="bg-accent h-0.5 w-full translate-y-[4px] rotate-45 transition-all duration-300" />
+              <span className="bg-accent h-0.5 w-full -translate-y-[4px] -rotate-45 transition-all duration-300" />
             </span>
             <span>CLOSE</span>
           </button>
@@ -209,9 +210,8 @@ export function FullscreenNavigation() {
       </div>
 
       {/* Navigation Editorial Architecture */}
-      <div className="container-standard relative z-10 pt-xl pb-xl md:pt-2xl md:pb-2xl">
-        <div className="flex flex-col gap-xl max-w-5xl">
-          
+      <div className="container-standard pt-xl pb-xl md:pt-2xl md:pb-2xl relative z-10">
+        <div className="gap-xl flex max-w-5xl flex-col">
           {/* TIER 1: Primary Index */}
           <nav aria-label={ui.navigation.general} className="flex flex-col">
             <p
@@ -233,8 +233,7 @@ export function FullscreenNavigation() {
           </div>
 
           {/* TIER 3: Directory Architecture (3 Balanced Columns) */}
-          <div className="grid gap-xl md:grid-cols-3 pt-xs">
-            
+          <div className="gap-xl pt-xs grid md:grid-cols-3">
             {/* Column 1 — Core Pages */}
             <div data-nav-dir-col className="flex flex-col">
               <p className="text-foreground/40 mb-sm font-mono text-[10px] tracking-[0.2em] uppercase">
@@ -278,12 +277,12 @@ export function FullscreenNavigation() {
             {/* Column 3 — Connect & Social */}
             <div data-nav-dir-col className="flex flex-col">
               <p className="text-foreground/40 mb-sm font-mono text-[10px] tracking-[0.2em] uppercase">
-                {ui.navigation.menu} // Connect
+                {ui.navigation.menu} {"//"} Connect
               </p>
               <div className="gap-xs flex flex-col">
                 <a
                   href={`mailto:${contactInformation.email}`}
-                  className="text-foreground/70 hover:text-foreground inline-flex min-h-(--touch-target) items-center text-sm transition-colors font-medium"
+                  className="text-foreground/70 hover:text-foreground inline-flex min-h-(--touch-target) items-center text-sm font-medium transition-colors"
                 >
                   {contactInformation.email}
                 </a>
@@ -295,12 +294,12 @@ export function FullscreenNavigation() {
                     {contactInformation.phone}
                   </a>
                 )}
-                <div className="gap-sm flex flex-wrap pt-xs">
+                <div className="gap-sm pt-xs flex flex-wrap">
                   {socialLinks.map((link) => (
                     <a
                       key={link.platform}
                       href={link.url}
-                      className="text-foreground/50 hover:text-foreground inline-flex min-h-(--touch-target) items-center text-xs font-mono tracking-widest uppercase transition-colors"
+                      className="text-foreground/50 hover:text-foreground inline-flex min-h-(--touch-target) items-center font-mono text-xs tracking-widest uppercase transition-colors"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -310,9 +309,7 @@ export function FullscreenNavigation() {
                 </div>
               </div>
             </div>
-
           </div>
-
         </div>
       </div>
     </div>

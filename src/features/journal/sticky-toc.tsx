@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
 import { cn } from "@/lib/cn";
 
 interface TOCSection {
@@ -72,13 +73,13 @@ export function StickyTOC({ sections, className }: StickyTOCProps) {
   return (
     <aside
       className={cn(
-        "hidden xl:block fixed top-32 right-8 w-60 transition-opacity duration-300",
-        isVisible ? "opacity-100" : "opacity-0 pointer-events-none",
+        "fixed top-32 right-8 hidden w-60 transition-opacity duration-300 xl:block",
+        isVisible ? "opacity-100" : "pointer-events-none opacity-0",
         className,
       )}
     >
-      <div className="border-border border-l pl-md">
-        <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase mb-md">
+      <div className="border-border pl-md border-l">
+        <p className="text-foreground/40 mb-md font-mono text-[10px] tracking-widest uppercase">
           Specification // Index
         </p>
 
@@ -90,7 +91,7 @@ export function StickyTOC({ sections, className }: StickyTOCProps) {
                   type="button"
                   onClick={() => scrollToSection(section.id)}
                   className={cn(
-                    "text-left text-sm transition-colors hover:text-foreground w-full",
+                    "hover:text-foreground w-full text-left text-sm transition-colors",
                     activeSection === section.id
                       ? "text-foreground font-medium"
                       : "text-foreground/40",

@@ -4,16 +4,17 @@
 // ============================================================================
 
 import type { JournalBlock } from "@/content/journal";
-import { TextBlock } from "./text-block";
+
+import { CreditsBlock } from "./credits-block";
+import { DividerBlock } from "./divider-block";
+import { EventBlock } from "./event-block";
+import { ExternalLinkBlock } from "./external-link-block";
+import { GalleryBlock } from "./gallery-block";
 import { HeadingBlock } from "./heading-block";
 import { ImageBlock } from "./image-block";
-import { GalleryBlock } from "./gallery-block";
-import { PullQuoteBlock } from "./pullquote-block";
 import { ProjectReferenceBlock } from "./project-reference-block";
-import { EventBlock } from "./event-block";
-import { CreditsBlock } from "./credits-block";
-import { ExternalLinkBlock } from "./external-link-block";
-import { DividerBlock } from "./divider-block";
+import { PullQuoteBlock } from "./pullquote-block";
+import { TextBlock } from "./text-block";
 
 interface BlockRendererProps {
   block: JournalBlock;
@@ -22,11 +23,11 @@ interface BlockRendererProps {
   sectionNumber?: string;
 }
 
-export function BlockRenderer({ 
-  block, 
-  index, 
-  isFirstInSection, 
-  sectionNumber 
+export function BlockRenderer({
+  block,
+  index,
+  isFirstInSection,
+  sectionNumber,
 }: BlockRendererProps) {
   const key = `block-${index}`;
 

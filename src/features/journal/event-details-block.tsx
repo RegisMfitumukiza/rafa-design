@@ -1,5 +1,5 @@
-import type { EventDetails } from "@/content/journal";
 import { Link as TextLink } from "@/components/ui/Link";
+import type { EventDetails } from "@/content/journal";
 import { cn } from "@/lib/cn";
 
 interface EventDetailsBlockProps {
@@ -32,9 +32,7 @@ export function EventDetailsBlock({ details, className }: EventDetailsBlockProps
 
   const formatTime = () => {
     if (!details.time) return null;
-    const timeStr = details.endTime
-      ? `${details.time}–${details.endTime}`
-      : details.time;
+    const timeStr = details.endTime ? `${details.time}–${details.endTime}` : details.time;
     return details.timezone ? `${timeStr} ${details.timezone}` : timeStr;
   };
 
@@ -69,15 +67,15 @@ export function EventDetailsBlock({ details, className }: EventDetailsBlockProps
   };
 
   return (
-    <div className={cn("border-border border-y py-2xl my-2xl", className)}>
-      <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase mb-md">
+    <div className={cn("border-border py-2xl my-2xl border-y", className)}>
+      <p className="text-foreground/40 mb-md font-mono text-[10px] tracking-widest uppercase">
         Specification // Event Details
       </p>
 
       <div className="gap-y-lg grid md:grid-cols-12">
         {/* Date */}
         <div className="md:col-span-3">
-          <p className="text-foreground/50 font-mono text-xs uppercase tracking-wider mb-xs">
+          <p className="text-foreground/50 mb-xs font-mono text-xs tracking-wider uppercase">
             Date
           </p>
           <p className="text-foreground text-base">{formatDateRange()}</p>
@@ -86,7 +84,7 @@ export function EventDetailsBlock({ details, className }: EventDetailsBlockProps
         {/* Time */}
         {formatTime() && (
           <div className="md:col-span-3">
-            <p className="text-foreground/50 font-mono text-xs uppercase tracking-wider mb-xs">
+            <p className="text-foreground/50 mb-xs font-mono text-xs tracking-wider uppercase">
               Time
             </p>
             <p className="text-foreground text-base">{formatTime()}</p>
@@ -96,12 +94,12 @@ export function EventDetailsBlock({ details, className }: EventDetailsBlockProps
         {/* Location */}
         {details.location && (
           <div className="md:col-span-3">
-            <p className="text-foreground/50 font-mono text-xs uppercase tracking-wider mb-xs">
+            <p className="text-foreground/50 mb-xs font-mono text-xs tracking-wider uppercase">
               Location
             </p>
             <p className="text-foreground text-base">{details.venue || details.location}</p>
             {details.address && (
-              <p className="text-foreground/60 text-sm mt-xs">{details.address}</p>
+              <p className="text-foreground/60 mt-xs text-sm">{details.address}</p>
             )}
           </div>
         )}
@@ -109,7 +107,7 @@ export function EventDetailsBlock({ details, className }: EventDetailsBlockProps
         {/* Admission */}
         {details.admission && (
           <div className="md:col-span-3">
-            <p className="text-foreground/50 font-mono text-xs uppercase tracking-wider mb-xs">
+            <p className="text-foreground/50 mb-xs font-mono text-xs tracking-wider uppercase">
               Admission
             </p>
             <p className="text-foreground text-base">{details.admission}</p>
@@ -122,12 +120,10 @@ export function EventDetailsBlock({ details, className }: EventDetailsBlockProps
         <a
           href={generateICS()}
           download="event.ics"
-          className="group inline-flex items-center gap-xs font-mono text-xs uppercase tracking-wider text-foreground/60 hover:text-foreground transition-colors"
+          className="group gap-xs text-foreground/60 hover:text-foreground inline-flex items-center font-mono text-xs tracking-wider uppercase transition-colors"
         >
           Add to Calendar
-          <span className="inline-block transition-transform group-hover:translate-x-1">
-            →
-          </span>
+          <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
         </a>
 
         {details.moreInfoLink && (
@@ -137,7 +133,7 @@ export function EventDetailsBlock({ details, className }: EventDetailsBlockProps
               href={details.moreInfoLink}
               external
               variant="underline"
-              className="font-mono text-xs uppercase tracking-wider"
+              className="font-mono text-xs tracking-wider uppercase"
             >
               More Information
             </TextLink>
@@ -151,7 +147,7 @@ export function EventDetailsBlock({ details, className }: EventDetailsBlockProps
               href={details.registrationLink}
               external
               variant="underline"
-              className="font-mono text-xs uppercase tracking-wider"
+              className="font-mono text-xs tracking-wider uppercase"
             >
               Register
             </TextLink>

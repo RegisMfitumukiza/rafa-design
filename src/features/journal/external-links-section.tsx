@@ -1,5 +1,5 @@
-import type { ExternalLink } from "@/content/journal";
 import { Link as TextLink } from "@/components/ui/Link";
+import type { ExternalLink } from "@/content/journal";
 import { cn } from "@/lib/cn";
 
 interface ExternalLinksSectionProps {
@@ -11,8 +11,8 @@ export function ExternalLinksSection({ links, className }: ExternalLinksSectionP
   if (links.length === 0) return null;
 
   return (
-    <div className={cn("border-border border-y py-2xl my-2xl", className)}>
-      <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase mb-md">
+    <div className={cn("border-border py-2xl my-2xl border-y", className)}>
+      <p className="text-foreground/40 mb-md font-mono text-[10px] tracking-widest uppercase">
         Specification // Related Links
       </p>
 
@@ -23,15 +23,13 @@ export function ExternalLinksSection({ links, className }: ExternalLinksSectionP
               href={link.url}
               external={link.url.startsWith("http")}
               variant="underline"
-              className="group inline-flex items-center gap-xs text-foreground text-base font-medium"
+              className="group gap-xs text-foreground inline-flex items-center text-base font-medium"
             >
               {link.label}
-              <span className="inline-block transition-transform group-hover:translate-x-1">
-                →
-              </span>
+              <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
             </TextLink>
             {link.description && (
-              <p className="text-foreground/60 text-sm mt-xs">{link.description}</p>
+              <p className="text-foreground/60 mt-xs text-sm">{link.description}</p>
             )}
           </div>
         ))}

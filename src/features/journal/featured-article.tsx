@@ -22,17 +22,12 @@ export function FeaturedArticle({ article, className }: FeaturedArticleProps) {
   });
 
   // Handle both new and legacy formats
-  const coverImage = article.hero || (article as any).coverImage;
-  const authorName = typeof article.author === "object" 
-    ? article.author?.name 
-    : article.author;
+  const coverImage = article.hero || (article as { coverImage?: ImageAsset }).coverImage;
+  const authorName = typeof article.author === "object" ? article.author?.name : article.author;
 
   return (
     <article className={cn("", className ?? "")}>
-      <Link
-        href={`/journal/${article.slug}` as Route}
-        className="group block"
-      >
+      <Link href={`/journal/${article.slug}` as Route} className="group block">
         <div className="gap-x-2xl gap-y-xl grid items-start md:grid-cols-12">
           {/* Left: Image — 7 columns */}
           <div className="md:col-span-7">
@@ -52,16 +47,16 @@ export function FeaturedArticle({ article, className }: FeaturedArticleProps) {
           </div>
 
           {/* Right: Content — 5 columns */}
-          <div className="md:col-span-5 md:pt-sm">
+          <div className="md:pt-sm md:col-span-5">
             <Reveal delay={0.1}>
-              <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase mb-sm">
+              <p className="text-foreground/40 mb-sm font-mono text-[10px] tracking-widest uppercase">
                 Specification // {article.category}
               </p>
-              <h2 className="font-display text-foreground group-hover:text-foreground/70 text-3xl font-medium leading-tight tracking-tight transition-colors sm:text-4xl lg:text-5xl mb-md">
+              <h2 className="font-display text-foreground group-hover:text-foreground/70 mb-md text-3xl leading-tight font-medium tracking-tight transition-colors sm:text-4xl lg:text-5xl">
                 {article.title}
               </h2>
               {article.excerpt && (
-                <Text variant="body" className="text-foreground/60 leading-relaxed mb-sm">
+                <Text variant="body" className="text-foreground/60 mb-sm leading-relaxed">
                   {article.excerpt}
                 </Text>
               )}

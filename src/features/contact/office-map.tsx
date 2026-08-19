@@ -33,7 +33,7 @@ export function OfficeMap({ className }: OfficeMapProps) {
   const locationTitle = offices.length === 1 ? "Our Location" : "Our Locations";
 
   return (
-    <div className={cn("border-border/40 border-t pt-xl", className ?? "")}>
+    <div className={cn("border-border/40 pt-xl border-t", className ?? "")}>
       {/* Header & Tab Selector */}
       <Reveal>
         <div className="mb-lg gap-md flex flex-wrap items-baseline justify-between">
@@ -56,13 +56,13 @@ export function OfficeMap({ className }: OfficeMapProps) {
                   type="button"
                   onClick={() => setActiveId(office.id)}
                   className={cn(
-                    "px-md py-xs font-mono text-[10px] font-medium tracking-wider uppercase rounded-xs border transition-all duration-300",
+                    "px-md py-xs rounded-xs border font-mono text-[10px] font-medium tracking-wider uppercase transition-all duration-300",
                     isActive
                       ? "border-foreground bg-foreground text-background"
                       : "border-border/50 text-foreground/60 hover:border-foreground/60 hover:text-foreground bg-transparent",
                   )}
                 >
-                  {String(idx + 1).padStart(2, "0")} // {office.name}
+                  {String(idx + 1).padStart(2, "0")} {"//"} {office.name}
                 </button>
               );
             })}
@@ -96,25 +96,31 @@ export function OfficeMap({ className }: OfficeMapProps) {
               </h3>
             </div>
 
-            <div className="border-border/40 divide-border/40 divide-y border-y mt-md space-y-sm py-sm font-mono text-xs">
-              <div className="py-xs flex justify-between gap-sm">
-                <span className="text-foreground/40 uppercase text-[10px] tracking-wider">ADDRESS</span>
+            <div className="border-border/40 divide-border/40 mt-md space-y-sm py-sm divide-y border-y font-mono text-xs">
+              <div className="py-xs gap-sm flex justify-between">
+                <span className="text-foreground/40 text-[10px] tracking-wider uppercase">
+                  ADDRESS
+                </span>
                 <span className="text-foreground/80 text-right">{activeOffice.address}</span>
               </div>
-              <div className="py-xs flex justify-between gap-sm">
-                <span className="text-foreground/40 uppercase text-[10px] tracking-wider">GPS</span>
+              <div className="py-xs gap-sm flex justify-between">
+                <span className="text-foreground/40 text-[10px] tracking-wider uppercase">GPS</span>
                 <span className="text-foreground/80 text-right">{activeOffice.coordinates}</span>
               </div>
-              <div className="py-xs flex justify-between gap-sm">
-                <span className="text-foreground/40 uppercase text-[10px] tracking-wider">HOURS</span>
+              <div className="py-xs gap-sm flex justify-between">
+                <span className="text-foreground/40 text-[10px] tracking-wider uppercase">
+                  HOURS
+                </span>
                 <span className="text-foreground/80 text-right">{activeOffice.hours}</span>
               </div>
               {activeOffice.phone && (
-                <div className="py-xs flex justify-between gap-sm">
-                  <span className="text-foreground/40 uppercase text-[10px] tracking-wider">PHONE</span>
+                <div className="py-xs gap-sm flex justify-between">
+                  <span className="text-foreground/40 text-[10px] tracking-wider uppercase">
+                    PHONE
+                  </span>
                   <a
                     href={`tel:${activeOffice.phone.replace(/\s+/g, "")}`}
-                    className="text-foreground/90 hover:text-foreground font-medium underline underline-offset-2 transition-colors text-right break-all"
+                    className="text-foreground/90 hover:text-foreground text-right font-medium break-all underline underline-offset-2 transition-colors"
                     aria-label={`Call ${activeOffice.name} at ${activeOffice.phone}`}
                   >
                     {activeOffice.phone}
@@ -131,7 +137,9 @@ export function OfficeMap({ className }: OfficeMapProps) {
                 className="border-border/60 hover:border-foreground hover:bg-foreground hover:text-background group px-md py-sm gap-md inline-flex items-center rounded-xs border font-mono text-xs font-medium tracking-widest uppercase transition-all duration-300"
               >
                 <span>Open in Satellite Maps</span>
-                <span className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
+                <span className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                  ↗
+                </span>
               </a>
             </div>
           </Reveal>

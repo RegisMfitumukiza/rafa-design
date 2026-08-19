@@ -4,11 +4,12 @@
 // ============================================================================
 
 import type { JournalArticle } from "@/content/journal";
+
 import { JournalDocument } from "../document";
+import { BackToTop } from "../document/back-to-top";
 import { ReadingIndex } from "../document/reading-index";
 import { ReadingIndexMobile } from "../document/reading-index-mobile";
 import { ScrollProgress } from "../document/scroll-progress";
-import { BackToTop } from "../document/back-to-top";
 
 interface ProjectStoryTemplateProps {
   article: JournalArticle;
@@ -16,10 +17,10 @@ interface ProjectStoryTemplateProps {
   currentSection?: string;
 }
 
-export function ProjectStoryTemplate({ 
-  article, 
+export function ProjectStoryTemplate({
+  article,
   categoryLabel,
-  currentSection 
+  currentSection,
 }: ProjectStoryTemplateProps) {
   return (
     <>
@@ -33,7 +34,9 @@ export function ProjectStoryTemplate({
       {article.sections && article.sections.length >= 4 && (
         <ReadingIndex
           sections={article.sections}
-          {...(article.estimatedReadingTime !== undefined && { estimatedReadingTime: article.estimatedReadingTime })}
+          {...(article.estimatedReadingTime !== undefined && {
+            estimatedReadingTime: article.estimatedReadingTime,
+          })}
         />
       )}
 

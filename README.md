@@ -4,8 +4,7 @@ Premium architecture and interior design website built with Next.js App Router, 
 TypeScript, Tailwind CSS, GSAP, Framer Motion, Three.js, Lenis, and modern frontend
 engineering standards.
 
-This repository is currently in **Phase 1: Foundation**. No landing page, reusable UI
-components, sections, or animations are implemented yet.
+This repository is currently in **Phase 7 Complete — Pre-CMS Production Ready**. All 14 platform pages, the 6-template Journal publication engine, 12-block block-renderer, Century Gothic self-hosted typography, interactive architectural plan viewer, and Vercel deployment pipeline are 100% built and verified.
 
 ## Architecture Tree
 
@@ -273,10 +272,20 @@ Planned routes: Landing `/`, Projects `/projects`, Project Details
 - ESLint: Next core web vitals, Next TypeScript rules, explicit import ordering, and Prettier
   conflict resolution.
 - Prettier: Tailwind class sorting, consistent formatting, and `cn`/`cva` class detection.
-- Husky: pre-commit hook runs lint-staged.
-- GitHub Actions: audit, typecheck, lint, format check, and production build.
-- Environment variables: `.env.example` documents public deployment URL expectations; real
-  `.env*` files stay ignored.
+
+## CI/CD & Quality Assurance Pipeline
+
+- **GitHub Actions Workflow (`.github/workflows/audit.yml`)**:
+  Triggers automatically on every `push` and `pull_request` to `main`. Executes 5 automated checks in sequence:
+  1. `npm run audit`: Security vulnerability inspection (`--audit-level=high`).
+  2. `npm run typecheck`: Strict TypeScript compilation (`npx tsc --noEmit`).
+  3. `npm run lint`: Code quality & import order validation (`eslint .`).
+  4. `npm run format:check`: Code style & Tailwind class sorting (`prettier --check .`).
+  5. `npm run build`: Next.js Turbopack production build & static page prerendering (35/35 routes).
+- **Git Hooks & Pre-commit (`.husky/pre-commit`)**:
+  Husky triggers `lint-staged` automatically before every commit to format staged files and fix lint errors.
+- **Vercel Automated Deployment & Cron (`vercel.json`)**:
+  Automated deployment previews on every branch. Monthly Vercel Cron scheduled for `/api/cron/editorial-reminder`.
 
 ## Performance Standards
 

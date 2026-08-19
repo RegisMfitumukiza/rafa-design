@@ -6,8 +6,9 @@
 // ============================================================================
 
 import { useEffect, useState, useRef } from "react";
-import { cn } from "@/lib/cn";
+
 import type { JournalSection } from "@/content/journal";
+import { cn } from "@/lib/cn";
 
 interface ReadingIndexProps {
   sections: JournalSection[];
@@ -15,11 +16,7 @@ interface ReadingIndexProps {
   className?: string;
 }
 
-export function ReadingIndex({ 
-  sections, 
-  estimatedReadingTime,
-  className 
-}: ReadingIndexProps) {
+export function ReadingIndex({ sections, estimatedReadingTime, className }: ReadingIndexProps) {
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [readProgress, setReadProgress] = useState(0);
@@ -35,14 +32,14 @@ export function ReadingIndex({
     // Hide when reaching footer (detect related articles or footer section)
     const handleScroll = () => {
       const scrolled = window.scrollY > 600;
-      
+
       // Check if we're near the bottom (hide Reading Index before footer)
       const windowHeight = window.innerHeight;
       const documentHeight = document.documentElement.scrollHeight;
       const scrollTop = window.scrollY;
       const distanceFromBottom = documentHeight - (scrollTop + windowHeight);
       const nearBottom = distanceFromBottom < 800; // Hide 800px before bottom
-      
+
       setIsVisible(scrolled && !nearBottom);
 
       // Calculate read progress
@@ -112,27 +109,27 @@ export function ReadingIndex({
   if (!shouldShow) return null;
 
   // Filter out introduction section for cleaner display
-  const displaySections = sections.filter(s => s.id !== "introduction");
+  const displaySections = sections.filter((s) => s.id !== "introduction");
 
   return (
     <aside
       className={cn(
-        "hidden xl:block fixed top-1/2 -translate-y-1/2 right-8 w-64 transition-all duration-500",
-        isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-4 pointer-events-none",
+        "fixed top-1/2 right-8 hidden w-64 -translate-y-1/2 transition-all duration-500 xl:block",
+        isVisible ? "translate-x-0 opacity-100" : "pointer-events-none translate-x-4 opacity-0",
         className,
       )}
       aria-label="Article navigation"
     >
       {/* Progress indicator */}
-      <div className="absolute left-0 top-0 bottom-0 w-px bg-border">
+      <div className="bg-border absolute top-0 bottom-0 left-0 w-px">
         <div
-          className="w-full bg-foreground/20 transition-all duration-300"
+          className="bg-foreground/20 w-full transition-all duration-300"
           style={{ height: `${readProgress}%` }}
         />
       </div>
 
       <div className="pl-md">
-        <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase mb-md">
+        <p className="text-foreground/40 mb-md font-mono text-[10px] tracking-widest uppercase">
           Index
         </p>
 
@@ -144,21 +141,21 @@ export function ReadingIndex({
                   type="button"
                   onClick={() => scrollToSection(section.id)}
                   className={cn(
-                    "text-left text-sm transition-all duration-200 hover:text-foreground w-full group",
+                    "hover:text-foreground group w-full text-left text-sm transition-all duration-200",
                     activeSection === section.id
                       ? "text-foreground font-medium"
                       : "text-foreground/40",
                   )}
                 >
                   {section.number && (
-                    <span className="font-mono text-xs mr-sm">
-                      {section.number}
-                    </span>
+                    <span className="mr-sm font-mono text-xs">{section.number}</span>
                   )}
-                  <span className={cn(
-                    "inline-block transition-transform",
-                    activeSection === section.id && "translate-x-1",
-                  )}>
+                  <span
+                    className={cn(
+                      "inline-block transition-transform",
+                      activeSection === section.id && "translate-x-1",
+                    )}
+                  >
                     {section.title}
                   </span>
                 </button>
@@ -168,9 +165,7 @@ export function ReadingIndex({
         </nav>
 
         {estimatedReadingTime && (
-          <p className="text-foreground/30 font-mono text-xs mt-lg">
-            {estimatedReadingTime} min
-          </p>
+          <p className="text-foreground/30 mt-lg font-mono text-xs">{estimatedReadingTime} min</p>
         )}
       </div>
     </aside>

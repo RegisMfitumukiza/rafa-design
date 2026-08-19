@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+
 import Script from "next/script";
 
 // Century Gothic is self-hosted via @font-face in src/styles/fonts.css
@@ -48,11 +49,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang={siteConfig.locale}
-      className="h-full antialiased"
-      suppressHydrationWarning
-    >
+    <html lang={siteConfig.locale} className="h-full antialiased" suppressHydrationWarning>
       <head>
         {/* Theme init: next/script beforeInteractive runs before hydration without React warning */}
         <Script

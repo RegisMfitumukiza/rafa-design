@@ -18,10 +18,7 @@ import type {
 /**
  * Infer journal type from legacy category
  */
-function inferJournalType(
-  category: string,
-  hasEventDetails: boolean,
-): JournalType {
+function inferJournalType(category: string, hasEventDetails: boolean): JournalType {
   if (hasEventDetails) return "event";
   if (category === "awards") return "award";
   if (category === "news") return "news";
@@ -35,7 +32,7 @@ function inferJournalType(
  */
 function convertAuthor(authorString?: string): Person | undefined {
   if (!authorString) return undefined;
-  
+
   return {
     id: authorString.toLowerCase().replace(/\s+/g, "-"),
     name: authorString,
@@ -55,18 +52,20 @@ function convertCredits(
   }>,
 ): Credit[] {
   if (!legacyCredits) return [];
-  
+
   return legacyCredits.map((credit) => {
     const mappedCredit: Credit = {
-      role: (credit.role?.toLowerCase() as any) || "photography",
+      role:
+        (credit.role?.toLowerCase() as "photography" | "styling" | "text" | "project") ||
+        "photography",
       name: credit.name,
     };
-    
+
     // Only add url if it exists (for exactOptionalPropertyTypes compatibility)
     if (credit.url) {
       mappedCredit.url = credit.url;
     }
-    
+
     return mappedCredit;
   });
 }
@@ -74,28 +73,26 @@ function convertCredits(
 /**
  * Convert legacy event details to JournalEvent
  */
-function convertEventDetails(
-  legacyEvent?: {
-    date: string;
-    endDate?: string;
-    time?: string;
-    endTime?: string;
-    timezone?: string;
-    location?: string;
-    venue?: string;
-    address?: string;
-    registrationLink?: string;
-    moreInfoLink?: string;
-    admission?: string;
-  },
-): JournalEvent | undefined {
+function convertEventDetails(legacyEvent?: {
+  date: string;
+  endDate?: string;
+  time?: string;
+  endTime?: string;
+  timezone?: string;
+  location?: string;
+  venue?: string;
+  address?: string;
+  registrationLink?: string;
+  moreInfoLink?: string;
+  admission?: string;
+}): JournalEvent | undefined {
   if (!legacyEvent) return undefined;
-  
+
   const event: JournalEvent = {
     date: legacyEvent.date,
     location: legacyEvent.location || "",
   };
-  
+
   // Only add optional fields if they exist
   if (legacyEvent.endDate) event.endDate = legacyEvent.endDate;
   if (legacyEvent.time) event.time = legacyEvent.time;
@@ -106,7 +103,7 @@ function convertEventDetails(
   if (legacyEvent.registrationLink) event.registrationLink = legacyEvent.registrationLink;
   if (legacyEvent.moreInfoLink) event.moreInfoLink = legacyEvent.moreInfoLink;
   if (legacyEvent.admission) event.admission = legacyEvent.admission;
-  
+
   return event;
 }
 
@@ -115,7 +112,7 @@ function convertEventDetails(
  */
 function convertContentToSections(content: string): JournalSection[] {
   const paragraphs = content.split("\n\n").filter(Boolean);
-  
+
   // First paragraph is introduction
   const introduction: JournalSection = {
     id: "introduction",
@@ -127,19 +124,19 @@ function convertContentToSections(content: string): JournalSection[] {
       },
     ],
   };
-  
+
   // Remaining paragraphs become text blocks in main section
   const remainingBlocks: JournalBlock[] = paragraphs.slice(1).map((para) => ({
     type: "text",
     content: para,
   }));
-  
+
   const mainSection: JournalSection = {
     id: "content",
     title: "Content",
     blocks: remainingBlocks,
   };
-  
+
   return [introduction, mainSection];
 }
 
@@ -155,17 +152,15 @@ function estimateReadingTime(content: string): number {
 /**
  * Migrate legacy article to new format
  */
-export function migrateLegacyArticle(
-  legacy: LegacyJournalArticle,
-): JournalArticle {
+export function migrateLegacyArticle(legacy: LegacyJournalArticle): JournalArticle {
   const type = inferJournalType(legacy.category, !!legacy.eventDetails);
   const author = convertAuthor(legacy.author);
   const credits = convertCredits(legacy.credits);
   const event = convertEventDetails(legacy.eventDetails);
-  
+
   // Build sections
-  let sections = convertContentToSections(legacy.content);
-  
+  const sections = convertContentToSections(legacy.content);
+
   // Add event block if event article
   if (event) {
     sections.push({
@@ -179,7 +174,7 @@ export function migrateLegacyArticle(
       ],
     });
   }
-  
+
   // Add external links if present
   if (legacy.externalLinks && legacy.externalLinks.length > 0) {
     const linkBlocks: JournalBlock[] = legacy.externalLinks.map((link) => {
@@ -188,22 +183,22 @@ export function migrateLegacyArticle(
         label: link.label,
         url: link.url,
       };
-      
+
       // Only add description if it exists
       if (link.description) {
         block.description = link.description;
       }
-      
+
       return block;
     });
-    
+
     sections.push({
       id: "links",
       title: "Related Links",
       blocks: linkBlocks,
     });
   }
-  
+
   // Build the article object with required fields
   const article: JournalArticle = {
     id: legacy.id,
@@ -223,22 +218,20 @@ export function migrateLegacyArticle(
     estimatedReadingTime: estimateReadingTime(legacy.content),
     credits,
   };
-  
+
   // Only add optional fields if they exist
   if (legacy.subtitle) article.subtitle = legacy.subtitle;
   if (author) article.author = author;
   if (event) article.event = event;
   if (legacy.relatedProjects) article.relatedProjects = legacy.relatedProjects;
-  
+
   return article;
 }
 
 /**
  * Batch migrate multiple legacy articles
  */
-export function migrateLegacyArticles(
-  legacyArticles: LegacyJournalArticle[],
-): JournalArticle[] {
+export function migrateLegacyArticles(legacyArticles: LegacyJournalArticle[]): JournalArticle[] {
   return legacyArticles.map(migrateLegacyArticle);
 }
 

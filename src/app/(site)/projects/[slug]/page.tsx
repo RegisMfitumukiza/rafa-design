@@ -1,22 +1,20 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";
 
 import { Section } from "@/components/layout/Section";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { Heading } from "@/components/typography/Heading";
 import { Text } from "@/components/typography/Text";
 import { breadcrumbSchema, projectSchema } from "@/config/schema";
 import { getProjectBySlug, getProjects, getRelatedProjects } from "@/content/projects";
 import { BeforeAfterSlider } from "@/features/projects/before-after-slider";
 import { ProjectChapterBlock } from "@/features/projects/project-chapter";
 import { ProjectConcept } from "@/features/projects/project-concept";
+import { ProjectDrawingViewer } from "@/features/projects/project-drawing-viewer";
 import { ProjectGallery } from "@/features/projects/project-gallery";
 import { ProjectHeroParallax } from "@/features/projects/project-hero-parallax";
 import { ProjectMaterials } from "@/features/projects/project-materials";
 import { ProjectMetadata } from "@/features/projects/project-metadata";
 import { ProjectNavigation } from "@/features/projects/project-navigation";
 import { ProjectReadingProgress } from "@/features/projects/project-reading-progress";
-import { ProjectDrawingViewer } from "@/features/projects/project-drawing-viewer";
 import { ProjectTeamMatrix } from "@/features/projects/project-team-matrix";
 import { RelatedProjects } from "@/features/projects/related-projects";
 import { Reveal } from "@/motion";
@@ -77,7 +75,6 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
 
       {/* ─── [3] CONCEPT STATEMENT + SPEC FACTS ───────────────────────────────── */}
       <Section container="standard">
-
         {/* Concept — large editorial type */}
         {project.concept && (
           <div className="mb-xl">
@@ -128,7 +125,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
       )}
 
       {/* ─── [4B] ARCHITECTURAL DRAWINGS & PLANS ────────────────────────────────── */}
-      <Section container="standard" className="py-2xl border-t border-border/30">
+      <Section container="standard" className="py-2xl border-border/30 border-t">
         <ProjectDrawingViewer />
       </Section>
 
