@@ -3,7 +3,7 @@ export const siteConfig = {
   description: "Premium architecture and interior design website foundation.",
   creator: "RAFA Design Hub",
   locale: "en",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:8000",
   keywords: [
     "architecture",
     "interior design",
