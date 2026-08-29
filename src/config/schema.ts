@@ -16,6 +16,23 @@ export function organizationSchema(): Record<string, unknown> {
     .map((link) => link.url)
     .filter((url) => url.length > 0 && url !== "#");
 
+  // Extract postal code from address (format: "Street, PostalCode City")
+  const addressParts = contactInformation.offices[0]?.address.split(", ");
+  const postalCodePart = addressParts?.[1]?.split(" ")[0] || "4000-000";
+
+  // Country ISO codes map
+  const countryISOMap: Record<string, string> = {
+    Portugal: "PT",
+    Spain: "ES",
+    France: "FR",
+    Italy: "IT",
+    "United Kingdom": "GB",
+    "United States": "US",
+  };
+
+  const countryName = contactInformation.offices[0]?.country || "Portugal";
+  const countryISO = countryISOMap[countryName] || countryName;
+
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -26,9 +43,10 @@ export function organizationSchema(): Record<string, unknown> {
     telephone: contactInformation.phone,
     address: {
       "@type": "PostalAddress",
-      streetAddress: contactInformation.offices[0]?.address,
+      streetAddress: addressParts?.[0] || contactInformation.offices[0]?.address,
+      postalCode: postalCodePart,
       addressLocality: contactInformation.offices[0]?.city,
-      addressCountry: contactInformation.offices[0]?.country,
+      addressCountry: countryISO, // Use ISO code instead of full name
     },
     ...(social.length > 0 ? { sameAs: social } : {}),
   };
@@ -62,6 +80,18 @@ export function breadcrumbSchema(
 export function projectSchema(project: Project): Record<string, unknown> {
   const images = [project.heroImage, ...project.gallery].map((image) => absolute(image.src));
 
+  // Country ISO codes map
+  const countryISOMap: Record<string, string> = {
+    Portugal: "PT",
+    Spain: "ES",
+    France: "FR",
+    Italy: "IT",
+    "United Kingdom": "GB",
+    "United States": "US",
+  };
+
+  const countryISO = countryISOMap[project.location.country] || project.location.country;
+
   return {
     "@context": "https://schema.org",
     "@type": "CreativeWork",
@@ -76,7 +106,7 @@ export function projectSchema(project: Project): Record<string, unknown> {
       address: {
         "@type": "PostalAddress",
         addressLocality: project.location.city,
-        addressCountry: project.location.country,
+        addressCountry: countryISO, // Use ISO code
       },
     },
     author: {

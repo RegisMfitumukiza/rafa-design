@@ -28,11 +28,14 @@ export function ProjectCard({
   className,
 }: ProjectCardProps) {
   return (
-    <Link href={`/projects/${project.slug}` as Route} className="group block">
-      <Card variant={variant} {...(className ? { className } : {})}>
+    <Link
+      href={`/projects/${project.slug}` as Route}
+      className={cn("group block min-w-0 overflow-hidden", className)}
+    >
+      <Card variant={variant} className="min-w-0 overflow-hidden">
         <Card.Image>
           {/* Image wrapper with overflow-hidden for the overlay slide-up */}
-          <div className="relative overflow-hidden">
+          <div className="relative isolate min-w-0 overflow-hidden">
             <Image
               asset={project.heroImage}
               className={aspectClassName}
@@ -44,20 +47,23 @@ export function ProjectCard({
             <div
               aria-hidden="true"
               className={cn(
-                "absolute inset-x-0 bottom-0 translate-y-full",
-                "motion-safe:group-hover:translate-y-0",
-                "transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
+                "absolute inset-x-0 bottom-0 translate-y-2 opacity-0",
+                "motion-safe:group-hover:translate-y-0 motion-safe:group-hover:opacity-100",
+                "transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
                 "bg-gradient-to-t from-black/85 via-black/50 to-transparent",
-                "px-sm pb-sm pt-xl pointer-events-none",
+                "px-sm pb-sm pt-xl pointer-events-none min-w-0",
               )}
             >
-              <p className="font-mono text-[9px] tracking-widest text-white/60 uppercase">
+              <p className="truncate font-mono text-[9px] tracking-widest text-white/60 uppercase">
                 {project.location.city}, {project.location.country}
                 {" · "}
                 {project.year}
-                {project.typology && ` · ${project.typology}`}
+                {project.typology &&
+                  Array.isArray(project.typology) &&
+                  project.typology.length > 0 &&
+                  ` · ${project.typology.join(", ")}`}
               </p>
-              <p className="mt-[2px] text-sm leading-snug font-medium text-white">
+              <p className="mt-[2px] truncate text-sm leading-snug font-medium text-white">
                 {project.title}
               </p>
               <p className="mt-xs font-mono text-[9px] tracking-[0.18em] text-white/45 uppercase">
@@ -67,22 +73,25 @@ export function ProjectCard({
           </div>
         </Card.Image>
 
-        <Card.Content {...(contentClassName ? { className: contentClassName } : {})}>
-          <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
+        <Card.Content className={cn("min-w-0", contentClassName)}>
+          <p className="text-foreground/40 truncate font-mono text-[10px] tracking-widest uppercase">
             {project.location.city}, {project.location.country} · {project.year}
-            {project.typology && ` · ${project.typology}`}
+            {project.typology &&
+              Array.isArray(project.typology) &&
+              project.typology.length > 0 &&
+              ` · ${project.typology.join(", ")}`}
           </p>
           <Heading
             as={titleAs}
             variant="h3"
-            className="mt-xs text-xl font-medium tracking-tight group-hover:underline"
+            className="mt-xs text-xl font-medium tracking-tight break-words group-hover:underline"
           >
             {project.title}
           </Heading>
           {project.subtitle && (
             <Text
               variant="small"
-              className="mt-xs text-foreground/55 line-clamp-1 text-xs font-light"
+              className="mt-xs text-foreground/55 line-clamp-1 text-xs font-light break-words"
             >
               {project.subtitle}
             </Text>

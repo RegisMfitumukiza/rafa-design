@@ -51,14 +51,36 @@ export default function RootLayout({
   return (
     <html lang={siteConfig.locale} className="h-full antialiased" suppressHydrationWarning>
       <head>
-        {/* Theme init: next/script beforeInteractive runs before hydration without React warning */}
+        {/* Preload critical fonts for optimal LCP */}
+        <link
+          rel="preload"
+          href="/fonts/CenturyGothicPaneuropeanRegular.ttf"
+          as="font"
+          type="font/ttf"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/CenturyGothicPaneuropeanSemiBold.ttf"
+          as="font"
+          type="font/ttf"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/CenturyGothicPaneuropeanBold.ttf"
+          as="font"
+          type="font/ttf"
+          crossOrigin="anonymous"
+        />
+      </head>
+      <body className="bg-background text-foreground flex min-h-dvh flex-col font-sans">
+        {/* Theme init script - must be in body for Next.js Script component */}
         <Script
           id="theme-init"
           strategy="beforeInteractive"
           dangerouslySetInnerHTML={{ __html: themeScript }}
         />
-      </head>
-      <body className="bg-background text-foreground flex min-h-dvh flex-col font-sans">
         <a
           href="#main-content"
           className="focus:left-md focus:top-md focus:z-modal focus:bg-surface focus:px-md focus:py-sm focus:text-foreground focus:shadow-medium sr-only focus:not-sr-only focus:fixed focus:rounded-sm"

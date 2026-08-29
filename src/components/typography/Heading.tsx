@@ -24,12 +24,15 @@ export function Heading({ as, variant = "h2", children, className }: HeadingProp
   const tag = tagMap[as ?? variant];
   const Tag: HeadingTag = tag !== undefined ? tag : "h2";
   const style = typography.styles[variant as keyof typeof typography.styles];
+  const hasTextSizeClass = className
+    ? /\btext-(xs|sm|base|lg|xl|[2-9]?xl)\b/.test(className)
+    : false;
 
   return (
     <Tag
       className={cn("font-display", className)}
       style={{
-        fontSize: style.size,
+        ...(hasTextSizeClass ? {} : { fontSize: style.size }),
         lineHeight: style.lineHeight,
         fontWeight: style.weight,
       }}

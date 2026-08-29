@@ -4,7 +4,7 @@ import { Section } from "@/components/layout/Section";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema } from "@/config/schema";
 import { pageContent } from "@/content/pages";
-import { getProjects, getActiveCategories } from "@/content/projects";
+import { getProjects, getActiveCategories } from "@/content/projects/sanity";
 import { ProjectsArchive } from "@/features/projects/projects-archive";
 
 export const metadata: Metadata = {
@@ -12,9 +12,9 @@ export const metadata: Metadata = {
   description: pageContent.projects.description,
 };
 
-export default function ProjectsPage() {
-  const projects = getProjects();
-  const categories = getActiveCategories();
+export default async function ProjectsPage() {
+  const projects = await getProjects();
+  const categories = await getActiveCategories();
 
   return (
     <>

@@ -125,10 +125,10 @@ export function JournalDocument({ article, categoryLabel }: JournalDocumentProps
         ))}
 
       {/* Fallback: Legacy content rendering */}
-      {!article.sections && article.content && (
+      {!article.sections && typeof article.content === "string" && (
         <Section container="narrow">
           <Stagger className="space-y-lg" stagger={0.05}>
-            {article.content.split("\n").map((paragraph, i) => (
+            {article.content.split("\n").map((paragraph: string, i: number) => (
               <p
                 key={i}
                 className={cn(

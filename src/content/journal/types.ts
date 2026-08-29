@@ -312,7 +312,7 @@ export interface JournalArticle {
 
   // Content Structure
   sections?: JournalSection[]; // Structured content
-  content?: string; // Legacy simple content (for migration)
+  content?: string | Array<Record<string, unknown>>; // Portable text or legacy string
 
   // Event-specific
   event?: JournalEvent;

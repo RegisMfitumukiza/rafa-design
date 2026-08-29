@@ -31,7 +31,7 @@ const searchIndex: SearchResult[] = [
       project.location.country,
       project.typology,
       ...project.category.map(humanize),
-      ...(project.details?.materials ?? []),
+      ...(project.materialNarrative?.map((m) => m.name) ?? []),
       project.client,
       String(project.year),
       project.status,
@@ -54,7 +54,11 @@ const searchIndex: SearchResult[] = [
     title: article.title,
     subtitle: article.excerpt || "",
     ...(article.hero?.src && { imageSrc: article.hero.src }),
-    keywords: [article.category, article.author, article.publishedAt.slice(0, 4)]
+    keywords: [
+      article.category,
+      typeof article.author === "object" ? article.author?.name : article.author,
+      article.publishedAt?.slice(0, 4),
+    ]
       .filter((value): value is string => Boolean(value))
       .join(" "),
     href: `/journal/${article.slug}`,

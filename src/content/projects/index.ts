@@ -23,6 +23,25 @@ export interface ProjectTeam {
   collaborators?: string[];
 }
 
+// ─── Technical Drawings ──────────────────────────────────────────────────────
+
+export interface ProjectDrawing {
+  /** Unique identifier for the drawing */
+  id: string;
+  /** Drawing title (e.g., "Ground Floor Plan") */
+  title: string;
+  /** Drawing code (e.g., "DWG // 01") */
+  code: string;
+  /** Scale notation (e.g., "1:100 @ A1") */
+  scale: string;
+  /** Drawing image */
+  image: ImageAsset;
+  /** Technical caption/description */
+  caption: string;
+  /** Optional additional technical note */
+  description?: string;
+}
+
 // ─── Monograph Chapter Block ──────────────────────────────────────────────────
 
 export type ChapterIntent =
@@ -76,6 +95,14 @@ export interface BeforeAfterImage {
   caption?: string;
 }
 
+// ─── SEO ──────────────────────────────────────────────────────────────────────
+
+export interface ProjectSEO {
+  title?: string;
+  description?: string;
+  ogImage?: ImageAsset;
+}
+
 // ─── Coordinates ─────────────────────────────────────────────────────────────
 
 export interface ProjectCoordinates {
@@ -106,7 +133,7 @@ export interface Project {
 
   // Classification
   category: ProjectCategory[];
-  typology?: "Residential" | "Commercial" | "Cultural" | "Adaptive Reuse" | "Public";
+  typology?: string[]; // Flexible tags - professional building classifications (optional)
   status: ProjectStatus;
   year: number;
 
@@ -144,7 +171,7 @@ export interface Project {
   // Media
   heroImage: ImageAsset;
   gallery: ImageAsset[];
-  drawings?: ImageAsset[];
+  drawings?: ProjectDrawing[];
   beforeAfter?: BeforeAfterImage;
 
   /** Attribution for the architectural photographer */
@@ -153,6 +180,9 @@ export interface Project {
   // Team
   team?: ProjectTeam;
   awards?: ProjectAward[];
+
+  // SEO & Meta
+  seo?: ProjectSEO;
 
   // Legacy
   services: string[];
@@ -168,7 +198,7 @@ const projects: Project[] = [
     title: "Casa Monte",
     subtitle: "A hillside retreat in the Algarve",
     category: ["architecture", "interior"],
-    typology: "Residential",
+    typology: ["residential"],
     status: "completed",
     year: 2025,
     areaM2: 320,
@@ -296,7 +326,7 @@ const projects: Project[] = [
     title: "Atelier Norte",
     subtitle: "A creative workspace in Porto",
     category: ["architecture", "interior", "renovation"],
-    typology: "Adaptive Reuse",
+    typology: ["adaptive-reuse"],
     status: "completed",
     year: 2024,
     areaM2: 180,
@@ -429,7 +459,7 @@ const projects: Project[] = [
     title: "Villa Marim",
     subtitle: "Coastal living on the Ria Formosa",
     category: ["architecture", "landscape"],
-    typology: "Residential",
+    typology: ["residential"],
     status: "completed",
     year: 2025,
     areaM2: 280,
@@ -552,7 +582,7 @@ const projects: Project[] = [
     title: "Baía House",
     subtitle: "Reimagining a mid-century villa",
     category: ["renovation", "interior"],
-    typology: "Adaptive Reuse",
+    typology: ["adaptive-reuse"],
     status: "completed",
     year: 2024,
     areaM2: 200,
@@ -659,7 +689,7 @@ const projects: Project[] = [
     title: "Largo Gallery",
     subtitle: "A contemporary art space in a historic palace",
     category: ["architecture", "interior"],
-    typology: "Cultural",
+    typology: ["cultural"],
     status: "completed",
     year: 2026,
     areaM2: 350,
@@ -780,7 +810,7 @@ const projects: Project[] = [
     title: "Studio Patio",
     subtitle: "An architect's own workspace",
     category: ["architecture"],
-    typology: "Commercial",
+    typology: ["commercial"],
     status: "completed",
     year: 2023,
     areaM2: 65,

@@ -70,6 +70,7 @@ export function TextReveal({
       <span key={`${word}-${index}`} className="inline-block overflow-hidden align-top">
         <span data-text-word className="inline-block will-change-transform">
           {word}
+          {index < words.length - 1 && "\u00A0"} {/* Non-breaking space between words */}
         </span>
       </span>
     )),

@@ -80,7 +80,10 @@ export function SelectedWork({ projects, className }: SelectedWorkProps) {
                 {/* Metadata */}
                 <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase md:col-span-4">
                   {project.location.city}, {project.location.country} · {project.year}
-                  {project.typology && ` · ${project.typology}`}
+                  {project.typology &&
+                    Array.isArray(project.typology) &&
+                    project.typology.length > 0 &&
+                    ` · ${project.typology.join(", ")}`}
                 </p>
 
                 {/* Arrow */}

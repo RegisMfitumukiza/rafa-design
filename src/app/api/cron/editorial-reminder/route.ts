@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { getArticles } from "@/content/journal";
+import { getArticles } from "@/content/journal/sanity-adapter";
 
 /**
  * GET /api/cron/editorial-reminder
@@ -27,7 +27,7 @@ export async function GET(request: Request) {
     }
   }
 
-  const articles = getArticles();
+  const articles = await getArticles();
   if (!articles || articles.length === 0) {
     return NextResponse.json(
       {

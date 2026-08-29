@@ -30,27 +30,16 @@ interface ProjectsArchiveProps {
  *   "third"  → lg:col-span-1 (3-col row trio)
  */
 function getEditorialSpan(index: number): string {
-  // Pattern for items after the featured card (index 0 is the featured card)
-  // index here is relative to the non-featured pool (0-based after featured)
-  const pos = index % 11; // 11-item editorial cycle
-  // Full-width accents at positions 0, 6
-  if (pos === 0 || pos === 6) return "col-span-full";
-  // 2-col pairs at positions 1-2
-  if (pos === 1 || pos === 2) return "md:col-span-1 lg:col-span-1";
-  // 3-col trios at positions 3-5
-  if (pos >= 3 && pos <= 5) return "md:col-span-1 lg:col-span-1";
-  // 2-col pairs at positions 7-8
-  if (pos === 7 || pos === 8) return "md:col-span-1 lg:col-span-1";
-  // 3-col trios at positions 9-10
+  const pos = index % 11;
+  // Full-width accent mid-way through cycle at pos 6 (featured hero card at top is the single primary hero)
+  if (pos === 6) return "col-span-full";
   return "md:col-span-1 lg:col-span-1";
 }
 
 function getEditorialAspect(index: number): string {
   const pos = index % 11;
-  if (pos === 0 || pos === 6) return "aspect-[21/9]";
-  if (pos === 1 || pos === 7) return "aspect-[4/3]";
-  if (pos === 2 || pos === 8) return "aspect-portrait";
-  return "aspect-landscape";
+  if (pos === 6) return "aspect-[21/9]";
+  return "aspect-[4/3]";
 }
 
 const BATCH_SIZE = 12;
@@ -80,7 +69,9 @@ export function ProjectsArchive({ initialProjects, categories }: ProjectsArchive
   const typologies = useMemo(() => {
     const set = new Set<string>();
     initialProjects.forEach((p) => {
-      if (p.typology) set.add(p.typology);
+      if (p.typology && Array.isArray(p.typology) && p.typology.length > 0) {
+        p.typology.forEach((t) => set.add(t));
+      }
     });
     return Array.from(set);
   }, [initialProjects]);
@@ -99,7 +90,7 @@ export function ProjectsArchive({ initialProjects, categories }: ProjectsArchive
   const typologyCounts = useMemo(() => {
     const counts: Record<string, number> = { all: initialProjects.length };
     typologies.forEach((typ) => {
-      counts[typ] = initialProjects.filter((p) => p.typology === typ).length;
+      counts[typ] = initialProjects.filter((p) => p.typology?.includes(typ)).length;
     });
     return counts;
   }, [initialProjects, typologies]);
@@ -114,7 +105,7 @@ export function ProjectsArchive({ initialProjects, categories }: ProjectsArchive
         ) {
           return false;
         }
-        if (selectedTypology !== "all" && project.typology !== selectedTypology) {
+        if (selectedTypology !== "all" && !project.typology?.includes(selectedTypology)) {
           return false;
         }
         if (searchQuery.trim() !== "") {
@@ -123,12 +114,18 @@ export function ProjectsArchive({ initialProjects, categories }: ProjectsArchive
           const matchLocation =
             project.location.city.toLowerCase().includes(query) ||
             project.location.country.toLowerCase().includes(query);
-          const matchTypology = project.typology?.toLowerCase().includes(query) ?? false;
+          const matchTypology =
+            project.typology?.some((t) => t.toLowerCase().includes(query)) ?? false;
           if (!matchTitle && !matchLocation && !matchTypology) return false;
         }
         return true;
       })
-      .sort((a, b) => b.year - a.year);
+      .sort((a, b) => {
+        if (a.featured !== b.featured) {
+          return a.featured ? -1 : 1;
+        }
+        return b.year - a.year;
+      });
   }, [initialProjects, selectedCategory, selectedTypology, searchQuery]);
 
   // ── Animated count ─────────────────────────────────────────────────────────
@@ -392,7 +389,10 @@ export function ProjectsArchive({ initialProjects, categories }: ProjectsArchive
 
           {/* Editorial grid — non-uniform column rhythm */}
           {restProjects.length > 0 && (
-            <Stagger className="gap-xl grid md:grid-cols-2 lg:grid-cols-3" stagger={0.07}>
+            <Stagger
+              className="gap-xl grid items-start md:grid-cols-2 lg:grid-cols-3 [&>*]:min-w-0"
+              stagger={0.07}
+            >
               {restProjects.map((project, idx) => (
                 <ProjectCard
                   key={project.slug}
@@ -473,7 +473,13 @@ export function ProjectsArchive({ initialProjects, categories }: ProjectsArchive
                     <td className="py-md px-xs text-foreground font-medium underline-offset-4 group-hover:underline">
                       <Link href={`/projects/${project.slug}`}>{project.title}</Link>
                     </td>
-                    <td className="py-md px-xs text-foreground/55">{project.typology ?? "—"}</td>
+                    <td className="py-md px-xs text-foreground/55">
+                      {project.typology &&
+                      Array.isArray(project.typology) &&
+                      project.typology.length > 0
+                        ? project.typology.join(", ")
+                        : "—"}
+                    </td>
                     <td className="py-md px-xs text-foreground/55">
                       {project.location.city}, {project.location.country}
                     </td>
@@ -580,7 +586,11 @@ export function ProjectsArchive({ initialProjects, categories }: ProjectsArchive
                       </span>
                       <span className="text-foreground/20 font-mono text-[10px]">·</span>
                       <span className="text-foreground/40 font-mono text-[10px]">
-                        {project.typology ?? project.category[0]}
+                        {project.typology &&
+                        Array.isArray(project.typology) &&
+                        project.typology.length > 0
+                          ? project.typology.join(", ")
+                          : project.category[0]}
                       </span>
                       <span className="text-foreground/20 font-mono text-[10px]">·</span>
                       <span className="text-foreground/40 font-mono text-[10px]">

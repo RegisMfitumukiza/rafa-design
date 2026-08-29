@@ -70,6 +70,12 @@ None — the full medium backlog (12 items) was resolved in the 2026-08-01 techn
 
 # Low
 
+🟢 **Sanity CLI dependency vulnerabilities (2026-08-20):** `npm audit` reports 9 vulnerabilities (8 moderate, 1 high) in transitive dependencies of `@sanity/cli`: `js-yaml` (YAML parsing DoS), `smol-toml` (TOML parsing DoS), and `uuid` (buffer bounds check). Assessment: **Low risk** — these packages are used only by Sanity CLI tooling during development, not in runtime application code or the embedded Studio. The production bundle does not include these vulnerable parsers, and RAFA's website does not process YAML/TOML from untrusted sources. **Action:** Monitor for upstream patches from Sanity team. Do not run `npm audit fix --force` as it would downgrade `sanity@6.10.1` → `sanity@5.14.1` (breaking change). **References:** Sanity v6 packages installed 2026-08-20 after Node.js upgrade to v22.
+
+---
+
+# Resolved (Previously Low Priority)
+
 None — all three low-priority items were resolved in the 2026-08-01 backlog-completion session:
 
 - Design-token duplication: dead `motion.durations` / `motion.easing` exports removed from `src/design-system/motion.ts` (all consumers use `motion.values`); breakpoint systems unified behind `--breakpoint-tablet` / `--breakpoint-desktop` (see ADR-021 — media queries must use literals).

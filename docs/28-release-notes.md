@@ -10,6 +10,61 @@
 
 ---
 
+# 2026-08-19 (Dynamic Image Brightness Detection for Featured Cards)
+
+## Version
+
+v1.0.0-alpha
+
+### Status
+
+✅ Implemented dynamic brightness detection and adaptive overlay system for featured project cards to ensure text readability on both light and dark images
+
+---
+
+## Summary
+
+The featured project card now analyzes hero image brightness automatically and adjusts overlay opacity dynamically. When bright images (like Casa Monte's light stone facade) are displayed, the system strengthens the gradient overlay to maintain text legibility. The solution uses three layers: (1) a dynamically-adjusted full-image gradient overlay, (2) a localized backdrop specifically behind the text area, and (3) a semi-transparent backdrop directly behind the title with backdrop-blur. A custom React hook (`useImageBrightness`) analyzes the bottom third of images using Canvas API and calculates average luminance using the relative luminance formula (0.299R + 0.587G + 0.114B). Based on brightness scores (0-255), images are categorized as "light" (>180), "medium" (100-180), or "dark" (<100), with corresponding overlay strengths. The component was converted from server to client-side (`"use client"`) to enable the brightness analysis hook. All implementations follow the Design System and maintain performance through image sampling (200px width) and CORS-enabled image loading.
+
+## Added
+
+- `src/hooks/use-image-brightness.ts` — Custom React hook to analyze image brightness using Canvas API pixel data
+  - `useImageBrightness(imageUrl, enabled)` — Analyzes bottom third of image, returns brightness 0-255
+  - `getBrightnessCategory(brightness)` — Categorizes as "light" | "medium" | "dark"
+  - `getOverlayOpacity(brightness)` — Returns dynamic Tailwind classes for gradient and backdrop
+- Dynamic overlay system with three brightness categories:
+  - **Light images (>180)**: `from-black/98 via-black/75 to-black/15` + `from-black/80 via-black/45 to-transparent`
+  - **Medium images (100-180)**: `from-black/95 via-black/60 to-black/5` + `from-black/70 via-black/30 to-transparent`
+  - **Dark images (<100)**: `from-black/90 via-black/45 to-black/0` + `from-black/50 via-black/20 to-transparent`
+
+## Changed
+
+- `src/features/projects/featured-project-card.tsx` — Converted to client component with dynamic brightness detection
+  - Added `"use client"` directive for React hooks
+  - Integrated `useImageBrightness` hook with Sanity image URL
+  - Gradient overlay now uses dynamic classes from `getOverlayOpacity()`
+  - Text area backdrop now uses dynamic classes
+  - Added semi-transparent backdrop directly behind title: `bg-black/40 backdrop-blur-sm`
+  - Enhanced text shadows for better contrast on all brightness levels
+  - Metadata overline now has additional blur backdrop layer
+
+## Technical Details
+
+- **Brightness Analysis**: Samples 200px-wide version of image for performance
+- **Region of Interest**: Analyzes bottom third of image where text overlay appears
+- **Luminance Formula**: Uses relative luminance (0.299R + 0.587G + 0.114B) weighted for human perception
+- **Cross-Origin**: Enables CORS with `img.crossOrigin = "anonymous"` for Sanity CDN images
+- **Fallback**: Returns "medium" category if analysis fails, ensuring graceful degradation
+- **Performance**: Off-screen canvas, small sample size, single analysis on mount
+
+## Fixes
+
+- ✅ Text illegibility on bright images (Casa Monte white stone facade)
+- ✅ Over-darkening on dark images
+- ✅ Inconsistent contrast across different image types
+
+---
+
 # 2026-08-14 (Process editorial redesign)
 
 ## Version

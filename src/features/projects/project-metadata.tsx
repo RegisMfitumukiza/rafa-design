@@ -17,7 +17,9 @@ export function ProjectMetadata({ project, className }: ProjectMetadataProps) {
       <div className="py-xs gap-sm flex justify-between">
         <dt className="text-foreground/40 uppercase">TYPOLOGY</dt>
         <dd className="text-foreground/90 font-medium">
-          {project.typology ?? project.category[0]}
+          {project.typology && Array.isArray(project.typology) && project.typology.length > 0
+            ? project.typology.join(", ")
+            : project.category[0]}
         </dd>
       </div>
 

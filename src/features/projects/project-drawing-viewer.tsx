@@ -3,59 +3,14 @@
 import { useState } from "react";
 
 import { Image } from "@/components/media/Image";
+import type { ProjectDrawing } from "@/content/projects";
 import { cn } from "@/lib/cn";
 import { Reveal, ImageReveal } from "@/motion";
 
-export interface DrawingLayer {
-  id: string;
-  title: string;
-  code: string;
-  scale: string;
-  imageSrc: string;
-  caption: string;
-  description?: string;
-}
-
 interface ProjectDrawingViewerProps {
-  drawings?: DrawingLayer[];
+  drawings?: ProjectDrawing[];
   className?: string;
 }
-
-const defaultDrawings: DrawingLayer[] = [
-  {
-    id: "plan-01",
-    title: "Ground Floor Plan",
-    code: "DWG // 01",
-    scale: "1:100 @ A1",
-    imageSrc: "/images/projects/casa-monte-01.jpg",
-    caption:
-      "Primary spatial layout showing living courtyard integration and natural ventilation axis.",
-    description:
-      "The ground plan prioritizes continuous indoor-outdoor flow, wrapping communal living spaces around an internal rainwater garden.",
-  },
-  {
-    id: "section-aa",
-    title: "Longitudinal Section A-A",
-    code: "DWG // 02",
-    scale: "1:50 @ A1",
-    imageSrc: "/images/projects/atelier-norte-hero.jpg",
-    caption:
-      "Sectional relationship between rammed earth envelope and cantilevered timber roof frame.",
-    description:
-      "Longitudinal section demonstrating thermal mass optimization and deep roof overhangs for solar shading.",
-  },
-  {
-    id: "detail-spec",
-    title: "Material Junction Detail",
-    code: "DWG // 03",
-    scale: "1:10 @ A1",
-    imageSrc: "/images/projects/villa-marim-hero.jpg",
-    caption:
-      "Recessed window threshold detail linking local granite flooring with concealed aluminum track.",
-    description:
-      "Custom floor-to-ceiling glazing pocket concealing window frame within local granite stonework.",
-  },
-];
 
 /**
  * ProjectDrawingViewer
@@ -64,12 +19,10 @@ const defaultDrawings: DrawingLayer[] = [
  * Allows visitors and clients to toggle between architectural drawings (Ground Plan, Section A-A, Detail Spec),
  * inspect technical scales, view vector plates, and read architectural descriptions.
  */
-export function ProjectDrawingViewer({
-  drawings = defaultDrawings,
-  className,
-}: ProjectDrawingViewerProps) {
-  const [activeId, setActiveId] = useState(drawings[0]?.id || "plan-01");
+export function ProjectDrawingViewer({ drawings, className }: ProjectDrawingViewerProps) {
+  const [activeId, setActiveId] = useState(drawings?.[0]?.id);
 
+  // Only render if drawings exist
   if (!drawings || drawings.length === 0) return null;
 
   const activeDrawing = drawings.find((d) => d.id === activeId) || drawings[0]!;
@@ -117,10 +70,7 @@ export function ProjectDrawingViewer({
         <ImageReveal>
           <figure className="border-border/30 bg-muted/20 relative overflow-hidden rounded-sm border">
             <Image
-              asset={{
-                src: activeDrawing.imageSrc,
-                alt: activeDrawing.title,
-              }}
+              asset={activeDrawing.image}
               className="aspect-landscape w-full object-cover contrast-110 grayscale filter"
               sizes="100vw"
             />

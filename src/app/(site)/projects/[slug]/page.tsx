@@ -4,7 +4,7 @@ import { Section } from "@/components/layout/Section";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Text } from "@/components/typography/Text";
 import { breadcrumbSchema, projectSchema } from "@/config/schema";
-import { getProjectBySlug, getProjects, getRelatedProjects } from "@/content/projects";
+import { getProjectBySlug, getProjects, getRelatedProjects } from "@/content/projects/sanity";
 import { BeforeAfterSlider } from "@/features/projects/before-after-slider";
 import { ProjectChapterBlock } from "@/features/projects/project-chapter";
 import { ProjectConcept } from "@/features/projects/project-concept";
@@ -19,33 +19,61 @@ import { ProjectTeamMatrix } from "@/features/projects/project-team-matrix";
 import { RelatedProjects } from "@/features/projects/related-projects";
 import { Reveal } from "@/motion";
 
-export function generateStaticParams() {
-  return getProjects().map((project) => ({
+export async function generateStaticParams() {
+  const projects = await getProjects();
+  return projects.map((project) => ({
     slug: project.slug,
   }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const project = getProjectBySlug(slug);
+  const project = await getProjectBySlug(slug);
   if (!project) return { title: "Project Not Found" };
+
+  // Use SEO fields if provided, otherwise fall back to defaults
+  const title = project.seo?.title || project.title;
+  const description = project.seo?.description || project.description;
+
+  // Build Open Graph image URL from SEO or hero image
+  const ogImage = project.seo?.ogImage?.src || project.heroImage.src;
+
   return {
-    title: project.title,
-    description: project.description,
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images: [
+        {
+          url: ogImage,
+          width: project.seo?.ogImage?.width || project.heroImage.width || 1200,
+          height: project.seo?.ogImage?.height || project.heroImage.height || 630,
+          alt: project.seo?.ogImage?.alt || project.heroImage.alt || project.title,
+        },
+      ],
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [ogImage],
+    },
   };
 }
 
 export default async function ProjectDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const project = getProjectBySlug(slug);
+  const project = await getProjectBySlug(slug);
   if (!project) notFound();
 
-  const projects = getProjects();
+  const projects = await getProjects();
   const currentIndex = projects.findIndex((p) => p.slug === project.slug);
   const prev = currentIndex > 0 ? projects[currentIndex - 1] : undefined;
   const next = currentIndex < projects.length - 1 ? projects[currentIndex + 1] : undefined;
 
-  const related = getRelatedProjects(project);
+  const related = await getRelatedProjects(project);
   const hasFallbackStory = !project.chapters && project.story;
 
   return (
@@ -92,9 +120,16 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                 <p className="text-foreground/40 mb-md font-mono text-[10px] tracking-widest uppercase">
                   Overview
                 </p>
-                <Text variant="body" className="text-foreground/75 text-lg leading-relaxed">
-                  {project.story}
-                </Text>
+                <div className="text-foreground/75 space-y-md text-lg leading-relaxed">
+                  {project
+                    .story!.split("\n")
+                    .filter((line) => line.trim() !== "")
+                    .map((para, i) => (
+                      <Text key={i} variant="body" as="p">
+                        {para}
+                      </Text>
+                    ))}
+                </div>
               </div>
             )}
 
@@ -125,9 +160,11 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
       )}
 
       {/* ─── [4B] ARCHITECTURAL DRAWINGS & PLANS ────────────────────────────────── */}
-      <Section container="standard" className="py-2xl border-border/30 border-t">
-        <ProjectDrawingViewer />
-      </Section>
+      {project.drawings && project.drawings.length > 0 && (
+        <Section container="standard" className="py-2xl border-border/30 border-t">
+          <ProjectDrawingViewer drawings={project.drawings} />
+        </Section>
+      )}
 
       {/* ─── [5] MATERIAL PALETTE ─────────────────────────────────────────────── */}
       {project.materialNarrative && project.materialNarrative.length > 0 && (
@@ -146,9 +183,16 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                   <p className="text-foreground/40 mb-sm font-mono text-[10px] tracking-widest uppercase">
                     Light Strategy
                   </p>
-                  <Text variant="body" className="text-foreground/60 text-base leading-relaxed">
-                    {project.lightStrategy}
-                  </Text>
+                  <div className="text-foreground/60 space-y-md text-base leading-relaxed">
+                    {project.lightStrategy
+                      .split("\n")
+                      .filter((line) => line.trim() !== "")
+                      .map((para, i) => (
+                        <Text key={i} variant="body" as="p">
+                          {para}
+                        </Text>
+                      ))}
+                  </div>
                 </div>
               )}
               {project.siteResponse && (
@@ -156,9 +200,16 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                   <p className="text-foreground/40 mb-sm font-mono text-[10px] tracking-widest uppercase">
                     Site Response
                   </p>
-                  <Text variant="body" className="text-foreground/60 text-base leading-relaxed">
-                    {project.siteResponse}
-                  </Text>
+                  <div className="text-foreground/60 space-y-md text-base leading-relaxed">
+                    {project.siteResponse
+                      .split("\n")
+                      .filter((line) => line.trim() !== "")
+                      .map((para, i) => (
+                        <Text key={i} variant="body" as="p">
+                          {para}
+                        </Text>
+                      ))}
+                  </div>
                 </div>
               )}
             </div>

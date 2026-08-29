@@ -14,12 +14,15 @@ interface TextProps {
 
 export function Text({ as: Tag = "p", variant = "body", children, className }: TextProps) {
   const style = typography.styles[variant];
+  const hasTextSizeClass = className
+    ? /\btext-(xs|sm|base|lg|xl|[2-9]?xl)\b/.test(className)
+    : false;
 
   return (
     <Tag
       className={cn("text-foreground font-sans", className)}
       style={{
-        fontSize: style.size,
+        ...(hasTextSizeClass ? {} : { fontSize: style.size }),
         lineHeight: style.lineHeight,
         fontWeight: style.weight,
       }}

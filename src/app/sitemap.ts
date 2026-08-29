@@ -3,11 +3,11 @@ import type { MetadataRoute } from "next";
 import { navigationConfig } from "@/config/navigation";
 import { routes, type RouteKey } from "@/config/routes";
 import { siteConfig } from "@/config/site";
-import { getArticles } from "@/content/journal";
-import { getProjects } from "@/content/projects";
+import { getArticles } from "@/content/journal/sanity-adapter";
+import { getProjects } from "@/content/projects/sanity";
 import { getServices } from "@/content/services";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = siteConfig.url;
 
   const staticRouteKeys: Array<"" | RouteKey> = [
@@ -23,7 +23,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: key === "" ? 1 : 0.8,
   }));
 
-  const projectRoutes = getProjects().map((project) => ({
+  const [projects, articles] = await Promise.all([getProjects(), getArticles()]);
+
+  const projectRoutes = projects.map((project) => ({
     url: `${base}/projects/${project.slug}`,
     lastModified: new Date(),
     changeFrequency: "weekly" as const,
@@ -37,7 +39,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  const articleRoutes = getArticles().map((article) => ({
+  const articleRoutes = articles.map((article) => ({
     url: `${base}/journal/${article.slug}`,
     lastModified: new Date(article.publishedAt),
     changeFrequency: "monthly" as const,

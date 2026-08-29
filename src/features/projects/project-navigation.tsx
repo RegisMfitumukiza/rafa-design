@@ -23,51 +23,55 @@ export function ProjectNavigation({ prev, next, className = "" }: ProjectNavigat
         <Reveal>
           <Link
             href={`/projects/${next.slug}` as Route}
-            className="group relative block overflow-hidden"
+            className="group relative block w-full overflow-hidden"
             aria-label={`Next project: ${next.title}`}
           >
             {/* Background hero image */}
-            <div className="relative aspect-[21/9] w-full">
+            <div className="relative aspect-[21/9] w-full overflow-hidden">
               <Image
                 asset={next.heroImage}
                 sizes="100vw"
-                className="h-full w-full transition-transform duration-1000 ease-out motion-safe:group-hover:scale-[1.02]"
+                fill
+                className="h-full w-full"
+                imgClassName="object-cover transition-transform duration-1000 ease-out motion-safe:group-hover:scale-[1.02]"
               />
               {/* Dark overlay */}
               <div className="absolute inset-0 bg-black/55 transition-colors duration-700 group-hover:bg-black/45" />
 
-              {/* Text content */}
-              <div className="p-lg md:p-2xl absolute inset-0 flex flex-col justify-end">
-                <p className="mb-sm font-mono text-[10px] tracking-widest text-white/50 uppercase">
+              {/* Text content - anchored to bottom-left */}
+              <div className="px-lg pb-xl md:px-xl md:pb-2xl lg:px-3xl lg:pb-3xl absolute right-0 bottom-0 left-0">
+                <p className="mb-xs md:mb-sm font-mono text-[10px] tracking-widest text-white/50 uppercase">
                   Continue Reading — Next Project
                 </p>
                 <Heading
                   as="h2"
                   variant="h1"
-                  className="max-w-2xl tracking-tight text-white transition-transform duration-700 motion-safe:group-hover:-translate-y-1"
+                  className="max-w-3xl text-3xl leading-[0.95] tracking-tight text-white transition-transform duration-700 motion-safe:group-hover:-translate-y-1 sm:text-4xl md:text-5xl lg:text-6xl"
                 >
                   {next.title}
                 </Heading>
                 {next.subtitle && (
-                  <p className="mt-xs text-base font-light text-white/60">{next.subtitle}</p>
+                  <p className="mt-xs md:mt-sm max-w-xl text-sm font-light text-white/60 md:text-base">
+                    {next.subtitle}
+                  </p>
                 )}
-                <div className="mt-md gap-xs flex items-center font-mono text-[11px] tracking-widest text-white/40 uppercase">
+                <div className="mt-sm md:mt-md gap-xs flex flex-wrap items-center font-mono text-[10px] tracking-widest text-white/40 uppercase md:text-[11px]">
                   <span>
                     {next.location.city}, {next.location.country}
                   </span>
                   <span className="text-white/20">·</span>
                   <span>{next.year}</span>
-                  {next.typology && (
+                  {next.typology && Array.isArray(next.typology) && next.typology.length > 0 && (
                     <>
                       <span className="text-white/20">·</span>
-                      <span>{next.typology}</span>
+                      <span>{next.typology.join(", ")}</span>
                     </>
                   )}
                 </div>
 
-                {/* Arrow */}
-                <div className="mt-lg">
-                  <span className="inline-block font-mono text-sm text-white/60 transition-all duration-500 group-hover:translate-x-1 group-hover:text-white">
+                {/* Arrow CTA */}
+                <div className="mt-md md:mt-lg">
+                  <span className="inline-block font-mono text-xs text-white/60 transition-all duration-500 group-hover:translate-x-1 group-hover:text-white md:text-sm">
                     View Project →
                   </span>
                 </div>

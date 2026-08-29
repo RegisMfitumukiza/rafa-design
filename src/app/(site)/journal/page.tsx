@@ -3,12 +3,12 @@ import type { Metadata } from "next";
 import { Section } from "@/components/layout/Section";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema } from "@/config/schema";
+import type { JournalCategory } from "@/content/journal";
 import {
   getArticles,
   getFeaturedArticle,
   getActiveCategories,
-  type JournalCategory,
-} from "@/content/journal";
+} from "@/content/journal/sanity-adapter";
 import { pageContent } from "@/content/pages";
 import { CategoryFilter } from "@/features/journal/category-filter";
 import { FeaturedArticle } from "@/features/journal/featured-article";
@@ -25,16 +25,20 @@ export default async function JournalPage({
 }: {
   searchParams: Promise<{ category?: string }>;
 }) {
-  const articles = getArticles(); // Already sorted by date (latest first)
-  const categories = getActiveCategories();
   const { category } = await searchParams;
   const activeCategory = (category ?? null) as JournalCategory | null;
 
+  // Fetch articles directly from Sanity CMS
+  const allArticles = await getArticles();
+  const featured = await getFeaturedArticle();
+  const categories = await getActiveCategories();
+
+  // Filter by category if specified
   const filtered = activeCategory
-    ? articles.filter((a) => a.category === activeCategory)
-    : articles;
-  const featured = getFeaturedArticle(); // Latest article
-  const rest = filtered.filter((a) => a.slug !== featured.slug);
+    ? allArticles.filter((a) => a.category === activeCategory)
+    : allArticles;
+
+  const rest = featured ? filtered.filter((a) => a.slug !== featured.slug) : filtered;
 
   return (
     <>
@@ -60,7 +64,9 @@ export default async function JournalPage({
           </div>
         </Reveal>
 
-        {activeCategory === null && <FeaturedArticle article={featured} className="mb-2xl" />}
+        {activeCategory === null && featured && (
+          <FeaturedArticle article={featured} className="mb-2xl" />
+        )}
 
         <CategoryFilter categories={categories} active={activeCategory} className="mb-xl" />
 

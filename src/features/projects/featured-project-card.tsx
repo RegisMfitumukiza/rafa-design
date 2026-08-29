@@ -1,9 +1,13 @@
+"use client";
+
 import type { Route } from "next";
 
 import Link from "next/link";
 
 import { Image } from "@/components/media/Image";
 import type { Project } from "@/content/projects";
+import { useImageBrightness, getOverlayOpacity } from "@/hooks/use-image-brightness";
+import { cn } from "@/lib/cn";
 
 interface FeaturedProjectCardProps {
   project: Project;
@@ -19,6 +23,11 @@ interface FeaturedProjectCardProps {
  * This is intentionally separate from ProjectCard to avoid conditional complexity.
  */
 export function FeaturedProjectCard({ project }: FeaturedProjectCardProps) {
+  // Analyze image brightness to adjust overlay dynamically
+  const imageUrl = project.heroImage?.src;
+  const { brightness } = useImageBrightness(imageUrl);
+  const overlayClasses = getOverlayOpacity(brightness);
+
   return (
     <Link
       href={`/projects/${project.slug}` as Route}
@@ -29,15 +38,21 @@ export function FeaturedProjectCard({ project }: FeaturedProjectCardProps) {
       <div className="relative aspect-[16/9] overflow-hidden md:aspect-[21/9] lg:aspect-[3/1]">
         <Image
           asset={project.heroImage}
+          fill
           className="h-full w-full object-cover transition-transform duration-[1200ms] ease-out motion-safe:group-hover:scale-[1.04]"
-          sizes="(max-width: 768px) 100vw, (max-width: 1280px) 90vw, 1440px"
-          priority
+          sizes="100vw"
+          priority={true}
+          loading="eager"
+          fetchPriority="high"
         />
 
-        {/* Gradient — bottom-heavy for title legibility */}
+        {/* Gradient — bottom-heavy for title legibility, dynamically adjusted */}
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/0 transition-opacity duration-700 group-hover:opacity-90"
+          className={cn(
+            "absolute inset-0 bg-gradient-to-t transition-opacity duration-700 group-hover:opacity-100",
+            overlayClasses.gradient,
+          )}
         />
 
         {/* Featured overline — top left */}
@@ -49,15 +64,33 @@ export function FeaturedProjectCard({ project }: FeaturedProjectCardProps) {
 
         {/* Title composition — bottom left */}
         <div className="p-md md:p-xl absolute right-0 bottom-0 left-0 z-10">
+          {/* Additional backdrop for text area - dynamically adjusted */}
+          <div
+            aria-hidden="true"
+            className={cn("absolute inset-0 -z-10 bg-gradient-to-t", overlayClasses.backdrop)}
+          />
+
           {/* Metadata overline */}
-          <p className="mb-xs md:mb-sm font-mono text-[10px] tracking-widest text-white/50 uppercase">
+          <p
+            className="mb-xs md:mb-sm font-mono text-[10px] tracking-widest text-white/50 uppercase"
+            style={{ textShadow: "0 1px 12px rgba(0, 0, 0, 0.9), 0 2px 4px rgba(0, 0, 0, 1)" }}
+          >
             {project.year}
             {project.location && ` · ${project.location.city}, ${project.location.country}`}
-            {project.typology && ` · ${project.typology}`}
+            {project.typology &&
+              Array.isArray(project.typology) &&
+              project.typology.length > 0 &&
+              ` · ${project.typology.join(", ")}`}
           </p>
 
-          {/* Title */}
-          <h2 className="max-w-3xl text-3xl leading-[0.95] font-medium tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl">
+          {/* Title with enhanced text shadow (no backdrop box) */}
+          <h2
+            className="max-w-3xl text-3xl leading-[0.95] font-medium tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl"
+            style={{
+              textShadow:
+                "0 2px 16px rgba(0, 0, 0, 0.8), 0 4px 32px rgba(0, 0, 0, 0.6), 0 1px 4px rgba(0, 0, 0, 0.9)",
+            }}
+          >
             {project.title}
           </h2>
 
