@@ -390,6 +390,15 @@ export default defineType({
     }),
 
     defineField({
+      name: "featured",
+      title: "Featured Article",
+      type: "boolean",
+      group: "metadata",
+      initialValue: false,
+      description: "Display prominently as hero at the top of the Journal index and homepage",
+    }),
+
+    defineField({
       name: "publishedAt",
       title: "Publication Date",
       type: "datetime",

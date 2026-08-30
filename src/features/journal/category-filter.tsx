@@ -82,7 +82,7 @@ export function CategoryFilterPills({ categories, active, className }: CategoryF
             )}
             aria-pressed={active === cat}
           >
-            {CATEGORY_LABELS[cat]}
+            {CATEGORY_LABELS[cat] ?? (cat ? cat.charAt(0).toUpperCase() + cat.slice(1) : cat)}
           </button>
         </span>
       ))}

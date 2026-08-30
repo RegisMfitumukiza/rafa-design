@@ -299,15 +299,23 @@ export const articlesByCategoryQuery = `
   }
 `;
 
-// Get featured article (for homepage)
+// Get featured article (prefers featured == true, then newest)
 export const featuredArticleQuery = `
-  *[_type == "journalArticle" && !(_id in path("drafts.**"))] | order(publishedAt desc)[0] {
+  *[_type == "journalArticle" && !(_id in path("drafts.**"))] | order(featured desc, publishedAt desc)[0] {
     _id,
     slug,
     title,
+    subtitle,
     excerpt,
+    type,
     category,
     publishedAt,
+    readingTime,
+    author {
+      name,
+      role,
+      url
+    },
     hero {
       ${imageProjection}
     }

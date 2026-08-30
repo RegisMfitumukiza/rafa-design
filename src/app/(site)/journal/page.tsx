@@ -37,8 +37,12 @@ export default async function JournalPage({
     ? allArticles.filter((a) => a.category === activeCategory)
     : allArticles;
 
-  // Remove featured article from the grid to avoid duplication
-  const rest = featured ? filtered.filter((a) => a.slug !== featured.slug) : filtered;
+  // Remove featured article from the grid ONLY when viewing "All" (activeCategory === null)
+  // because the featured hero is already displayed at the top.
+  const rest =
+    activeCategory === null && featured
+      ? filtered.filter((a) => a.slug !== featured.slug)
+      : filtered;
 
   return (
     <>
