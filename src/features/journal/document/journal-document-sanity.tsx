@@ -1,10 +1,15 @@
 /**
  * Journal Document (Sanity Version)
  *
- * Renders journal articles from Sanity CMS with portable text content.
- * This replaces the sections-based approach with portable text rendering.
+ * Renders journal articles from Sanity CMS as an architectural monograph:
+ * - Fixed 2px hairline scroll progress bar
+ * - 12-column asymmetric split header (Left: Monumental H1 + Excerpt | Right: Architectural Spec Matrix)
+ * - Monumental hero image plate with architectural attribution
+ * - Comfortable editorial reading column (max-w-3xl) with portable text
+ * - Structured credits matrix & taxonomy tags
+ * - Smooth "Back to top ↑" trigger
  *
- * @see src/components/journal/portable-text.tsx for content rendering
+ * @see src/components/journal/portable-text.tsx for content block rendering
  */
 
 import Image from "next/image";
@@ -13,6 +18,9 @@ import Link from "next/link";
 import { ArticleContent } from "@/components/journal/portable-text";
 import { Section } from "@/components/layout/Section";
 import type { JournalArticle } from "@/content/journal";
+import { BackToTop } from "@/features/journal/document/back-to-top";
+import { ScrollProgress } from "@/features/journal/document/scroll-progress";
+import { ShareButton } from "@/features/journal/document/share-button";
 import { Reveal, ImageReveal } from "@/motion";
 
 interface JournalDocumentSanityProps {
@@ -44,62 +52,102 @@ export function JournalDocumentSanity({ article, categoryLabel }: JournalDocumen
 
   return (
     <>
-      {/* Metadata + Title */}
-      <Section container="narrow">
+      {/* Hairline reading progress indicator */}
+      <ScrollProgress />
+
+      {/* ── 12-Column Monograph Header ─────────────────────────────────── */}
+      <Section container="wide" className="pt-xl pb-2xl">
         <Reveal>
-          {/* Breadcrumb */}
-          <nav aria-label="Breadcrumb" className="mb-md">
+          {/* Breadcrumb overline */}
+          <nav aria-label="Breadcrumb" className="mb-lg">
             <Link
               href="/journal"
-              className="text-foreground/40 hover:text-foreground gap-xs group inline-flex items-center font-mono text-xs tracking-wider transition-colors"
+              className="text-foreground/40 hover:text-foreground inline-flex items-center gap-1.5 font-mono text-[10px] tracking-widest uppercase transition-colors"
             >
+              <span>← Journal</span>
+              <span className="text-foreground/20">{"//"}</span>
               <span>{categoryLabel}</span>
-              <span className="transition-transform group-hover:translate-x-1">→</span>
             </Link>
           </nav>
 
-          {/* Title */}
-          <h1 className="font-display text-foreground text-4xl leading-tight font-medium tracking-tight text-balance sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
-            {article.title}
-          </h1>
+          <div className="gap-x-2xl gap-y-xl grid items-start md:grid-cols-12">
+            {/* Left 8 Cols: Monumental Title + Subtitle + Lead Excerpt */}
+            <div className="md:col-span-8">
+              <h1 className="font-display text-foreground text-4xl leading-[1.06] font-medium tracking-tight text-balance sm:text-5xl md:text-6xl lg:text-7xl">
+                {article.title}
+              </h1>
 
-          {/* Subtitle */}
-          {article.subtitle && (
-            <p className="text-foreground/60 mt-md text-lg font-medium md:text-xl">
-              {article.subtitle}
-            </p>
-          )}
+              {article.subtitle && (
+                <p className="text-foreground/60 mt-md text-xl leading-snug font-medium sm:text-2xl">
+                  {article.subtitle}
+                </p>
+              )}
 
-          {/* Excerpt */}
-          {article.excerpt && (
-            <p className="text-foreground/70 mt-lg text-xl leading-relaxed md:text-2xl">
-              {article.excerpt}
-            </p>
-          )}
+              {article.excerpt && (
+                <p className="text-foreground/75 mt-xl max-w-prose text-xl leading-relaxed sm:text-2xl">
+                  {article.excerpt}
+                </p>
+              )}
+            </div>
 
-          {/* Metadata */}
-          <div className="text-foreground/40 mt-md font-mono text-xs">
-            {authorName && (
-              <span>
-                {authorName}
-                {authorRole && ` · ${authorRole}`}
-              </span>
-            )}
-            {authorName && <span className="mx-xs">·</span>}
-            <time dateTime={article.publishedAt}>{formattedDate}</time>
-            {article.estimatedReadingTime && (
-              <>
-                <span className="mx-xs">·</span>
-                <span>{article.estimatedReadingTime} min read</span>
-              </>
-            )}
+            {/* Right 4 Cols: Architectural Spec Matrix */}
+            <div className="border-border/30 pt-md md:pl-md border-t md:col-span-4 md:border-t-0">
+              <dl className="divide-border/20 divide-y font-mono text-[10px] tracking-widest uppercase">
+                {/* 01 // Author */}
+                <div className="py-sm">
+                  <dt className="text-foreground/35 mb-0.5">01 // Author</dt>
+                  <dd className="text-foreground/80 font-sans text-xs font-medium tracking-normal">
+                    {authorName || "RAFA Design Hub"}
+                    {authorRole && (
+                      <span className="text-foreground/40 mt-0.5 block font-mono text-[10px] tracking-widest uppercase">
+                        {authorRole}
+                      </span>
+                    )}
+                  </dd>
+                </div>
+
+                {/* 02 // Published */}
+                <div className="py-sm">
+                  <dt className="text-foreground/35 mb-0.5">02 // Published</dt>
+                  <dd className="text-foreground/80 font-sans text-xs tracking-normal">
+                    <time dateTime={article.publishedAt}>{formattedDate}</time>
+                  </dd>
+                </div>
+
+                {/* 03 // Reading Time */}
+                {article.estimatedReadingTime && (
+                  <div className="py-sm">
+                    <dt className="text-foreground/35 mb-0.5">03 // Reading Time</dt>
+                    <dd className="text-foreground/80 font-sans text-xs tracking-normal">
+                      {article.estimatedReadingTime} min read
+                    </dd>
+                  </div>
+                )}
+
+                {/* 04 // Discipline */}
+                <div className="py-sm">
+                  <dt className="text-foreground/35 mb-0.5">04 // Discipline</dt>
+                  <dd className="text-foreground/80 font-sans text-xs tracking-normal">
+                    {categoryLabel}
+                  </dd>
+                </div>
+
+                {/* 05 // Share */}
+                <div className="py-sm">
+                  <dt className="text-foreground/35 mb-0.5">05 // Share</dt>
+                  <dd className="pt-0.5">
+                    <ShareButton title={article.title} />
+                  </dd>
+                </div>
+              </dl>
+            </div>
           </div>
         </Reveal>
       </Section>
 
-      {/* Hero Image */}
+      {/* ── Monumental Hero Photography ─────────────────────────────────── */}
       {heroImageUrl && (
-        <Section container="full" noPadding>
+        <Section container="full" noPadding className="mb-2xl">
           <ImageReveal>
             <figure>
               <div className="aspect-hero bg-surface relative w-full overflow-hidden">
@@ -113,10 +161,12 @@ export function JournalDocumentSanity({ article, categoryLabel }: JournalDocumen
                 />
               </div>
               {(article.hero?.caption || heroCreditText) && (
-                <figcaption className="container-narrow text-foreground/60 mt-sm mx-auto text-sm">
-                  {article.hero?.caption && <p className="mb-xs">{article.hero.caption}</p>}
+                <figcaption className="container-wide text-foreground/50 mt-sm gap-x-md flex flex-wrap items-baseline justify-between text-xs">
+                  {article.hero?.caption && <p>{article.hero.caption}</p>}
                   {heroCreditText && (
-                    <p className="text-foreground/40 font-mono text-xs">{heroCreditText}</p>
+                    <p className="text-foreground/35 font-mono text-[10px] tracking-widest uppercase">
+                      Photo: {heroCreditText}
+                    </p>
                   )}
                 </figcaption>
               )}
@@ -125,69 +175,74 @@ export function JournalDocumentSanity({ article, categoryLabel }: JournalDocumen
         </Section>
       )}
 
-      {/* Portable Text Content */}
-      <Section container="narrow" className="mt-2xl">
-        <Reveal>
-          <ArticleContent content={Array.isArray(article.content) ? article.content : []} />
-        </Reveal>
+      {/* ── Editorial Reading Column (Portable Text) ───────────────────── */}
+      <Section container="standard" className="my-2xl">
+        <div className="mx-auto max-w-3xl">
+          <Reveal>
+            <ArticleContent content={Array.isArray(article.content) ? article.content : []} />
+          </Reveal>
+
+          {/* ── Architectural Credits Block ───────────────────────────── */}
+          {article.credits && article.credits.length > 0 && (
+            <Reveal>
+              <div className="border-border/30 mt-3xl pt-xl border-t">
+                <p className="text-foreground/35 mb-md font-mono text-[10px] tracking-widest uppercase">
+                  Specification // Credits & Attribution
+                </p>
+                <dl className="gap-md grid font-mono text-xs sm:grid-cols-2">
+                  {article.credits.map((credit, index) => (
+                    <div key={index} className="border-border/20 pb-sm border-b">
+                      <dt className="text-foreground/40 mb-1 text-[10px] tracking-widest capitalize uppercase">
+                        {credit.role}
+                      </dt>
+                      <dd className="text-foreground/90 font-sans text-sm">
+                        {credit.url ? (
+                          <a
+                            href={credit.url}
+                            className="hover:text-foreground decoration-foreground/30 hover:decoration-foreground underline underline-offset-4 transition-colors"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {credit.name}
+                            {credit.organization && ` (${credit.organization})`} ↗
+                          </a>
+                        ) : (
+                          <>
+                            {credit.name}
+                            {credit.organization && ` (${credit.organization})`}
+                          </>
+                        )}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            </Reveal>
+          )}
+
+          {/* ── Taxonomy Tags ─────────────────────────────────────────── */}
+          {article.keywords && article.keywords.length > 0 && (
+            <Reveal>
+              <div className="border-border/20 mt-xl pt-md flex flex-wrap items-center gap-2 border-t">
+                <span className="text-foreground/35 mr-2 font-mono text-[10px] tracking-widest uppercase">
+                  Keywords:
+                </span>
+                {article.keywords.map((keyword) => (
+                  <span
+                    key={keyword}
+                    className="border-border/40 bg-foreground/5 text-foreground/70 rounded-xs px-2 py-0.5 font-mono text-[10px] tracking-wider uppercase"
+                  >
+                    #{keyword}
+                  </span>
+                ))}
+              </div>
+            </Reveal>
+          )}
+        </div>
       </Section>
 
-      {/* Credits */}
-      {article.credits && article.credits.length > 0 && (
-        <Section container="narrow" className="mt-2xl">
-          <Reveal>
-            <div className="border-t-border pt-lg border-t">
-              <h2 className="text-foreground/40 mb-sm font-mono text-xs tracking-wider uppercase">
-                Credits
-              </h2>
-              <dl className="space-y-xs">
-                {article.credits.map((credit, index) => (
-                  <div key={index} className="text-foreground/70 text-sm">
-                    <dt className="inline font-medium capitalize">{credit.role}: </dt>
-                    <dd className="inline">
-                      {credit.url ? (
-                        <a
-                          href={credit.url}
-                          className="hover:text-foreground underline underline-offset-2 transition-colors"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {credit.name}
-                          {credit.organization && ` (${credit.organization})`}
-                        </a>
-                      ) : (
-                        <>
-                          {credit.name}
-                          {credit.organization && ` (${credit.organization})`}
-                        </>
-                      )}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
-          </Reveal>
-        </Section>
-      )}
-
-      {/* Keywords */}
-      {article.keywords && article.keywords.length > 0 && (
-        <Section container="narrow" className="mt-lg">
-          <Reveal>
-            <div className="gap-xs flex flex-wrap">
-              <span className="text-foreground/40 font-mono text-xs">Tags:</span>
-              {article.keywords.map((keyword) => (
-                <span
-                  key={keyword}
-                  className="bg-surface text-foreground/60 px-sm py-xs rounded-full font-mono text-xs"
-                >
-                  {keyword}
-                </span>
-              ))}
-            </div>
-          </Reveal>
-        </Section>
-      )}
+      {/* Floating Back To Top */}
+      <BackToTop />
     </>
   );
 }
