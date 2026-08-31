@@ -1,12 +1,14 @@
 "use client";
 
 import { Image } from "@/components/media/Image";
-import { contactInformation } from "@/content/company/contact";
 import { pageContent } from "@/content/pages";
+import type { ImageAsset } from "@/content/types";
 import { cn } from "@/lib/cn";
 import { ImageReveal, Reveal } from "@/motion";
 
 interface ContactEditorialProps {
+  editorialImage: ImageAsset;
+  email: string;
   className?: string;
 }
 
@@ -20,9 +22,9 @@ interface ContactEditorialProps {
  *   "EVERY PROJECT BEGINS WITH A CONVERSATION."
  * with a direct email action link.
  */
-export function ContactEditorial({ className }: ContactEditorialProps) {
+export function ContactEditorial({ editorialImage, email, className }: ContactEditorialProps) {
   const contact = pageContent.contact;
-  const contactInfo = contactInformation;
+  const contactInfo = { email };
 
   return (
     <div className={cn("space-y-2xl", className ?? "")}>
@@ -30,7 +32,7 @@ export function ContactEditorial({ className }: ContactEditorialProps) {
       <div>
         <ImageReveal className="w-full">
           <Image
-            asset={contactInfo.editorialImage}
+            asset={editorialImage}
             sizes="100vw"
             className="aspect-[16/9] w-full rounded-sm md:aspect-[21/9]"
             imgClassName="object-cover"

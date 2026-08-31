@@ -64,7 +64,19 @@ Documentation updates.
 
 # [Unreleased]
 
+## Changed
+
+- Company pages Sanity migration (2026-08-31) — the Studio, Careers, Contact, and Site Settings surfaces switched from hardcoded `src/content` TypeScript to Sanity-first fetching. `/studio`, `/careers`, and `/contact` pages are now async Sanity fetch + null-fallback; `office-map.tsx` and `contact-editorial.tsx` converted from static-import to prop-driven. `sanity.config.ts` now defines 9 Studio sections (01 Projects / 02 Journal / 03 Services / 04 Team / 05 Studio / 06 Careers / 07 Careers Page / 08 Contact / 09 Site Settings) with singleton action guards (`studio`/`careers`/`contact`/`siteSettings` hide create/delete/publish/unpublish/duplicate). `src/sanity/lib/{queries,transforms,fetch,index}.ts` extended with the team/studio/career/careers/contact/siteSettings data layer.
+
 ## Added
+
+- Company content schemas (2026-08-31) — `teamMember` (`team.ts`), `studio` singleton (`studio.ts`), `career` job postings (`career.ts`), `careers` page singleton (`careers.ts`), `contact` singleton (`contact.ts`), `siteSettings` singleton (`siteSettings.ts`) in `src/sanity/schemas/`, all registered in `schemas/index.ts`. Nested object types: `principle`, `workingMethod`, `timelineEvent`, `award`, `clientSector`, `socialLink`, `office`, `benefit`, `hero`, `openApplication`.
+- Company GROQ queries — `teamQuery`, `studioQuery`, `careersPositionsQuery`, `careerBySlugQuery`, `careerSlugsQuery`, `careersQuery`, `contactQuery`, `siteSettingsQuery` (full projections incl. image assets/metadata).
+- Company transforms — `transformSanityTeamMember(s)/Studio/StudioCollections/Career(s)/CareersPage/Contact/SiteSettings` plus `transformSocialLinks`/`transformOffice`/`sanitizeId` helpers in `src/sanity/lib/transforms.ts`.
+- Company fetch functions — `getTeamMembers`, `getStudioInfo`, `getStudioCollections`, `getStudioHistory`, `getCareers`, `getCareerBySlug`, `getCareerSlugs`, `getCareersPageContent`, `getContactInformation`, `getSiteSettings` in `src/sanity/lib/fetch.ts`.
+- `src/content/siteSettings.ts` — new `SiteSettings` interface (identity, SEO defaults, organisation, operational fields).
+- Migration scripts — `scripts/migrate-{team,studio,careers,contact,site-settings}-to-sanity.mjs` + shared `scripts/lib/sanity.mjs` upload helper; run all five via `npm run migrate:company`. Idempotent (skip existing by slug/singleton) and upload the local placeholder images as Sanity assets.
+- Suite of `migrate:*` npm scripts (`team`, `studio`, `careers`, `contact`, `site-settings`, `company`).
 
 - Process editorial redesign (2026-08-14) — `/process` rebuilt as an architectural-methodology page: 12-col intro, work-in-progress hero, ruled phase index with evidence plates, "See the Work →" link, and shared closing CTA. `ProcessTimeline`/`ProcessStep` rewritten as ruled editorial rows (`[2] number · [4] title · [6] description`, `border-y divide-y`, `Stagger`; phase `visual`s as full-width 16:9 `ImageReveal` evidence plates with mono captions). New `ProcessProgress` client component — reading-progress hairline under the header scrubbed across the methodology section, decorative + reduced-motion aware. `DisciplineCta` gained a `content` override (reused by `/process` via `pageContent.process.cta`).
 - Process content in content (2026-08-14) — `processHero: ImageAsset` in `src/content/process/index.ts`, `pageContent.process.overline` + `.cta`, `ui.overlines.sequence`, `ui.sections.seeTheWork`.

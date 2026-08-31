@@ -387,84 +387,249 @@ export const serviceSlugsQuery = `
 `;
 
 /**
- * SINGLETON QUERIES
+ * TEAM MEMBER QUERIES
  */
 
-// Get studio information
-export const studioQuery = `
-  *[_type == "studio"][0] {
-    name,
-    tagline,
-    introduction,
-    manifesto,
-    beliefs[],
-    workingMethods[] {
-      title,
-      description
-    },
-    heroImage {
-      ${imageProjection}
-    },
-    atelierImage {
-      ${imageProjection}
-    }
-  }
-`;
-
-// Get team members
+// Get all team members (for studio page grid)
 export const teamQuery = `
-  *[_type == "teamMember" && !(_id in path("drafts.**"))] | order(order asc) {
+  *[_type == "teamMember" && displayOnTeamPage != false && !(_id in path("drafts.**"))] | order(order asc) {
     _id,
     name,
+    slug,
     role,
-    bio,
+    biography,
     disciplines[],
     experience,
     interests[],
+    email,
+    phone,
     image {
-      ${imageProjection}
+      asset->{
+        _id,
+        url,
+        metadata {
+          dimensions,
+          lqip
+        }
+      },
+      alt,
+      caption,
+      credit
     },
-    order
+    socialLinks[] {
+      platform,
+      url,
+      label
+    },
+    order,
+    category
   }
 `;
 
-// Get careers information
-export const careersQuery = `
-  *[_type == "careers"][0] {
+/**
+ * STUDIO SINGLETON QUERY
+ */
+
+// Get studio information (single document)
+export const studioQuery = `
+  *[_type == "studio"][0] {
+    _id,
+    name,
+    overline,
+    manifesto,
     introduction,
-    benefits[] {
+    philosophy,
+    beliefs[] {
+      code,
+      title,
+      statement
+    },
+    workingMethods[] {
+      code,
       title,
       description
     },
-    positions[] {
+    history,
+    images[] {
+      asset->{
+        _id,
+        url,
+        metadata {
+          dimensions,
+          lqip
+        }
+      },
+      alt,
+      caption,
+      credit
+    },
+    visit {
+      overline,
+      heading,
+      body,
+      visits
+    },
+    timeline[] {
+      year,
       title,
-      type,
-      location,
+      description
+    },
+    awards[] {
+      title,
+      organization,
+      year,
+      project,
+      citation
+    },
+    clientSectors[] {
+      code,
+      title,
       description,
-      requirements[]
+      projects,
+      clients,
+      collaborators
+    },
+    clientReferencesNote
+  }
+`;
+
+/**
+ * CAREER QUERIES
+ */
+
+// Get all open career postings (for careers page)
+export const careersPositionsQuery = `
+  *[_type == "career" && status == "Open" && !(_id in path("drafts.**"))] | order(featured desc, order asc) {
+    _id,
+    slug,
+    title,
+    location,
+    type,
+    description,
+    requirements[],
+    applicationLink,
+    order,
+    status,
+    featured
+  }
+`;
+
+// Get single career posting by slug
+export const careerBySlugQuery = `
+  *[_type == "career" && slug.current == $slug && !(_id in path("drafts.**"))][0] {
+    _id,
+    slug,
+    title,
+    location,
+    type,
+    description,
+    requirements[],
+    applicationLink,
+    order,
+    status,
+    featured,
+    seo {
+      title,
+      description
     }
   }
 `;
 
-// Get contact information
+// Get all career slugs (for generateStaticParams)
+export const careerSlugsQuery = `
+  *[_type == "career" && status == "Open" && !(_id in path("drafts.**"))].slug.current
+`;
+
+// Get careers page singleton content (hero, open application, benefits, image)
+export const careersQuery = `
+  *[_type == "careers"][0] {
+    _id,
+    hero {
+      overline,
+      heading,
+      body
+    },
+    openApplication {
+      overline,
+      heading,
+      body,
+      cta
+    },
+    benefits[] {
+      number,
+      title,
+      description
+    },
+    studioImage {
+      asset->{
+        _id,
+        url,
+        metadata {
+          dimensions,
+          lqip
+        }
+      },
+      alt,
+      caption,
+      credit
+    }
+  }
+`;
+
+/**
+ * CONTACT SINGLETON QUERY
+ */
+
+// Get contact information (single document)
 export const contactQuery = `
   *[_type == "contact"][0] {
+    _id,
     email,
     phone,
-    office {
-      address,
+    address,
+    coordinates,
+    projectTypes[],
+    offices[] {
+      name,
       city,
       country,
-      coordinates {
-        lat,
-        lng
+      address,
+      coordinates,
+      hours,
+      phone,
+      mapsUrl,
+      image {
+        asset->{
+          _id,
+          url,
+          metadata {
+            dimensions,
+            lqip
+          }
+        },
+        alt,
+        caption,
+        credit
       }
     },
     socialLinks[] {
       platform,
-      url
+      url,
+      label
     },
-    visitingHours
+    editorialImage {
+      asset->{
+        _id,
+        url,
+        metadata {
+          dimensions,
+          lqip
+        }
+      },
+      alt,
+      caption,
+      credit
+    }
   }
 `;
 
@@ -472,17 +637,34 @@ export const contactQuery = `
  * GLOBAL QUERIES
  */
 
-// Get site settings
+// Get site settings (global singleton)
 export const siteSettingsQuery = `
   *[_type == "siteSettings"][0] {
+    _id,
     siteName,
+    tagline,
+    description,
     siteUrl,
     defaultSeo {
       title,
       description,
+      keywords,
       ogImage {
-        ${imageProjection}
+        asset->{
+          _id,
+          url,
+          metadata {
+            dimensions,
+            lqip
+          }
+        },
+        alt
       }
-    }
+    },
+    email,
+    phone,
+    analyticsCode,
+    maintenanceMode,
+    maintenanceMessage
   }
 `;

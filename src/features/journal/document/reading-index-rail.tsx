@@ -70,7 +70,7 @@ export function ReadingIndexRail({
       {headings.length > 0 && (
         <div>
           <p className="text-foreground/35 mb-sm font-mono text-[10px] tracking-widest uppercase">
-            Index // Sections
+            Index {"//"} Sections
           </p>
           <nav>
             <ul className="border-border/30 space-y-2 border-l pl-3">
@@ -106,7 +106,7 @@ export function ReadingIndexRail({
       {/* 02 // Specification Metadata */}
       <div className="border-border/20 pt-md border-t">
         <p className="text-foreground/35 mb-sm font-mono text-[10px] tracking-widest uppercase">
-          Specification // Meta
+          Specification {"//"} Meta
         </p>
         <dl className="space-y-2.5 font-mono text-[10px] tracking-widest uppercase">
           <div>

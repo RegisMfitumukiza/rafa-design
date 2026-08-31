@@ -408,7 +408,7 @@ export function ArticleContent({ content }: { content: Array<Record<string, unkn
   }
 
   return (
-    <div className="space-y-xl text-foreground/85 leading-[1.8]">
+    <div>
       <PortableText
         value={content as unknown as Parameters<typeof PortableText>[0]["value"]}
         components={portableTextComponents}

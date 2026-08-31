@@ -72,6 +72,50 @@ export default defineConfig({
                   .title("Services")
                   .defaultOrdering([{ field: "order", direction: "asc" }]),
               ),
+
+            // 04 // Team
+            S.listItem()
+              .title("04 // Team")
+              .icon(() => "👥")
+              .child(
+                S.documentTypeList("teamMember")
+                  .title("Team Members")
+                  .defaultOrdering([{ field: "order", direction: "asc" }]),
+              ),
+
+            // 05 // Studio
+            S.listItem()
+              .title("05 // Studio")
+              .icon(() => "🏛️")
+              .child(S.documentTypeList("studio").title("Studio")),
+
+            // 06 // Careers
+            S.listItem()
+              .title("06 // Careers")
+              .icon(() => "💼")
+              .child(
+                S.documentTypeList("career")
+                  .title("Job Postings")
+                  .defaultOrdering([{ field: "order", direction: "asc" }]),
+              ),
+
+            // 07 // Careers Page
+            S.listItem()
+              .title("07 // Careers Page")
+              .icon(() => "📄")
+              .child(S.documentTypeList("careers").title("Careers Page")),
+
+            // 08 // Contact
+            S.listItem()
+              .title("08 // Contact")
+              .icon(() => "✉️")
+              .child(S.documentTypeList("contact").title("Contact Information")),
+
+            // 09 // Site Settings
+            S.listItem()
+              .title("09 // Site Settings")
+              .icon(() => "⚙️")
+              .child(S.documentTypeList("siteSettings").title("Site Settings")),
           ]),
     }),
 
@@ -88,10 +132,19 @@ export default defineConfig({
 
   // Document actions configuration
   document: {
-    // Hide document actions we don't need for editorial workflow
-    actions: (prev) => {
-      // For singleton documents (when we add them), hide create/delete actions
-      // Currently no singletons, so just return all actions
+    // For singleton documents, hide create/delete/duplicate actions so only a
+    // single document of each type can exist.
+    actions: (prev, context) => {
+      const singletonTypes = ["studio", "careers", "contact", "siteSettings"];
+      const { schemaType } = context;
+
+      if (singletonTypes.includes(schemaType as string)) {
+        return prev.filter(
+          (desc) =>
+            !desc.action || !["delete", "duplicate", "publish", "unpublish"].includes(desc.action),
+        );
+      }
+
       return prev;
     },
   },

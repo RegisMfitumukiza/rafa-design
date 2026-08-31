@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { Section } from "@/components/layout/Section";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema } from "@/config/schema";
-import { contactInformation } from "@/content/company/contact";
 import { pageContent } from "@/content/pages";
 import { ui } from "@/content/ui";
 import { ContactEditorial } from "@/features/contact/contact-editorial";
@@ -11,6 +10,7 @@ import { ContactForm } from "@/features/contact/contact-form";
 import { ContactInformation } from "@/features/contact/contact-information";
 import { OfficeMap } from "@/features/contact/office-map";
 import { Reveal } from "@/motion";
+import { getContactInformation } from "@/sanity/lib";
 
 export const metadata: Metadata = {
   title: pageContent.contact.title,
@@ -21,8 +21,15 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ContactPage() {
+export default async function ContactPage() {
   const contact = pageContent.contact;
+  const contactInfo = await getContactInformation();
+
+  if (!contactInfo) {
+    return null;
+  }
+
+  const { email, editorialImage } = contactInfo;
 
   return (
     <>
@@ -57,7 +64,7 @@ export default function ContactPage() {
           {/* Left 5 cols: Architectural Specification Index */}
           <div className="md:col-span-5">
             <Reveal>
-              <ContactInformation info={contactInformation} />
+              <ContactInformation info={contactInfo} />
             </Reveal>
           </div>
 
@@ -80,12 +87,12 @@ export default function ContactPage() {
 
       {/* ── 3. ATELIER LOCATION VIEWER ── */}
       <Section container="wide" className="mt-2xl">
-        <OfficeMap />
+        <OfficeMap offices={contactInfo.offices} />
       </Section>
 
       {/* ── 4. HUMAN CONTEXT & EDITORIAL CLOSING ── */}
       <Section container="wide" className="mt-2xl mb-2xl">
-        <ContactEditorial />
+        <ContactEditorial editorialImage={editorialImage} email={email} />
       </Section>
     </>
   );

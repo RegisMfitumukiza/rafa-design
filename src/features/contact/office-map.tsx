@@ -3,12 +3,13 @@
 import { useState } from "react";
 
 import { Image } from "@/components/media/Image";
-import { contactInformation } from "@/content/company/contact";
+import type { Office } from "@/content/company/contact";
 import { ui } from "@/content/ui";
 import { cn } from "@/lib/cn";
 import { ImageReveal, Reveal } from "@/motion";
 
 interface OfficeMapProps {
+  offices: Office[];
   className?: string;
 }
 
@@ -21,8 +22,7 @@ interface OfficeMapProps {
  *   - High-resolution photography of the selected atelier
  *   - Live-updating address, GPS coordinates, opening hours, and direct Google Maps satellite view link
  */
-export function OfficeMap({ className }: OfficeMapProps) {
-  const offices = contactInformation.offices;
+export function OfficeMap({ offices, className }: OfficeMapProps) {
   const [activeId, setActiveId] = useState<string>(offices[0]?.id ?? "porto");
 
   const activeOffice = offices.find((o) => o.id === activeId) ?? offices[0];

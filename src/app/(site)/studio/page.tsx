@@ -5,14 +5,6 @@ import { Image } from "@/components/media/Image";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema } from "@/config/schema";
 import { pageContent } from "@/content/pages";
-import {
-  studioContent,
-  teamMembers,
-  awards,
-  timeline,
-  clientSectors,
-  clientReferencesNote,
-} from "@/content/studio";
 import { ui } from "@/content/ui";
 import { Awards } from "@/features/studio/awards";
 import { Beliefs } from "@/features/studio/beliefs";
@@ -24,15 +16,36 @@ import { Timeline } from "@/features/studio/timeline";
 import { VisitStudio } from "@/features/studio/visit-studio";
 import { WorkingMethods } from "@/features/studio/working-methods";
 import { Parallax, Reveal } from "@/motion";
+import {
+  getStudioCollections,
+  getStudioHistory,
+  getStudioInfo,
+  getTeamMembers,
+} from "@/sanity/lib";
 
 export const metadata: Metadata = {
   title: pageContent.studio.title,
   description: pageContent.studio.description,
 };
 
-export default function StudioPage() {
-  const heroImage = studioContent.images[0];
-  const atelierImage = studioContent.images[1];
+export default async function StudioPage() {
+  const [studio, team, { awards, timeline, clientSectors, clientReferencesNote }, history] =
+    await Promise.all([
+      getStudioInfo(),
+      getTeamMembers(),
+      getStudioCollections(),
+      getStudioHistory(),
+    ]);
+
+  // Sanity-first: without studio content the page cannot be composed.
+  if (!studio) {
+    return null;
+  }
+
+  const heroImage = studio.images[0];
+  const atelierImage = studio.images[1];
+  const historyNarrative = history || studio.history;
+  const referencesNote = clientReferencesNote ?? "Full client references available on request.";
 
   return (
     <>
@@ -42,17 +55,17 @@ export default function StudioPage() {
       {heroImage && (
         <StudioHero
           image={heroImage}
-          overline={studioContent.overline}
-          name={studioContent.name}
+          overline={studio.overline}
+          name={studio.name}
           caption={heroImage.caption}
         />
       )}
 
       {/* 2 — Manifesto / Introduction split */}
-      <StudioIntroduction studio={studioContent} />
+      <StudioIntroduction studio={studio} />
 
       {/* 3 — Beliefs / Principles */}
-      <Beliefs studio={studioContent} />
+      <Beliefs studio={studio} />
 
       {/* 4 — Second atelier image (material samples) */}
       {atelierImage && (
@@ -74,22 +87,22 @@ export default function StudioPage() {
       )}
 
       {/* 5 — Team */}
-      <TeamGrid members={teamMembers} />
+      <TeamGrid members={team} />
 
       {/* 6 — Working Methods */}
-      <WorkingMethods studio={studioContent} />
+      <WorkingMethods studio={studio} />
 
       {/* 7 — Awards */}
       <Awards awards={awards} />
 
       {/* 8 — Timeline (History merged in as intro paragraph) */}
-      <Timeline events={timeline} intro={studioContent.history} />
+      <Timeline events={timeline} intro={historyNarrative} />
 
       {/* 9 — Client Sectors / Partners */}
-      <Partners sectors={clientSectors} note={clientReferencesNote} />
+      <Partners sectors={clientSectors} note={referencesNote} />
 
       {/* 10 — Visit Studio CTA */}
-      <VisitStudio studio={studioContent} />
+      <VisitStudio studio={studio} />
     </>
   );
 }

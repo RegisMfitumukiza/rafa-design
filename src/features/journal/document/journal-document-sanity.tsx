@@ -1,15 +1,16 @@
 /**
  * Journal Document (Sanity Version)
  *
- * Renders journal articles from Sanity CMS as an architectural monograph:
- * - Fixed 2px hairline scroll progress bar
- * - 12-column asymmetric split header
- * - Monumental hero image plate with architectural attribution
- * - 12-column asymmetric reading grid (Left 4 cols: Sticky Marginalia Rail | Right 8 cols: Narrative Body)
- * - Structured credits matrix & taxonomy tags
- * - Smooth "Back to top ↑" trigger
+ * Architectural monograph layout:
+ * - Breadcrumb + monumental H1 header (title only — no spec metadata)
+ * - Full-bleed 16:9 hero photography plate
+ * - 3-col sticky marginalia rail (owns ALL metadata: index + spec)
+ * - 9-col reading narrative body (portable text, credits, tags)
+ *
+ * No duplicate metadata between header and rail.
  *
  * @see src/components/journal/portable-text.tsx for content block rendering
+ * @see src/features/journal/document/reading-index-rail.tsx for the sticky rail
  */
 
 import Image from "next/image";
@@ -22,8 +23,7 @@ import { BackToTop } from "@/features/journal/document/back-to-top";
 import { extractHeadingsFromContent } from "@/features/journal/document/heading-utils";
 import { ReadingIndexRail } from "@/features/journal/document/reading-index-rail";
 import { ScrollProgress } from "@/features/journal/document/scroll-progress";
-import { ShareButton } from "@/features/journal/document/share-button";
-import { Reveal, ImageReveal } from "@/motion";
+import { ImageReveal, Reveal } from "@/motion";
 
 interface JournalDocumentSanityProps {
   article: JournalArticle;
@@ -31,21 +31,12 @@ interface JournalDocumentSanityProps {
 }
 
 export function JournalDocumentSanity({ article, categoryLabel }: JournalDocumentSanityProps) {
-  const date = new Date(article.publishedAt);
-  const formattedDate = date.toLocaleDateString("en-GB", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-
-  const authorName = typeof article.author === "object" ? article.author?.name : article.author;
-  const authorRole = typeof article.author === "object" ? article.author?.role : undefined;
-
   const heroImageUrl = article.hero
     ? typeof article.hero === "string"
       ? article.hero
       : article.hero.src
     : null;
+
   const heroCreditText = article.hero?.credit
     ? typeof article.hero.credit === "object"
       ? article.hero.credit.name
@@ -57,13 +48,15 @@ export function JournalDocumentSanity({ article, categoryLabel }: JournalDocumen
 
   return (
     <>
-      {/* Hairline reading progress indicator */}
+      {/* 2px hairline reading progress bar */}
       <ScrollProgress />
 
-      {/* ── 12-Column Monograph Header ─────────────────────────────────── */}
-      <Section container="wide" className="pt-xl pb-2xl">
+      {/* ── Editorial Title Header ──────────────────────────────────────────
+          Title + excerpt only. ALL specification metadata lives exclusively
+          in the sticky marginalia rail. No duplicate data. */}
+      <Section container="wide" className="pt-xl pb-xl">
         <Reveal>
-          {/* Breadcrumb overline */}
+          {/* Breadcrumb */}
           <nav aria-label="Breadcrumb" className="mb-lg">
             <Link
               href="/journal"
@@ -75,77 +68,23 @@ export function JournalDocumentSanity({ article, categoryLabel }: JournalDocumen
             </Link>
           </nav>
 
-          <div className="gap-x-2xl gap-y-xl grid items-start md:grid-cols-12">
-            {/* Left 8 Cols: Monumental Title + Subtitle + Lead Excerpt */}
-            <div className="md:col-span-8">
-              <h1 className="font-display text-foreground text-4xl leading-[1.06] font-medium tracking-tight text-balance sm:text-5xl md:text-6xl lg:text-7xl">
-                {article.title}
-              </h1>
+          {/* Monumental H1 — full editorial width, no side panel competing */}
+          <div className="max-w-4xl">
+            <h1 className="font-display text-foreground text-4xl leading-[1.06] font-medium tracking-tight text-balance sm:text-5xl md:text-6xl lg:text-7xl">
+              {article.title}
+            </h1>
 
-              {article.subtitle && (
-                <p className="text-foreground/60 mt-md text-xl leading-snug font-medium sm:text-2xl">
-                  {article.subtitle}
-                </p>
-              )}
+            {article.subtitle && (
+              <p className="text-foreground/55 mt-md text-xl leading-snug sm:text-2xl">
+                {article.subtitle}
+              </p>
+            )}
 
-              {article.excerpt && (
-                <p className="text-foreground/75 mt-xl max-w-prose text-xl leading-relaxed sm:text-2xl">
-                  {article.excerpt}
-                </p>
-              )}
-            </div>
-
-            {/* Right 4 Cols: Architectural Spec Matrix (Top summary on mobile/tablet) */}
-            <div className="border-border/30 pt-md md:pl-md border-t md:col-span-4 md:border-t-0">
-              <dl className="divide-border/20 divide-y font-mono text-[10px] tracking-widest uppercase">
-                {/* 01 // Author */}
-                <div className="py-sm">
-                  <dt className="text-foreground/35 mb-0.5">01 // Author</dt>
-                  <dd className="text-foreground/80 font-sans text-xs font-medium tracking-normal">
-                    {authorName || "RAFA Design Hub"}
-                    {authorRole && (
-                      <span className="text-foreground/40 mt-0.5 block font-mono text-[10px] tracking-widest uppercase">
-                        {authorRole}
-                      </span>
-                    )}
-                  </dd>
-                </div>
-
-                {/* 02 // Published */}
-                <div className="py-sm">
-                  <dt className="text-foreground/35 mb-0.5">02 // Published</dt>
-                  <dd className="text-foreground/80 font-sans text-xs tracking-normal">
-                    <time dateTime={article.publishedAt}>{formattedDate}</time>
-                  </dd>
-                </div>
-
-                {/* 03 // Reading Time */}
-                {article.estimatedReadingTime && (
-                  <div className="py-sm">
-                    <dt className="text-foreground/35 mb-0.5">03 // Reading Time</dt>
-                    <dd className="text-foreground/80 font-sans text-xs tracking-normal">
-                      {article.estimatedReadingTime} min read
-                    </dd>
-                  </div>
-                )}
-
-                {/* 04 // Discipline */}
-                <div className="py-sm">
-                  <dt className="text-foreground/35 mb-0.5">04 // Discipline</dt>
-                  <dd className="text-foreground/80 font-sans text-xs tracking-normal">
-                    {categoryLabel}
-                  </dd>
-                </div>
-
-                {/* 05 // Share */}
-                <div className="py-sm">
-                  <dt className="text-foreground/35 mb-0.5">05 // Share</dt>
-                  <dd className="pt-0.5">
-                    <ShareButton title={article.title} />
-                  </dd>
-                </div>
-              </dl>
-            </div>
+            {article.excerpt && (
+              <p className="text-foreground/70 mt-lg max-w-2xl text-lg leading-relaxed sm:text-xl">
+                {article.excerpt}
+              </p>
+            )}
           </div>
         </Reveal>
       </Section>
@@ -166,10 +105,10 @@ export function JournalDocumentSanity({ article, categoryLabel }: JournalDocumen
                 />
               </div>
               {(article.hero?.caption || heroCreditText) && (
-                <figcaption className="container-wide text-foreground/50 mt-sm gap-x-md flex flex-wrap items-baseline justify-between text-xs">
+                <figcaption className="container-wide text-foreground/45 mt-sm gap-x-lg flex flex-wrap items-baseline justify-between text-xs">
                   {article.hero?.caption && <p>{article.hero.caption}</p>}
                   {heroCreditText && (
-                    <p className="text-foreground/35 font-mono text-[10px] tracking-widest uppercase">
+                    <p className="text-foreground/30 font-mono text-[10px] tracking-widest uppercase">
                       Photo: {heroCreditText}
                     </p>
                   )}
@@ -180,83 +119,83 @@ export function JournalDocumentSanity({ article, categoryLabel }: JournalDocumen
         </Section>
       )}
 
-      {/* ── 12-Column Asymmetric Monograph Grid ────────────────────────── */}
+      {/* ── 12-Column Asymmetric Monograph Reading Grid ─────────────────────
+          Left  3 cols: Sticky marginalia rail (index + ALL metadata).
+          Right 9 cols: Primary narrative body.
+          gap-x-md keeps column gap tight so the 9-col reading zone is wide. */}
       <Section container="wide" className="my-2xl">
-        <div className="gap-x-2xl gap-y-2xl grid items-start lg:grid-cols-12">
-          {/* Left 4 Cols: Sticky Marginalia Rail */}
-          <div className="hidden lg:col-span-4 lg:block">
+        <div className="gap-x-md gap-y-2xl grid items-start lg:grid-cols-12">
+          {/* Left 3 Cols: Sticky Marginalia Rail */}
+          <div className="hidden self-start lg:col-span-3 lg:block">
             <ReadingIndexRail headings={headings} article={article} categoryLabel={categoryLabel} />
           </div>
 
-          {/* Right 8 Cols: Primary Reading & Narrative Body */}
-          <div className="lg:col-span-8">
-            <div className="max-w-2xl">
+          {/* Right 9 Cols: Narrative Reading Body */}
+          <div className="lg:col-span-9">
+            <Reveal>
+              <ArticleContent content={rawContent} />
+            </Reveal>
+
+            {/* Architectural Credits */}
+            {article.credits && article.credits.length > 0 && (
               <Reveal>
-                <ArticleContent content={rawContent} />
-              </Reveal>
-
-              {/* Architectural Credits Block */}
-              {article.credits && article.credits.length > 0 && (
-                <Reveal>
-                  <div className="border-border/30 mt-3xl pt-xl border-t">
-                    <p className="text-foreground/35 mb-md font-mono text-[10px] tracking-widest uppercase">
-                      Specification // Credits & Attribution
-                    </p>
-                    <dl className="gap-md grid font-mono text-xs sm:grid-cols-2">
-                      {article.credits.map((credit, index) => (
-                        <div key={index} className="border-border/20 pb-sm border-b">
-                          <dt className="text-foreground/40 mb-1 text-[10px] tracking-widest capitalize uppercase">
-                            {credit.role}
-                          </dt>
-                          <dd className="text-foreground/90 font-sans text-sm">
-                            {credit.url ? (
-                              <a
-                                href={credit.url}
-                                className="hover:text-foreground decoration-foreground/30 hover:decoration-foreground underline underline-offset-4 transition-colors"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                {credit.name}
-                                {credit.organization && ` (${credit.organization})`} ↗
-                              </a>
-                            ) : (
-                              <>
-                                {credit.name}
-                                {credit.organization && ` (${credit.organization})`}
-                              </>
-                            )}
-                          </dd>
-                        </div>
-                      ))}
-                    </dl>
-                  </div>
-                </Reveal>
-              )}
-
-              {/* Taxonomy Tags */}
-              {article.keywords && article.keywords.length > 0 && (
-                <Reveal>
-                  <div className="border-border/20 mt-xl pt-md flex flex-wrap items-center gap-2 border-t">
-                    <span className="text-foreground/35 mr-2 font-mono text-[10px] tracking-widest uppercase">
-                      Keywords:
-                    </span>
-                    {article.keywords.map((keyword) => (
-                      <span
-                        key={keyword}
-                        className="border-border/40 bg-foreground/5 text-foreground/70 rounded-xs px-2 py-0.5 font-mono text-[10px] tracking-wider uppercase"
-                      >
-                        #{keyword}
-                      </span>
+                <div className="border-border/25 mt-3xl pt-xl border-t">
+                  <p className="text-foreground/35 mb-md font-mono text-[10px] tracking-widest uppercase">
+                    Specification {"//"} Credits & Attribution
+                  </p>
+                  <dl className="gap-md grid font-mono text-xs sm:grid-cols-2 lg:grid-cols-3">
+                    {article.credits.map((credit, index) => (
+                      <div key={index} className="border-border/20 pb-sm border-b">
+                        <dt className="text-foreground/40 mb-1 text-[10px] tracking-widest capitalize uppercase">
+                          {credit.role}
+                        </dt>
+                        <dd className="text-foreground/85 font-sans text-sm">
+                          {credit.url ? (
+                            <a
+                              href={credit.url}
+                              className="hover:text-foreground decoration-foreground/30 hover:decoration-foreground underline underline-offset-4 transition-colors"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {credit.name}
+                              {credit.organization && ` (${credit.organization})`} ↗
+                            </a>
+                          ) : (
+                            <>
+                              {credit.name}
+                              {credit.organization && ` (${credit.organization})`}
+                            </>
+                          )}
+                        </dd>
+                      </div>
                     ))}
-                  </div>
-                </Reveal>
-              )}
-            </div>
+                  </dl>
+                </div>
+              </Reveal>
+            )}
+
+            {/* Taxonomy Tags */}
+            {article.keywords && article.keywords.length > 0 && (
+              <Reveal>
+                <div className="border-border/15 mt-xl pt-md flex flex-wrap items-center gap-2 border-t">
+                  <span className="text-foreground/30 mr-2 font-mono text-[10px] tracking-widest uppercase">
+                    Keywords:
+                  </span>
+                  {article.keywords.map((keyword) => (
+                    <span
+                      key={keyword}
+                      className="border-border/30 bg-foreground/[0.04] text-foreground/60 rounded-xs px-2 py-0.5 font-mono text-[10px] tracking-wider uppercase"
+                    >
+                      #{keyword}
+                    </span>
+                  ))}
+                </div>
+              </Reveal>
+            )}
           </div>
         </div>
       </Section>
 
-      {/* Floating Back To Top */}
       <BackToTop />
     </>
   );

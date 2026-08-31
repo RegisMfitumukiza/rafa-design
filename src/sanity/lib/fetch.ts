@@ -9,9 +9,13 @@
  * @see src/sanity/lib/transforms.ts for data transforms
  */
 
+import type { Benefit, CareerPosition, CareersContent } from "@/content/company/careers";
+import type { ContactInformation } from "@/content/company/contact";
 import type { JournalArticle, JournalCategory } from "@/content/journal";
 import type { Project } from "@/content/projects";
 import type { Service } from "@/content/services";
+import type { SiteSettings } from "@/content/siteSettings";
+import type { Award, ClientSector, Studio, TeamMember, TimelineEvent } from "@/content/studio";
 
 import { client } from "./client";
 import {
@@ -218,6 +222,14 @@ export const cacheTags = {
   article: (slug: string) => `article:${slug}`,
   projects: "projects",
   project: (slug: string) => `project:${slug}`,
+  services: "services",
+  service: (slug: string) => `service:${slug}`,
+  team: "team",
+  studio: "studio",
+  careers: "careers",
+  career: (slug: string) => `career:${slug}`,
+  contact: "contact",
+  settings: "settings",
 } as const;
 
 /**
@@ -268,5 +280,200 @@ export async function getServiceSlugs(): Promise<string[]> {
   } catch (error) {
     console.error("Error fetching service slugs:", error);
     return [];
+  }
+}
+
+/**
+ * ============================================================================
+ * TEAM MEMBER FETCHING
+ * ============================================================================
+ */
+
+/**
+ * Get all team members shown on the studio page.
+ */
+export async function getTeamMembers(): Promise<TeamMember[]> {
+  try {
+    const { teamQuery } = await import("./queries");
+    const { transformSanityTeamMembers } = await import("./transforms");
+    const sanityMembers = await client.fetch(teamQuery);
+    return transformSanityTeamMembers(sanityMembers);
+  } catch (error) {
+    console.error("Error fetching team members:", error);
+    return [];
+  }
+}
+
+/**
+ * ============================================================================
+ * STUDIO FETCHING
+ * ============================================================================
+ */
+
+/**
+ * Get studio information (singleton document).
+ */
+export async function getStudioInfo(): Promise<Studio | null> {
+  try {
+    const { studioQuery } = await import("./queries");
+    const { transformSanityStudio } = await import("./transforms");
+    const sanityStudio = await client.fetch(studioQuery);
+    if (!sanityStudio) return null;
+    return transformSanityStudio(sanityStudio);
+  } catch (error) {
+    console.error("Error fetching studio info:", error);
+    return null;
+  }
+}
+
+/**
+ * Get the studio page's separate collections (awards, timeline, clientSectors).
+ */
+export async function getStudioCollections(): Promise<{
+  awards: Award[];
+  timeline: TimelineEvent[];
+  clientSectors: ClientSector[];
+  clientReferencesNote?: string;
+}> {
+  try {
+    const { studioQuery } = await import("./queries");
+    const { transformSanityStudioCollections } = await import("./transforms");
+    const sanityStudio = await client.fetch(studioQuery);
+    return transformSanityStudioCollections(sanityStudio || {});
+  } catch (error) {
+    console.error("Error fetching studio collections:", error);
+    return { awards: [], timeline: [], clientSectors: [] };
+  }
+}
+
+/**
+ * Get the studio page's headline history narrative.
+ */
+export async function getStudioHistory(): Promise<string | undefined> {
+  try {
+    const { studioQuery } = await import("./queries");
+    const sanityStudio = await client.fetch(studioQuery);
+    return sanityStudio?.history || undefined;
+  } catch (error) {
+    console.error("Error fetching studio history:", error);
+    return undefined;
+  }
+}
+
+/**
+ * ============================================================================
+ * CAREER FETCHING
+ * ============================================================================
+ */
+
+/**
+ * Get all open career postings.
+ */
+export async function getCareers(): Promise<CareerPosition[]> {
+  try {
+    const { careersPositionsQuery } = await import("./queries");
+    const { transformSanityCareers } = await import("./transforms");
+    const sanityCareers = await client.fetch(careersPositionsQuery);
+    return transformSanityCareers(sanityCareers);
+  } catch (error) {
+    console.error("Error fetching careers:", error);
+    return [];
+  }
+}
+
+/**
+ * Get a single career posting by slug.
+ */
+export async function getCareerBySlug(slug: string): Promise<CareerPosition | null> {
+  try {
+    const { careerBySlugQuery } = await import("./queries");
+    const { transformSanityCareer } = await import("./transforms");
+    const sanityCareer = await client.fetch(careerBySlugQuery, { slug });
+    return transformSanityCareer(sanityCareer);
+  } catch (error) {
+    console.error(`Error fetching career ${slug}:`, error);
+    return null;
+  }
+}
+
+/**
+ * Get all open career slugs (for generateStaticParams).
+ */
+export async function getCareerSlugs(): Promise<string[]> {
+  try {
+    const { careerSlugsQuery } = await import("./queries");
+    const slugs = await client.fetch<string[]>(careerSlugsQuery);
+    return slugs || [];
+  } catch (error) {
+    console.error("Error fetching career slugs:", error);
+    return [];
+  }
+}
+
+/**
+ * Get the careers page singleton content (hero, open application, benefits).
+ */
+export async function getCareersPageContent(): Promise<{
+  content: CareersContent;
+  benefits: Benefit[];
+}> {
+  try {
+    const { careersQuery } = await import("./queries");
+    const { transformSanityCareersPage } = await import("./transforms");
+    const sanityCareers = await client.fetch(careersQuery);
+    return transformSanityCareersPage(sanityCareers || {});
+  } catch (error) {
+    console.error("Error fetching careers page content:", error);
+    return {
+      content: {
+        hero: { overline: "", heading: "", body: "" },
+        openApplication: { overline: "", heading: "", body: "", cta: "" },
+      },
+      benefits: [],
+    };
+  }
+}
+
+/**
+ * ============================================================================
+ * CONTACT FETCHING
+ * ============================================================================
+ */
+
+/**
+ * Get contact information (singleton document).
+ */
+export async function getContactInformation(): Promise<ContactInformation | null> {
+  try {
+    const { contactQuery } = await import("./queries");
+    const { transformSanityContact } = await import("./transforms");
+    const sanityContact = await client.fetch(contactQuery);
+    if (!sanityContact) return null;
+    return transformSanityContact(sanityContact);
+  } catch (error) {
+    console.error("Error fetching contact information:", error);
+    return null;
+  }
+}
+
+/**
+ * ============================================================================
+ * SITE SETTINGS FETCHING
+ * ============================================================================
+ */
+
+/**
+ * Get global site settings (singleton document).
+ */
+export async function getSiteSettings(): Promise<SiteSettings | null> {
+  try {
+    const { siteSettingsQuery } = await import("./queries");
+    const { transformSanitySiteSettings } = await import("./transforms");
+    const sanitySettings = await client.fetch(siteSettingsQuery);
+    if (!sanitySettings) return null;
+    return transformSanitySiteSettings(sanitySettings);
+  } catch (error) {
+    console.error("Error fetching site settings:", error);
+    return null;
   }
 }

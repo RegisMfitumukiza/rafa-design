@@ -10,6 +10,54 @@
 
 ---
 
+# 2026-08-31 (Company Pages Sanity Migration)
+
+## Version
+
+v1.0.0-alpha
+
+### Status
+
+✅ Team, Studio, Careers, Contact, and Site Settings pages are now 100% Sanity-driven — the entire company surface uses CMS content instead of hardcoded TypeScript, completing the CMS migration pathway begun with projects/journal/services.
+
+---
+
+## Summary
+
+The Sanity CMS integration (previously covering Projects, Journal, and Services) was extended to every company page and the global site configuration. Six new schemas map 1:1 onto the existing content models so pages switched with near-zero component breakage — no new architecture, no duplicate components, and no hardcoded values. Real placeholder data was migrated into the production dataset via idempotent scripts and verified end-to-end (typecheck, lint, build, and rendered HTML).
+
+## Added
+
+- `src/sanity/schemas/team.ts` — `teamMember` document (name/slug/role/bio/disciplines/interests/experience/portrait/email/phone/socialLinks/order/category/displayOnTeamPage/SEO)
+- `src/sanity/schemas/studio.ts` — `studio` singleton (identity, principles/methods, media images, history/timeline/awards/client-sectors, visit)
+- `src/sanity/schemas/career.ts` — `career` job-posting document (slug/type/location/description/requirements/order/status/featured)
+- `src/sanity/schemas/careers.ts` — `careers` page singleton (hero/openApplication/benefits/studioImage)
+- `src/sanity/schemas/contact.ts` — `contact` info singleton (details/offices[]/socialLinks[]/editorialImage)
+- `src/sanity/schemas/siteSettings.ts` — `siteSettings` global singleton (identity/SEO defaults/organisation/operational)
+- `src/sanity/lib/queries.ts` — `teamQuery`, `studioQuery`, `careersPositionsQuery`, `careerBySlugQuery`, `careerSlugsQuery`, `careersQuery`, `contactQuery`, `siteSettingsQuery`
+- `src/sanity/lib/transforms.ts` — `transformSanityTeamMember(s)/Studio/StudioCollections/Career(s)/CareersPage/Contact/SiteSettings` + `transformSocialLinks`/`transformOffice`/`sanitizeId`
+- `src/sanity/lib/fetch.ts` — `getTeamMembers`, `getStudioInfo`, `getStudioCollections`, `getStudioHistory`, `getCareers`, `getCareerBySlug`, `getCareerSlugs`, `getCareersPageContent`, `getContactInformation`, `getSiteSettings`
+- `src/content/siteSettings.ts` — new `SiteSettings` interface
+- `scripts/migrate-{team,studio,careers,contact,site-settings}-to-sanity.mjs` + shared `scripts/lib/sanity.mjs` upload helper (`npm run migrate:company` runs all five)
+
+## Changed
+
+- `src/sanity/schemas/index.ts` — all 9 schemas registered
+- `src/app/(site)/studio/page.tsx`, `(site)/careers/page.tsx`, `(site)/contact/page.tsx` — rewritten Sanity-first (async, fetch + null fallback)
+- `src/features/contact/office-map.tsx`, `contact-editorial.tsx` — converted from static-import to prop-driven
+- `sanity.config.ts` — 9 Studio sections (01 Projects … 09 Site Settings) + singleton action guards
+- `src/sanity/lib/index.ts` — exports new transforms + fetch functions
+- `package.json` — added `migrate:team|studio|careers|contact|site-settings|company` scripts
+
+## Verified
+
+- `npm run typecheck` → 0 errors
+- Targeted `eslint` → 0 errors / 0 warnings
+- `npm run build` → 32 static routes; `/studio`, `/careers`, `/contact` all `○` static
+- Rendered HTML confirmed to contain migrated Sanity content (manifesto, team member names, principles, client sectors, contact email)
+
+---
+
 # 2026-08-19 (Dynamic Image Brightness Detection for Featured Cards)
 
 ## Version

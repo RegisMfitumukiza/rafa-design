@@ -7,19 +7,26 @@ import { Heading } from "@/components/typography/Heading";
 import { Text } from "@/components/typography/Text";
 import { Link as TextLink } from "@/components/ui/Link";
 import { breadcrumbSchema } from "@/config/schema";
-import { careerPositions, benefits, careersContent } from "@/content/company/careers";
-import { contactInformation } from "@/content/company/contact";
 import { pageContent } from "@/content/pages";
 import { ui } from "@/content/ui";
 import { Parallax, Reveal, Stagger } from "@/motion";
+import { getCareers, getCareersPageContent, getContactInformation } from "@/sanity/lib";
 
 export const metadata: Metadata = {
   title: pageContent.careers.title,
   description: pageContent.careers.description,
 };
 
-export default function CareersPage() {
+export default async function CareersPage() {
+  const [careerPositions, { content, benefits }, contact] = await Promise.all([
+    getCareers(),
+    getCareersPageContent(),
+    getContactInformation(),
+  ]);
+
+  const careersContent = content;
   const { hero, openApplication, studioImage } = careersContent;
+  const contactEmail = contact?.email || "studio@rafadesign.com";
 
   return (
     <>
@@ -117,7 +124,7 @@ export default function CareersPage() {
                       href={
                         position.applicationLink
                           ? position.applicationLink
-                          : `mailto:${contactInformation.email}?subject=Application — ${position.title}`
+                          : `mailto:${contactEmail}?subject=Application — ${position.title}`
                       }
                       variant="underline"
                       external={!!position.applicationLink}
@@ -142,7 +149,7 @@ export default function CareersPage() {
               >
                 {ui.careers.emptyState}{" "}
                 <TextLink
-                  href={`mailto:${contactInformation.email}?subject=Open Application`}
+                  href={`mailto:${contactEmail}?subject=Open Application`}
                   variant="underline"
                   className="font-medium"
                 >
@@ -243,7 +250,7 @@ export default function CareersPage() {
                 {openApplication.body}
               </Text>
               <TextLink
-                href={`mailto:${contactInformation.email}?subject=Open Application`}
+                href={`mailto:${contactEmail}?subject=Open Application`}
                 variant="underline"
                 className="group text-base font-medium md:text-lg"
               >

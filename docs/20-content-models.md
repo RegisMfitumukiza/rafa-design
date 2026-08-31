@@ -669,6 +669,48 @@ ContactSection
 
 ---
 
+# Site Settings Model
+
+Global site-wide configuration (Sanity `siteSettings` singleton). Maps to `SiteSettings` in `src/content/siteSettings.ts` and the `siteSettings` schema.
+
+```ts
+interface SiteSettings {
+  id: string;
+
+  siteName: string;
+
+  description: string;
+
+  maintenanceMode: boolean;
+
+  tagline?: string;
+
+  siteUrl?: string;
+
+  email?: string;
+
+  phone?: string;
+
+  analyticsCode?: string;
+
+  maintenanceMessage?: string;
+
+  defaultSeo?: {
+    title?: string;
+
+    description?: string;
+
+    keywords?: string[];
+
+    ogImage?: ImageAsset;
+  };
+}
+```
+
+All optional fields exist to satisfy `exactOptionalPropertyTypes`.
+
+---
+
 # Content Location
 
 All static content belongs inside:

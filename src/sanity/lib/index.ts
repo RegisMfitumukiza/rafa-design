@@ -22,6 +22,15 @@ export {
   transformSanityArticles,
   transformSanityService,
   transformSanityServices,
+  transformSanityTeamMember,
+  transformSanityTeamMembers,
+  transformSanityStudio,
+  transformSanityStudioCollections,
+  transformSanityCareer,
+  transformSanityCareers,
+  transformSanityCareersPage,
+  transformSanityContact,
+  transformSanitySiteSettings,
 } from "./transforms";
 
 // Export all fetch utilities
@@ -39,6 +48,16 @@ export {
   getServices,
   getServiceBySlug,
   getServiceSlugs,
+  getTeamMembers,
+  getStudioInfo,
+  getStudioCollections,
+  getStudioHistory,
+  getCareers,
+  getCareerBySlug,
+  getCareerSlugs,
+  getCareersPageContent,
+  getContactInformation,
+  getSiteSettings,
   cacheTags,
 } from "./fetch";
 
