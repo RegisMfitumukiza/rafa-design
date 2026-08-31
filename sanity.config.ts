@@ -62,6 +62,16 @@ export default defineConfig({
                   .title("Journal Articles")
                   .defaultOrdering([{ field: "publishedAt", direction: "desc" }]),
               ),
+
+            // 03 // Services
+            S.listItem()
+              .title("03 // Services")
+              .icon(() => "🏗️")
+              .child(
+                S.documentTypeList("service")
+                  .title("Services")
+                  .defaultOrdering([{ field: "order", direction: "asc" }]),
+              ),
           ]),
     }),
 

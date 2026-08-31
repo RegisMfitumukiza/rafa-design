@@ -345,7 +345,8 @@ export const servicesQuery = `
     slug,
     title,
     shortDescription,
-    order
+    order,
+    icon
   }
 `;
 
@@ -356,23 +357,27 @@ export const serviceBySlugQuery = `
     slug,
     title,
     shortDescription,
+    intro,
     description,
     approach[] {
       title,
-      description
+      statement
     },
     order,
-    ${seoProjection},
-    "relatedProjects": *[_type == "project" && references(^._id) && !(_id in path("drafts.**"))] | order(year desc)[0...6] {
+    icon,
+    editorialIntents,
+    relatedProjects[]-> {
       _id,
       slug,
       title,
+      subtitle,
       year,
       location,
       heroImage {
         ${imageProjection}
       }
-    }
+    },
+    ${seoProjection}
   }
 `;
 

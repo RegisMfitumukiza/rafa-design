@@ -319,11 +319,34 @@ const portableTextComponents: PartialPortableTextComponents = {
     divider: DividerBlock,
   },
   block: {
-    h2: ({ children }) => (
-      <h2 className="text-foreground mb-md mt-3xl font-display border-border/20 pt-xl border-t text-2xl font-medium tracking-tight sm:text-3xl lg:text-4xl">
-        {children}
-      </h2>
-    ),
+    h2: ({ children, value }) => {
+      const text =
+        (value?.children as Array<{ text?: string }> | undefined)
+          ?.map((c) => c.text || "")
+          .join("") || "";
+      const id = text
+        ? text
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/(^-|-$)/g, "")
+        : undefined;
+      const match = text.match(/^(\d{2})\s*\/\/\s*(.+)$/);
+      const number = match?.[1];
+      const title = match?.[2]?.trim();
+
+      return (
+        <div id={id} className="mt-3xl mb-lg border-border/20 pt-xl scroll-mt-28 border-t">
+          {number && (
+            <p className="text-foreground/35 mb-1.5 font-mono text-[10px] tracking-widest uppercase">
+              {number} {"//"} Section
+            </p>
+          )}
+          <h2 className="font-display text-foreground text-2xl leading-tight font-medium tracking-tight sm:text-3xl lg:text-4xl">
+            {number ? title : children}
+          </h2>
+        </div>
+      );
+    },
     h3: ({ children }) => (
       <h3 className="text-foreground mb-sm mt-2xl font-display text-xl font-medium tracking-tight sm:text-2xl">
         {children}
@@ -385,7 +408,7 @@ export function ArticleContent({ content }: { content: Array<Record<string, unkn
   }
 
   return (
-    <div className="prose-lg mx-auto max-w-4xl">
+    <div className="space-y-xl text-foreground/85 leading-[1.8]">
       <PortableText
         value={content as unknown as Parameters<typeof PortableText>[0]["value"]}
         components={portableTextComponents}

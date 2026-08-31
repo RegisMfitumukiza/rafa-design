@@ -11,6 +11,7 @@
 import type { JournalArticle, Person } from "@/content/journal";
 import type {
   BeforeAfterImage,
+  ChapterIntent,
   Project,
   ProjectAward,
   ProjectChapter,
@@ -20,6 +21,7 @@ import type {
   ProjectSEO,
   ProjectTeam,
 } from "@/content/projects";
+import type { Service, ServiceApproach } from "@/content/services";
 import type { Location } from "@/content/types";
 
 import {
@@ -512,4 +514,89 @@ export function transformSanityArticles(sanityArticles: SanityRawArticle[]): Jou
       }
     })
     .filter((article): article is JournalArticle => article !== null);
+}
+
+/**
+ * ============================================================================
+ * SERVICE TRANSFORMS
+ * ============================================================================
+ */
+
+export interface SanityRawService {
+  slug?: { current?: string };
+  title?: string;
+  shortDescription?: string;
+  intro?: string;
+  description?: string;
+  icon?: string;
+  approach?: Array<{ title?: string; statement?: string }>;
+  relatedProjects?: Array<{ slug?: { current?: string } | string }>;
+  editorialIntents?: ChapterIntent[];
+  [key: string]: unknown;
+}
+
+/**
+ * Transform Sanity service to Service interface
+ *
+ * @param sanityService - Raw service document from Sanity
+ * @returns Fully transformed Service
+ */
+export function transformSanityService(sanityService: SanityRawService): Service | null {
+  if (!sanityService || !sanityService.slug?.current) return null;
+
+  // Transform approach points
+  const approach: ServiceApproach[] = sanityService.approach
+    ? sanityService.approach
+        .filter((point) => Boolean(point?.title && point?.statement))
+        .map((point) => ({
+          title: point.title || "",
+          statement: point.statement || "",
+        }))
+    : [];
+
+  // Transform related projects (get slugs only)
+  const relatedProjects = sanityService.relatedProjects
+    ? sanityService.relatedProjects
+        .map((project) => (typeof project.slug === "object" ? project.slug?.current : project.slug))
+        .filter((slug): slug is string => Boolean(slug))
+    : [];
+
+  // Build complete Service object
+  const service: Service = {
+    id: sanityService.slug.current,
+    slug: sanityService.slug.current,
+    title: sanityService.title || "",
+    shortDescription: sanityService.shortDescription || "",
+    intro: sanityService.intro || "",
+    description: sanityService.description || "",
+    approach,
+    relatedProjects,
+    editorialIntents: sanityService.editorialIntents || [],
+
+    // Optional fields
+    ...(sanityService.icon ? { icon: sanityService.icon } : {}),
+  };
+
+  return service;
+}
+
+/**
+ * Transform array of Sanity services
+ *
+ * @param sanityServices - Array of raw Sanity service documents
+ * @returns Array of transformed Services
+ */
+export function transformSanityServices(sanityServices: SanityRawService[]): Service[] {
+  if (!sanityServices || !Array.isArray(sanityServices)) return [];
+
+  return sanityServices
+    .map((service) => {
+      try {
+        return transformSanityService(service);
+      } catch (error) {
+        console.error(`Failed to transform service ${service?.slug?.current}:`, error);
+        return null;
+      }
+    })
+    .filter((service): service is Service => service !== null);
 }

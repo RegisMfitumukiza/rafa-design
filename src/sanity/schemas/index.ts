@@ -18,6 +18,7 @@ import { SchemaTypeDefinition } from "sanity";
 // Import schemas
 import journalSchema from "./journal";
 import projectSchema from "./project";
+import serviceSchema from "./service";
 
 /**
  * Schema types array
@@ -25,7 +26,7 @@ import projectSchema from "./project";
  * This will be populated with schema definitions as migration progresses:
  * - projectSchema (Week 1, Day 3) ✅
  * - journalArticleSchema (Week 2, Day 1) ✅
- * - serviceSchema (Week 2, Day 4)
+ * - serviceSchema (Week 2, Day 4) ✅
  * - teamMemberSchema (Week 3, Day 1)
  * - studioSchema (Week 3, Day 1)
  * - careersSchema (Week 3, Day 2)
@@ -35,13 +36,14 @@ import projectSchema from "./project";
 export const schemaTypes: SchemaTypeDefinition[] = [
   projectSchema,
   journalSchema,
+  serviceSchema,
   // More schemas will be added here during migration
 ];
 
 /**
  * Export individual schemas for direct import
  */
-export { projectSchema, journalSchema };
+export { projectSchema, journalSchema, serviceSchema };
 
 /**
  * Helper: Get schema by name

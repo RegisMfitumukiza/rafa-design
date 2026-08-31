@@ -20,6 +20,8 @@ export {
   transformSanityProjects,
   transformSanityArticle,
   transformSanityArticles,
+  transformSanityService,
+  transformSanityServices,
 } from "./transforms";
 
 // Export all fetch utilities
@@ -34,6 +36,9 @@ export {
   getProjectBySlug,
   getProjectsBySlugs,
   getProjectSlugs,
+  getServices,
+  getServiceBySlug,
+  getServiceSlugs,
   cacheTags,
 } from "./fetch";
 

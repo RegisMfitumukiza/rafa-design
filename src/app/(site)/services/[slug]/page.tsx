@@ -4,13 +4,7 @@ import { Section } from "@/components/layout/Section";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema, serviceSchema } from "@/config/schema";
 import { getProjectBySlug, type Project } from "@/content/projects";
-import {
-  getRelatedProjectsForService,
-  getRelatedServicesForService,
-  getServiceBySlug,
-  getServiceIndex,
-  getServices,
-} from "@/content/services";
+import { getRelatedServicesForService, getServiceIndex } from "@/content/services";
 import { DisciplineApproach } from "@/features/services/discipline-approach";
 import { DisciplineCta } from "@/features/services/discipline-cta";
 import { DisciplineHero } from "@/features/services/discipline-hero";
@@ -18,16 +12,18 @@ import { DisciplineImageNarrative } from "@/features/services/discipline-image-n
 import { DisciplineRelated } from "@/features/services/discipline-related";
 import { SelectedWork } from "@/features/services/selected-work";
 import { Reveal } from "@/motion";
+import { getServices, getServiceBySlug } from "@/sanity/lib";
 
-export function generateStaticParams() {
-  return getServices().map((service) => ({
+export async function generateStaticParams() {
+  const services = await getServices();
+  return services.map((service) => ({
     slug: service.slug,
   }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const service = getServiceBySlug(slug);
+  const service = await getServiceBySlug(slug);
   if (!service) return { title: "Service Not Found" };
   return {
     title: service.title,
@@ -41,13 +37,17 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function ServiceDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const service = getServiceBySlug(slug);
+  const service = await getServiceBySlug(slug);
   if (!service) notFound();
 
   // Resolve real projects
-  const selectedProjects = getRelatedProjectsForService(service)
-    .map((projectSlug) => getProjectBySlug(projectSlug))
-    .filter((project): project is Project => Boolean(project));
+  const projectPromises = service.relatedProjects.map((projectSlug: string) =>
+    getProjectBySlug(projectSlug),
+  );
+  const resolvedProjects = await Promise.all(projectPromises);
+  const selectedProjects = resolvedProjects.filter((project): project is Project =>
+    Boolean(project),
+  );
 
   const relatedServices = getRelatedServicesForService(service);
   const index = getServiceIndex(service.slug);
@@ -70,8 +70,8 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
   const seenSrcs = new Set<string>();
 
   const narrativeImages = selectedProjects
-    .flatMap((project) => project.gallery)
-    .filter((img) => {
+    .flatMap((project: Project) => project.gallery)
+    .filter((img: Project["gallery"][number]) => {
       const ci = img as { intent?: string; caption?: string; narrative?: string };
       // Must match a discipline intent (or accept all if intents empty)
       const intentMatch = intents.size === 0 || (ci.intent && intents.has(ci.intent as never));
@@ -86,7 +86,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
       return false;
     })
     .slice(0, 5)
-    .map((img) => {
+    .map((img: Project["gallery"][number]) => {
       const ci = img as { caption?: string; narrative?: string };
       return {
         image: img,

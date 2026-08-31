@@ -4,17 +4,17 @@ import { Section } from "@/components/layout/Section";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema } from "@/config/schema";
 import { getServicesDescription, pageContent } from "@/content/pages";
-import { getServices } from "@/content/services";
 import { DisciplineIndex } from "@/features/services/discipline-index";
 import { Reveal } from "@/motion";
+import { getServices } from "@/sanity/lib";
 
 export const metadata: Metadata = {
   title: pageContent.services.title,
   description: pageContent.services.description ?? getServicesDescription(6),
 };
 
-export default function ServicesPage() {
-  const services = getServices();
+export default async function ServicesPage() {
+  const services = await getServices();
   // CMS Override Pattern: Uses custom CMS text if provided, otherwise calculates dynamic count description
   const description = pageContent.services.description ?? getServicesDescription(services.length);
 

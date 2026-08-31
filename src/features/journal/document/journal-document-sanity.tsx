@@ -3,9 +3,9 @@
  *
  * Renders journal articles from Sanity CMS as an architectural monograph:
  * - Fixed 2px hairline scroll progress bar
- * - 12-column asymmetric split header (Left: Monumental H1 + Excerpt | Right: Architectural Spec Matrix)
+ * - 12-column asymmetric split header
  * - Monumental hero image plate with architectural attribution
- * - Comfortable editorial reading column (max-w-3xl) with portable text
+ * - 12-column asymmetric reading grid (Left 4 cols: Sticky Marginalia Rail | Right 8 cols: Narrative Body)
  * - Structured credits matrix & taxonomy tags
  * - Smooth "Back to top ↑" trigger
  *
@@ -19,6 +19,8 @@ import { ArticleContent } from "@/components/journal/portable-text";
 import { Section } from "@/components/layout/Section";
 import type { JournalArticle } from "@/content/journal";
 import { BackToTop } from "@/features/journal/document/back-to-top";
+import { extractHeadingsFromContent } from "@/features/journal/document/heading-utils";
+import { ReadingIndexRail } from "@/features/journal/document/reading-index-rail";
 import { ScrollProgress } from "@/features/journal/document/scroll-progress";
 import { ShareButton } from "@/features/journal/document/share-button";
 import { Reveal, ImageReveal } from "@/motion";
@@ -49,6 +51,9 @@ export function JournalDocumentSanity({ article, categoryLabel }: JournalDocumen
       ? article.hero.credit.name
       : article.hero.credit
     : null;
+
+  const rawContent = Array.isArray(article.content) ? article.content : [];
+  const headings = extractHeadingsFromContent(rawContent);
 
   return (
     <>
@@ -90,7 +95,7 @@ export function JournalDocumentSanity({ article, categoryLabel }: JournalDocumen
               )}
             </div>
 
-            {/* Right 4 Cols: Architectural Spec Matrix */}
+            {/* Right 4 Cols: Architectural Spec Matrix (Top summary on mobile/tablet) */}
             <div className="border-border/30 pt-md md:pl-md border-t md:col-span-4 md:border-t-0">
               <dl className="divide-border/20 divide-y font-mono text-[10px] tracking-widest uppercase">
                 {/* 01 // Author */}
@@ -175,69 +180,79 @@ export function JournalDocumentSanity({ article, categoryLabel }: JournalDocumen
         </Section>
       )}
 
-      {/* ── Editorial Reading Column (Portable Text) ───────────────────── */}
-      <Section container="standard" className="my-2xl">
-        <div className="mx-auto max-w-3xl">
-          <Reveal>
-            <ArticleContent content={Array.isArray(article.content) ? article.content : []} />
-          </Reveal>
+      {/* ── 12-Column Asymmetric Monograph Grid ────────────────────────── */}
+      <Section container="wide" className="my-2xl">
+        <div className="gap-x-2xl gap-y-2xl grid items-start lg:grid-cols-12">
+          {/* Left 4 Cols: Sticky Marginalia Rail */}
+          <div className="hidden lg:col-span-4 lg:block">
+            <ReadingIndexRail headings={headings} article={article} categoryLabel={categoryLabel} />
+          </div>
 
-          {/* ── Architectural Credits Block ───────────────────────────── */}
-          {article.credits && article.credits.length > 0 && (
-            <Reveal>
-              <div className="border-border/30 mt-3xl pt-xl border-t">
-                <p className="text-foreground/35 mb-md font-mono text-[10px] tracking-widest uppercase">
-                  Specification // Credits & Attribution
-                </p>
-                <dl className="gap-md grid font-mono text-xs sm:grid-cols-2">
-                  {article.credits.map((credit, index) => (
-                    <div key={index} className="border-border/20 pb-sm border-b">
-                      <dt className="text-foreground/40 mb-1 text-[10px] tracking-widest capitalize uppercase">
-                        {credit.role}
-                      </dt>
-                      <dd className="text-foreground/90 font-sans text-sm">
-                        {credit.url ? (
-                          <a
-                            href={credit.url}
-                            className="hover:text-foreground decoration-foreground/30 hover:decoration-foreground underline underline-offset-4 transition-colors"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            {credit.name}
-                            {credit.organization && ` (${credit.organization})`} ↗
-                          </a>
-                        ) : (
-                          <>
-                            {credit.name}
-                            {credit.organization && ` (${credit.organization})`}
-                          </>
-                        )}
-                      </dd>
-                    </div>
-                  ))}
-                </dl>
-              </div>
-            </Reveal>
-          )}
+          {/* Right 8 Cols: Primary Reading & Narrative Body */}
+          <div className="lg:col-span-8">
+            <div className="max-w-2xl">
+              <Reveal>
+                <ArticleContent content={rawContent} />
+              </Reveal>
 
-          {/* ── Taxonomy Tags ─────────────────────────────────────────── */}
-          {article.keywords && article.keywords.length > 0 && (
-            <Reveal>
-              <div className="border-border/20 mt-xl pt-md flex flex-wrap items-center gap-2 border-t">
-                <span className="text-foreground/35 mr-2 font-mono text-[10px] tracking-widest uppercase">
-                  Keywords:
-                </span>
-                {article.keywords.map((keyword) => (
-                  <span
-                    key={keyword}
-                    className="border-border/40 bg-foreground/5 text-foreground/70 rounded-xs px-2 py-0.5 font-mono text-[10px] tracking-wider uppercase"
-                  >
-                    #{keyword}
-                  </span>
-                ))}
-              </div>
-            </Reveal>
-          )}
+              {/* Architectural Credits Block */}
+              {article.credits && article.credits.length > 0 && (
+                <Reveal>
+                  <div className="border-border/30 mt-3xl pt-xl border-t">
+                    <p className="text-foreground/35 mb-md font-mono text-[10px] tracking-widest uppercase">
+                      Specification // Credits & Attribution
+                    </p>
+                    <dl className="gap-md grid font-mono text-xs sm:grid-cols-2">
+                      {article.credits.map((credit, index) => (
+                        <div key={index} className="border-border/20 pb-sm border-b">
+                          <dt className="text-foreground/40 mb-1 text-[10px] tracking-widest capitalize uppercase">
+                            {credit.role}
+                          </dt>
+                          <dd className="text-foreground/90 font-sans text-sm">
+                            {credit.url ? (
+                              <a
+                                href={credit.url}
+                                className="hover:text-foreground decoration-foreground/30 hover:decoration-foreground underline underline-offset-4 transition-colors"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                {credit.name}
+                                {credit.organization && ` (${credit.organization})`} ↗
+                              </a>
+                            ) : (
+                              <>
+                                {credit.name}
+                                {credit.organization && ` (${credit.organization})`}
+                              </>
+                            )}
+                          </dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                </Reveal>
+              )}
+
+              {/* Taxonomy Tags */}
+              {article.keywords && article.keywords.length > 0 && (
+                <Reveal>
+                  <div className="border-border/20 mt-xl pt-md flex flex-wrap items-center gap-2 border-t">
+                    <span className="text-foreground/35 mr-2 font-mono text-[10px] tracking-widest uppercase">
+                      Keywords:
+                    </span>
+                    {article.keywords.map((keyword) => (
+                      <span
+                        key={keyword}
+                        className="border-border/40 bg-foreground/5 text-foreground/70 rounded-xs px-2 py-0.5 font-mono text-[10px] tracking-wider uppercase"
+                      >
+                        #{keyword}
+                      </span>
+                    ))}
+                  </div>
+                </Reveal>
+              )}
+            </div>
+          </div>
         </div>
       </Section>
 

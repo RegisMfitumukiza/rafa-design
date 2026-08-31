@@ -14,6 +14,7 @@
     "format:check": "prettier --check .",
     "generate:images": "node scripts/generate-placeholder-images.mjs",
     "migrate:journal": "node scripts/migrate-journal-to-sanity.mjs",
+    "migrate:services": "node scripts/migrate-services-to-sanity.mjs",
     "typecheck": "tsc --noEmit",
     "validate": "npm run typecheck && npm run lint && npm run format:check && npm run build",
     "audit": "npm audit --audit-level=high",

@@ -11,6 +11,7 @@
 
 import type { JournalArticle, JournalCategory } from "@/content/journal";
 import type { Project } from "@/content/projects";
+import type { Service } from "@/content/services";
 
 import { client } from "./client";
 import {
@@ -218,3 +219,54 @@ export const cacheTags = {
   projects: "projects",
   project: (slug: string) => `project:${slug}`,
 } as const;
+
+/**
+ * ============================================================================
+ * SERVICE FETCHING
+ * ============================================================================
+ */
+
+/**
+ * Get all services
+ */
+export async function getServices(): Promise<Service[]> {
+  try {
+    const { servicesQuery } = await import("./queries");
+    const { transformSanityServices } = await import("./transforms");
+    const sanityServices = await client.fetch(servicesQuery);
+    return transformSanityServices(sanityServices);
+  } catch (error) {
+    console.error("Error fetching services:", error);
+    return [];
+  }
+}
+
+/**
+ * Get single service by slug
+ */
+export async function getServiceBySlug(slug: string): Promise<Service | null> {
+  try {
+    const { serviceBySlugQuery } = await import("./queries");
+    const { transformSanityService } = await import("./transforms");
+    const sanityService = await client.fetch(serviceBySlugQuery, { slug });
+    if (!sanityService) return null;
+    return transformSanityService(sanityService);
+  } catch (error) {
+    console.error(`Error fetching service ${slug}:`, error);
+    return null;
+  }
+}
+
+/**
+ * Get all service slugs (for generateStaticParams)
+ */
+export async function getServiceSlugs(): Promise<string[]> {
+  try {
+    const { serviceSlugsQuery } = await import("./queries");
+    const slugs = await client.fetch<string[]>(serviceSlugsQuery);
+    return slugs || [];
+  } catch (error) {
+    console.error("Error fetching service slugs:", error);
+    return [];
+  }
+}
