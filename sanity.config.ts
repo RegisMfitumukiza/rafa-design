@@ -87,39 +87,39 @@ export default defineConfig({
                   .defaultOrdering([{ field: "order", direction: "asc" }]),
               ),
 
-            // 05 // Studio
+            // 05 // Studio Page (Singleton)
             S.listItem()
-              .title("05 // Studio")
+              .title("05 // Studio Page")
               .icon(() => "🏛️")
               .schemaType("studio")
-              .child(S.documentTypeList("studio").title("Studio")),
+              .child(S.documentTypeList("studio").title("Studio Page Content")),
 
-            // 06 // Careers
+            // 06 // Job Postings (Collection)
             S.listItem()
-              .title("06 // Careers")
+              .title("06 // Job Postings")
               .icon(() => "💼")
               .schemaType("career")
               .child(
                 S.documentTypeList("career")
-                  .title("Job Postings")
+                  .title("Open Job Postings")
                   .defaultOrdering([{ field: "order", direction: "asc" }]),
               ),
 
-            // 07 // Careers Page
+            // 07 // Careers Page (Singleton)
             S.listItem()
               .title("07 // Careers Page")
               .icon(() => "📄")
               .schemaType("careers")
-              .child(S.documentTypeList("careers").title("Careers Page")),
+              .child(S.documentTypeList("careers").title("Careers Page Content")),
 
-            // 08 // Contact
+            // 08 // Contact Page (Singleton)
             S.listItem()
-              .title("08 // Contact")
+              .title("08 // Contact Page")
               .icon(() => "✉️")
               .schemaType("contact")
-              .child(S.documentTypeList("contact").title("Contact Information")),
+              .child(S.documentTypeList("contact").title("Contact & Office Information")),
 
-            // 09 // Site Settings
+            // 09 // Site Settings (Singleton)
             S.listItem()
               .title("09 // Site Settings")
               .icon(() => "⚙️")
@@ -134,9 +134,15 @@ export default defineConfig({
     }),
   ],
 
-  // Schema types
+  // Schema types + template configuration
   schema: {
     types: schemaTypes,
+    // Filter out singleton types from the global "+" (New document) menu
+    // so editors cannot accidentally create duplicate singletons
+    templates: (prev) => {
+      const singletonTypes = ["studio", "careers", "contact", "siteSettings"];
+      return prev.filter((template) => !singletonTypes.includes(template.schemaType));
+    },
   },
 
   // Document actions configuration
