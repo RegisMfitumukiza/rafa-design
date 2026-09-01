@@ -117,7 +117,7 @@ export function SplashScreen({ phase, onFadeComplete }: SplashScreenProps) {
           ref={coordsRef}
           className="text-foreground/40 font-mono text-[9px] tracking-[0.2em] uppercase opacity-0"
         >
-          41.1579° N, 8.6291° W // PORTO · LISBON
+          1.9441° S, 30.0619° E // KIGALI, RWANDA
         </p>
       </div>
     </div>

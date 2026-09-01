@@ -72,7 +72,7 @@ export function Footer({ className }: FooterProps) {
             <Logo variant="footer" />
             <p className="text-foreground/60 max-w-[20rem] text-sm">{studio.tagline}</p>
             <p className="text-foreground/40 font-mono text-[10px] tracking-[0.2em] uppercase">
-              PORTO · LISBON{" "}
+              KIGALI, RWANDA{" "}
               {contactInformation.coordinates ? `[${contactInformation.coordinates}]` : ""} ·{" "}
               {studioTimeFormatted}
             </p>

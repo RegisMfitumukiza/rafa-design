@@ -10,21 +10,21 @@ export function getStudioTime(): StudioTimeInfo {
   try {
     const now = new Date();
     const formatter = new Intl.DateTimeFormat("en-GB", {
-      timeZone: "Europe/Lisbon",
+      timeZone: "Africa/Kigali",
       hour: "2-digit",
       minute: "2-digit",
       hour12: false,
     });
     const timeString = formatter.format(now);
 
-    // Determine standard/daylight abbreviation for Portugal
+    // Determine standard/daylight abbreviation for Rwanda (CAT — Central Africa Time)
     const tzFormatter = new Intl.DateTimeFormat("en-GB", {
-      timeZone: "Europe/Lisbon",
+      timeZone: "Africa/Kigali",
       timeZoneName: "short",
     });
     const parts = tzFormatter.formatToParts(now);
     const tzPart = parts.find((p) => p.type === "timeZoneName");
-    const timezoneLabel = tzPart ? tzPart.value : "WET";
+    const timezoneLabel = tzPart ? tzPart.value : "CAT";
 
     return {
       timeString,
@@ -33,9 +33,9 @@ export function getStudioTime(): StudioTimeInfo {
     };
   } catch {
     return {
-      timeString: "15:00",
-      timezoneLabel: "WET",
-      formatted: "15:00 WET",
+      timeString: "12:00",
+      timezoneLabel: "CAT",
+      formatted: "12:00 CAT",
     };
   }
 }

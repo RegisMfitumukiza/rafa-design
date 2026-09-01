@@ -12,6 +12,7 @@ import { motion } from "@/design-system/motion";
 import { useContact } from "@/features/contact/contact-context";
 import { PrimaryNavIndex } from "@/features/navigation/primary-nav-index";
 import { capitalize } from "@/lib/capitalize";
+import { useStudioTime } from "@/lib/studio-time";
 import { useReducedMotion } from "@/motion";
 
 import { LandingSocialStrip } from "./LandingSocialStrip";
@@ -20,6 +21,7 @@ export function Landing() {
   const contactInformation = useContact();
   const reduced = useReducedMotion();
   const rootRef = useRef<HTMLDivElement | null>(null);
+  const { formatted: studioTimeFormatted } = useStudioTime();
 
   useLayoutEffect(() => {
     const root = rootRef.current;
@@ -74,7 +76,7 @@ export function Landing() {
 
   return (
     <div ref={rootRef} className="relative flex min-h-svh flex-col">
-      {/* Top Bar — logotype wordmark + theme toggle */}
+      {/* Top Bar — logotype wordmark + location time anchor + theme toggle */}
       <div
         data-landing-bar
         className="container-standard flex h-(--header-height) items-center justify-between"
@@ -92,6 +94,17 @@ export function Landing() {
             DESIGN HUB
           </span>
         </Link>
+
+        {/* Center — Studio Local Time & Location */}
+        <div
+          aria-hidden="true"
+          className="gap-xs text-foreground/40 hidden items-center font-mono text-[10px] tracking-[0.2em] uppercase select-none md:flex"
+        >
+          <span>KIGALI</span>
+          <span className="text-foreground/20">|</span>
+          <span className="tabular-nums">{studioTimeFormatted}</span>
+        </div>
+
         <ThemeToggle />
       </div>
 

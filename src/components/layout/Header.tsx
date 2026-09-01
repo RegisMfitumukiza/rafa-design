@@ -80,7 +80,7 @@ export function Header({ className }: HeaderProps) {
           aria-hidden="true"
           className="gap-xs text-foreground/40 hidden items-center font-mono text-[10px] tracking-[0.2em] uppercase select-none md:flex"
         >
-          <span>PORTO · LISBON</span>
+          <span>KIGALI</span>
           <span className="text-foreground/20">|</span>
           <span className="tabular-nums">{studioTimeFormatted}</span>
         </div>

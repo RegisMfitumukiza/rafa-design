@@ -87,12 +87,24 @@ Sanity Studio → Sanity Database → GROQ Query → Transform → Next.js Page 
 
 ---
 
+## Site-Wide Social Links (Sanity-First)
+
+As of **2026-09-01**, the footprint social links and contact details are Sanity-driven everywhere, not just on the three company pages:
+
+- New client `ContactProvider` (`src/features/contact/contact-provider.tsx`) + `useContact()` (`contact-context.ts`) expose the Sanity `contact` document to every client surface, with a static fallback to `src/content/company/contact.ts` when the fetch fails.
+- `(site)/layout.tsx` became async — it fetches `getContactInformation()` once and feeds the provider.
+- Server-rendering consumers that cannot use context fetch directly: `visit-studio.tsx` (async `getContactInformation()` with static fallback) and root `layout.tsx` JSON-LD (`organizationSchema(contact)` → `sameAs` social profiles).
+- Converted surfaces: `Footer`, `fullscreen-navigation`, `landing` + `LandingSocialStrip`, `visit-studio`, `contact-form`.
+
+The static `contact.ts` module is retained as the **typed fallback shape** (offline safety / interface source of truth), not the live data source. Real profile URLs are edited in one place: **Sanity Studio → Contact → Social Links**.
+
 ## Verification
 
 - `npm run typecheck` → 0 errors.
 - Targeted `eslint` on all changed files → 0 errors / 0 warnings.
 - `npm run build` → 32 static routes; `/studio`, `/careers`, `/contact` all `○` (static).
 - Rendered server HTML confirms migrated content renders (studio manifesto, all 4 team member names, `PRINCIPLE`/`SECTOR` indexes, careers heading + benefits, contact email/offices).
+- Rendered homepage HTML contains the Sanity social profile URLs.
 
 ---
 

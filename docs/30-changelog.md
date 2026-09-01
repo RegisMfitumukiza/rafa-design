@@ -66,6 +66,8 @@ Documentation updates.
 
 ## Changed
 
+- Site-wide social links + contact details Sanity-driven (2026-09-01) — `src/features/contact/contact-context.ts` (`useContact()`) + `contact-provider.tsx` (client provider with static fallback) now feed every client surface from the Sanity `contact` singleton. `(site)/layout.tsx` is now async and fetches `getContactInformation()`; `Footer`, `fullscreen-navigation`, `landing` + `LandingSocialStrip`, and `contact-form` consume via `useContact()`; `visit-studio.tsx` became async (direct server fetch, static fallback); root `layout.tsx` passes the fetched contact to `organizationSchema(contact)` for the `sameAs` social-profile JSON-LD. Static `src/content/company/contact.ts` remains the typed fallback shape.
+
 - Company pages Sanity migration (2026-08-31) — the Studio, Careers, Contact, and Site Settings surfaces switched from hardcoded `src/content` TypeScript to Sanity-first fetching. `/studio`, `/careers`, and `/contact` pages are now async Sanity fetch + null-fallback; `office-map.tsx` and `contact-editorial.tsx` converted from static-import to prop-driven. `sanity.config.ts` now defines 9 Studio sections (01 Projects / 02 Journal / 03 Services / 04 Team / 05 Studio / 06 Careers / 07 Careers Page / 08 Contact / 09 Site Settings) with singleton action guards (`studio`/`careers`/`contact`/`siteSettings` hide create/delete/publish/unpublish/duplicate). `src/sanity/lib/{queries,transforms,fetch,index}.ts` extended with the team/studio/career/careers/contact/siteSettings data layer.
 
 ## Added
@@ -77,6 +79,8 @@ Documentation updates.
 - `src/content/siteSettings.ts` — new `SiteSettings` interface (identity, SEO defaults, organisation, operational fields).
 - Migration scripts — `scripts/migrate-{team,studio,careers,contact,site-settings}-to-sanity.mjs` + shared `scripts/lib/sanity.mjs` upload helper; run all five via `npm run migrate:company`. Idempotent (skip existing by slug/singleton) and upload the local placeholder images as Sanity assets.
 - Suite of `migrate:*` npm scripts (`team`, `studio`, `careers`, `contact`, `site-settings`, `company`).
+- `src/features/contact/contact-context.ts` — `ContactContext` + `useContact()` hook (2026-09-01).
+- `src/features/contact/contact-provider.tsx` — client `ContactProvider` fed by the server layout, static fallback (2026-09-01).
 
 - Process editorial redesign (2026-08-14) — `/process` rebuilt as an architectural-methodology page: 12-col intro, work-in-progress hero, ruled phase index with evidence plates, "See the Work →" link, and shared closing CTA. `ProcessTimeline`/`ProcessStep` rewritten as ruled editorial rows (`[2] number · [4] title · [6] description`, `border-y divide-y`, `Stagger`; phase `visual`s as full-width 16:9 `ImageReveal` evidence plates with mono captions). New `ProcessProgress` client component — reading-progress hairline under the header scrubbed across the methodology section, decorative + reduced-motion aware. `DisciplineCta` gained a `content` override (reused by `/process` via `pageContent.process.cta`).
 - Process content in content (2026-08-14) — `processHero: ImageAsset` in `src/content/process/index.ts`, `pageContent.process.overline` + `.cta`, `ui.overlines.sequence`, `ui.sections.seeTheWork`.

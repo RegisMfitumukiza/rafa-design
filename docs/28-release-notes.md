@@ -10,7 +10,46 @@
 
 ---
 
-# 2026-08-31 (Company Pages Sanity Migration)
+# 2026-09-01 (Sanity-Driven Social Links)
+
+## Version
+
+v1.0.0-alpha
+
+### Status
+
+✅ All site-wide social links and contact details (footer, fullscreen navigation, homepage social strip, visit-studio spec sheet, contact form project types, and the Organization JSON-LD) now come from the Sanity `contact` singleton — editable in one place in Studio (Settings → Contact → Social Links) with a static fallback when Sanity is unreachable.
+
+---
+
+## Summary
+
+Contact information previously flowed from the static `src/content/company/contact.ts` module into every client surface. This release introduces a `ContactProvider` that the server-side layout feeds from `getContactInformation()`, so all client components consume real CMS data through `useContact()` while falling back to the static module if the fetch fails. The server-rendered JSON-LD (`organizationSchema`) now also accepts the fetched contact document.
+
+## Added
+
+- `src/features/contact/contact-context.ts` — `ContactContext` + `useContact()` hook
+- `src/features/contact/contact-provider.tsx` — client `ContactProvider` with static fallback
+
+## Changed
+
+- `src/app/(site)/layout.tsx` — async layout fetches `getContactInformation()` and wraps the tree in `ContactProvider`
+- `src/app/layout.tsx` — fetches contact and passes it to `organizationSchema(contact)` for JSON-LD
+- `src/config/schema.ts` — `organizationSchema(contact?: ContactInformation | null)` accepts Sanity contact with static fallback
+- `src/components/layout/Footer.tsx` — social links/details via `useContact()`
+- `src/features/navigation/fullscreen-navigation.tsx` — social links/phone/email via `useContact()`
+- `src/features/landing/landing.tsx`, `landing/LandingSocialStrip.tsx` — social links/email via `useContact()`
+- `src/features/studio/visit-studio.tsx` — async server fetch of `getContactInformation()` (static fallback)
+- `src/features/contact/contact-form.tsx` — project types via `useContact()`
+
+## Verified
+
+- `npx tsc --noEmit` → 0 errors
+- Targeted `eslint` → 0 errors / 0 warnings
+- `npm run build` → 32 static routes
+- Rendered homepage HTML confirmed to contain the Sanity-migrated social links
+
+---
 
 ## Version
 
