@@ -5,11 +5,11 @@ import { Fragment, type ReactNode } from "react";
 
 import { Logo } from "@/components/layout/Logo";
 import { careerPositions } from "@/content/company/careers";
-import { contactInformation } from "@/content/company/contact";
 import { footerContent } from "@/content/footer";
 import { supportingNavLinks } from "@/content/navigation";
 import { getServices } from "@/content/services";
 import { ui } from "@/content/ui";
+import { useContact } from "@/features/contact/contact-context";
 import { MenuSearch } from "@/features/navigation/menu-search";
 import { PrimaryNavIndex } from "@/features/navigation/primary-nav-index";
 import { capitalize } from "@/lib/capitalize";
@@ -26,6 +26,7 @@ const directoryLinkClassName =
   "text-foreground/60 hover:text-foreground inline-flex min-h-(--touch-target) items-center text-sm transition-colors";
 
 export function Footer({ className }: FooterProps) {
+  const contactInformation = useContact();
   const { studio, rights } = footerContent;
   const year = new Date().getFullYear();
   const socialLinks = contactInformation.socialLinks.filter((link) => link.url !== "#");

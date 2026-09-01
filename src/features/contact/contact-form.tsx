@@ -11,8 +11,8 @@ import { Form } from "@/components/forms/Form";
 import { Input } from "@/components/forms/Input";
 import { Textarea } from "@/components/forms/Textarea";
 import { Button } from "@/components/ui/Button";
-import { contactInformation } from "@/content/company/contact";
 import { ui } from "@/content/ui";
+import { useContact } from "@/features/contact/contact-context";
 import { cn } from "@/lib/cn";
 
 const contactFormSchema = z.object({
@@ -28,6 +28,7 @@ const contactFormSchema = z.object({
 type ContactFormValues = z.infer<typeof contactFormSchema>;
 
 export function ContactForm() {
+  const contactInformation = useContact();
   // Dynamic project types from content layer (CMS-ready)
   const projectTypes = contactInformation.projectTypes;
   const defaultType = projectTypes[0] ?? "Architecture";

@@ -1,18 +1,17 @@
 "use client";
 
 import { gsap } from "gsap";
-import Image from "next/image";
 import Link from "next/link";
 import { useLayoutEffect, useEffect, useRef, useState } from "react";
 
 import { Logo } from "@/components/layout/Logo";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { useDialog } from "@/components/ui/useDialog";
-import { contactInformation } from "@/content/company/contact";
 import { supportingNavLinks } from "@/content/navigation";
 import { getServices } from "@/content/services";
 import { ui } from "@/content/ui";
 import { motion } from "@/design-system/motion";
+import { useContact } from "@/features/contact/contact-context";
 import { capitalize } from "@/lib/capitalize";
 import { useStudioTime } from "@/lib/studio-time";
 import { useReducedMotion } from "@/motion";
@@ -21,20 +20,11 @@ import { MenuSearch } from "./menu-search";
 import { useNavigation } from "./navigation-context";
 import { PrimaryNavIndex } from "./primary-nav-index";
 
-const ambientPreviews = [
-  "/images/projects/casa-monte-hero.jpg",
-  "/images/projects/atelier-norte-hero.jpg",
-  "/images/projects/villa-marim-hero.jpg",
-  "/images/projects/baia-house-hero.jpg",
-  "/images/projects/largo-gallery-hero.jpg",
-  "/images/projects/casa-monte-01.jpg",
-];
-
 export function FullscreenNavigation() {
+  const contactInformation = useContact();
   const { isMenuOpen, closeMenu } = useNavigation();
   const reduced = useReducedMotion();
   const [isPresent, setPresent] = useState(false);
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const rootRef = useRef<HTMLDivElement | null>(null);
   const searchRef = useRef<HTMLInputElement | null>(null);
   const { formatted: studioTimeFormatted } = useStudioTime();
@@ -47,8 +37,6 @@ export function FullscreenNavigation() {
 
   useEffect(() => {
     if (!isMenuOpen) {
-      // Reset hover state when menu closes (deferred to avoid cascading renders)
-      setTimeout(() => setHoveredIndex(null), 0);
       return;
     }
     queueMicrotask(() => setPresent(true));
@@ -138,9 +126,6 @@ export function FullscreenNavigation() {
     ? `tel:${contactInformation.phone.replace(/\s+/g, "")}`
     : null;
 
-  const currentPreviewSrc =
-    hoveredIndex !== null && ambientPreviews[hoveredIndex] ? ambientPreviews[hoveredIndex] : null;
-
   return (
     <div
       ref={(node) => {
@@ -154,23 +139,6 @@ export function FullscreenNavigation() {
       tabIndex={-1}
       className="bg-background scrollbar-hide z-overlay fixed inset-0 overflow-y-auto"
     >
-      {/* Ambient Background Media Preview Layer */}
-      {currentPreviewSrc && !reduced && isMenuOpen && (
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 z-0 overflow-hidden opacity-15 transition-opacity duration-700 dark:opacity-20"
-        >
-          <Image
-            src={currentPreviewSrc}
-            alt=""
-            fill
-            sizes="100vw"
-            priority
-            className="scale-105 object-cover contrast-125 grayscale filter transition-transform duration-1000"
-          />
-        </div>
-      )}
-
       {/* Top Bar — sticky */}
       <div
         data-nav-bar
@@ -220,11 +188,7 @@ export function FullscreenNavigation() {
             >
               {ui.navigation.general}
             </p>
-            <PrimaryNavIndex
-              variant="display"
-              onNavigate={closeMenu}
-              onHoverItem={setHoveredIndex}
-            />
+            <PrimaryNavIndex variant="display" onNavigate={closeMenu} />
           </nav>
 
           {/* TIER 2: Search Bridge */}

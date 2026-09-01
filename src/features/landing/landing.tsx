@@ -7,9 +7,9 @@ import { useLayoutEffect, useRef } from "react";
 
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { siteConfig } from "@/config/site";
-import { contactInformation } from "@/content/company/contact";
 import { ui } from "@/content/ui";
 import { motion } from "@/design-system/motion";
+import { useContact } from "@/features/contact/contact-context";
 import { PrimaryNavIndex } from "@/features/navigation/primary-nav-index";
 import { capitalize } from "@/lib/capitalize";
 import { useReducedMotion } from "@/motion";
@@ -17,6 +17,7 @@ import { useReducedMotion } from "@/motion";
 import { LandingSocialStrip } from "./LandingSocialStrip";
 
 export function Landing() {
+  const contactInformation = useContact();
   const reduced = useReducedMotion();
   const rootRef = useRef<HTMLDivElement | null>(null);
 

@@ -11,6 +11,7 @@ import { createMetadata } from "@/config/seo";
 import { siteConfig } from "@/config/site";
 import { theme } from "@/config/theme";
 import { Providers } from "@/providers/providers";
+import { getContactInformation } from "@/sanity/lib";
 
 import "./globals.css";
 
@@ -43,11 +44,13 @@ const themeScript = `(function(){try{var p=localStorage.getItem(${JSON.stringify
   theme.storageKey,
 )});var d=p?p==="dark":window.matchMedia("(prefers-color-scheme: dark)").matches;if(d)document.documentElement.classList.add("dark");}catch(e){}})();`;
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const contact = await getContactInformation();
+
   return (
     <html lang={siteConfig.locale} className="h-full antialiased" suppressHydrationWarning>
       <head>
@@ -87,7 +90,7 @@ export default function RootLayout({
         >
           Skip to content
         </a>
-        <JsonLd data={organizationSchema()} />
+        <JsonLd data={organizationSchema(contact)} />
         <JsonLd data={websiteSchema()} />
         <Providers>
           <SplashProvider>{children}</SplashProvider>

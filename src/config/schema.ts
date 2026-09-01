@@ -1,5 +1,6 @@
 import { siteConfig } from "@/config/site";
-import { contactInformation } from "@/content/company/contact";
+import { contactInformation as staticContactInformation } from "@/content/company/contact";
+import type { ContactInformation } from "@/content/company/contact";
 import type { JournalArticle } from "@/content/journal";
 import type { Project } from "@/content/projects";
 import type { Service } from "@/content/services";
@@ -11,7 +12,11 @@ function absolute(src: string): string {
   return `${baseUrl}${src.startsWith("/") ? src : `/${src}`}`;
 }
 
-export function organizationSchema(): Record<string, unknown> {
+export function organizationSchema(
+  contact: ContactInformation | null = null,
+): Record<string, unknown> {
+  const contactInformation = contact ?? staticContactInformation;
+
   const social = contactInformation.socialLinks
     .map((link) => link.url)
     .filter((url) => url.length > 0 && url !== "#");

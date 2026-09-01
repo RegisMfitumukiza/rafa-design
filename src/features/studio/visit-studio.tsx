@@ -4,10 +4,11 @@ import Link from "next/link";
 
 import { Section } from "@/components/layout/Section";
 import { Text } from "@/components/typography/Text";
-import { contactInformation } from "@/content/company/contact";
+import { contactInformation as staticContactInformation } from "@/content/company/contact";
 import type { Studio } from "@/content/studio";
 import { cn } from "@/lib/cn";
 import { Reveal } from "@/motion";
+import { getContactInformation } from "@/sanity/lib";
 
 interface VisitStudioProps {
   studio: Studio;
@@ -23,7 +24,8 @@ interface VisitStudioProps {
  * Right (5 cols): Ruled contact specs (Office address + Google Maps link,
  * coordinates, phone, email, visit rules) and the main conversation CTA button.
  */
-export function VisitStudio({ studio, className }: VisitStudioProps) {
+export async function VisitStudio({ studio, className }: VisitStudioProps) {
+  const contactInformation = (await getContactInformation()) ?? staticContactInformation;
   const office = contactInformation.offices[0];
   const mapsUrl = office
     ? `https://maps.google.com/?q=${encodeURIComponent(`${office.address}, ${office.city}`)}`

@@ -3,12 +3,13 @@
 import { gsap } from "gsap";
 import { useLayoutEffect, useRef } from "react";
 
-import { contactInformation } from "@/content/company/contact";
 import { motion } from "@/design-system/motion";
+import { useContact } from "@/features/contact/contact-context";
 import { capitalize } from "@/lib/capitalize";
 import { useReducedMotion } from "@/motion";
 
 export function LandingSocialStrip() {
+  const contactInformation = useContact();
   const reduced = useReducedMotion();
   const containerRef = useRef<HTMLDivElement | null>(null);
   const linksRef = useRef<HTMLElement[]>([]);
