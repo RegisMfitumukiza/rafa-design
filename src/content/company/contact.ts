@@ -23,7 +23,7 @@ export interface ContactInformation {
 }
 
 export const contactInformation: ContactInformation = {
-  email: "studio@rafadesign.com",
+  email: "rafadesignhub@gmail.com",
   phone: "+351 220 000 000",
   address: "Rua do Patio 42, 4000-000 Porto",
   coordinates: "41.1579° N, 8.6291° W",
