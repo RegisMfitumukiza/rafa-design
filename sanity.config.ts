@@ -47,6 +47,7 @@ export default defineConfig({
             S.listItem()
               .title("01 // Projects")
               .icon(() => "📐")
+              .schemaType("project")
               .child(
                 S.documentTypeList("project")
                   .title("Projects")
@@ -57,6 +58,7 @@ export default defineConfig({
             S.listItem()
               .title("02 // Journal")
               .icon(() => "📰")
+              .schemaType("journalArticle")
               .child(
                 S.documentTypeList("journalArticle")
                   .title("Journal Articles")
@@ -67,6 +69,7 @@ export default defineConfig({
             S.listItem()
               .title("03 // Services")
               .icon(() => "🏗️")
+              .schemaType("service")
               .child(
                 S.documentTypeList("service")
                   .title("Services")
@@ -77,6 +80,7 @@ export default defineConfig({
             S.listItem()
               .title("04 // Team")
               .icon(() => "👥")
+              .schemaType("teamMember")
               .child(
                 S.documentTypeList("teamMember")
                   .title("Team Members")
@@ -87,12 +91,14 @@ export default defineConfig({
             S.listItem()
               .title("05 // Studio")
               .icon(() => "🏛️")
+              .schemaType("studio")
               .child(S.documentTypeList("studio").title("Studio")),
 
             // 06 // Careers
             S.listItem()
               .title("06 // Careers")
               .icon(() => "💼")
+              .schemaType("career")
               .child(
                 S.documentTypeList("career")
                   .title("Job Postings")
@@ -103,18 +109,21 @@ export default defineConfig({
             S.listItem()
               .title("07 // Careers Page")
               .icon(() => "📄")
+              .schemaType("careers")
               .child(S.documentTypeList("careers").title("Careers Page")),
 
             // 08 // Contact
             S.listItem()
               .title("08 // Contact")
               .icon(() => "✉️")
+              .schemaType("contact")
               .child(S.documentTypeList("contact").title("Contact Information")),
 
             // 09 // Site Settings
             S.listItem()
               .title("09 // Site Settings")
               .icon(() => "⚙️")
+              .schemaType("siteSettings")
               .child(S.documentTypeList("siteSettings").title("Site Settings")),
           ]),
     }),
