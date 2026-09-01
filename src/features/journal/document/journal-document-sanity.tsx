@@ -52,8 +52,8 @@ export function JournalDocumentSanity({ article, categoryLabel }: JournalDocumen
       <ScrollProgress />
 
       {/* ── Editorial Title Header ──────────────────────────────────────────
-          Title + excerpt only. ALL specification metadata lives exclusively
-          in the sticky marginalia rail. No duplicate data. */}
+          Clean, monumental header spanning the full editorial width.
+          ALL specification metadata lives exclusively in the sticky marginalia rail below. */}
       <Section container="wide" className="pt-xl pb-xl">
         <Reveal>
           {/* Breadcrumb */}
@@ -68,9 +68,9 @@ export function JournalDocumentSanity({ article, categoryLabel }: JournalDocumen
             </Link>
           </nav>
 
-          {/* Monumental H1 — full editorial width, no side panel competing */}
-          <div className="max-w-4xl">
-            <h1 className="font-display text-foreground text-4xl leading-[1.06] font-medium tracking-tight text-balance sm:text-5xl md:text-6xl lg:text-7xl">
+          {/* Monumental Headline */}
+          <div className="max-w-5xl">
+            <h1 className="font-display text-foreground text-4xl leading-[1.06] font-medium tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
               {article.title}
             </h1>
 
@@ -81,7 +81,7 @@ export function JournalDocumentSanity({ article, categoryLabel }: JournalDocumen
             )}
 
             {article.excerpt && (
-              <p className="text-foreground/70 mt-lg max-w-2xl text-lg leading-relaxed sm:text-xl">
+              <p className="text-foreground/70 mt-lg max-w-3xl text-lg leading-relaxed sm:text-xl">
                 {article.excerpt}
               </p>
             )}

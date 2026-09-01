@@ -1,0 +1,29 @@
+
+> rafa-design-website@0.1.0 dev
+> set TURBOPACK=0 && next dev -p 8000
+
+▲ Next.js 16.2.11 (Turbopack)
+- Local:         http://localhost:8000
+- Network:       http://192.168.240.1:8000
+- Environments: .env.local
+✓ Ready in 9.8s
+⚠ Slow filesystem detected. The benchmark took 360ms. If E:\rafa-design-website\.next/dev is a network drive, consider moving it to a local folder.
+See more: https://nextjs.org/docs/app/guides/local-development
+- Experiments (use with caution):
+  · optimizePackageImports
+  ✓ typedEnv
+
+○ Compiling / ...
+ GET / 200 in 66s (next.js: 59s, application-code: 7.5s)
+ GET / 200 in 290ms (next.js: 12ms, application-code: 278ms)
+○ Compiling /admin/[[...index]] ...
+✓ Finished writing to filesystem cache in 18.5s
+✓ Finished filesystem cache database compaction in 22.3s
+✓ Finished writing to filesystem cache in 30.5s
+✓ Finished filesystem cache database compaction in 13.6s
+ GET /admin 200 in 1812ms (next.js: 46ms, application-code: 1766ms)
+✓ Finished filesystem cache database compaction in 13.2s
+[browser] Building schema for synchronization took more than 1 second (2308.099999964237ms)
+ GET /admin/structure/02Journal;7d4b7648-ee7f-4289-a480-125a2c135cfe%2Ctemplate%3DjournalArticle 200 in 1468ms (next.js: 69ms, application-code: 1399ms)
+[browser] Building schema for synchronization took more than 1 second (1876.5ms)
+[?25h
