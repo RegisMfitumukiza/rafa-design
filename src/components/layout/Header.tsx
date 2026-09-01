@@ -8,7 +8,7 @@ import { ui } from "@/content/ui";
 import { motion } from "@/design-system/motion";
 import { useNavigation } from "@/features/navigation/navigation-context";
 import { cn } from "@/lib/cn";
-import { useStudioTime } from "@/lib/studio-time";
+import { useDualTime } from "@/lib/studio-time";
 import { useReducedMotion } from "@/motion";
 
 import { Logo } from "./Logo";
@@ -21,7 +21,7 @@ export function Header({ className }: HeaderProps) {
   const { isMenuOpen, toggleMenu } = useNavigation();
   const headerRef = useRef<HTMLElement | null>(null);
   const reduced = useReducedMotion();
-  const { formatted: studioTimeFormatted } = useStudioTime();
+  const { studio, visitor, sameZone } = useDualTime();
 
   // Hide on scroll down, reveal on scroll up — orientation without permanent presence.
   useLayoutEffect(() => {
@@ -75,14 +75,22 @@ export function Header({ className }: HeaderProps) {
       <div className="container-standard flex h-(--header-height) items-center justify-between">
         <Logo />
 
-        {/* Center — Studio Local Time Anchor */}
+        {/* Center — Studio time (Kigali) + visitor's local time */}
         <div
           aria-hidden="true"
           className="gap-xs text-foreground/40 hidden items-center font-mono text-[10px] tracking-[0.2em] uppercase select-none md:flex"
         >
           <span>KIGALI</span>
           <span className="text-foreground/20">|</span>
-          <span className="tabular-nums">{studioTimeFormatted}</span>
+          <span className="tabular-nums">{studio.formatted}</span>
+          {!sameZone && studio.timeString && (
+            <>
+              <span className="text-foreground/20 mx-1">·</span>
+              <span>YOUR TIME</span>
+              <span className="text-foreground/20">|</span>
+              <span className="tabular-nums">{visitor.formatted}</span>
+            </>
+          )}
         </div>
 
         <div className="gap-sm md:gap-md flex items-center">

@@ -13,7 +13,7 @@ import { ui } from "@/content/ui";
 import { motion } from "@/design-system/motion";
 import { useContact } from "@/features/contact/contact-context";
 import { capitalize } from "@/lib/capitalize";
-import { useStudioTime } from "@/lib/studio-time";
+import { useDualTime } from "@/lib/studio-time";
 import { useReducedMotion } from "@/motion";
 
 import { MenuSearch } from "./menu-search";
@@ -27,7 +27,7 @@ export function FullscreenNavigation() {
   const [isPresent, setPresent] = useState(false);
   const rootRef = useRef<HTMLDivElement | null>(null);
   const searchRef = useRef<HTMLInputElement | null>(null);
-  const { formatted: studioTimeFormatted } = useStudioTime();
+  const { studio, visitor, sameZone } = useDualTime();
 
   const { panelRef, dialogProps } = useDialog({
     open: isMenuOpen && isPresent,
@@ -146,14 +146,22 @@ export function FullscreenNavigation() {
       >
         <Logo />
 
-        {/* Center — Studio Local Time & Coordinates */}
+        {/* Center — Studio time (Kigali) + visitor's local time */}
         <div
           aria-hidden="true"
           className="gap-xs text-foreground/40 hidden items-center font-mono text-[10px] tracking-[0.2em] uppercase select-none md:flex"
         >
           <span>KIGALI</span>
           <span className="text-foreground/20">|</span>
-          <span className="tabular-nums">{studioTimeFormatted}</span>
+          <span className="tabular-nums">{studio.formatted}</span>
+          {!sameZone && studio.timeString && (
+            <>
+              <span className="text-foreground/20 mx-1">·</span>
+              <span>YOUR TIME</span>
+              <span className="text-foreground/20">|</span>
+              <span className="tabular-nums">{visitor.formatted}</span>
+            </>
+          )}
         </div>
 
         <div className="gap-sm md:gap-md flex items-center">
