@@ -132,16 +132,15 @@ export default defineConfig({
 
   // Document actions configuration
   document: {
-    // For singleton documents, hide create/delete/duplicate actions so only a
-    // single document of each type can exist.
+    // For singleton documents, hide delete/duplicate/unpublish actions so only a
+    // single document of each type can exist, while allowing publishing.
     actions: (prev, context) => {
       const singletonTypes = ["studio", "careers", "contact", "siteSettings"];
       const { schemaType } = context;
 
       if (singletonTypes.includes(schemaType as string)) {
         return prev.filter(
-          (desc) =>
-            !desc.action || !["delete", "duplicate", "publish", "unpublish"].includes(desc.action),
+          (desc) => !desc.action || !["delete", "duplicate", "unpublish"].includes(desc.action),
         );
       }
 
