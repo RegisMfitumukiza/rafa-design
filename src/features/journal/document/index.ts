@@ -2,6 +2,7 @@ export { JournalDocument } from "./journal-document";
 export { JournalDocumentSanity } from "./journal-document-sanity";
 export { ReadingIndex } from "./reading-index";
 export { ReadingIndexRail } from "./reading-index-rail";
+export { ArticleSpecRail } from "./article-spec-rail";
 export { ReadingIndexMobile } from "./reading-index-mobile";
 export { ScrollProgress } from "./scroll-progress";
 export { BackToTop } from "./back-to-top";

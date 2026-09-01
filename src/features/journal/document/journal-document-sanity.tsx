@@ -19,6 +19,7 @@ import Link from "next/link";
 import { ArticleContent } from "@/components/journal/portable-text";
 import { Section } from "@/components/layout/Section";
 import type { JournalArticle } from "@/content/journal";
+import { ArticleSpecRail } from "@/features/journal/document/article-spec-rail";
 import { BackToTop } from "@/features/journal/document/back-to-top";
 import { extractHeadingsFromContent } from "@/features/journal/document/heading-utils";
 import { ReadingIndexRail } from "@/features/journal/document/reading-index-rail";
@@ -52,8 +53,7 @@ export function JournalDocumentSanity({ article, categoryLabel }: JournalDocumen
       <ScrollProgress />
 
       {/* ── Editorial Title Header ──────────────────────────────────────────
-          Clean, monumental header spanning the full editorial width.
-          ALL specification metadata lives exclusively in the sticky marginalia rail below. */}
+          Clean, monumental header spanning the full editorial width. */}
       <Section container="wide" className="pt-xl pb-xl">
         <Reveal>
           {/* Breadcrumb */}
@@ -119,19 +119,19 @@ export function JournalDocumentSanity({ article, categoryLabel }: JournalDocumen
         </Section>
       )}
 
-      {/* ── 12-Column Asymmetric Monograph Reading Grid ─────────────────────
-          Left  3 cols: Sticky marginalia rail (index + ALL metadata).
-          Right 9 cols: Primary narrative body.
-          gap-x-md keeps column gap tight so the 9-col reading zone is wide. */}
+      {/* ── 3-Column Dual-Rail Monograph Reading Grid ───────────────────────
+          Left  3 cols: Sticky Section Index Tracker
+          Center 6 cols: Narrative Reading Body
+          Right 3 cols: Sticky Specification Metadata & Share */}
       <Section container="wide" className="my-2xl">
-        <div className="gap-x-md gap-y-2xl grid items-start lg:grid-cols-12">
-          {/* Left 3 Cols: Sticky Marginalia Rail */}
-          <div className="hidden self-start lg:col-span-3 lg:block">
-            <ReadingIndexRail headings={headings} article={article} categoryLabel={categoryLabel} />
+        <div className="gap-x-xl gap-y-2xl grid lg:grid-cols-12">
+          {/* Left 3 Cols: Sticky Section Index Rail */}
+          <div className="hidden lg:col-span-3 lg:block">
+            <ReadingIndexRail headings={headings} />
           </div>
 
-          {/* Right 9 Cols: Narrative Reading Body */}
-          <div className="lg:col-span-9">
+          {/* Center 6 Cols: Primary Narrative Reading Body */}
+          <div className={headings.length > 0 ? "lg:col-span-6" : "lg:col-span-9"}>
             <Reveal>
               <ArticleContent content={rawContent} />
             </Reveal>
@@ -143,7 +143,7 @@ export function JournalDocumentSanity({ article, categoryLabel }: JournalDocumen
                   <p className="text-foreground/35 mb-md font-mono text-[10px] tracking-widest uppercase">
                     Specification {"//"} Credits & Attribution
                   </p>
-                  <dl className="gap-md grid font-mono text-xs sm:grid-cols-2 lg:grid-cols-3">
+                  <dl className="gap-md grid font-mono text-xs sm:grid-cols-2">
                     {article.credits.map((credit, index) => (
                       <div key={index} className="border-border/20 pb-sm border-b">
                         <dt className="text-foreground/40 mb-1 text-[10px] tracking-widest capitalize uppercase">
@@ -192,6 +192,11 @@ export function JournalDocumentSanity({ article, categoryLabel }: JournalDocumen
                 </div>
               </Reveal>
             )}
+          </div>
+
+          {/* Right 3 Cols: Sticky Specification Meta Rail */}
+          <div className="hidden lg:col-span-3 lg:block">
+            <ArticleSpecRail article={article} categoryLabel={categoryLabel} />
           </div>
         </div>
       </Section>
