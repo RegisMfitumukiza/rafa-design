@@ -25,26 +25,30 @@ export function ReadingIndexRail({
   useEffect(() => {
     if (headings.length === 0) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveId(entry.target.id);
+    const handleScroll = () => {
+      // 160px from top represents the natural reading baseline
+      const scrollPosition = window.scrollY + 160;
+      let currentActive = headings[0]?.id || null;
+
+      for (let i = 0; i < headings.length; i++) {
+        const heading = headings[i];
+        if (!heading) continue;
+        const el = document.getElementById(heading.id);
+        if (el) {
+          const top = el.getBoundingClientRect().top + window.scrollY;
+          if (scrollPosition >= top) {
+            currentActive = heading.id;
           }
-        });
-      },
-      {
-        rootMargin: "-15% 0px -70% 0px",
-        threshold: 0,
-      },
-    );
+        }
+      }
 
-    headings.forEach((heading) => {
-      const el = document.getElementById(heading.id);
-      if (el) observer.observe(el);
-    });
+      setActiveId(currentActive);
+    };
 
-    return () => observer.disconnect();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [headings]);
 
   const date = new Date(article.publishedAt);
@@ -66,14 +70,14 @@ export function ReadingIndexRail({
 
   return (
     <aside className={cn("space-y-xl sticky top-28", className)} aria-label="Table of Contents">
-      {/* 01 // Index Section */}
+      {/* 01 // Index Section (Live Reading Tracker) */}
       {headings.length > 0 && (
         <div>
           <p className="text-foreground/35 mb-sm font-mono text-[10px] tracking-widest uppercase">
             Index {"//"} Sections
           </p>
           <nav>
-            <ul className="border-border/30 space-y-2 border-l pl-3">
+            <ul className="border-border/20 space-y-1 border-l pl-2">
               {headings.map((heading) => {
                 const isActive = activeId === heading.id;
                 return (
@@ -82,18 +86,30 @@ export function ReadingIndexRail({
                       type="button"
                       onClick={() => scrollToHeading(heading.id)}
                       className={cn(
-                        "group block w-full text-left text-xs leading-relaxed transition-all duration-200",
+                        "group flex w-full items-baseline gap-2 rounded-xs px-2 py-1.5 text-left text-xs leading-relaxed transition-all duration-200",
                         isActive
-                          ? "text-foreground border-foreground -ml-[13px] border-l-2 pl-3 font-medium"
-                          : "text-foreground/45 hover:text-foreground/80",
+                          ? "bg-foreground/[0.07] text-foreground border-foreground -ml-[9px] border-l-2 pl-2 font-medium"
+                          : "text-foreground/45 hover:bg-foreground/[0.03] hover:text-foreground/85",
                       )}
                     >
-                      {heading.number && (
-                        <span className="text-foreground/40 mr-1.5 font-mono text-[10px] tracking-wider">
+                      {heading.number ? (
+                        <span
+                          className={cn(
+                            "shrink-0 font-mono text-[10px] tracking-wider transition-colors",
+                            isActive ? "text-foreground font-semibold" : "text-foreground/40",
+                          )}
+                        >
                           {heading.number}
                         </span>
+                      ) : (
+                        <span
+                          className={cn(
+                            "mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full transition-colors",
+                            isActive ? "bg-foreground" : "bg-transparent",
+                          )}
+                        />
                       )}
-                      <span>{heading.title}</span>
+                      <span className="line-clamp-2">{heading.title}</span>
                     </button>
                   </li>
                 );
