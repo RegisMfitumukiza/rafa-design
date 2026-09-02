@@ -16,5 +16,9 @@ import config from "../../../../sanity.config";
  * Renders the embedded Sanity Studio at /admin
  */
 export function Studio() {
-  return <NextStudio config={config} />;
+  return (
+    <div data-lenis-prevent="true" className="h-full min-h-screen w-full">
+      <NextStudio config={config} />
+    </div>
+  );
 }

@@ -3,6 +3,7 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
+import { usePathname } from "next/navigation";
 import { useEffect, type ReactNode } from "react";
 
 import { motion } from "@/design-system/motion";
@@ -12,7 +13,16 @@ interface LenisProviderProps {
 }
 
 export function LenisProvider({ children }: LenisProviderProps) {
+  const pathname = usePathname();
+  const isAdmin = pathname?.startsWith("/admin");
+
   useEffect(() => {
+    // Disable Lenis on Sanity Studio (/admin) to allow seamless native trackpad,
+    // two-finger gesture, and mouse wheel scrolling across all nested Studio panes
+    if (isAdmin) {
+      return;
+    }
+
     const lenis = new Lenis({
       duration: motion.values.duration.cinematic,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -55,7 +65,7 @@ export function LenisProvider({ children }: LenisProviderProps) {
       gsap.ticker.remove(update);
       lenis.destroy();
     };
-  }, []);
+  }, [isAdmin]);
 
   return <>{children}</>;
 }

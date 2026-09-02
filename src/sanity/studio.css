@@ -58,3 +58,17 @@ textarea {
     -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
     "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 }
+
+/* Enable smooth momentum trackpad gestures & mouse wheel across all Sanity Studio panes */
+[data-ui="Pane"],
+[data-ui="PaneContent"],
+[data-ui="ScrollContainer"],
+[data-ui="DocumentPanel"],
+[data-pane-layout],
+[data-testid="desk-tool-pane"],
+[data-testid="document-panel-scroller"],
+[data-testid="pane"] {
+  -webkit-overflow-scrolling: touch !important;
+  overscroll-behavior: contain !important;
+  scroll-behavior: smooth;
+}
