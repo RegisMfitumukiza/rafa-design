@@ -3,7 +3,7 @@
 // Unified interface for legacy and new article formats
 // ============================================================================
 
-import type { JournalArticle, LegacyJournalArticle } from "./types";
+import type { JournalArticle, JournalCategory, LegacyJournalArticle } from "./types";
 
 // Export new types
 export * from "./types";
@@ -15,8 +15,6 @@ import { migrateLegacyArticle } from "./migration";
 // ----------------------------------------------------------------------------
 // LEGACY TYPES (for backward compatibility)
 // ----------------------------------------------------------------------------
-
-export type JournalCategory = "news" | "research" | "awards" | "events" | "ideas" | "publications";
 
 export interface EventDetails {
   date: string;

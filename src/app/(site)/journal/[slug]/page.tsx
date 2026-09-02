@@ -12,6 +12,12 @@ import { JournalDocumentSanity } from "@/features/journal/document/journal-docum
 import { RelatedArticlesCarousel } from "@/features/journal/related-articles-carousel";
 
 const categoryLabels: Record<string, string> = {
+  architecture: "Architecture",
+  interior: "Interior",
+  landscape: "Landscape",
+  urbanism: "Urbanism",
+  sustainability: "Sustainability",
+  materiality: "Materiality",
   news: "News",
   research: "Research",
   awards: "Awards",

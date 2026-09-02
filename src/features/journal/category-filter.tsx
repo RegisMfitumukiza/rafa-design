@@ -6,7 +6,13 @@ import type { JournalCategory } from "@/content/journal";
 import { ui } from "@/content/ui";
 import { cn } from "@/lib/cn";
 
-export const CATEGORY_LABELS: Record<JournalCategory, string> = {
+export const CATEGORY_LABELS: Record<string, string> = {
+  architecture: "Architecture",
+  interior: "Interior",
+  landscape: "Landscape",
+  urbanism: "Urbanism",
+  sustainability: "Sustainability",
+  materiality: "Materiality",
   news: "News",
   research: "Research",
   awards: "Awards",

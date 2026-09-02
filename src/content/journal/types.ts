@@ -15,15 +15,32 @@ export type JournalType =
   | "essay" // Long-form architectural thinking
   | "project-story" // Mini monograph about a project
   | "material-study" // Experimental/editorial material exploration
-  | "news" // Short studio announcements
-  | "event" // Calendar-integrated event pages
-  | "award"; // Recognition announcements
+  | "interview" // Studio dialogues & interviews
+  | "field-notes" // Site research & field notes
+  | "news" // Studio announcements
+  | "event" // Calendar-integrated event & exhibition pages
+  | "award" // Recognition & awards announcements
+  | "general"
+  | (string & {});
 
 /**
- * Legacy categories for filtering/organization.
- * Maintained for backward compatibility.
+ * Journal categories for filtering/organization.
+ * Open string union allows any custom topic while providing autocomplete.
  */
-export type JournalCategory = "news" | "research" | "awards" | "events" | "ideas" | "publications";
+export type JournalCategory =
+  | "architecture"
+  | "interior"
+  | "landscape"
+  | "urbanism"
+  | "sustainability"
+  | "materiality"
+  | "news"
+  | "research"
+  | "awards"
+  | "events"
+  | "ideas"
+  | "publications"
+  | (string & {});
 
 // ----------------------------------------------------------------------------
 // MEDIA SYSTEM
