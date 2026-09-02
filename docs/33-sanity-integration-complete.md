@@ -1,8 +1,8 @@
 # Sanity CMS Integration - Complete
 
-**Date:** 2026-08-19  
+**Date:** 2026-09-02  
 **Status:** ✅ Production Ready  
-**Phase:** 2B - Data Integration Complete
+**Phase:** 2B - Data Integration Complete + On-Demand Webhook Revalidation
 
 ---
 
@@ -197,8 +197,8 @@ SANITY_API_READ_TOKEN=your_token_here
 ### Caching Strategy:
 
 - **Client-side:** CDN enabled for production (fast, cached)
-- **Server-side:** In-memory cache during build
-- **Revalidation:** On-demand via Sanity webhooks (future enhancement)
+- **Server-side:** Next.js data cache keyed by context-aware cache tags (see `cacheTags` in `src/sanity/lib/fetch.ts`)
+- **Revalidation:** On-demand via Sanity webhooks → `POST /api/revalidate` (HMAC-verified) → `revalidateTag` / `revalidatePath`
 
 ---
 
@@ -275,7 +275,7 @@ Do the same in `src/app/(site)/projects/page.tsx`.
 1. ✅ **Edit content in Studio** - No code changes needed
 2. ✅ **Upload images visually** - Drag and drop interface
 3. ✅ **Preview before publishing** - Draft mode support
-4. ✅ **Publish instantly** - Changes go live immediately (after rebuild)
+4. ✅ **Publish instantly** - Changes go live immediately (via webhook revalidation)
 5. ✅ **Revert changes** - Full history tracking in Sanity
 
 ### For Developers:
@@ -293,17 +293,96 @@ Do the same in `src/app/(site)/projects/page.tsx`.
 ### Immediate:
 
 1. **Test thoroughly** - Edit projects in Studio, verify website updates
-2. **Add real project data** - Delete placeholder projects, add client projects
-3. **Upload real images** - Replace sample images with actual photography
-4. **Test on production** - Deploy to Vercel, verify Sanity CDN works
+2. **Create the Sanity webhook** - URL `https://www.rafadesignhub.com/api/revalidate`, secret `SANITY_WEBHOOK_SECRET`, triggers create/update/delete (Published Only)
+3. **Add real project data** - Delete placeholder projects, add client projects
+4. **Upload real images** - Replace sample images with actual photography
+5. **Test on production** - Deploy to Vercel, verify Sanity CDN works
 
 ### Phase 3 (Future):
 
-5. **Implement Webhooks** - Auto-rebuild on Sanity publish
 6. **Add Preview Mode** - See draft content without publishing
-7. **Migrate Journal Content** - Apply same pattern to articles
-8. **Migrate Services Content** - Complete CMS migration
-9. **Add Content Scheduling** - Publish/unpublish on specific dates
+7. **Migrate Remaining Content** - Apply same pattern where needed
+8. **Add Content Scheduling** - Publish/unpublish on specific dates
+
+---
+
+## 🔄 On-Demand Revalidation (Webhook)
+
+Publishing a document in Studio no longer requires a redeploy. A Sanity webhook
+triggers ISR revalidation so static pages reflect the new content immediately.
+
+### How it works
+
+1. **Studio publish** → Sanity fires a signed webhook POST
+2. **`POST /api/revalidate`** verifies the request:
+   - `sanity-webhook-signature` header via `isValidSignature` (`@sanity/webhook`, HMAC-SHA256)
+   - Cross-checks `sanity-project-id` / `sanity-dataset` headers when present
+   - Returns `500` in production if `SANITY_WEBHOOK_SECRET` is not configured
+3. **Cache invalidation** (per document type):
+   - `revalidateTag(tag, "max")` — purges the Next.js data cache for every page
+     that read data tagged by `cacheTags` in `src/sanity/lib/fetch.ts`
+   - `revalidatePath(path)` — regenerates the affected routes (list + detail pages)
+4. Next request rebuilds the page with fresh Sanity data
+
+### Document type → tags/paths map
+
+| `_type`          | Tags                          | Paths                           |
+| ---------------- | ----------------------------- | ------------------------------- |
+| `journalArticle` | `articles` + `article:<slug>` | `/journal`, `/journal/<slug>`   |
+| `project`        | `projects` + `project:<slug>` | `/projects`, `/projects/<slug>` |
+| `service`        | `services` + `service:<slug>` | `/services`, `/services/<slug>` |
+| `teamMember`     | `team`                        | `/studio`                       |
+| `studio`         | `studio`, `team`              | `/studio`                       |
+| `career`         | `careers` + `career:<slug>`   | `/careers`                      |
+| `careers`        | `careers`                     | `/careers`                      |
+| `contact`        | `contact`                     | `/contact`, `/`                 |
+| `siteSettings`   | `settings`                    | `/`, `/`                        |
+
+Shared content (`contact`, `siteSettings`) also invalidates `/` because those
+values are consumed by the nav, footer, and JSON-LD on every page.
+
+### Setup in Sanity Dashboard (one-time)
+
+1. Generate a secret: `openssl rand -hex 32`
+2. Add it to Vercel Environment Variables as `SANITY_WEBHOOK_SECRET`
+   (and `.env.local` for local testing)
+3. Open `sanity.io/manage` → select project → **API** → **Webhooks** → **Create webhook**
+4. Configure:
+   - **Name:** `RAFA Production Revalidate`
+   - **URL:** `https://www.rafadesignhub.com/api/revalidate`
+   - **HTTP Method:** `POST`
+   - **Trigger:** create / update / delete
+   - **Dataset:** `production`
+   - **Filter:** `_type in ["journalArticle","project","service","teamMember","studio","career","careers","contact","siteSettings"]`
+   - **Signature secret:** the same value as `SANITY_WEBHOOK_SECRET`
+5. Click **Save**. Test by editing and publishing a document in Studio, then
+   reload the affected page — the change should appear without a redeploy.
+
+### Testing locally
+
+With `SANITY_WEBHOOK_SECRET` set in `.env.local`, signature verification is
+enabled in development too. To simulate an incoming webhook:
+
+```bash
+SECRET=$(dotenv -p SANITY_WEBHOOK_SECRET 2>/dev/null || echo "$env:SANITY_WEBHOOK_SECRET")
+BODY='{"_type":"project","slug":{"current":"my-project"}}'
+TS=$(Get-Date -UFormat %s)
+SIG=$(Write-Output "${TS}.${BODY}" | openssl dgst -sha256 -hmac "$SECRET" -binary | openssl base64 | tr '+/' '-_' | tr -d '=')
+$headers = @{ "sanity-webhook-signature" = "t=$TS,v1=$SIG"; "Content-Type" = "application/json" }
+Invoke-RestMethod -Uri "http://localhost:8000/api/revalidate" -Method Post -Headers $headers -Body $BODY
+```
+
+If `SANITY_WEBHOOK_SECRET` is unset locally, verification is skipped in
+development (mirrors the `/api/cron/editorial-reminder` pattern) so any POST
+with a valid `_type` revalidates.
+
+### Files touched
+
+- `src/app/api/revalidate/route.ts` — webhook receiver (new)
+- `src/sanity/lib/fetch.ts` — `cacheTags` registry + `next: { tags }` on every fetch
+- `src/content/projects/sanity.ts` — tagged fetches (projects)
+- `src/content/journal/sanity-adapter.ts` — tagged fetches (journal)
+- `.env.example` — `SANITY_WEBHOOK_SECRET` documented
 
 ---
 
@@ -402,6 +481,7 @@ Do the same in `src/app/(site)/projects/page.tsx`.
 **The RAFA Design website now has a production-ready CMS integration!**
 
 ✅ **Publish in Studio → See on Website** workflow is live  
+✅ **On-demand revalidation** via signed Sanity webhook (no redeploy needed)  
 ✅ **All 6 placeholder projects** migrated and tested  
 ✅ **Zero breaking changes** to existing components  
 ✅ **Complete image transformation** pipeline working  

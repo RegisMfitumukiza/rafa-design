@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Sanity-Backed Journal Data Functions
  *
  * Single source of truth for all journal data functions.
@@ -11,6 +11,7 @@
 import type { JournalArticle, JournalCategory } from "./types";
 
 import { client } from "@/sanity/lib/client";
+import { cacheTags } from "@/sanity/lib/fetch";
 import {
   articlesQuery,
   articleBySlugQuery,
@@ -27,7 +28,13 @@ import { transformSanityArticle, transformSanityArticles } from "@/sanity/lib/tr
  */
 export async function getArticles(): Promise<JournalArticle[]> {
   try {
-    const sanityArticles = await client.fetch(articlesQuery);
+    const sanityArticles = await client.fetch(
+      articlesQuery,
+      {},
+      {
+        next: { tags: [cacheTags.articles] },
+      },
+    );
     return transformSanityArticles(sanityArticles);
   } catch (error) {
     console.error("Failed to fetch articles from Sanity:", error);
@@ -43,7 +50,13 @@ export async function getArticles(): Promise<JournalArticle[]> {
  */
 export async function getArticleBySlug(slug: string): Promise<JournalArticle | undefined> {
   try {
-    const sanityArticle = await client.fetch(articleBySlugQuery, { slug });
+    const sanityArticle = await client.fetch(
+      articleBySlugQuery,
+      { slug },
+      {
+        next: { tags: [cacheTags.articles, cacheTags.article(slug)] },
+      },
+    );
     if (!sanityArticle) return undefined;
     return transformSanityArticle(sanityArticle) ?? undefined;
   } catch (error) {
@@ -59,7 +72,13 @@ export async function getArticleBySlug(slug: string): Promise<JournalArticle | u
  */
 export async function getFeaturedArticle(): Promise<JournalArticle | undefined> {
   try {
-    const sanityArticle = await client.fetch(featuredArticleQuery);
+    const sanityArticle = await client.fetch(
+      featuredArticleQuery,
+      {},
+      {
+        next: { tags: [cacheTags.articles] },
+      },
+    );
     if (sanityArticle) {
       const transformed = transformSanityArticle(sanityArticle);
       if (transformed) return transformed;
@@ -80,7 +99,13 @@ export async function getFeaturedArticle(): Promise<JournalArticle | undefined> 
  */
 export async function getArticlesByCategory(category: JournalCategory): Promise<JournalArticle[]> {
   try {
-    const sanityArticles = await client.fetch(articlesByCategoryQuery, { category });
+    const sanityArticles = await client.fetch(
+      articlesByCategoryQuery,
+      { category },
+      {
+        next: { tags: [cacheTags.articles] },
+      },
+    );
     return transformSanityArticles(sanityArticles);
   } catch (error) {
     console.error(`Failed to fetch articles for category ${category}:`, error);
@@ -141,7 +166,13 @@ export async function getRelatedArticles(
  */
 export async function getArticleSlugs(): Promise<string[]> {
   try {
-    const slugs = await client.fetch<string[]>(articleSlugsQuery);
+    const slugs = await client.fetch<string[]>(
+      articleSlugsQuery,
+      {},
+      {
+        next: { tags: [cacheTags.articles] },
+      },
+    );
     return slugs || [];
   } catch (error) {
     console.error("Failed to fetch article slugs from Sanity:", error);

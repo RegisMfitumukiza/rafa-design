@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Sanity-Backed Project Data Functions
  *
  * Drop-in replacement for hardcoded project data functions.
@@ -11,6 +11,7 @@
 import type { Project, ProjectCategory } from "./index";
 
 import { client } from "@/sanity/lib/client";
+import { cacheTags } from "@/sanity/lib/fetch";
 import {
   projectBySlugQuery,
   projectsQuery,
@@ -30,7 +31,13 @@ import { transformSanityProject, transformSanityProjects } from "@/sanity/lib/tr
 export async function getProjects(): Promise<Project[]> {
   try {
     // Fetch from Sanity (no cache in dev, Next.js handles caching in production)
-    const sanityProjects = await client.fetch(projectsQuery);
+    const sanityProjects = await client.fetch(
+      projectsQuery,
+      {},
+      {
+        next: { tags: [cacheTags.projects] },
+      },
+    );
     const projects = transformSanityProjects(sanityProjects);
 
     return projects;
@@ -58,7 +65,13 @@ export async function getFeaturedProjects(): Promise<Project[]> {
  */
 export async function getProjectBySlug(slug: string): Promise<Project | undefined> {
   try {
-    const sanityProject = await client.fetch(projectBySlugQuery, { slug });
+    const sanityProject = await client.fetch(
+      projectBySlugQuery,
+      { slug },
+      {
+        next: { tags: [cacheTags.projects, cacheTags.project(slug)] },
+      },
+    );
 
     if (!sanityProject) {
       return undefined;
@@ -160,7 +173,13 @@ export async function getRelatedProjects(project: Project, count = 3): Promise<P
  */
 export async function getProjectsBySlugs(slugs: string[]): Promise<Project[]> {
   try {
-    const sanityProjects = await client.fetch(projectsBySlugQuery, { slugs });
+    const sanityProjects = await client.fetch(
+      projectsBySlugQuery,
+      { slugs },
+      {
+        next: { tags: [cacheTags.projects] },
+      },
+    );
     return transformSanityProjects(sanityProjects);
   } catch (error) {
     console.error("Failed to fetch projects by slugs from Sanity:", error);
@@ -175,7 +194,13 @@ export async function getProjectsBySlugs(slugs: string[]): Promise<Project[]> {
  */
 export async function getProjectSlugs(): Promise<string[]> {
   try {
-    return await client.fetch(projectSlugsQuery);
+    return await client.fetch(
+      projectSlugsQuery,
+      {},
+      {
+        next: { tags: [cacheTags.projects] },
+      },
+    );
   } catch (error) {
     console.error("Failed to fetch project slugs from Sanity:", error);
     return [];

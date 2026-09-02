@@ -23,7 +23,7 @@
     "migrate:company": "npm run migrate:team && npm run migrate:studio && npm run migrate:careers && npm run migrate:contact && npm run migrate:site-settings",
     "typecheck": "tsc --noEmit",
     "validate": "npm run typecheck && npm run lint && npm run format:check && npm run build",
-    "audit": "npm audit --audit-level=high",
+    "audit": "check-audit",
     "prepare": "husky"
   },
   "dependencies": {
@@ -62,6 +62,7 @@
     "eslint-plugin-import": "^2.32.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.4.0",
+    "npm-audit-resolver": "^3.0.0-RC.0",
     "prettier": "^3.9.6",
     "prettier-plugin-tailwindcss": "^0.8.1",
     "sharp": "^0.35.3",

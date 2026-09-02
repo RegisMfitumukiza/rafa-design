@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Sanity Data Fetching Utilities
  *
  * High-level functions for fetching and transforming Sanity data.
@@ -47,7 +47,13 @@ import {
  */
 export async function getArticles(): Promise<JournalArticle[]> {
   try {
-    const sanityArticles = await client.fetch(articlesQuery);
+    const sanityArticles = await client.fetch(
+      articlesQuery,
+      {},
+      {
+        next: { tags: [cacheTags.articles] },
+      },
+    );
     return transformSanityArticles(sanityArticles);
   } catch (error) {
     console.error("Error fetching articles:", error);
@@ -60,7 +66,13 @@ export async function getArticles(): Promise<JournalArticle[]> {
  */
 export async function getArticleBySlug(slug: string): Promise<JournalArticle | null> {
   try {
-    const sanityArticle = await client.fetch(articleBySlugQuery, { slug });
+    const sanityArticle = await client.fetch(
+      articleBySlugQuery,
+      { slug },
+      {
+        next: { tags: [cacheTags.articles, cacheTags.article(slug)] },
+      },
+    );
     if (!sanityArticle) return null;
     return transformSanityArticle(sanityArticle);
   } catch (error) {
@@ -74,7 +86,13 @@ export async function getArticleBySlug(slug: string): Promise<JournalArticle | n
  */
 export async function getArticlesByCategory(category: JournalCategory): Promise<JournalArticle[]> {
   try {
-    const sanityArticles = await client.fetch(articlesByCategoryQuery, { category });
+    const sanityArticles = await client.fetch(
+      articlesByCategoryQuery,
+      { category },
+      {
+        next: { tags: [cacheTags.articles] },
+      },
+    );
     return transformSanityArticles(sanityArticles);
   } catch (error) {
     console.error(`Error fetching articles for category ${category}:`, error);
@@ -87,7 +105,13 @@ export async function getArticlesByCategory(category: JournalCategory): Promise<
  */
 export async function getFeaturedArticle(): Promise<JournalArticle | null> {
   try {
-    const sanityArticle = await client.fetch(featuredArticleQuery);
+    const sanityArticle = await client.fetch(
+      featuredArticleQuery,
+      {},
+      {
+        next: { tags: [cacheTags.articles] },
+      },
+    );
     if (!sanityArticle) return null;
     return transformSanityArticle(sanityArticle);
   } catch (error) {
@@ -128,7 +152,13 @@ export async function getRelatedArticles(
         }
       }
     `;
-    const sanityArticles = await client.fetch(query, { category, slug });
+    const sanityArticles = await client.fetch(
+      query,
+      { category, slug },
+      {
+        next: { tags: [cacheTags.articles, cacheTags.article(slug)] },
+      },
+    );
     return transformSanityArticles(sanityArticles);
   } catch (error) {
     console.error(`Error fetching related articles for ${slug}:`, error);
@@ -141,7 +171,13 @@ export async function getRelatedArticles(
  */
 export async function getArticleSlugs(): Promise<string[]> {
   try {
-    const slugs = await client.fetch<string[]>(articleSlugsQuery);
+    const slugs = await client.fetch<string[]>(
+      articleSlugsQuery,
+      {},
+      {
+        next: { tags: [cacheTags.articles] },
+      },
+    );
     return slugs || [];
   } catch (error) {
     console.error("Error fetching article slugs:", error);
@@ -160,7 +196,13 @@ export async function getArticleSlugs(): Promise<string[]> {
  */
 export async function getProjects(): Promise<Project[]> {
   try {
-    const sanityProjects = await client.fetch(projectsQuery);
+    const sanityProjects = await client.fetch(
+      projectsQuery,
+      {},
+      {
+        next: { tags: [cacheTags.projects] },
+      },
+    );
     return transformSanityProjects(sanityProjects);
   } catch (error) {
     console.error("Error fetching projects:", error);
@@ -173,7 +215,13 @@ export async function getProjects(): Promise<Project[]> {
  */
 export async function getProjectBySlug(slug: string): Promise<Project | null> {
   try {
-    const sanityProject = await client.fetch(projectBySlugQuery, { slug });
+    const sanityProject = await client.fetch(
+      projectBySlugQuery,
+      { slug },
+      {
+        next: { tags: [cacheTags.projects, cacheTags.project(slug)] },
+      },
+    );
     if (!sanityProject) return null;
     return transformSanityProject(sanityProject);
   } catch (error) {
@@ -187,7 +235,13 @@ export async function getProjectBySlug(slug: string): Promise<Project | null> {
  */
 export async function getProjectsBySlugs(slugs: string[]): Promise<Project[]> {
   try {
-    const sanityProjects = await client.fetch(projectsBySlugQuery, { slugs });
+    const sanityProjects = await client.fetch(
+      projectsBySlugQuery,
+      { slugs },
+      {
+        next: { tags: [cacheTags.projects] },
+      },
+    );
     return transformSanityProjects(sanityProjects);
   } catch (error) {
     console.error("Error fetching projects by slugs:", error);
@@ -200,7 +254,13 @@ export async function getProjectsBySlugs(slugs: string[]): Promise<Project[]> {
  */
 export async function getProjectSlugs(): Promise<string[]> {
   try {
-    const slugs = await client.fetch<string[]>(projectSlugsQuery);
+    const slugs = await client.fetch<string[]>(
+      projectSlugsQuery,
+      {},
+      {
+        next: { tags: [cacheTags.projects] },
+      },
+    );
     return slugs || [];
   } catch (error) {
     console.error("Error fetching project slugs:", error);
@@ -245,7 +305,13 @@ export async function getServices(): Promise<Service[]> {
   try {
     const { servicesQuery } = await import("./queries");
     const { transformSanityServices } = await import("./transforms");
-    const sanityServices = await client.fetch(servicesQuery);
+    const sanityServices = await client.fetch(
+      servicesQuery,
+      {},
+      {
+        next: { tags: [cacheTags.services] },
+      },
+    );
     return transformSanityServices(sanityServices);
   } catch (error) {
     console.error("Error fetching services:", error);
@@ -260,7 +326,13 @@ export async function getServiceBySlug(slug: string): Promise<Service | null> {
   try {
     const { serviceBySlugQuery } = await import("./queries");
     const { transformSanityService } = await import("./transforms");
-    const sanityService = await client.fetch(serviceBySlugQuery, { slug });
+    const sanityService = await client.fetch(
+      serviceBySlugQuery,
+      { slug },
+      {
+        next: { tags: [cacheTags.services, cacheTags.service(slug)] },
+      },
+    );
     if (!sanityService) return null;
     return transformSanityService(sanityService);
   } catch (error) {
@@ -275,7 +347,13 @@ export async function getServiceBySlug(slug: string): Promise<Service | null> {
 export async function getServiceSlugs(): Promise<string[]> {
   try {
     const { serviceSlugsQuery } = await import("./queries");
-    const slugs = await client.fetch<string[]>(serviceSlugsQuery);
+    const slugs = await client.fetch<string[]>(
+      serviceSlugsQuery,
+      {},
+      {
+        next: { tags: [cacheTags.services] },
+      },
+    );
     return slugs || [];
   } catch (error) {
     console.error("Error fetching service slugs:", error);
@@ -296,7 +374,13 @@ export async function getTeamMembers(): Promise<TeamMember[]> {
   try {
     const { teamQuery } = await import("./queries");
     const { transformSanityTeamMembers } = await import("./transforms");
-    const sanityMembers = await client.fetch(teamQuery);
+    const sanityMembers = await client.fetch(
+      teamQuery,
+      {},
+      {
+        next: { tags: [cacheTags.team] },
+      },
+    );
     return transformSanityTeamMembers(sanityMembers);
   } catch (error) {
     console.error("Error fetching team members:", error);
@@ -317,7 +401,13 @@ export async function getStudioInfo(): Promise<Studio | null> {
   try {
     const { studioQuery } = await import("./queries");
     const { transformSanityStudio } = await import("./transforms");
-    const sanityStudio = await client.fetch(studioQuery);
+    const sanityStudio = await client.fetch(
+      studioQuery,
+      {},
+      {
+        next: { tags: [cacheTags.studio] },
+      },
+    );
     if (!sanityStudio) return null;
     return transformSanityStudio(sanityStudio);
   } catch (error) {
@@ -338,7 +428,13 @@ export async function getStudioCollections(): Promise<{
   try {
     const { studioQuery } = await import("./queries");
     const { transformSanityStudioCollections } = await import("./transforms");
-    const sanityStudio = await client.fetch(studioQuery);
+    const sanityStudio = await client.fetch(
+      studioQuery,
+      {},
+      {
+        next: { tags: [cacheTags.studio] },
+      },
+    );
     return transformSanityStudioCollections(sanityStudio || {});
   } catch (error) {
     console.error("Error fetching studio collections:", error);
@@ -352,7 +448,13 @@ export async function getStudioCollections(): Promise<{
 export async function getStudioHistory(): Promise<string | undefined> {
   try {
     const { studioQuery } = await import("./queries");
-    const sanityStudio = await client.fetch(studioQuery);
+    const sanityStudio = await client.fetch(
+      studioQuery,
+      {},
+      {
+        next: { tags: [cacheTags.studio, cacheTags.team] },
+      },
+    );
     return sanityStudio?.history || undefined;
   } catch (error) {
     console.error("Error fetching studio history:", error);
@@ -373,7 +475,13 @@ export async function getCareers(): Promise<CareerPosition[]> {
   try {
     const { careersPositionsQuery } = await import("./queries");
     const { transformSanityCareers } = await import("./transforms");
-    const sanityCareers = await client.fetch(careersPositionsQuery);
+    const sanityCareers = await client.fetch(
+      careersPositionsQuery,
+      {},
+      {
+        next: { tags: [cacheTags.careers] },
+      },
+    );
     return transformSanityCareers(sanityCareers);
   } catch (error) {
     console.error("Error fetching careers:", error);
@@ -388,7 +496,13 @@ export async function getCareerBySlug(slug: string): Promise<CareerPosition | nu
   try {
     const { careerBySlugQuery } = await import("./queries");
     const { transformSanityCareer } = await import("./transforms");
-    const sanityCareer = await client.fetch(careerBySlugQuery, { slug });
+    const sanityCareer = await client.fetch(
+      careerBySlugQuery,
+      { slug },
+      {
+        next: { tags: [cacheTags.careers, cacheTags.career(slug)] },
+      },
+    );
     return transformSanityCareer(sanityCareer);
   } catch (error) {
     console.error(`Error fetching career ${slug}:`, error);
@@ -402,7 +516,13 @@ export async function getCareerBySlug(slug: string): Promise<CareerPosition | nu
 export async function getCareerSlugs(): Promise<string[]> {
   try {
     const { careerSlugsQuery } = await import("./queries");
-    const slugs = await client.fetch<string[]>(careerSlugsQuery);
+    const slugs = await client.fetch<string[]>(
+      careerSlugsQuery,
+      {},
+      {
+        next: { tags: [cacheTags.careers] },
+      },
+    );
     return slugs || [];
   } catch (error) {
     console.error("Error fetching career slugs:", error);
@@ -420,7 +540,13 @@ export async function getCareersPageContent(): Promise<{
   try {
     const { careersQuery } = await import("./queries");
     const { transformSanityCareersPage } = await import("./transforms");
-    const sanityCareers = await client.fetch(careersQuery);
+    const sanityCareers = await client.fetch(
+      careersQuery,
+      {},
+      {
+        next: { tags: [cacheTags.careers] },
+      },
+    );
     return transformSanityCareersPage(sanityCareers || {});
   } catch (error) {
     console.error("Error fetching careers page content:", error);
@@ -447,7 +573,13 @@ export async function getContactInformation(): Promise<ContactInformation | null
   try {
     const { contactQuery } = await import("./queries");
     const { transformSanityContact } = await import("./transforms");
-    const sanityContact = await client.fetch(contactQuery);
+    const sanityContact = await client.fetch(
+      contactQuery,
+      {},
+      {
+        next: { tags: [cacheTags.contact] },
+      },
+    );
     if (!sanityContact) return null;
     return transformSanityContact(sanityContact);
   } catch (error) {
@@ -469,7 +601,13 @@ export async function getSiteSettings(): Promise<SiteSettings | null> {
   try {
     const { siteSettingsQuery } = await import("./queries");
     const { transformSanitySiteSettings } = await import("./transforms");
-    const sanitySettings = await client.fetch(siteSettingsQuery);
+    const sanitySettings = await client.fetch(
+      siteSettingsQuery,
+      {},
+      {
+        next: { tags: [cacheTags.settings] },
+      },
+    );
     if (!sanitySettings) return null;
     return transformSanitySiteSettings(sanitySettings);
   } catch (error) {

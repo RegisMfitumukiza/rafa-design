@@ -10,6 +10,60 @@
 
 ---
 
+# 2026-09-02 (On-Demand Revalidation via Sanity Webhook)
+
+## Version
+
+v1.0.0-alpha
+
+### Status
+
+Done. Publishing (or updating/deleting) any document in Sanity Studio now triggers a signed webhook to `POST /api/revalidate`, which purges the Next.js data cache (`revalidateTag(tag, "max")`) and regenerates the affected routes (`revalidatePath`) — so CMS edits go live instantly without a Vercel redeploy.
+
+---
+
+## Summary
+
+The site is statically prerendered, so CMS changes previously required a deployment to go live. This release closes that gap with the professional/industrial pattern: a Sanity webhook fires on create/update/delete, and an on-demand ISR endpoint invalidates only the affected cache tags and paths. Every Sanity query in the three fetch modules now carries contextual cache tags via `cacheTags` (`src/sanity/lib/fetch.ts`), so regeneration rebuilds exactly the pages that read the changed document.
+
+## Added
+
+- `src/app/api/revalidate/route.ts` — webhook receiver: raw-body HMAC-SHA256 verification via `isValidSignature` (`@sanity/webhook`), `sanity-project-id`/`sanity-dataset` header cross-check (defense in depth), dev-only skip when `SANITY_WEBHOOK_SECRET` is unset, per-type tag/path mapping
+- `SANITY_WEBHOOK_SECRET` documented in `.env.example` (never committed)
+
+## Changed
+
+- `src/sanity/lib/fetch.ts` — all Sanity fetches now pass `next: { tags }` from `cacheTags`
+- `src/content/projects/sanity.ts` — project fetches tagged
+- `src/content/journal/sanity-adapter.ts` — journal fetches tagged
+- `docs/33-sanity-integration-complete.md` — added "On-Demand Revalidation (Webhook)" section incl. Sanity dashboard setup steps
+
+## Notes
+
+- Next.js 16.2 requires the cache-profile second argument: `revalidateTag(tag, "max")`
+- Webhook must be created in the Sanity dashboard (sanity.io/manage → API → Webhooks) with URL `https://www.rafadesignhub.com/api/revalidate` and the same secret as `SANITY_WEBHOOK_SECRET`
+- `/api/revalidate` is a dynamic route (`ƒ`); list/detail pages stay static/SSG with on-demand invalidation
+
+## Verified
+
+- `npx tsc --noEmit` — 0 errors
+- `npm run lint` — 0 errors / 0 warnings
+- `npm run build` — production build green; `/api/revalidate` present, `[slug]` pages SSG with tags
+
+---
+
+# 2026-09-01 (CI/CD Fix — Audit Gate + Node Version)
+
+## Version
+
+v1.0.0-alpha
+
+### Status
+
+✅ GitHub Actions CI restored to green. The audit gate broke 2026-09-01 when npm flagged 9 transitive advisories in the Sanity Studio CLI-only toolchain (`adm-zip`, `js-yaml`, `uuid` under `@sanity/cli`) that have no safe upstream fix. Resolved via `npm-audit-resolver` with a committed `audit-resolve.json` allowlist scoped to those exact dependency paths; any **new** advisory still fails CI. Node pinned from 20 → 22 (Node 20 is EOL/deprecated by GitHub).
+
+---
+
 # 2026-09-01 (Sanity-Driven Social Links)
 
 ## Version
