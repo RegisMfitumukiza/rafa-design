@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Section } from "@/components/layout/Section";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema } from "@/config/schema";
+import { contactInformation as fallbackContact } from "@/content/company/contact";
 import { pageContent } from "@/content/pages";
 import { ui } from "@/content/ui";
 import { ContactEditorial } from "@/features/contact/contact-editorial";
@@ -23,11 +24,8 @@ export const metadata: Metadata = {
 
 export default async function ContactPage() {
   const contact = pageContent.contact;
-  const contactInfo = await getContactInformation();
-
-  if (!contactInfo) {
-    return null;
-  }
+  const cmsContact = await getContactInformation();
+  const contactInfo = cmsContact ?? fallbackContact;
 
   const { email, editorialImage } = contactInfo;
 

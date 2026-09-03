@@ -62,6 +62,6 @@ export const contactInformation: ContactInformation = {
   editorialImage: {
     src: "/images/studio/studio-atelier.jpg",
     alt: "RAFA Design Hub practice atelier working environment",
-    caption: "The practice atelier in Porto — material studies and working models",
+    caption: "The practice atelier in Kigali — material studies and working models",
   },
 };

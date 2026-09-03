@@ -33,6 +33,7 @@ export function ContactEditorial({ editorialImage, email, className }: ContactEd
         <ImageReveal className="w-full">
           <Image
             asset={editorialImage}
+            fill
             sizes="100vw"
             className="aspect-[16/9] w-full rounded-sm md:aspect-[21/9]"
             imgClassName="object-cover"

@@ -46,27 +46,29 @@ export function OfficeMap({ offices, className }: OfficeMapProps) {
             </h2>
           </div>
 
-          {/* Interactive Office Tabs */}
-          <div className="gap-xs flex items-center">
-            {offices.map((office, idx) => {
-              const isActive = office.id === activeId;
-              return (
-                <button
-                  key={office.id}
-                  type="button"
-                  onClick={() => setActiveId(office.id)}
-                  className={cn(
-                    "px-md py-xs rounded-xs border font-mono text-[10px] font-medium tracking-wider uppercase transition-all duration-300",
-                    isActive
-                      ? "border-foreground bg-foreground text-background"
-                      : "border-border/50 text-foreground/60 hover:border-foreground/60 hover:text-foreground bg-transparent",
-                  )}
-                >
-                  {String(idx + 1).padStart(2, "0")} {"//"} {office.name}
-                </button>
-              );
-            })}
-          </div>
+          {/* Interactive Office Tabs — only rendered if practice has multiple locations */}
+          {offices.length > 1 && (
+            <div className="gap-xs flex items-center">
+              {offices.map((office, idx) => {
+                const isActive = office.id === activeId;
+                return (
+                  <button
+                    key={office.id}
+                    type="button"
+                    onClick={() => setActiveId(office.id)}
+                    className={cn(
+                      "px-md py-xs rounded-xs border font-mono text-[10px] font-medium tracking-wider uppercase transition-all duration-300",
+                      isActive
+                        ? "border-foreground bg-foreground text-background"
+                        : "border-border/50 text-foreground/60 hover:border-foreground/60 hover:text-foreground bg-transparent",
+                    )}
+                  >
+                    {String(idx + 1).padStart(2, "0")} {"//"} {office.name}
+                  </button>
+                );
+              })}
+            </div>
+          )}
         </div>
       </Reveal>
 
@@ -77,6 +79,7 @@ export function OfficeMap({ offices, className }: OfficeMapProps) {
           <ImageReveal key={activeOffice.id} className="w-full">
             <Image
               asset={activeOffice.image}
+              fill
               sizes="(max-width: 48rem) 100vw, 58vw"
               className="aspect-[16/10] w-full rounded-sm"
               imgClassName="object-cover"

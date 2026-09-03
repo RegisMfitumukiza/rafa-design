@@ -1,10 +1,15 @@
 import { NextResponse } from "next/server";
 
 import { contactInformation } from "@/content/company/contact";
+import { getContactInformation } from "@/sanity/lib";
 
 interface ContactPayload {
   name: string;
   email: string;
+  organization?: string;
+  projectType?: string;
+  location?: string;
+  timeline?: string;
   subject?: string;
   message: string;
 }
@@ -18,7 +23,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
   }
 
-  const { name, email, subject, message } = payload;
+  const { name, email, organization, projectType, location, timeline, subject, message } = payload;
 
   if (!name || !name.trim()) {
     return NextResponse.json({ error: "Name is required." }, { status: 400 });
@@ -48,13 +53,30 @@ export async function POST(request: Request) {
     const resend = new Resend(apiKey);
 
     const fromEmail = process.env.RESEND_FROM_EMAIL || "RAFA Design Hub <onboarding@resend.dev>";
+    // Fetch recipient email from Sanity CMS, fallback to static config
+    const cmsContact = await getContactInformation().catch(() => null);
+    const toEmail = cmsContact?.email || contactInformation.email;
+
+    const emailBody = [
+      `Name: ${name}`,
+      `Email: ${email}`,
+      organization ? `Organization: ${organization}` : null,
+      projectType ? `Project Type: ${projectType}` : null,
+      location ? `Location: ${location}` : null,
+      timeline ? `Timeline: ${timeline}` : null,
+      "",
+      "--- Project Brief ---",
+      message,
+    ]
+      .filter(Boolean)
+      .join("\n");
 
     await resend.emails.send({
       from: fromEmail,
-      to: contactInformation.email,
+      to: toEmail,
       replyTo: email,
-      subject: subject?.trim() || `New message from ${name}`,
-      text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
+      subject: subject?.trim() || `[Inquiry] ${projectType || "Project"} — ${name}`,
+      text: emailBody,
     });
 
     return NextResponse.json({ ok: true });
