@@ -1,4 +1,5 @@
 import type { ChapterIntent } from "@/content/projects";
+import type { ImageAsset } from "@/content/types";
 
 export type { ChapterIntent };
 
@@ -22,6 +23,8 @@ export interface Service {
   /** Numbered methodological approach points for the detail page */
   approach: ServiceApproach[];
   icon?: string;
+  /** Optional dedicated cover/hero image for this discipline from Sanity */
+  coverImage?: ImageAsset;
   relatedProjects: string[];
   /**
    * Which project image intents are editorially relevant for this discipline.

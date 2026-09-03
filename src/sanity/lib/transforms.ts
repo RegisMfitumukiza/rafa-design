@@ -531,6 +531,20 @@ export function transformSanityArticles(sanityArticles: SanityRawArticle[]): Jou
  * ============================================================================
  */
 
+export interface SanityRawServiceProject {
+  _id?: string;
+  slug?: { current?: string } | string;
+  title?: string;
+  subtitle?: string;
+  category?: unknown;
+  typology?: unknown;
+  year?: number;
+  location?: Location;
+  photographerCredit?: string;
+  heroImage?: SanityRawImage;
+  gallery?: SanityRawImage[];
+}
+
 export interface SanityRawService {
   slug?: { current?: string };
   title?: string;
@@ -538,8 +552,10 @@ export interface SanityRawService {
   intro?: string;
   description?: string;
   icon?: string;
+  coverImage?: SanityRawImage;
   approach?: Array<{ title?: string; statement?: string }>;
-  relatedProjects?: Array<{ slug?: { current?: string } | string }>;
+  /** relatedProjects can be dereferenced objects (from []->) or bare slug references */
+  relatedProjects?: Array<SanityRawServiceProject | { slug?: { current?: string } | string }>;
   editorialIntents?: ChapterIntent[];
   [key: string]: unknown;
 }
@@ -563,12 +579,20 @@ export function transformSanityService(sanityService: SanityRawService): Service
         }))
     : [];
 
-  // Transform related projects (get slugs only)
+  // Transform related projects — extract slugs for the Service.relatedProjects string[]
   const relatedProjects = sanityService.relatedProjects
     ? sanityService.relatedProjects
-        .map((project) => (typeof project.slug === "object" ? project.slug?.current : project.slug))
+        .map((project) => {
+          const slugField = (project as SanityRawServiceProject).slug;
+          if (typeof slugField === "object" && slugField !== null) return slugField.current;
+          if (typeof slugField === "string") return slugField;
+          return null;
+        })
         .filter((slug): slug is string => Boolean(slug))
     : [];
+
+  // Transform optional cover image
+  const coverImage = sanityImageToAsset(sanityService.coverImage) ?? undefined;
 
   // Build complete Service object
   const service: Service = {
@@ -584,6 +608,7 @@ export function transformSanityService(sanityService: SanityRawService): Service
 
     // Optional fields
     ...(sanityService.icon ? { icon: sanityService.icon } : {}),
+    ...(coverImage ? { coverImage } : {}),
   };
 
   return service;

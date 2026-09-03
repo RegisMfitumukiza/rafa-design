@@ -96,6 +96,36 @@ export default defineType({
       description: "Long-form editorial description of how RAFA approaches this discipline",
     }),
 
+    defineField({
+      name: "coverImage",
+      title: "Cover / Lead Discipline Image",
+      type: "image",
+      group: "content",
+      options: {
+        hotspot: true,
+      },
+      fields: [
+        {
+          name: "alt",
+          type: "string",
+          title: "Alt Text",
+          description: "Accessibility description of the image",
+        },
+        {
+          name: "caption",
+          type: "string",
+          title: "Caption",
+        },
+        {
+          name: "credit",
+          type: "string",
+          title: "Photographer / Visualization Credit",
+        },
+      ],
+      description:
+        "Optional dedicated hero image for this service. If omitted, the lead related project's hero image is used automatically.",
+    }),
+
     // ═══════════════════════════════════════════════════════════════════════
     // 02 // APPROACH
     // ═══════════════════════════════════════════════════════════════════════

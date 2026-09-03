@@ -164,13 +164,18 @@ export const projectsBySlugQuery = `
     title,
     subtitle,
     category,
+    typology,
     year,
     location,
     status,
     featured,
     description,
+    photographerCredit,
     heroImage {
       ${imageProjection}
+    },
+    gallery[] {
+      ${chapterImageProjection}
     }
   }
 `;
@@ -345,8 +350,27 @@ export const servicesQuery = `
     slug,
     title,
     shortDescription,
+    intro,
+    description,
     order,
-    icon
+    icon,
+    coverImage {
+      ${imageProjection}
+    },
+    relatedProjects[]-> {
+      _id,
+      slug,
+      title,
+      subtitle,
+      category,
+      typology,
+      year,
+      location,
+      photographerCredit,
+      heroImage {
+        ${imageProjection}
+      }
+    }
   }
 `;
 
@@ -366,15 +390,24 @@ export const serviceBySlugQuery = `
     order,
     icon,
     editorialIntents,
+    coverImage {
+      ${imageProjection}
+    },
     relatedProjects[]-> {
       _id,
       slug,
       title,
       subtitle,
+      category,
+      typology,
       year,
       location,
+      photographerCredit,
       heroImage {
         ${imageProjection}
+      },
+      gallery[] {
+        ${chapterImageProjection}
       }
     },
     ${seoProjection}

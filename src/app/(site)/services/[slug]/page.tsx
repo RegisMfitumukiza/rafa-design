@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { Section } from "@/components/layout/Section";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema, serviceSchema } from "@/config/schema";
-import { getProjectBySlug, type Project } from "@/content/projects";
+import type { Project } from "@/content/projects";
 import { getRelatedServicesForService, getServiceIndex } from "@/content/services";
 import { DisciplineApproach } from "@/features/services/discipline-approach";
 import { DisciplineCta } from "@/features/services/discipline-cta";
@@ -12,7 +12,7 @@ import { DisciplineImageNarrative } from "@/features/services/discipline-image-n
 import { DisciplineRelated } from "@/features/services/discipline-related";
 import { SelectedWork } from "@/features/services/selected-work";
 import { Reveal } from "@/motion";
-import { getServices, getServiceBySlug } from "@/sanity/lib";
+import { getServices, getServiceBySlug, getProjectsBySlugs } from "@/sanity/lib";
 
 export async function generateStaticParams() {
   const services = await getServices();
@@ -40,19 +40,15 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
   const service = await getServiceBySlug(slug);
   if (!service) notFound();
 
-  // Resolve real projects
-  const projectPromises = service.relatedProjects.map((projectSlug: string) =>
-    getProjectBySlug(projectSlug),
-  );
-  const resolvedProjects = await Promise.all(projectPromises);
-  const selectedProjects = resolvedProjects.filter((project): project is Project =>
-    Boolean(project),
-  );
+  // Resolve related projects from Sanity (includes heroImage + gallery for image narrative)
+  const selectedProjects: Project[] =
+    service.relatedProjects.length > 0 ? await getProjectsBySlugs(service.relatedProjects) : [];
 
   const relatedServices = getRelatedServicesForService(service);
   const index = getServiceIndex(service.slug);
 
-  // Lead project drives the cinematic hero image at the top of the page
+  // Lead project drives the cinematic hero image at the top of the page.
+  // If no related projects, fall back gracefully to bg-muted placeholder.
   const leadProject = selectedProjects[0];
 
   // Editorial image narrative:

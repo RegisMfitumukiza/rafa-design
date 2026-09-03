@@ -6,7 +6,6 @@ import Link from "next/link";
 import { useState } from "react";
 
 import { Image } from "@/components/media/Image";
-import { getProjectBySlug } from "@/content/projects";
 import { getServiceIndex, type Service } from "@/content/services";
 import type { ImageAsset } from "@/content/types";
 import { cn } from "@/lib/cn";
@@ -16,6 +15,13 @@ interface DisciplineIndexProps {
   services: Service[];
   defaultImage?: ImageAsset | undefined;
   className?: string | undefined;
+  /**
+   * Optional map of service slug → preview ImageAsset.
+   * Passed from the server page where related project hero images
+   * are already available from the Sanity GROQ query (relatedProjects[]->).
+   * Priority: previewImages[slug] → service.coverImage → defaultImage → fallback
+   */
+  previewImages?: Record<string, ImageAsset>;
 }
 
 const fallbackStudioAsset: ImageAsset = {
@@ -40,25 +46,33 @@ const fallbackStudioAsset: ImageAsset = {
  *
  * Right column: sticky image preview (desktop only).
  * - Default: studio atelier photograph or owner-configured image.
- * - Hover: cross-fades to lead project photography for the active discipline.
+ * - Hover: cross-fades to the service's cover image or lead project photography.
+ *
+ * Image priority: previewImages[slug] → service.coverImage → defaultImage → fallback
  */
-export function DisciplineIndex({ services, defaultImage, className }: DisciplineIndexProps) {
+export function DisciplineIndex({
+  services,
+  defaultImage,
+  previewImages,
+  className,
+}: DisciplineIndexProps) {
   const [active, setActive] = useState<number | null>(null);
 
   const activeService = active !== null ? services[active] : undefined;
   const activeIndex = activeService ? getServiceIndex(activeService.slug) : "";
-  const previewProject = activeService?.relatedProjects[0]
-    ? getProjectBySlug(activeService.relatedProjects[0])
-    : undefined;
+
+  // Resolve preview image for the active service using Sanity data.
+  // Priority: explicitly passed previewImages map → service.coverImage → default
+  const activePreviewImage: ImageAsset | null = activeService
+    ? (previewImages?.[activeService.slug] ?? activeService.coverImage ?? null)
+    : null;
 
   const defaultAsset = defaultImage ?? fallbackStudioAsset;
-  const displayImage: ImageAsset = previewProject?.heroImage ?? defaultAsset;
+  const displayImage: ImageAsset = activePreviewImage ?? defaultAsset;
 
-  const caption = previewProject
-    ? `${activeIndex} — ${activeService?.title} / ${previewProject.title}`
-    : activeIndex
-      ? `${activeIndex} — ${activeService?.title}`
-      : "RAFA Design Hub // Practice Atelier";
+  const caption = activeService
+    ? `${activeIndex} — ${activeService.title}`
+    : "RAFA Design Hub // Practice Atelier";
 
   return (
     <div className={cn("gap-xl grid lg:grid-cols-12", className ?? "")}>

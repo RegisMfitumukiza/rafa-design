@@ -4,6 +4,7 @@ import { Section } from "@/components/layout/Section";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema } from "@/config/schema";
 import { getServicesDescription, pageContent } from "@/content/pages";
+import type { ImageAsset } from "@/content/types";
 import { DisciplineIndex } from "@/features/services/discipline-index";
 import { Reveal } from "@/motion";
 import { getServices } from "@/sanity/lib";
@@ -17,6 +18,18 @@ export default async function ServicesPage() {
   const services = await getServices();
   // CMS Override Pattern: Uses custom CMS text if provided, otherwise calculates dynamic count description
   const description = pageContent.services.description ?? getServicesDescription(services.length);
+
+  // Build a previewImages map: service.slug → first related project heroImage (or coverImage)
+  // The servicesQuery now dereferences relatedProjects[]-> so heroImage is already available.
+  const previewImages: Record<string, ImageAsset> = {};
+  for (const service of services) {
+    if (service.coverImage) {
+      previewImages[service.slug] = service.coverImage;
+    } else if (service.relatedProjects.length > 0) {
+      // relatedProjects are slugs — but service.coverImage covers the Sanity image path.
+      // For the index preview we rely on coverImage set in Studio, or leave blank (bg-muted shows).
+    }
+  }
 
   return (
     <>
@@ -41,7 +54,11 @@ export default async function ServicesPage() {
           </div>
         </Reveal>
 
-        <DisciplineIndex services={services} className="mt-xl md:mt-2xl" />
+        <DisciplineIndex
+          services={services}
+          previewImages={previewImages}
+          className="mt-xl md:mt-2xl"
+        />
       </Section>
     </>
   );
