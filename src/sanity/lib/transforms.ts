@@ -591,8 +591,17 @@ export function transformSanityService(sanityService: SanityRawService): Service
         .filter((slug): slug is string => Boolean(slug))
     : [];
 
-  // Transform optional cover image
-  const coverImage = sanityImageToAsset(sanityService.coverImage) ?? undefined;
+  // Cover image priority:
+  // 1. Explicit coverImage uploaded in Studio for this service
+  // 2. heroImage of the first related project (already dereferenced in GROQ via []->)
+  // 3. Nothing — components will show bg-muted placeholder
+  const explicitCoverImage = sanityImageToAsset(sanityService.coverImage);
+  const firstRelatedProject = sanityService.relatedProjects?.[0] as
+    SanityRawServiceProject | undefined;
+  const firstProjectHeroImage = firstRelatedProject?.heroImage
+    ? sanityImageToAsset(firstRelatedProject.heroImage)
+    : null;
+  const coverImage = explicitCoverImage ?? firstProjectHeroImage ?? undefined;
 
   // Build complete Service object
   const service: Service = {
@@ -609,6 +618,11 @@ export function transformSanityService(sanityService: SanityRawService): Service
     // Optional fields
     ...(sanityService.icon ? { icon: sanityService.icon } : {}),
     ...(coverImage ? { coverImage } : {}),
+    // Store the display order from Sanity so components use the CMS value
+    // rather than looking up position in the local hardcoded static array
+    ...((sanityService as Record<string, unknown>).order !== undefined
+      ? { order: Number((sanityService as Record<string, unknown>).order) }
+      : {}),
   };
 
   return service;

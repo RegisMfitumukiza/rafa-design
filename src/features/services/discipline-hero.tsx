@@ -7,7 +7,6 @@ import Link from "next/link";
 import { Image } from "@/components/media/Image";
 import type { Project } from "@/content/projects";
 import type { Service } from "@/content/services";
-import { getServiceIndex } from "@/content/services";
 import { cn } from "@/lib/cn";
 import { ImageReveal, Reveal } from "@/motion";
 
@@ -30,8 +29,11 @@ interface DisciplineHeroProps {
  * - Graceful bg-muted fallback when no project image exists
  */
 export function DisciplineHero({ service, leadProject, className }: DisciplineHeroProps) {
-  const index = getServiceIndex(service.slug);
-  const image = leadProject?.heroImage;
+  // Use CMS order field if available, else fallback label
+  const index = service.order ? String(service.order).padStart(2, "0") : service.slug;
+  // Use the service's coverImage (already resolved from Sanity: explicit or first project heroImage)
+  // or the leadProject heroImage, whichever is available
+  const image = service.coverImage ?? leadProject?.heroImage;
   const credit = leadProject?.photographerCredit;
   const projectSlug = leadProject?.slug;
   const projectTitle = leadProject?.title;

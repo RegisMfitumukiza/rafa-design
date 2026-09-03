@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useState } from "react";
 
 import { Image } from "@/components/media/Image";
-import { getServiceIndex, type Service } from "@/content/services";
+import { type Service } from "@/content/services";
 import type { ImageAsset } from "@/content/types";
 import { cn } from "@/lib/cn";
 import { Reveal } from "@/motion";
@@ -59,7 +59,10 @@ export function DisciplineIndex({
   const [active, setActive] = useState<number | null>(null);
 
   const activeService = active !== null ? services[active] : undefined;
-  const activeIndex = activeService ? getServiceIndex(activeService.slug) : "";
+  // Use the CMS order field if available, otherwise fall back to position in the array
+  const activeIndex = activeService
+    ? String(activeService.order ?? (active ?? 0) + 1).padStart(2, "0")
+    : "";
 
   // Resolve preview image for the active service using Sanity data.
   // Priority: explicitly passed previewImages map → service.coverImage → default
@@ -80,6 +83,8 @@ export function DisciplineIndex({
       <ul className="border-border/40 divide-border/40 divide-y border-y lg:col-span-8">
         {services.map((service, index) => {
           const projectCount = service.relatedProjects.length;
+          // Use CMS order value if present, otherwise fall back to array position
+          const serviceIndex = String(service.order ?? index + 1).padStart(2, "0");
           return (
             <li
               key={service.id}
@@ -93,9 +98,9 @@ export function DisciplineIndex({
                   href={`/services/${service.slug}` as Route}
                   className="group gap-y-sm py-md hover:bg-foreground/[0.02] md:gap-x-md md:py-lg relative grid transition-colors md:grid-cols-12 md:items-baseline"
                 >
-                  {/* Discipline index number */}
+                  {/* Discipline index number — from CMS order field */}
                   <span className="text-foreground/40 font-mono text-[10px] tracking-wider uppercase md:col-span-1">
-                    {getServiceIndex(service.slug)}
+                    {serviceIndex}
                   </span>
 
                   {/* Discipline title */}

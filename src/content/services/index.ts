@@ -25,6 +25,12 @@ export interface Service {
   icon?: string;
   /** Optional dedicated cover/hero image for this discipline from Sanity */
   coverImage?: ImageAsset;
+  /**
+   * Display order from Sanity CMS (1-based integer).
+   * Used to render the padded index number (e.g. "01", "02") instead of
+   * looking up the position in the local hardcoded array.
+   */
+  order?: number;
   relatedProjects: string[];
   /**
    * Which project image intents are editorially relevant for this discipline.

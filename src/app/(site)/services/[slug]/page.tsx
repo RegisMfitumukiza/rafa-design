@@ -4,7 +4,7 @@ import { Section } from "@/components/layout/Section";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema, serviceSchema } from "@/config/schema";
 import type { Project } from "@/content/projects";
-import { getRelatedServicesForService, getServiceIndex } from "@/content/services";
+import { getRelatedServicesForService } from "@/content/services";
 import { DisciplineApproach } from "@/features/services/discipline-approach";
 import { DisciplineCta } from "@/features/services/discipline-cta";
 import { DisciplineHero } from "@/features/services/discipline-hero";
@@ -45,7 +45,8 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
     service.relatedProjects.length > 0 ? await getProjectsBySlugs(service.relatedProjects) : [];
 
   const relatedServices = getRelatedServicesForService(service);
-  const index = getServiceIndex(service.slug);
+  // Use the CMS order field if present, otherwise fall back to the slug as label
+  const index = service.order ? String(service.order).padStart(2, "0") : service.slug;
 
   // Lead project drives the cinematic hero image at the top of the page.
   // If no related projects, fall back gracefully to bg-muted placeholder.
