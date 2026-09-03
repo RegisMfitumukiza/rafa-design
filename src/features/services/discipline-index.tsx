@@ -64,18 +64,21 @@ export function DisciplineIndex({
     ? String(activeService.order ?? (active ?? 0) + 1).padStart(2, "0")
     : "";
 
-  // Resolve preview image for the active service using Sanity data.
   // Priority: explicitly passed previewImages map → service.coverImage → default
   const activePreviewImage: ImageAsset | null = activeService
     ? (previewImages?.[activeService.slug] ?? activeService.coverImage ?? null)
     : null;
 
-  const defaultAsset = defaultImage ?? fallbackStudioAsset;
+  // Smart default asset: first service with an image from CMS, or fallback studio asset
+  const firstAvailableService = services.find((s) => s.coverImage);
+  const defaultAsset = defaultImage ?? firstAvailableService?.coverImage ?? fallbackStudioAsset;
   const displayImage: ImageAsset = activePreviewImage ?? defaultAsset;
 
-  const caption = activeService
-    ? `${activeIndex} — ${activeService.title}`
+  const defaultCaption = firstAvailableService
+    ? `${String(firstAvailableService.order ?? 1).padStart(2, "0")} — ${firstAvailableService.title}`
     : "RAFA Design Hub // Practice Atelier";
+
+  const caption = activeService ? `${activeIndex} — ${activeService.title}` : defaultCaption;
 
   return (
     <div className={cn("gap-xl grid lg:grid-cols-12", className ?? "")}>
