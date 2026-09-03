@@ -207,14 +207,6 @@ export default defineType({
     }),
 
     defineField({
-      name: "icon",
-      title: "Icon",
-      type: "string",
-      group: "configuration",
-      description: 'Optional icon identifier for UI (e.g., "architecture", "interior")',
-    }),
-
-    defineField({
       name: "editorialIntents",
       title: "Editorial Image Intents",
       type: "array",

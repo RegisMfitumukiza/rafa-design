@@ -551,7 +551,6 @@ export interface SanityRawService {
   shortDescription?: string;
   intro?: string;
   description?: string;
-  icon?: string;
   coverImage?: SanityRawImage;
   approach?: Array<{ title?: string; statement?: string }>;
   /** relatedProjects can be dereferenced objects (from []->) or bare slug references */
@@ -616,7 +615,6 @@ export function transformSanityService(sanityService: SanityRawService): Service
     editorialIntents: sanityService.editorialIntents || [],
 
     // Optional fields
-    ...(sanityService.icon ? { icon: sanityService.icon } : {}),
     ...(coverImage ? { coverImage } : {}),
     // Store the display order from Sanity so components use the CMS value
     // rather than looking up position in the local hardcoded static array

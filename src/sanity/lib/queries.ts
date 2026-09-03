@@ -353,7 +353,6 @@ export const servicesQuery = `
     intro,
     description,
     order,
-    icon,
     coverImage {
       ${imageProjection}
     },
@@ -388,7 +387,6 @@ export const serviceBySlugQuery = `
       statement
     },
     order,
-    icon,
     editorialIntents,
     coverImage {
       ${imageProjection}

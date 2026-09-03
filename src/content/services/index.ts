@@ -22,7 +22,6 @@ export interface Service {
   description: string;
   /** Numbered methodological approach points for the detail page */
   approach: ServiceApproach[];
-  icon?: string;
   /** Optional dedicated cover/hero image for this discipline from Sanity */
   coverImage?: ImageAsset;
   /**
