@@ -9,15 +9,18 @@ import { DisciplineIndex } from "@/features/services/discipline-index";
 import { Reveal } from "@/motion";
 import { getServices } from "@/sanity/lib";
 
-export const metadata: Metadata = {
-  title: pageContent.services.title,
-  description: pageContent.services.description ?? getServicesDescription(6),
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const services = await getServices();
+  const description = getServicesDescription(services.length);
+  return {
+    title: pageContent.services.title,
+    description,
+  };
+}
 
 export default async function ServicesPage() {
   const services = await getServices();
-  // CMS Override Pattern: Uses custom CMS text if provided, otherwise calculates dynamic count description
-  const description = pageContent.services.description ?? getServicesDescription(services.length);
+  const description = getServicesDescription(services.length);
 
   // Build a previewImages map: service.slug → first related project heroImage (or coverImage)
   // The servicesQuery now dereferences relatedProjects[]-> so heroImage is already available.

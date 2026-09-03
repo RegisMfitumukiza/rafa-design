@@ -69,13 +69,13 @@ export function DisciplineIndex({
     ? (previewImages?.[activeService.slug] ?? activeService.coverImage ?? null)
     : null;
 
-  // Smart default asset: first service with an image from CMS, or fallback studio asset
-  const firstAvailableService = services.find((s) => s.coverImage);
-  const defaultAsset = defaultImage ?? firstAvailableService?.coverImage ?? fallbackStudioAsset;
+  // Default state when no row is hovered:
+  // Show practice atelier overview, or first service if explicitly configured
+  const defaultAsset = defaultImage ?? services[0]?.coverImage ?? fallbackStudioAsset;
   const displayImage: ImageAsset = activePreviewImage ?? defaultAsset;
 
-  const defaultCaption = firstAvailableService
-    ? `${String(firstAvailableService.order ?? 1).padStart(2, "0")} — ${firstAvailableService.title}`
+  const defaultCaption = services[0]?.coverImage
+    ? `${String(services[0].order ?? 1).padStart(2, "0")} — ${services[0].title}`
     : "RAFA Design Hub // Practice Atelier";
 
   const caption = activeService ? `${activeIndex} — ${activeService.title}` : defaultCaption;
@@ -147,7 +147,9 @@ export function DisciplineIndex({
             <Image
               key={displayImage.src}
               asset={displayImage}
+              fill
               className="size-full transition-opacity duration-500"
+              imgClassName="object-cover"
               sizes="(max-width: 64rem) 0vw, 24vw"
             />
           </div>

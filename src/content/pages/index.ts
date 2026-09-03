@@ -31,7 +31,7 @@ export const pageContent = {
   services: {
     title: "Services",
     overline: "Disciplines // Services",
-    description: getServicesDescription(6),
+    description: undefined as string | undefined,
     cta: {
       overline: "Disciplines // Contact",
       heading: "Have a project in mind?",
