@@ -31,8 +31,8 @@ interface SelectedWorkProps {
  * Mobile: pure text rows — no hover dependency.
  */
 export function SelectedWork({ projects, className }: SelectedWorkProps) {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const activeProject = activeIndex !== null ? projects[activeIndex] : undefined;
+  const [activeIndex, setActiveIndex] = useState<number | null>(0);
+  const activeProject = projects[activeIndex ?? 0] ?? projects[0];
 
   return (
     <Section container="content" className={cn(className)}>
@@ -63,9 +63,9 @@ export function SelectedWork({ projects, className }: SelectedWorkProps) {
                 href={`/projects/${project.slug}` as Route}
                 className="group gap-x-md gap-y-xs py-lg hover:bg-foreground/[0.02] relative grid items-baseline transition-colors md:grid-cols-12"
                 onMouseEnter={() => setActiveIndex(index)}
-                onMouseLeave={() => setActiveIndex(null)}
+                onMouseLeave={() => setActiveIndex(index)}
                 onFocus={() => setActiveIndex(index)}
-                onBlur={() => setActiveIndex(null)}
+                onBlur={() => setActiveIndex(index)}
               >
                 {/* Index number */}
                 <span className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase md:col-span-1">
@@ -108,6 +108,7 @@ export function SelectedWork({ projects, className }: SelectedWorkProps) {
                   <Image
                     key={activeProject.slug}
                     asset={activeProject.heroImage}
+                    fill
                     sizes="(max-width: 64rem) 0vw, 24vw"
                     className="size-full transition-opacity duration-500"
                     imgClassName="object-cover"

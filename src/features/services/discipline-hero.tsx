@@ -49,6 +49,7 @@ export function DisciplineHero({ service, leadProject, className }: DisciplineHe
         {image ? (
           <Image
             asset={image}
+            fill
             sizes="100vw"
             priority
             className="aspect-[16/9] w-full md:aspect-[21/9]"

@@ -47,6 +47,7 @@ export function DisciplineImageNarrative({ images, className }: DisciplineImageN
           <ImageReveal className="w-full">
             <Image
               asset={first.image}
+              fill
               sizes="100vw"
               className="aspect-[16/9] w-full md:aspect-[21/9]"
               imgClassName="object-cover"
@@ -83,6 +84,7 @@ export function DisciplineImageNarrative({ images, className }: DisciplineImageN
             <ImageReveal>
               <Image
                 asset={second.image}
+                fill
                 sizes="(max-width: 48rem) 100vw, 58vw"
                 className="aspect-[4/3] w-full"
                 imgClassName="object-cover"
@@ -135,6 +137,7 @@ export function DisciplineImageNarrative({ images, className }: DisciplineImageN
             <ImageReveal>
               <Image
                 asset={third.image}
+                fill
                 sizes="(max-width: 48rem) 100vw, 66vw"
                 className="aspect-[4/3] w-full"
                 imgClassName="object-cover"
@@ -150,6 +153,7 @@ export function DisciplineImageNarrative({ images, className }: DisciplineImageN
           <ImageReveal className="w-full">
             <Image
               asset={fourth.image}
+              fill
               sizes="100vw"
               className="aspect-[16/9] w-full md:aspect-[21/9]"
               imgClassName="object-cover"
@@ -186,6 +190,7 @@ export function DisciplineImageNarrative({ images, className }: DisciplineImageN
             <ImageReveal>
               <Image
                 asset={fifth.image}
+                fill
                 sizes="(max-width: 48rem) 100vw, 66vw"
                 className="aspect-[4/3] w-full"
                 imgClassName="object-cover"

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { Section } from "@/components/layout/Section";
@@ -106,12 +107,22 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
       <Section container="wide">
         <Reveal>
           <div className="gap-x-xl gap-y-md grid items-start md:grid-cols-12">
-            {/* Left 6 cols: overline + monumental title */}
+            {/* Left 6 cols: breadcrumb back link + monumental title */}
             <div className="md:col-span-6 lg:col-span-6">
-              <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
-                {index} {/* divider */} {service.title}
-              </p>
-              <h1 className="font-display text-foreground mt-sm text-4xl font-medium tracking-tight sm:text-5xl lg:text-6xl xl:text-7xl">
+              <Link
+                href="/services"
+                className="group text-foreground/40 hover:text-foreground mb-sm inline-flex items-center gap-2 font-mono text-[10px] tracking-widest uppercase transition-colors"
+              >
+                <span className="transition-transform duration-300 group-hover:-translate-x-1">
+                  ←
+                </span>
+                <span>Services</span>
+                <span className="text-foreground/20">{"//"}</span>
+                <span>
+                  {index} {service.title}
+                </span>
+              </Link>
+              <h1 className="font-display text-foreground mt-xs text-4xl font-medium tracking-tight sm:text-5xl lg:text-6xl xl:text-7xl">
                 {service.title}
               </h1>
             </div>

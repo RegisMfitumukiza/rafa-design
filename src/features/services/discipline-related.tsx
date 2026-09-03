@@ -40,7 +40,9 @@ export function DisciplineRelated({ services, className }: DisciplineRelatedProp
             className="group gap-x-md gap-y-sm py-md hover:bg-foreground/[0.02] grid items-baseline transition-colors md:grid-cols-12"
           >
             <span className="text-foreground/40 font-mono text-[10px] tracking-wider uppercase md:col-span-2">
-              {getServiceIndex(related.slug)}
+              {related.order
+                ? String(related.order).padStart(2, "0")
+                : getServiceIndex(related.slug)}
             </span>
             <h3 className="text-foreground/90 font-display group-hover:text-foreground text-xl font-medium tracking-tight transition-all group-hover:translate-x-1 md:col-span-6">
               {related.title}
