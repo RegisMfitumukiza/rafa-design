@@ -34,7 +34,8 @@ export function DisciplineHero({ service, leadProject, className }: DisciplineHe
   // Use the service's coverImage (already resolved from Sanity: explicit or first project heroImage)
   // or the leadProject heroImage, whichever is available
   const image = service.coverImage ?? leadProject?.heroImage;
-  const credit = leadProject?.photographerCredit;
+  const customCaption = service.coverImage?.caption;
+  const credit = service.coverImage?.credit ?? leadProject?.photographerCredit;
   const projectSlug = leadProject?.slug;
   const projectTitle = leadProject?.title;
   const projectLocation = leadProject
@@ -67,8 +68,12 @@ export function DisciplineHero({ service, leadProject, className }: DisciplineHe
       {/* Caption row */}
       <Reveal delay={0.15}>
         <div className="mt-sm gap-md flex items-baseline justify-between">
-          {/* Left: project reference link */}
-          {leadProject && projectSlug ? (
+          {/* Left: custom caption OR project reference link */}
+          {customCaption ? (
+            <span className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
+              {index} {"//"} {service.title} — {customCaption}
+            </span>
+          ) : leadProject && projectSlug ? (
             <Link
               href={`/projects/${projectSlug}` as Route}
               className="group text-foreground/40 hover:text-foreground/70 gap-xs inline-flex items-center font-mono text-[10px] tracking-widest uppercase transition-colors"
@@ -89,10 +94,15 @@ export function DisciplineHero({ service, leadProject, className }: DisciplineHe
             </span>
           )}
 
-          {/* Right: photographer credit */}
+          {/* Right: credit */}
           {credit && (
             <span className="text-foreground/30 shrink-0 font-mono text-[10px] tracking-widest uppercase">
-              Photography // {credit}
+              {credit.toLowerCase().includes("photo") ||
+              credit.toLowerCase().includes("render") ||
+              credit.toLowerCase().includes("visual") ||
+              credit.toLowerCase().includes("cgi")
+                ? credit
+                : `Photography // ${credit}`}
             </span>
           )}
         </div>
