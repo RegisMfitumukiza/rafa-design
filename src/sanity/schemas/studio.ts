@@ -181,6 +181,21 @@ export default defineType({
     // ═══════════════════════════════════════════════════════════════════════
 
     defineField({
+      name: "atelierImage",
+      title: "Studio Atelier / Practice Overview Image",
+      type: "image",
+      group: "media",
+      options: { hotspot: true },
+      fields: [
+        { name: "alt", type: "string", title: "Alt Text" },
+        { name: "caption", type: "string", title: "Caption" },
+        { name: "credit", type: "string", title: "Credit" },
+      ],
+      description:
+        "Official photograph of the practice atelier / studio in Kigali. Used as the default visual on the Services index page before hovering on a specific discipline.",
+    }),
+
+    defineField({
       name: "images",
       title: "Studio Images",
       type: "array",
@@ -192,6 +207,7 @@ export default defineType({
           fields: [
             { name: "alt", type: "string", title: "Alt Text" },
             { name: "caption", type: "string", title: "Caption" },
+            { name: "credit", type: "string", title: "Credit" },
           ],
         },
       ],

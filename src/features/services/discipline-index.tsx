@@ -69,14 +69,12 @@ export function DisciplineIndex({
     ? (previewImages?.[activeService.slug] ?? activeService.coverImage ?? null)
     : null;
 
-  // Default state when no row is hovered:
-  // Show practice atelier overview, or first service if explicitly configured
-  const defaultAsset = defaultImage ?? services[0]?.coverImage ?? fallbackStudioAsset;
+  // Default state when no row is hovered (Pattern B: Global Practice Atelier Overview):
+  // Shows the official studio atelier photograph from Sanity Studio, or fallback
+  const defaultAsset = defaultImage ?? fallbackStudioAsset;
   const displayImage: ImageAsset = activePreviewImage ?? defaultAsset;
 
-  const defaultCaption = services[0]?.coverImage
-    ? `${String(services[0].order ?? 1).padStart(2, "0")} — ${services[0].title}`
-    : "RAFA Design Hub // Practice Atelier";
+  const defaultCaption = defaultAsset.caption || "RAFA Design Hub // Practice Atelier, Kigali";
 
   const caption = activeService ? `${activeIndex} — ${activeService.title}` : defaultCaption;
 

@@ -7,7 +7,7 @@ import { getServicesDescription, pageContent } from "@/content/pages";
 import type { ImageAsset } from "@/content/types";
 import { DisciplineIndex } from "@/features/services/discipline-index";
 import { Reveal } from "@/motion";
-import { getServices } from "@/sanity/lib";
+import { getServices, getStudioInfo } from "@/sanity/lib";
 
 export async function generateMetadata(): Promise<Metadata> {
   const services = await getServices();
@@ -19,8 +19,9 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function ServicesPage() {
-  const services = await getServices();
+  const [services, studio] = await Promise.all([getServices(), getStudioInfo()]);
   const description = getServicesDescription(services.length);
+  const defaultImage = studio?.atelierImage ?? studio?.images?.[0];
 
   // Build a previewImages map: service.slug → first related project heroImage (or coverImage)
   // The servicesQuery now dereferences relatedProjects[]-> so heroImage is already available.
@@ -60,6 +61,7 @@ export default async function ServicesPage() {
         <DisciplineIndex
           services={services}
           previewImages={previewImages}
+          defaultImage={defaultImage}
           className="mt-xl md:mt-2xl"
         />
       </Section>

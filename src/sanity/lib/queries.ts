@@ -481,6 +481,9 @@ export const studioQuery = `
       description
     },
     history,
+    atelierImage {
+      ${imageProjection}
+    },
     images[] {
       asset->{
         _id,

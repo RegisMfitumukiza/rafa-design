@@ -743,6 +743,7 @@ export interface SanityRawStudio {
   beliefs?: Array<{ code?: string; title?: string; statement?: string }>;
   workingMethods?: Array<{ code?: string; title?: string; description?: string }>;
   history?: string;
+  atelierImage?: SanityRawImage;
   images?: SanityRawImage[];
   visit?: { overline?: string; heading?: string; body?: string; visits?: string };
   timeline?: Array<{ year?: number; title?: string; description?: string }>;
@@ -771,6 +772,7 @@ export interface SanityRawStudio {
 export function transformSanityStudio(sanityStudio: SanityRawStudio): Studio | null {
   if (!sanityStudio?._id) return null;
 
+  const atelierImage = sanityImageToAsset(sanityStudio.atelierImage) ?? undefined;
   const images = (sanityStudio.images || [])
     .map(sanityImageToAsset)
     .filter((img): img is ImageAsset => img !== null);
@@ -795,6 +797,7 @@ export function transformSanityStudio(sanityStudio: SanityRawStudio): Studio | n
       title: method.title || "",
       description: method.description || "",
     })),
+    ...(atelierImage ? { atelierImage } : {}),
     images: images.length > 0 ? images : [fallbackImage],
     visit: {
       overline: sanityStudio.visit?.overline || "",

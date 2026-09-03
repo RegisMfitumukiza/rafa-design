@@ -69,6 +69,7 @@ export interface Studio {
   beliefs: StudioPrinciple[];
   workingMethods: WorkingMethod[];
   history?: string;
+  atelierImage?: ImageAsset;
   images: ImageAsset[];
   visit: {
     overline: string;
