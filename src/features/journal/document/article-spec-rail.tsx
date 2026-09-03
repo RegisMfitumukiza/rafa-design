@@ -61,6 +61,13 @@ export function ArticleSpecRail({ article, categoryLabel, className }: ArticleSp
           )}
 
           <div>
+            <dt className="text-foreground/35">Format</dt>
+            <dd className="text-foreground/85 mt-0.5 font-sans text-xs tracking-normal capitalize">
+              {article.type ? article.type.replace(/-/g, " ") : "Essay"}
+            </dd>
+          </div>
+
+          <div>
             <dt className="text-foreground/35">Discipline</dt>
             <dd className="text-foreground/85 mt-0.5 font-sans text-xs tracking-normal">
               {categoryLabel}

@@ -79,12 +79,6 @@ export function JournalDocumentSanity({ article, categoryLabel }: JournalDocumen
                 {article.subtitle}
               </p>
             )}
-
-            {article.excerpt && (
-              <p className="text-foreground/70 mt-lg max-w-3xl text-lg leading-relaxed sm:text-xl">
-                {article.excerpt}
-              </p>
-            )}
           </div>
         </Reveal>
       </Section>
@@ -133,6 +127,15 @@ export function JournalDocumentSanity({ article, categoryLabel }: JournalDocumen
           {/* Center 6 Cols: Primary Narrative Reading Body */}
           <div className={headings.length > 0 ? "lg:col-span-6" : "lg:col-span-9"}>
             <Reveal>
+              {/* Lead Abstract / Standfirst */}
+              {article.excerpt && (
+                <div className="border-border/30 mb-xl pb-lg border-b">
+                  <p className="text-foreground/90 text-xl leading-relaxed font-light tracking-tight sm:text-2xl md:text-[22px]">
+                    {article.excerpt}
+                  </p>
+                </div>
+              )}
+
               <ArticleContent content={rawContent} />
             </Reveal>
 
