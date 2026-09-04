@@ -326,17 +326,18 @@ triggers ISR revalidation so static pages reflect the new content immediately.
 
 ### Document type → tags/paths map
 
-| `_type`          | Tags                          | Paths                           |
-| ---------------- | ----------------------------- | ------------------------------- |
-| `journalArticle` | `articles` + `article:<slug>` | `/journal`, `/journal/<slug>`   |
-| `project`        | `projects` + `project:<slug>` | `/projects`, `/projects/<slug>` |
-| `service`        | `services` + `service:<slug>` | `/services`, `/services/<slug>` |
-| `teamMember`     | `team`                        | `/studio`                       |
-| `studio`         | `studio`, `team`              | `/studio`                       |
-| `career`         | `careers` + `career:<slug>`   | `/careers`                      |
-| `careers`        | `careers`                     | `/careers`                      |
-| `contact`        | `contact`                     | `/contact`, `/`                 |
-| `siteSettings`   | `settings`                    | `/`, `/`                        |
+| `_type`          | Tags                          | Paths                                                                           |
+| ---------------- | ----------------------------- | ------------------------------------------------------------------------------- |
+| `journalArticle` | `articles` + `article:<slug>` | `/journal`, `/journal/<slug>`                                                   |
+| `project`        | `projects` + `project:<slug>` | `/projects`, `/projects/<slug>`                                                 |
+| `service`        | `services` + `service:<slug>` | `/services`, `/services/<slug>`                                                 |
+| `teamMember`     | `team`                        | `/studio`                                                                       |
+| `studio`         | `studio`, `team`              | `/studio`                                                                       |
+| `career`         | `careers` + `career:<slug>`   | `/careers`                                                                      |
+| `careers`        | `careers`                     | `/careers`                                                                      |
+| `contact`        | `contact`                     | `/contact`, `/`                                                                 |
+| `siteSettings`   | `settings`                    | `/`, `/`                                                                        |
+| `pageIntros`     | `page-intros`                 | `/projects`, `/services`, `/journal`, `/process`, `/sustainability`, `/contact` |
 
 Shared content (`contact`, `siteSettings`) also invalidates `/` because those
 values are consumed by the nav, footer, and JSON-LD on every page.
@@ -353,7 +354,7 @@ values are consumed by the nav, footer, and JSON-LD on every page.
    - **HTTP Method:** `POST`
    - **Trigger:** create / update / delete
    - **Dataset:** `production`
-   - **Filter:** `_type in ["journalArticle","project","service","teamMember","studio","career","careers","contact","siteSettings"]`
+   - **Filter:** `_type in ["journalArticle","project","service","teamMember","studio","career","careers","contact","siteSettings","pageIntros"]`
    - **Signature secret:** the same value as `SANITY_WEBHOOK_SECRET`
 5. Click **Save**. Test by editing and publishing a document in Studio, then
    reload the affected page — the change should appear without a redeploy.
@@ -383,6 +384,59 @@ with a valid `_type` revalidates.
 - `src/content/projects/sanity.ts` — tagged fetches (projects)
 - `src/content/journal/sanity-adapter.ts` — tagged fetches (journal)
 - `.env.example` — `SANITY_WEBHOOK_SECRET` documented
+
+---
+
+## ✍️ CMS-Driven Page Introductions
+
+Every top-level page's editorial introduction (overline, title, description, and
+where used the closing CTA / contact closing copy) is now editable in Sanity via
+a single **`pageIntros`** singleton, instead of being hardcoded in `src/content`.
+
+### How it works
+
+1. Admin edits the `pageIntros` singleton in `/admin`
+   (structure item **"10 // Page Introductions"**).
+2. Publishing triggers the Sanity webhook → `POST /api/revalidate`, which
+   revalidates the `page-intros` tag and the six affected paths.
+3. On next request each page is re-rendered with the new intro, falling back to
+   static `pageContent` for any field left blank.
+
+### Structure
+
+| Group             | Fields                                                                                                       |
+| ----------------- | ------------------------------------------------------------------------------------------------------------ |
+| 01 Projects       | overline, title, description                                                                                 |
+| 02 Services       | overline, title, description                                                                                 |
+| 03 Journal        | overline, title, description                                                                                 |
+| 04 Process        | overline, title, description, cta                                                                            |
+| 05 Sustainability | overline, heading, body                                                                                      |
+| 06 Contact        | overline, title, description, briefHeading, editorialOverline, dialogueOverline, closingHeading, closingBody |
+
+### Data layer
+
+- `src/sanity/schemas/pageIntros.ts` — singleton schema (registered in
+  `schemas/index.ts`, structure item in `sanity.config.ts`, delete/duplicate
+  guarded).
+- `pageIntrosQuery` (GROQ) in `src/sanity/lib/queries.ts`.
+- `transformSanityPageIntros` in `src/sanity/lib/transforms.ts` — returns only
+  the fields Sanity provides so blanks fall through to static defaults.
+- `getPageIntros()` in `src/sanity/lib/fetch.ts`, tagged `cacheTags.pageIntros`.
+
+### Merge-over-static fallback
+
+Each page keeps its static `pageContent` default and overrides only the fields
+the admin has actually filled in. `sustainabilityContent` (manifesto) and the
+`ProjectsArchive` default copy are treated the same way. Careers/Studio page
+metadata and their on-screen intros were already CMS-driven earlier and are not
+part of this singleton.
+
+### Verified
+
+`tsc` 0 errors, `lint` 0/0, `prettier --check` clean, production build green.
+`/projects`, `/services`, `/process`, `/sustainability`, `/contact` remain
+static `○` (prerendered with current CMS values, revalidated on publish);
+`/api/revalidate` stays dynamic `ƒ`.
 
 ---
 

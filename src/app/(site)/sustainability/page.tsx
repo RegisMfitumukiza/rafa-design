@@ -10,15 +10,26 @@ import { breadcrumbSchema } from "@/config/schema";
 import { pageContent } from "@/content/pages";
 import { sustainabilityContent } from "@/content/sustainability";
 import { Parallax, Reveal, Stagger } from "@/motion";
+import { getPageIntros } from "@/sanity/lib";
 
-export const metadata: Metadata = {
-  title: pageContent.sustainability.title,
-  description: pageContent.sustainability.description,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const cmsIntros = await getPageIntros();
+  const title = cmsIntros.sustainability?.heading ?? pageContent.sustainability.title;
+  const description = cmsIntros.sustainability?.body ?? pageContent.sustainability.description;
+  return {
+    title,
+    description,
+  };
+}
 
-export default function SustainabilityPage() {
+export default async function SustainabilityPage() {
   const { manifesto, philosophy, materialImage, commitments, principles, collaboration } =
     sustainabilityContent;
+  const cmsIntros = await getPageIntros();
+
+  const overline = cmsIntros.sustainability?.overline ?? manifesto.overline;
+  const heading = cmsIntros.sustainability?.heading ?? manifesto.heading;
+  const body = cmsIntros.sustainability?.body ?? manifesto.body;
 
   return (
     <>
@@ -30,12 +41,12 @@ export default function SustainabilityPage() {
           <div className="md:col-span-8 lg:col-span-7">
             <Reveal>
               <p className="text-foreground/40 mb-sm font-mono text-[10px] tracking-widest uppercase">
-                Specification // {manifesto.overline}
+                Specification // {overline}
               </p>
             </Reveal>
             <Reveal delay={0.1}>
               <h1 className="font-display mb-xl text-5xl leading-[0.95] tracking-tight text-balance sm:text-6xl md:text-7xl lg:text-8xl">
-                {manifesto.heading}
+                {heading}
               </h1>
             </Reveal>
             <Reveal delay={0.2}>
@@ -43,7 +54,7 @@ export default function SustainabilityPage() {
                 variant="body"
                 className="text-foreground/60 max-w-prose text-lg leading-relaxed md:text-xl"
               >
-                {manifesto.body}
+                {body}
               </Text>
             </Reveal>
           </div>

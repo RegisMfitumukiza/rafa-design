@@ -6,9 +6,17 @@ import type { ImageAsset } from "@/content/types";
 import { cn } from "@/lib/cn";
 import { ImageReveal, Reveal } from "@/motion";
 
+export interface ContactIntroEditorial {
+  editorialOverline?: string;
+  dialogueOverline?: string;
+  closingHeading?: string;
+  closingBody?: string;
+}
+
 interface ContactEditorialProps {
   editorialImage: ImageAsset;
   email: string;
+  intro?: ContactIntroEditorial;
   className?: string;
 }
 
@@ -22,9 +30,19 @@ interface ContactEditorialProps {
  *   "EVERY PROJECT BEGINS WITH A CONVERSATION."
  * with a direct email action link.
  */
-export function ContactEditorial({ editorialImage, email, className }: ContactEditorialProps) {
+export function ContactEditorial({
+  editorialImage,
+  email,
+  intro,
+  className,
+}: ContactEditorialProps) {
   const contact = pageContent.contact;
   const contactInfo = { email };
+
+  const editorialOverline = intro?.editorialOverline ?? contact.editorialOverline;
+  const dialogueOverline = intro?.dialogueOverline ?? contact.dialogueOverline;
+  const closingHeading = intro?.closingHeading ?? contact.closingHeading;
+  const closingBody = intro?.closingBody ?? contact.closingBody;
 
   return (
     <div className={cn("space-y-2xl", className ?? "")}>
@@ -41,7 +59,7 @@ export function ContactEditorial({ editorialImage, email, className }: ContactEd
         </ImageReveal>
         <Reveal delay={0.1}>
           <p className="text-foreground/40 mt-sm font-mono text-[10px] tracking-widest uppercase">
-            {contact.editorialOverline}
+            {editorialOverline}
           </p>
         </Reveal>
       </div>
@@ -52,15 +70,15 @@ export function ContactEditorial({ editorialImage, email, className }: ContactEd
           <div className="gap-y-md gap-x-xl grid md:grid-cols-12 md:items-baseline">
             <div className="md:col-span-5">
               <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
-                {contact.dialogueOverline}
+                {dialogueOverline}
               </p>
               <h2 className="font-display text-foreground mt-sm text-3xl font-medium tracking-tight text-balance md:text-4xl">
-                {contact.closingHeading}
+                {closingHeading}
               </h2>
             </div>
             <div className="space-y-md md:col-span-7">
               <p className="text-foreground/70 text-lg leading-relaxed text-balance md:text-xl">
-                {contact.closingBody}
+                {closingBody}
               </p>
               <div className="pt-xs">
                 <a

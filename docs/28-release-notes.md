@@ -10,6 +10,43 @@
 
 ---
 
+# 2026-09-02 (CMS-Driven Page Introductions)
+
+## Version
+
+0.15.0-alpha
+
+## Summary
+
+The editorial introductions (overline, title, description, and where applicable the closing CTA / contact closing copy) of every top-level page are now editable in the Sanity CMS instead of being hardcoded in code. Admins edit a single `pageIntros` singleton in `/admin` (structure item "10 // Page Introductions"), publish, and the Sanity webhook revalidates every affected route — no redeploy required.
+
+## What Changed
+
+- **\_New `pageIntros` singleton schema** (`src/sanity/schemas/pageIntros.ts`) with six field groups (01 Projects, 02 Services, 03 Journal, 04 Process, 05 Sustainability, 06 Contact), each holding exactly the fields its page's 12-column editorial header consumes. Registered in `src/sanity/schemas/index.ts` and exposed as a true singleton in `sanity.config.ts` (single instance, filtered from the New-document menu and delete/duplicate actions).
+- **New data-access layer**: `pageIntrosQuery` GROQ in `src/sanity/lib/queries.ts`, `transformSanityPageIntros` in `src/sanity/lib/transforms.ts` (returns only the fields Sanity provides, enabling a clean merge-over-static-default pattern), and `getPageIntros()` in `src/sanity/lib/fetch.ts` (tagged `cacheTags.pageIntros` = `page-intros`).
+- **Consuming pages updated** to fetch intros with graceful fallback to static `pageContent`:
+  - `/projects` — overline/title/description now flow through a new `intro` prop on `ProjectsArchive` (previously hardcoded JSX).
+  - `/services` — overline/title editable, plus optional description override (default remains the dynamic count-based `getServicesDescription(count)`).
+  - `/journal` — overline/title/description via a new `intro` prop on `JournalIndexHeader` (type now `PageIntro | undefined` to satisfy `exactOptionalPropertyTypes`).
+  - `/process` — overline/title/description plus the closing CTA; metadata switched to async `generateMetadata`.
+  - `/sustainability` — manifesto overline/heading/body; metadata switched to async `generateMetadata`.
+  - `/contact` — header overline/title/description/briefHeading plus the editorial closing (image caption overline, dialogue overline, closing heading/body) via a new `intro` prop on `ContactEditorial`.
+- **Webhook route extended** (`src/app/api/revalidate/route.ts`): `pageIntros` maps to revalidation tag `page-intros` and paths `/projects /services /journal /process /sustainability /contact`, so a single publish revalidates all affected pages instantly.
+
+## Verification
+
+- `npx tsc --noEmit` — 0 errors.
+- `npm run lint` — 0/0.
+- `npx prettier --check .` — clean.
+- Production build green — 34 routes; `/projects`, `/services`, `/process`, `/sustainability`, `/contact` remain static `○` (prerendered with current CMS values, revalidated on publish); `/api/revalidate` stays dynamic `ƒ`.
+
+## Notes
+
+- Careers/studio page metadata and their on-screen intros were already CMS-driven in earlier work and are intentionally left out of the `pageIntros` singleton.
+- No new runtime dependencies were introduced.
+
+---
+
 # 2026-09-02 (On-Demand Revalidation via Sanity Webhook)
 
 ## Version

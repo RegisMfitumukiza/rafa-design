@@ -702,3 +702,56 @@ export const siteSettingsQuery = `
     maintenanceMessage
   }
 `;
+
+export const pageIntrosQuery = `
+  *[_type == "pageIntros"][0] {
+    _id,
+    projects {
+      overline,
+      title,
+      description
+    },
+    services {
+      overline,
+      title,
+      description,
+      cta {
+        overline,
+        heading,
+        body,
+        action
+      }
+    },
+    journal {
+      overline,
+      title,
+      description
+    },
+    process {
+      overline,
+      title,
+      description,
+      cta {
+        overline,
+        heading,
+        body,
+        action
+      }
+    },
+    sustainability {
+      overline,
+      heading,
+      body
+    },
+    contact {
+      overline,
+      title,
+      description,
+      briefHeading,
+      closingHeading,
+      closingBody,
+      editorialOverline,
+      dialogueOverline
+    }
+  }
+`;

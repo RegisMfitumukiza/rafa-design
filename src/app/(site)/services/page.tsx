@@ -7,7 +7,7 @@ import { getServicesDescription, pageContent } from "@/content/pages";
 import type { ImageAsset } from "@/content/types";
 import { DisciplineIndex } from "@/features/services/discipline-index";
 import { Reveal } from "@/motion";
-import { getServices, getStudioInfo } from "@/sanity/lib";
+import { getPageIntros, getServices, getStudioInfo } from "@/sanity/lib";
 
 export async function generateMetadata(): Promise<Metadata> {
   const services = await getServices();
@@ -19,8 +19,12 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function ServicesPage() {
-  const [services, studio] = await Promise.all([getServices(), getStudioInfo()]);
-  const description = getServicesDescription(services.length);
+  const [services, studio, cmsIntros] = await Promise.all([
+    getServices(),
+    getStudioInfo(),
+    getPageIntros(),
+  ]);
+  const description = cmsIntros.services?.description ?? getServicesDescription(services.length);
   const defaultImage = studio?.atelierImage ?? studio?.images?.[0];
 
   // Build a previewImages map: service.slug → first related project heroImage (or coverImage)
@@ -44,10 +48,10 @@ export default async function ServicesPage() {
           <div className="mb-xl gap-x-xl gap-y-md grid items-start md:grid-cols-12">
             <div className="md:col-span-6 lg:col-span-6">
               <p className="text-foreground/50 font-mono text-xs tracking-widest uppercase">
-                {pageContent.services.overline}
+                {cmsIntros.services?.overline ?? pageContent.services.overline}
               </p>
               <h1 className="font-display text-foreground mt-sm text-4xl font-medium tracking-tight sm:text-5xl lg:text-6xl xl:text-7xl">
-                {pageContent.services.title}
+                {cmsIntros.services?.title ?? pageContent.services.title}
               </h1>
             </div>
             <div className="md:pt-md md:col-span-6 lg:col-span-6">

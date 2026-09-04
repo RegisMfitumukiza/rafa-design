@@ -49,6 +49,7 @@ const DOCUMENT_TAGS: Record<string, string[]> = {
   careers: [cacheTags.careers],
   contact: [cacheTags.contact],
   siteSettings: [cacheTags.settings],
+  pageIntros: [cacheTags.pageIntros],
 };
 
 /**
@@ -65,6 +66,14 @@ const DOCUMENT_PATHS: Record<string, (slug?: string) => string[]> = {
   careers: () => [`/careers`],
   contact: () => [`/contact`],
   siteSettings: () => [`/`],
+  pageIntros: () => [
+    `/projects`,
+    `/services`,
+    `/journal`,
+    `/process`,
+    `/sustainability`,
+    `/contact`,
+  ],
 };
 
 /** Extract the current slug from a webhook payload (object or string form). */

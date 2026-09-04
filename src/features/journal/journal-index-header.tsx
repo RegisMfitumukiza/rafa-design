@@ -7,16 +7,23 @@
  */
 
 import type { JournalCategory } from "@/content/journal";
-import { pageContent } from "@/content/pages";
+import type { PageIntro } from "@/content/pages";
 import { CategoryFilterPills } from "@/features/journal/category-filter";
 import { Reveal } from "@/motion";
 
 interface JournalIndexHeaderProps {
   categories: JournalCategory[];
   active: JournalCategory | null;
+  intro?: PageIntro | undefined;
 }
 
-export function JournalIndexHeader({ categories, active }: JournalIndexHeaderProps) {
+export function JournalIndexHeader({ categories, active, intro }: JournalIndexHeaderProps) {
+  const overline = intro?.overline ?? `Specification // Journal`;
+  const title = intro?.title ?? `Journal`;
+  const description =
+    intro?.description ??
+    `Essays, research, and observations on architecture, craft, material culture, and the ideas behind the work.`;
+
   return (
     <Reveal>
       <header className="mb-2xl pb-xl border-border/20 border-b">
@@ -24,13 +31,13 @@ export function JournalIndexHeader({ categories, active }: JournalIndexHeaderPro
           {/* Left: Title + description */}
           <div className="md:col-span-7 lg:col-span-6">
             <p className="text-foreground/40 mb-sm font-mono text-[10px] tracking-widest uppercase">
-              {pageContent.journal.overline}
+              {overline}
             </p>
             <h1 className="font-display text-foreground text-5xl font-medium tracking-tight sm:text-6xl lg:text-7xl">
-              {pageContent.journal.title}
+              {title}
             </h1>
             <p className="text-foreground/50 mt-md max-w-prose text-base leading-relaxed">
-              {pageContent.journal.description}
+              {description}
             </p>
           </div>
 

@@ -15,9 +15,16 @@ import { Reveal, Stagger, useReducedMotion } from "@/motion";
 
 type ViewMode = "grid" | "list" | "map";
 
+export interface ProjectsIntro {
+  overline?: string;
+  title?: string;
+  description?: string;
+}
+
 interface ProjectsArchiveProps {
   initialProjects: Project[];
   categories: ProjectCategory[];
+  intro?: ProjectsIntro;
 }
 
 /**
@@ -44,7 +51,7 @@ function getEditorialAspect(index: number): string {
 
 const BATCH_SIZE = 12;
 
-export function ProjectsArchive({ initialProjects, categories }: ProjectsArchiveProps) {
+export function ProjectsArchive({ initialProjects, categories, intro }: ProjectsArchiveProps) {
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [selectedTypology, setSelectedTypology] = useState<string>("all");
@@ -207,16 +214,17 @@ export function ProjectsArchive({ initialProjects, categories }: ProjectsArchive
         <div className="gap-md flex flex-col justify-between md:flex-row md:items-end">
           <div>
             <p className="text-foreground/35 mb-xs font-mono text-[10px] tracking-widest uppercase">
-              INDEX // PORTFOLIO ARCHIVE
+              {intro?.overline ?? "INDEX // PORTFOLIO ARCHIVE"}
             </p>
             <Heading
               variant="h1"
               className="text-4xl font-medium tracking-tight sm:text-5xl md:text-6xl"
             >
-              Projects
+              {intro?.title ?? "Projects"}
             </Heading>
             <p className="text-foreground/55 mt-xs max-w-xl text-base leading-relaxed font-light">
-              Our projects are physical inquiries into space, light, and material longevity.
+              {intro?.description ??
+                "Our projects are physical inquiries into space, light, and material longevity."}
             </p>
           </div>
           {/* Animated commission count */}

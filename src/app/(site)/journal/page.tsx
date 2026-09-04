@@ -13,6 +13,7 @@ import { pageContent } from "@/content/pages";
 import { FeaturedArticle } from "@/features/journal/featured-article";
 import { JournalIndexHeader } from "@/features/journal/journal-index-header";
 import { PaginatedArticles } from "@/features/journal/paginated-articles";
+import { getPageIntros } from "@/sanity/lib";
 
 export const metadata: Metadata = {
   title: pageContent.journal.title,
@@ -31,6 +32,7 @@ export default async function JournalPage({
   const allArticles = await getArticles();
   const featured = await getFeaturedArticle();
   const categories = await getActiveCategories();
+  const cmsIntros = await getPageIntros();
 
   // Filter by category when a filter is active
   const filtered = activeCategory
@@ -50,7 +52,11 @@ export default async function JournalPage({
 
       <Section container="wide">
         {/* Title + inline category filters */}
-        <JournalIndexHeader categories={categories} active={activeCategory} />
+        <JournalIndexHeader
+          categories={categories}
+          active={activeCategory}
+          intro={cmsIntros.journal}
+        />
 
         {/* Cinematic featured article — hidden when filtering by category */}
         {activeCategory === null && featured && <FeaturedArticle article={featured} />}

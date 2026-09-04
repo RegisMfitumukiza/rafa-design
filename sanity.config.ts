@@ -125,6 +125,13 @@ export default defineConfig({
               .icon(() => "⚙️")
               .schemaType("siteSettings")
               .child(S.documentTypeList("siteSettings").title("Site Settings")),
+
+            // 10 // Page Introductions (Singleton)
+            S.listItem()
+              .title("10 // Page Introductions")
+              .icon(() => "✍️")
+              .schemaType("pageIntros")
+              .child(S.documentTypeList("pageIntros").title("Page Introductions")),
           ]),
     }),
 
@@ -140,7 +147,7 @@ export default defineConfig({
     // Filter out singleton types from the global "+" (New document) menu
     // so editors cannot accidentally create duplicate singletons
     templates: (prev) => {
-      const singletonTypes = ["studio", "careers", "contact", "siteSettings"];
+      const singletonTypes = ["studio", "careers", "contact", "siteSettings", "pageIntros"];
       return prev.filter((template) => !singletonTypes.includes(template.schemaType));
     },
   },
@@ -150,7 +157,7 @@ export default defineConfig({
     // For singleton documents, hide delete/duplicate/unpublish actions so only a
     // single document of each type can exist, while allowing publishing.
     actions: (prev, context) => {
-      const singletonTypes = ["studio", "careers", "contact", "siteSettings"];
+      const singletonTypes = ["studio", "careers", "contact", "siteSettings", "pageIntros"];
       const { schemaType } = context;
 
       if (singletonTypes.includes(schemaType as string)) {

@@ -12,6 +12,7 @@
 import type { Benefit, CareerPosition, CareersContent } from "@/content/company/careers";
 import type { ContactInformation } from "@/content/company/contact";
 import type { JournalArticle, JournalCategory } from "@/content/journal";
+import type { PageIntros } from "@/content/pages";
 import type { Project } from "@/content/projects";
 import type { Service } from "@/content/services";
 import type { SiteSettings } from "@/content/siteSettings";
@@ -290,6 +291,7 @@ export const cacheTags = {
   career: (slug: string) => `career:${slug}`,
   contact: "contact",
   settings: "settings",
+  pageIntros: "page-intros",
 } as const;
 
 /**
@@ -613,5 +615,36 @@ export async function getSiteSettings(): Promise<SiteSettings | null> {
   } catch (error) {
     console.error("Error fetching site settings:", error);
     return null;
+  }
+}
+
+/**
+ * ============================================================================
+ * PAGE INTROS FETCHING
+ * ============================================================================
+ */
+
+/**
+ * Get the editable page introductions (singleton document).
+ * Returns an object of only the values that were actually provided in Sanity,
+ * so callers should merge it over the static `pageContent` defaults.
+ * Returns an empty object when the document does not exist (or on error).
+ */
+export async function getPageIntros(): Promise<PageIntros> {
+  try {
+    const { pageIntrosQuery } = await import("./queries");
+    const { transformSanityPageIntros } = await import("./transforms");
+    const sanityPageIntros = await client.fetch(
+      pageIntrosQuery,
+      {},
+      {
+        next: { tags: [cacheTags.pageIntros] },
+      },
+    );
+    if (!sanityPageIntros) return {};
+    return transformSanityPageIntros(sanityPageIntros);
+  } catch (error) {
+    console.error("Error fetching page intros:", error);
+    return {};
   }
 }

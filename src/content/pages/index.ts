@@ -22,6 +22,47 @@ export function getServicesDescription(count: number): string {
   return `${word} disciplines, one practice — every engagement begins with the same conviction: architecture that is quiet, considered, and rooted in its place.`;
 }
 
+export interface PageIntroCta {
+  overline?: string;
+  heading?: string;
+  body?: string;
+  action?: string;
+}
+
+export interface PageIntro {
+  overline?: string;
+  title?: string;
+  description?: string;
+  cta?: PageIntroCta;
+}
+
+export interface PageIntroContact {
+  overline?: string;
+  title?: string;
+  description?: string;
+  briefHeading?: string;
+  closingHeading?: string;
+  closingBody?: string;
+  editorialOverline?: string;
+  dialogueOverline?: string;
+}
+
+export interface PageIntroSustainability {
+  overline?: string;
+  heading?: string;
+  body?: string;
+}
+
+/** Editable page introductions fetched from Sanity (singleton `pageIntros`). */
+export interface PageIntros {
+  projects?: PageIntro;
+  services?: PageIntro;
+  journal?: PageIntro;
+  process?: PageIntro;
+  sustainability?: PageIntroSustainability;
+  contact?: PageIntroContact;
+}
+
 export const pageContent = {
   projects: {
     title: "Projects",

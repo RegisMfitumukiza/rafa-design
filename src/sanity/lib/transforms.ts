@@ -16,6 +16,7 @@ import type {
 } from "@/content/company/careers";
 import type { ContactInformation, Office } from "@/content/company/contact";
 import type { JournalArticle, Person } from "@/content/journal";
+import type { PageIntros } from "@/content/pages";
 import type {
   BeforeAfterImage,
   ChapterIntent,
@@ -1151,4 +1152,173 @@ export function transformSanitySiteSettings(
   }
 
   return settings;
+}
+
+interface SanityRawPageIntroCta {
+  overline?: string;
+  heading?: string;
+  body?: string;
+  action?: string;
+}
+
+interface SanityRawPageIntro {
+  overline?: string;
+  title?: string;
+  description?: string;
+  cta?: SanityRawPageIntroCta;
+}
+
+interface SanityRawPageIntros {
+  _id?: string;
+  projects?: SanityRawPageIntro;
+  services?: SanityRawPageIntro;
+  journal?: SanityRawPageIntro;
+  process?: SanityRawPageIntro;
+  sustainability?: {
+    overline?: string;
+    heading?: string;
+    body?: string;
+  };
+  contact?: {
+    overline?: string;
+    title?: string;
+    description?: string;
+    briefHeading?: string;
+    closingHeading?: string;
+    closingBody?: string;
+    editorialOverline?: string;
+    dialogueOverline?: string;
+  };
+}
+
+/**
+ * Transform the Sanity `pageIntros` singleton into the typed `PageIntros`
+ * shape. Returns an object of only the values actually provided by Sanity,
+ * so callers can merge over their static defaults.
+ */
+export function transformSanityPageIntros(sanityPageIntros: SanityRawPageIntros): PageIntros {
+  if (!sanityPageIntros) return {};
+
+  const result: PageIntros = {};
+
+  if (sanityPageIntros.projects) {
+    result.projects = {
+      ...(sanityPageIntros.projects.overline
+        ? { overline: sanityPageIntros.projects.overline }
+        : {}),
+      ...(sanityPageIntros.projects.title ? { title: sanityPageIntros.projects.title } : {}),
+      ...(sanityPageIntros.projects.description
+        ? { description: sanityPageIntros.projects.description }
+        : {}),
+    };
+  }
+
+  if (sanityPageIntros.services) {
+    result.services = {
+      ...(sanityPageIntros.services.overline
+        ? { overline: sanityPageIntros.services.overline }
+        : {}),
+      ...(sanityPageIntros.services.title ? { title: sanityPageIntros.services.title } : {}),
+      ...(sanityPageIntros.services.description
+        ? { description: sanityPageIntros.services.description }
+        : {}),
+      ...(sanityPageIntros.services.cta
+        ? {
+            cta: {
+              ...(sanityPageIntros.services.cta.overline
+                ? { overline: sanityPageIntros.services.cta.overline }
+                : {}),
+              ...(sanityPageIntros.services.cta.heading
+                ? { heading: sanityPageIntros.services.cta.heading }
+                : {}),
+              ...(sanityPageIntros.services.cta.body
+                ? { body: sanityPageIntros.services.cta.body }
+                : {}),
+              ...(sanityPageIntros.services.cta.action
+                ? { action: sanityPageIntros.services.cta.action }
+                : {}),
+            },
+          }
+        : {}),
+    };
+  }
+
+  if (sanityPageIntros.journal) {
+    result.journal = {
+      ...(sanityPageIntros.journal.overline ? { overline: sanityPageIntros.journal.overline } : {}),
+      ...(sanityPageIntros.journal.title ? { title: sanityPageIntros.journal.title } : {}),
+      ...(sanityPageIntros.journal.description
+        ? { description: sanityPageIntros.journal.description }
+        : {}),
+    };
+  }
+
+  if (sanityPageIntros.process) {
+    result.process = {
+      ...(sanityPageIntros.process.overline ? { overline: sanityPageIntros.process.overline } : {}),
+      ...(sanityPageIntros.process.title ? { title: sanityPageIntros.process.title } : {}),
+      ...(sanityPageIntros.process.description
+        ? { description: sanityPageIntros.process.description }
+        : {}),
+      ...(sanityPageIntros.process.cta
+        ? {
+            cta: {
+              ...(sanityPageIntros.process.cta.overline
+                ? { overline: sanityPageIntros.process.cta.overline }
+                : {}),
+              ...(sanityPageIntros.process.cta.heading
+                ? { heading: sanityPageIntros.process.cta.heading }
+                : {}),
+              ...(sanityPageIntros.process.cta.body
+                ? { body: sanityPageIntros.process.cta.body }
+                : {}),
+              ...(sanityPageIntros.process.cta.action
+                ? { action: sanityPageIntros.process.cta.action }
+                : {}),
+            },
+          }
+        : {}),
+    };
+  }
+
+  if (sanityPageIntros.sustainability) {
+    result.sustainability = {
+      ...(sanityPageIntros.sustainability.overline
+        ? { overline: sanityPageIntros.sustainability.overline }
+        : {}),
+      ...(sanityPageIntros.sustainability.heading
+        ? { heading: sanityPageIntros.sustainability.heading }
+        : {}),
+      ...(sanityPageIntros.sustainability.body
+        ? { body: sanityPageIntros.sustainability.body }
+        : {}),
+    };
+  }
+
+  if (sanityPageIntros.contact) {
+    result.contact = {
+      ...(sanityPageIntros.contact.overline ? { overline: sanityPageIntros.contact.overline } : {}),
+      ...(sanityPageIntros.contact.title ? { title: sanityPageIntros.contact.title } : {}),
+      ...(sanityPageIntros.contact.description
+        ? { description: sanityPageIntros.contact.description }
+        : {}),
+      ...(sanityPageIntros.contact.briefHeading
+        ? { briefHeading: sanityPageIntros.contact.briefHeading }
+        : {}),
+      ...(sanityPageIntros.contact.closingHeading
+        ? { closingHeading: sanityPageIntros.contact.closingHeading }
+        : {}),
+      ...(sanityPageIntros.contact.closingBody
+        ? { closingBody: sanityPageIntros.contact.closingBody }
+        : {}),
+      ...(sanityPageIntros.contact.editorialOverline
+        ? { editorialOverline: sanityPageIntros.contact.editorialOverline }
+        : {}),
+      ...(sanityPageIntros.contact.dialogueOverline
+        ? { dialogueOverline: sanityPageIntros.contact.dialogueOverline }
+        : {}),
+    };
+  }
+
+  return result;
 }

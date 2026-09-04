@@ -11,21 +11,33 @@ import { ContactForm } from "@/features/contact/contact-form";
 import { ContactInformation } from "@/features/contact/contact-information";
 import { OfficeMap } from "@/features/contact/office-map";
 import { Reveal } from "@/motion";
-import { getContactInformation } from "@/sanity/lib";
+import { getContactInformation, getPageIntros } from "@/sanity/lib";
 
-export const metadata: Metadata = {
-  title: pageContent.contact.title,
-  description: pageContent.contact.description,
-  openGraph: {
-    title: pageContent.contact.title,
-    description: pageContent.contact.description,
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const cmsIntros = await getPageIntros();
+  const title = cmsIntros.contact?.title ?? pageContent.contact.title;
+  const description = cmsIntros.contact?.description ?? pageContent.contact.description;
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+    },
+  };
+}
 
 export default async function ContactPage() {
   const contact = pageContent.contact;
   const cmsContact = await getContactInformation();
+  const cmsIntros = await getPageIntros();
   const contactInfo = cmsContact ?? fallbackContact;
+
+  const cmsContactIntro = cmsIntros.contact ?? {};
+  const overline = cmsContactIntro.overline ?? contact.overline;
+  const title = cmsContactIntro.title ?? contact.title;
+  const description = cmsContactIntro.description ?? contact.description;
+  const briefHeading = cmsContactIntro.briefHeading ?? contact.briefHeading;
 
   const { email, editorialImage } = contactInfo;
 
@@ -40,16 +52,16 @@ export default async function ContactPage() {
             {/* Left 6 cols: Title */}
             <div className="md:col-span-6 lg:col-span-6">
               <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
-                {contact.overline}
+                {overline}
               </p>
               <h1 className="font-display text-foreground mt-sm text-4xl font-medium tracking-tight sm:text-5xl lg:text-6xl xl:text-7xl">
-                {contact.title}
+                {title}
               </h1>
             </div>
             {/* Right 6 cols: Description */}
             <div className="md:pt-md md:col-span-6 lg:col-span-6">
               <p className="text-foreground/70 w-full text-xl leading-relaxed md:text-2xl">
-                {contact.description}
+                {description}
               </p>
             </div>
           </div>
@@ -74,7 +86,7 @@ export default async function ContactPage() {
                   {ui.contact.inquiryOverline}
                 </p>
                 <h2 className="font-display text-foreground mb-lg text-2xl font-medium tracking-tight md:text-3xl">
-                  {contact.briefHeading}
+                  {briefHeading}
                 </h2>
                 <ContactForm />
               </div>
@@ -90,7 +102,7 @@ export default async function ContactPage() {
 
       {/* ── 4. HUMAN CONTEXT & EDITORIAL CLOSING ── */}
       <Section container="wide" className="mt-2xl mb-2xl">
-        <ContactEditorial editorialImage={editorialImage} email={email} />
+        <ContactEditorial editorialImage={editorialImage} email={email} intro={cmsContactIntro} />
       </Section>
     </>
   );

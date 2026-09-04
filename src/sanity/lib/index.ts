@@ -58,6 +58,7 @@ export {
   getCareersPageContent,
   getContactInformation,
   getSiteSettings,
+  getPageIntros,
   cacheTags,
 } from "./fetch";
 

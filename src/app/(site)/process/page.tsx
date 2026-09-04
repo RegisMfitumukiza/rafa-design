@@ -15,19 +15,36 @@ import { ProcessProgress } from "@/features/process/process-progress";
 import { ProcessTimeline } from "@/features/process/process-timeline";
 import { DisciplineCta } from "@/features/services/discipline-cta";
 import { ImageReveal, Reveal } from "@/motion";
+import { getPageIntros } from "@/sanity/lib";
 
-export const metadata: Metadata = {
-  title: pageContent.process.title,
-  description: pageContent.process.description,
-  openGraph: {
-    title: pageContent.process.title,
-    description: pageContent.process.description,
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const cmsIntros = await getPageIntros();
+  const title = cmsIntros.process?.title ?? pageContent.process.title;
+  const description = cmsIntros.process?.description ?? pageContent.process.description;
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+    },
+  };
+}
 
-export default function ProcessPage() {
+export default async function ProcessPage() {
   const steps = getProcessSteps();
   const total = String(steps.length).padStart(2, "0");
+  const cmsIntros = await getPageIntros();
+  const process = cmsIntros.process ?? {};
+  const overline = process.overline ?? pageContent.process.overline;
+  const title = process.title ?? pageContent.process.title;
+  const description = process.description ?? pageContent.process.description;
+  const cta = {
+    overline: process.cta?.overline ?? pageContent.process.cta.overline,
+    heading: process.cta?.heading ?? pageContent.process.cta.heading,
+    body: process.cta?.body ?? pageContent.process.cta.body,
+    action: process.cta?.action ?? pageContent.process.cta.action,
+  };
 
   return (
     <>
@@ -41,16 +58,16 @@ export default function ProcessPage() {
             {/* Left 6 cols: Title */}
             <div className="md:col-span-6 lg:col-span-6">
               <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
-                {pageContent.process.overline}
+                {overline}
               </p>
               <h1 className="font-display text-foreground mt-sm text-4xl font-medium tracking-tight sm:text-5xl lg:text-6xl xl:text-7xl">
-                {pageContent.process.title}
+                {title}
               </h1>
             </div>
             {/* Right 6 cols: Description */}
             <div className="md:pt-md md:col-span-6 lg:col-span-6">
               <p className="text-foreground/70 w-full text-xl leading-relaxed md:text-2xl">
-                {pageContent.process.description}
+                {description}
               </p>
             </div>
           </div>
@@ -123,7 +140,7 @@ export default function ProcessPage() {
       </Section>
 
       {/* ── 5. CTA ── */}
-      <DisciplineCta content={pageContent.process.cta} className="mt-2xl" />
+      <DisciplineCta content={cta} className="mt-2xl" />
     </>
   );
 }
