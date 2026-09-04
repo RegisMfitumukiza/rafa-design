@@ -108,7 +108,7 @@ export function LandingSocialStrip() {
               rel="noopener noreferrer"
               className="text-foreground/60 hover:text-foreground inline-flex min-h-(--touch-target) items-center py-1 pr-1 text-[10px] tracking-widest uppercase transition-colors"
             >
-              {capitalize(link.platform)}
+              {link.label || capitalize(link.platform)}
             </a>
           ))}
         </div>

@@ -162,18 +162,8 @@ export default defineType({
               name: "platform",
               type: "string",
               title: "Platform",
-              options: {
-                list: [
-                  { title: "Instagram", value: "instagram" },
-                  { title: "LinkedIn", value: "linkedin" },
-                  { title: "Behance", value: "behance" },
-                  { title: "Pinterest", value: "pinterest" },
-                  { title: "X (Twitter)", value: "x" },
-                  { title: "Website", value: "website" },
-                  { title: "GitHub", value: "github" },
-                ],
-              },
-              validation: (Rule) => Rule.required(),
+              description: 'Lowercase identifier, e.g. "instagram", "tiktok", "youtube"',
+              validation: (Rule) => Rule.required().lowercase(),
             },
             {
               name: "url",

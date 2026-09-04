@@ -8,7 +8,7 @@ export interface ImageAsset {
 }
 
 export interface SocialLink {
-  platform: "instagram" | "linkedin" | "behance" | "pinterest" | "x" | "website" | "github";
+  platform: string;
   url: string;
   label?: string; // Optional display label override, e.g. "Portfolio" instead of "website"
 }

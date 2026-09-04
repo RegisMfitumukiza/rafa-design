@@ -181,7 +181,7 @@ export function Landing() {
                 rel="noopener noreferrer"
                 className="text-foreground/45 hover:text-foreground inline-flex min-h-(--touch-target) items-center font-mono text-[9px] tracking-[0.25em] uppercase transition-colors"
               >
-                {capitalize(link.platform)}
+                {link.label || capitalize(link.platform)}
               </a>
             ))}
           </div>

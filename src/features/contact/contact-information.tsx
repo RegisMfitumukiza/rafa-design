@@ -2,6 +2,7 @@
 
 import type { ContactInformation as ContactInfo } from "@/content/company/contact";
 import { ui } from "@/content/ui";
+import { capitalize } from "@/lib/capitalize";
 import { cn } from "@/lib/cn";
 import { Stagger } from "@/motion";
 
@@ -109,7 +110,7 @@ export function ContactInformation({ info, className }: ContactInformationProps)
                 rel="noopener noreferrer"
                 className="border-border/50 text-foreground/70 hover:border-foreground hover:bg-foreground hover:text-background px-md py-xs inline-flex items-center rounded-xs border font-mono text-[10px] font-medium tracking-wider uppercase transition-all duration-300"
               >
-                {link.platform}
+                {capitalize(link.platform)}
               </a>
             ))}
           </div>
