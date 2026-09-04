@@ -90,9 +90,16 @@ export default defineConfig({
             // 05 // Studio Page (Singleton)
             S.listItem()
               .title("05 // Studio Page")
+              .id("studio")
               .icon(() => "🏛️")
               .schemaType("studio")
-              .child(S.documentTypeList("studio").title("Studio Page Content")),
+              .child(
+                S.editor()
+                  .id("studio")
+                  .schemaType("studio")
+                  .documentId("studio")
+                  .title("Studio Page Content"),
+              ),
 
             // 06 // Job Postings (Collection)
             S.listItem()
@@ -108,30 +115,58 @@ export default defineConfig({
             // 07 // Careers Page (Singleton)
             S.listItem()
               .title("07 // Careers Page")
+              .id("careers")
               .icon(() => "📄")
               .schemaType("careers")
-              .child(S.documentTypeList("careers").title("Careers Page Content")),
+              .child(
+                S.editor()
+                  .id("careers")
+                  .schemaType("careers")
+                  .documentId("careers")
+                  .title("Careers Page Content"),
+              ),
 
             // 08 // Contact Page (Singleton)
             S.listItem()
               .title("08 // Contact Page")
+              .id("contact")
               .icon(() => "✉️")
               .schemaType("contact")
-              .child(S.documentTypeList("contact").title("Contact & Office Information")),
+              .child(
+                S.editor()
+                  .id("contact")
+                  .schemaType("contact")
+                  .documentId("contact")
+                  .title("Contact & Office Information"),
+              ),
 
             // 09 // Site Settings (Singleton)
             S.listItem()
               .title("09 // Site Settings")
+              .id("siteSettings")
               .icon(() => "⚙️")
               .schemaType("siteSettings")
-              .child(S.documentTypeList("siteSettings").title("Site Settings")),
+              .child(
+                S.editor()
+                  .id("siteSettings")
+                  .schemaType("siteSettings")
+                  .documentId("siteSettings")
+                  .title("Site Settings"),
+              ),
 
             // 10 // Page Introductions (Singleton)
             S.listItem()
               .title("10 // Page Introductions")
+              .id("pageIntros")
               .icon(() => "✍️")
               .schemaType("pageIntros")
-              .child(S.documentTypeList("pageIntros").title("Page Introductions")),
+              .child(
+                S.editor()
+                  .id("pageIntros")
+                  .schemaType("pageIntros")
+                  .documentId("pageIntros")
+                  .title("Page Introductions"),
+              ),
           ]),
     }),
 

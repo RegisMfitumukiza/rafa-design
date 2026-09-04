@@ -418,6 +418,9 @@ a single **`pageIntros`** singleton, instead of being hardcoded in `src/content`
 - `src/sanity/schemas/pageIntros.ts` — singleton schema (registered in
   `schemas/index.ts`, structure item in `sanity.config.ts`, delete/duplicate
   guarded).
+- `scripts/align-singleton-ids.mjs` (`npm run migrate:align-singletons`) —
+  renames each singleton document to its canonical `_id` (equal to `_type`);
+  creates an empty `pageIntros` document if none exists.
 - `pageIntrosQuery` (GROQ) in `src/sanity/lib/queries.ts`.
 - `transformSanityPageIntros` in `src/sanity/lib/transforms.ts` — returns only
   the fields Sanity provides so blanks fall through to static defaults.
