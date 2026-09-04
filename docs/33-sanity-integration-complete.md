@@ -421,6 +421,10 @@ a single **`pageIntros`** singleton, instead of being hardcoded in `src/content`
 - `scripts/align-singleton-ids.mjs` (`npm run migrate:align-singletons`) —
   renames each singleton document to its canonical `_id` (equal to `_type`);
   creates an empty `pageIntros` document if none exists.
+- `scripts/seed-page-intros.mjs` (`npm run migrate:seed-page-intros`) —
+  pre-populates `pageIntros` with the current website editorial values so each
+  field shows its live value when edited. The Services `description` is left
+  blank to preserve the live auto-count (`getServicesDescription(count)`).
 - `pageIntrosQuery` (GROQ) in `src/sanity/lib/queries.ts`.
 - `transformSanityPageIntros` in `src/sanity/lib/transforms.ts` — returns only
   the fields Sanity provides so blanks fall through to static defaults.
