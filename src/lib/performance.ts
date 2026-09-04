@@ -6,26 +6,32 @@
  */
 
 /**
- * Report Web Vitals to analytics
- * Can be integrated with Google Analytics, Vercel Analytics, etc.
+ * Report Web Vitals to the configured analytics pipeline.
+ *
+ * In production this delivers Core Web Vitals to Vercel Analytics (via
+ * `@vercel/analytics`), which aggregates them into the project's Web Vitals tab.
+ * In development it logs to the console for debugging.
  */
 export function reportWebVitals(metric: {
   id: string;
   name: string;
   label: string;
   value: number;
+  rating?: "good" | "needs-improvement" | "poor";
+  delta?: number;
 }) {
-  // In production, send to analytics
+  // Production: send to Vercel Analytics (registered web vital handlers).
   if (process.env.NODE_ENV === "production") {
-    // Example: Google Analytics
-    // window.gtag?.('event', metric.name, {
-    //   event_category: metric.label === 'web-vital' ? 'Web Vitals' : 'Next.js Metric',
-    //   value: Math.round(metric.name === 'CLS' ? metric.value * 1000 : metric.value),
-    //   event_label: metric.id,
-    //   non_interaction: true,
-    // });
-    // Example: Vercel Analytics (automatically captured)
-    // Analytics are automatically sent when using Vercel's built-in analytics
+    void import("@vercel/analytics").then(({ track }) => {
+      track("Web Vitals", {
+        name: metric.name,
+        id: metric.id,
+        value: Math.round(metric.name === "CLS" ? metric.value * 1000 : metric.value),
+        label: metric.label,
+        rating: metric.rating,
+        page: typeof window !== "undefined" ? window.location.pathname : undefined,
+      });
+    });
   }
 
   // Development: Log to console

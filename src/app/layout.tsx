@@ -1,9 +1,11 @@
 import type { Metadata, Viewport } from "next";
 
+import { Analytics } from "@vercel/analytics/react";
 import Script from "next/script";
 
 // Century Gothic is self-hosted via @font-face in src/styles/fonts.css
 
+import { WebVitals } from "@/components/performance/web-vitals";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { SplashProvider } from "@/components/splash/SplashProvider";
 import { organizationSchema, websiteSchema } from "@/config/schema";
@@ -95,6 +97,8 @@ export default async function RootLayout({
         <Providers>
           <SplashProvider>{children}</SplashProvider>
         </Providers>
+        <Analytics />
+        <WebVitals />
       </body>
     </html>
   );

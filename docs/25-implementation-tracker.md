@@ -82,9 +82,11 @@ Examples
 Overall Completion
 
 ```
-███████░░░
-73%
+█████████░░
+93%
 ```
+
+> 2026-09-04 review: percentages above reflect the actual codebase state (Phases 1–14 complete, Phase 15 removed, Phase 12 CMS delivered post-ADR-019). Excludes the removed Three.js phase. The two remaining work areas are Phase 16 Optimization (Lighthouse, responsive, browser, error handling) and Phase 17 Deployment (analytics, monitoring, final QA).
 
 Current Phase
 
@@ -398,7 +400,7 @@ Completion
 
 Status
 
-🟨 In Progress
+✅ Completed
 
 Tasks
 
@@ -660,7 +662,7 @@ Tasks
 
 ✅ Accessibility (heading hierarchy, placeholder links, touch targets — completed 2026-08-03)
 
-✅ Performance (fonts optimized -78%, images enhanced, bundle code-split -27%, caching optimized, Web Vitals monitoring — completed 2026-08-28)
+✅ Performance (fonts optimized -78%, images enhanced, bundle code-split -27%, caching optimized, Web Vitals infrastructure (`reportWebVitals`) — completed 2026-08-28; wiring to an analytics provider tracked in Phase 17)
 
 ⬜ Lighthouse (comprehensive audit across 6 key routes)
 
@@ -670,11 +672,9 @@ Tasks
 
 ⬜ Error Handling (only `not-found.tsx` exists — needs `error.tsx`/`global-error.tsx`)
 
-⬜ Analytics (Web Vitals reported in `performance.ts` but not wired to a provider/endpoint)
-
 Completion
 
-43%
+50%
 
 ---
 
@@ -710,7 +710,7 @@ Completion
 
 Current Goal
 
-Open Phase 16 — Optimization (SEO, accessibility, performance, Lighthouse, responsive/browser testing, error handling).
+Open Phase 16 — Optimization (Lighthouse audit, responsive/browser testing, error handling) then close Phase 17 — Deployment (analytics, monitoring, final QA).
 
 Current Deliverables
 
@@ -718,31 +718,35 @@ Current Deliverables
 
 ✅ Phase 2 — Design System (100%)
 
-🟨 Phase 3 — Core Layout (95%)
+✅ Phase 3 — Core Layout (100%)
 
 ✅ Phase 4 — Core Components (100%)
 
 ✅ Phase 5 — Landing (Studio Index) (100%)
 
-🟨 Phase 6 — Projects (70%)
+✅ Phase 6 — Projects (100%)
 
 ✅ Phase 7 — Studio (100%)
 
-🟨 Phase 8 — Services (90%)
+✅ Phase 8 — Services (100%)
 
-🟨 Phase 9 — Process (100%)
+✅ Phase 9 — Process (100%)
 
-🟨 Phase 10 — Journal (80%)
+🟨 Phase 10 — Journal (95% — newsletter not built)
 
-🟨 Phase 11 — Contact (80%)
+✅ Phase 11 — Contact (100%)
 
-🟨 Phase 13 — Media Infrastructure (80%)
+✅ Phase 12 — CMS (100% — Sanity fully integrated)
 
-🟨 Phase 14 — Motion (90%)
+🟨 Phase 13 — Media Infrastructure (90% — pending real photography)
+
+✅ Phase 14 — Motion (100%)
 
 ➖ Phase 15 — Three.js (removed 2026-08-11)
 
-🟨 Phase 16 — Optimization (43%)
+🟨 Phase 16 — Optimization (50%)
+
+🟨 Phase 17 — Deployment (57%)
 
 ---
 

@@ -74,7 +74,7 @@ export const ui = {
     locationOverline: "Specification // Atelier Location Viewer",
     responseTime: "Response Time",
     responseTimeMessage:
-      "We respond to all inquiries within 48 hours (Monday–Friday, 09:00–18:00 WET).",
+      "We respond to all inquiries within 48 hours (Monday–Friday, 09:00–18:00 CAT).",
   },
   overlines: {
     principles: "Specification // Principles",
@@ -110,7 +110,7 @@ export const ui = {
     },
     location: {
       label: "05 // LOCATION (OPTIONAL)",
-      placeholder: "City, region or coordinates (e.g. Algarve, Portugal)",
+      placeholder: "City, district or coordinates (e.g. Gasabo, Kigali or Musanze)",
     },
     subject: {
       label: "Subject",
