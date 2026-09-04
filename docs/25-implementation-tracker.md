@@ -196,7 +196,7 @@ Completion
 
 Status
 
-🟨 In Progress
+✅ Completed
 
 Tasks
 
@@ -216,13 +216,13 @@ Tasks
 
 ✅ Page Transitions (pathname fade shell — full system completed in Phase 14)
 
-⬜ Global Loader (deferred to Phase 14 — see note)
+✅ Global Loader (delivered as the branded video intro splash in Phase 14)
 
 ✅ Navigation Indicator (completed in Phase 14)
 
 Completion
 
-90%
+100%
 
 ---
 
@@ -292,7 +292,7 @@ Completion
 
 Status
 
-🟨 In Progress
+✅ Completed
 
 Tasks
 
@@ -310,7 +310,7 @@ Tasks
 
 ✅ Contact CTA
 
-⬜ Footer Integration
+✅ Footer Integration (footer hidden on `/` by design — `SiteShell` gates Header + Footer; the landing is a pure viewport-filling cover, 2026-08-11)
 
 ✅ Homepage Motion (Phase 14)
 
@@ -318,7 +318,7 @@ Tasks
 
 Completion
 
-95%
+100%
 
 ---
 
@@ -326,11 +326,11 @@ Completion
 
 Status
 
-🟨 In Progress
+✅ Completed
 
 Tasks
 
-✅ Project Content Data (6 projects with full models)
+✅ Project Content Data (6 projects with full models — now Sanity CMS-driven)
 
 ✅ ProjectCard (reuses Card, Heading, Text, Badge)
 
@@ -342,7 +342,7 @@ Tasks
 
 ✅ Project Detail Page (/projects/[slug])
 
-⬜ Search
+✅ Search (site-wide client search via `MenuSearch` + `search-index.ts` — menu + footer, 2026-08-10/11)
 
 ✅ ProjectGallery (detail page gallery)
 
@@ -352,11 +352,11 @@ Tasks
 
 ✅ RelatedProjects (shared category matching)
 
-⬜ Image integration (placeholders until Phase 13)
+✅ Image integration (real Sanity assets — placeholder phase superseded by Sanity CMS)
 
 Completion
 
-70%
+100%
 
 ---
 
@@ -414,11 +414,11 @@ Tasks
 
 ✅ Service Detail Page (/services/[slug])
 
-⬜ Process Integration (deferred to Phase 9)
+✅ Process Integration (Process has its own complete phase — see Phase 9; services reference projects as evidence via `getRelatedServicesForService`)
 
 Completion
 
-90%
+100%
 
 > 2026-08-13: `ServiceCard` / `ServicesGrid` (bordered 3-card grid) removed and superseded by the editorial discipline redesign.
 
@@ -454,31 +454,31 @@ Completion
 
 Status
 
-🟨 In Progress
+✅ Completed (search infrastructure exists; newsletter intentionally not built)
 
 Tasks
 
-✅ Journal Content Data (6 articles with full editorial content)
+✅ Journal Content Data (3 articles in Sanity — full 100% CMS-driven, no hybrid)
 
-✅ FeaturedArticle (highlighted story on listing page)
+✅ FeaturedArticle (editorial hero on listing page)
 
 ✅ JournalCard (reuses Heading, Text, Badge)
 
-✅ JournalGrid (responsive 1/2/3 columns)
+✅ JournalEditorialGrid (asymmetric index — supersedes JournalGrid, 2026-08-30)
 
-✅ CategoryFilter (URL-based category filtering)
+✅ CategoryFilter (URL-based category filtering, dynamic Sanity categories, 2026-08-29)
 
 ✅ Journal Listing Page (/journal)
 
 ✅ Journal Detail Page (/journal/[slug]) with related articles
 
-⬜ Search (deferred — no search infrastructure)
+✅ Search (site-wide client search via `MenuSearch` + `search-index.ts`)
 
-⬜ Newsletter (deferred to Phase 16)
+⬜ Newsletter (deferred — out of current scope, not built)
 
 Completion
 
-80%
+95%
 
 ---
 
@@ -486,13 +486,13 @@ Completion
 
 Status
 
-🟨 In Progress
+✅ Completed
 
 Tasks
 
-✅ Contact Content Data (ContactInformation + Office model)
+✅ Contact Content Data (ContactInformation + Office model — now Sanity `contact` singleton)
 
-✅ Careers Content Data (CareerPosition + Benefit model)
+✅ Careers Content Data (CareerPosition + Benefit model — now Sanity `career`/`careers`)
 
 ✅ Contact Page (/contact) with studio info + form
 
@@ -500,21 +500,21 @@ Tasks
 
 ✅ SuccessState on form submission
 
-✅ OfficeMap (placeholder — real map deferred to Phase 16)
+✅ OfficeMap (Sanity-driven offices with interactive GPS coordinate links)
 
-✅ Social Links (data-driven list)
+✅ Social Links (data-driven list from Sanity `contact` singleton)
 
 ✅ Careers Page (/careers) with positions + benefits
 
 ✅ PositionCard (reuses Card, Heading, Text, Badge)
 
-⬜ Map integration (deferred to Phase 16)
+✅ Map integration (interactive satellite coordinate links — `office-map.tsx`)
 
-⬜ Form backend / API (deferred until deployment)
+✅ Form backend / API (`/api/contact` route with Resend email delivery — deployed on Vercel)
 
 Completion
 
-80%
+100%
 
 ---
 
@@ -522,19 +522,29 @@ Completion
 
 Status
 
-✗ Removed from Version 1.0 scope (ADR-019)
+✅ Completed (Sanity CMS fully integrated — was marked out-of-scope under ADR-019, then delivered 2026-08-19 → 2026-09-04)
 
 Reason
 
-Static content layer chosen for Version 1.0. Revisit after release if needed.
+The static content layer was the V1.0 plan (ADR-019), but CMS integration was subsequently delivered across the whole site: Projects, Journal, Services, Team, Studio, Careers, Contact, Site Settings, and Page Introductions — all Sanity-driven with static `pageContent` as fallback, on-demand webhook revalidation, and a Studio embedded at `/admin`.
 
 Tasks
 
-✅ Static content layer as the Version 1.0 content platform
+✅ Static content layer as the offline/fallback content platform
+
+✅ Projects + Journal + Services Sanity schemas, queries, transforms, fetches
+
+✅ Company schemas (Team / Studio / Careers / Contact / Site Settings)
+
+✅ Page Introductions singleton (CMS-driven page headers)
+
+✅ On-demand ISR revalidation via Sanity webhook (`/api/revalidate`)
+
+✅ Studio embedded at `/admin` with professional singleton structure
 
 Completion
 
-100% (out of scope)
+100%
 
 ---
 
@@ -542,7 +552,7 @@ Completion
 
 Status
 
-🟨 In Progress
+🟨 In Progress (code-complete; pending client-provided real photography)
 
 Tasks
 
@@ -558,7 +568,7 @@ Tasks
 
 ✅ Lazy loading (next/image default)
 
-✅ Project images wired (card, gallery, detail hero)
+✅ Project images wired (card, gallery, detail hero — Sanity assets)
 
 ✅ Studio images wired (intro, full-bleed, team cards)
 
@@ -568,13 +578,13 @@ Tasks
 
 ✅ Process supporting visuals (optional visual on ProcessStep)
 
-⬜ Real photography assets (needs client-provided media)
+⬜ Real photography assets (needs client-provided media — content deliverable, not a code issue)
 
-⬜ Video pipeline (deferred — external credentials)
+✅ Video pipeline (intro splash `rafa-video.mp4` committed + splashed, 2026-08-x)
 
 Completion
 
-80%
+90%
 
 ---
 
@@ -582,7 +592,7 @@ Completion
 
 Status
 
-🟨 In Progress (core complete)
+✅ Completed (core + loading experience; custom cursor intentionally skipped)
 
 Tasks
 
@@ -600,13 +610,13 @@ Tasks
 
 ✅ Micro Interactions (transition-micro / link-underline utilities)
 
-⏸ Custom Cursor (skipped — docs/08 discourages custom cursor)
+⏸ Custom Cursor (intentionally skipped — docs/08 discourages custom cursor; not a gap)
 
-✅ Loading Experience (branded video intro splash — session-gated, reduced-motion aware; not a fake loader)
+✅ Loading Experience (branded video intro splash — session-gated, reduced-motion aware)
 
 Completion
 
-95%
+100%
 
 ---
 
@@ -614,23 +624,27 @@ Completion
 
 Status
 
-✅ Completed
+❌ Removed from codebase (2026-08-11)
+
+Reason
+
+The Three.js hero layer was removed along with the old homepage — it existed only to back the deleted `HeroScene`/`HeroCanvas`. The codebase no longer ships any Three.js. Reintroduce only if a future story gives Three.js a purpose (per docs/11 and ADR-009).
 
 Tasks
 
-✅ Hero Scene (foundation + scene + integration)
+⏸ Hero Scene (removed)
 
-✅ Interactive Elements (mouse parallax camera rig + gentle drift)
+⏸ Interactive Elements (removed)
 
-✅ Scroll Integration (scene reveals/transitions on scroll — shipped 2026-08-01)
+⏸ Scroll Integration (removed)
 
-✅ Performance Optimization (lazy chunk, dpr clamp, instancing, offscreen pause, CDP audit baseline — completed 2026-08-01)
+⏸ Performance Optimization (removed)
 
-✅ Mobile Fallback (reduced geometry, no shadows, static camera; WebGL + reduced-motion fallbacks)
+⏸ Mobile Fallback (removed)
 
 Completion
 
-100%
+0% (removed)
 
 ---
 
@@ -654,11 +668,13 @@ Tasks
 
 ⬜ Browser Testing
 
-⬜ Error Handling
+⬜ Error Handling (only `not-found.tsx` exists — needs `error.tsx`/`global-error.tsx`)
+
+⬜ Analytics (Web Vitals reported in `performance.ts` but not wired to a provider/endpoint)
 
 Completion
 
-57%
+43%
 
 ---
 
@@ -666,27 +682,27 @@ Completion
 
 Status
 
-⬜ Not Started
+🟨 In Progress
 
 Tasks
 
-⬜ Production Build
+✅ Production Build (34 routes green on Next 16.2.11)
 
-⬜ Environment Variables
+✅ Environment Variables (`.env.production` committed for read path; secrets in Vercel)
 
-⬜ Domain
+✅ Domain (rafadesignhub.com → www → 200, live on Vercel)
 
-⬜ SSL
+✅ SSL (HTTPS via Vercel on the custom domain)
 
-⬜ Analytics
+⬜ Analytics (Web Vitals provider / analytics integration)
 
-⬜ Monitoring
+⬜ Monitoring (uptime / error tracking — not yet configured)
 
-⬜ Final QA
+⬜ Final QA (Lighthouse + responsive + browser cross-check — tracks Phase 16)
 
 Completion
 
-0%
+57%
 
 ---
 

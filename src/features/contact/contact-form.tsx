@@ -1,16 +1,14 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { ErrorState } from "@/components/feedback/ErrorState";
-import { SuccessState } from "@/components/feedback/SuccessState";
 import { Form } from "@/components/forms/Form";
 import { Input } from "@/components/forms/Input";
 import { Textarea } from "@/components/forms/Textarea";
-import { Button } from "@/components/ui/Button";
 import { ui } from "@/content/ui";
 import { useContact } from "@/features/contact/contact-context";
 import { cn } from "@/lib/cn";
@@ -75,8 +73,57 @@ export function ContactForm() {
     setSubmitted(true);
   }
 
+  // ── SUCCESS STATE ────────────────────────────────────────────────────────────
   if (submitted) {
-    return <SuccessState title={ui.form.successTitle} message={ui.form.successMessage} />;
+    return (
+      <div className="border-border/20 py-2xl space-y-xl border-t">
+        {/* Overline */}
+        <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
+          Specification // Confirmation
+        </p>
+
+        {/* Headline */}
+        <div className="space-y-sm">
+          <h3 className="font-display text-foreground text-3xl font-medium tracking-tight md:text-4xl">
+            {ui.form.successTitle.toUpperCase()}.
+          </h3>
+          <p className="text-foreground/60 max-w-md text-lg leading-relaxed">
+            {ui.form.successMessage}
+          </p>
+        </div>
+
+        {/* Ruled confirmation spec */}
+        <div className="border-border/30 divide-border/30 divide-y border-y font-mono text-xs">
+          <div className="py-sm gap-sm flex justify-between">
+            <span className="text-foreground/40 text-[10px] tracking-wider uppercase">Status</span>
+            <span className="text-foreground/80">Inquiry received</span>
+          </div>
+          <div className="py-sm gap-sm flex justify-between">
+            <span className="text-foreground/40 text-[10px] tracking-wider uppercase">
+              Response
+            </span>
+            <span className="text-foreground/80">Within two working days</span>
+          </div>
+          <div className="py-sm gap-sm flex justify-between">
+            <span className="text-foreground/40 text-[10px] tracking-wider uppercase">
+              Next step
+            </span>
+            <span className="text-foreground/80">Check your inbox for acknowledgement</span>
+          </div>
+        </div>
+
+        {/* CTA back to services */}
+        <div>
+          <Link
+            href="/services"
+            className="border-border/60 hover:border-foreground hover:bg-foreground hover:text-background group px-md py-sm gap-md inline-flex items-center rounded-xs border font-mono text-xs font-medium tracking-widest uppercase transition-all duration-300"
+          >
+            <span className="transition-transform duration-300 group-hover:-translate-x-1">←</span>
+            <span>Explore Our Disciplines</span>
+          </Link>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -167,7 +214,18 @@ export function ContactForm() {
         />
       </div>
 
-      {submitError && <ErrorState title={ui.form.errorTitle} message={submitError} />}
+      {/* ── ERROR STATE — ruled specification row, not a centered panel ── */}
+      {submitError && (
+        <div
+          role="alert"
+          className="border-accent/40 bg-accent/5 px-md py-sm gap-md flex items-start rounded-xs border"
+        >
+          <span className="text-accent shrink-0 pt-0.5 font-mono text-[10px] font-medium tracking-widest uppercase">
+            Error
+          </span>
+          <p className="text-foreground/80 text-sm leading-relaxed">{submitError}</p>
+        </div>
+      )}
 
       {/* Response Time Indicator */}
       <div className="border-border/20 pt-md border-t">
@@ -177,16 +235,33 @@ export function ContactForm() {
         <p className="text-foreground/60 text-sm">{ui.contact.responseTimeMessage}</p>
       </div>
 
-      {/* Submit Action */}
+      {/* ── SUBMIT BUTTON — animated loading state ── */}
       <div className="pt-sm">
-        <Button
+        <button
           type="submit"
           disabled={isSubmitting}
-          className="border-border/60 hover:border-foreground hover:bg-foreground hover:text-background group px-md py-sm gap-md inline-flex items-center rounded-xs border font-mono text-xs font-medium tracking-widest uppercase transition-all duration-300"
+          className={cn(
+            "group px-md py-sm gap-md inline-flex items-center rounded-xs border font-mono text-xs font-medium tracking-widest uppercase transition-all duration-300",
+            isSubmitting
+              ? "border-foreground/30 text-foreground/40 animate-pulse cursor-not-allowed"
+              : "border-border/60 text-foreground hover:border-foreground hover:bg-foreground hover:text-background",
+          )}
         >
-          <span>{isSubmitting ? "SENDING INQUIRY..." : "SEND INQUIRY"}</span>
-          <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-        </Button>
+          {isSubmitting ? (
+            <>
+              <span
+                className="border-foreground/40 h-3 w-3 animate-spin rounded-full border border-t-transparent"
+                aria-hidden="true"
+              />
+              <span>Sending Inquiry...</span>
+            </>
+          ) : (
+            <>
+              <span>Send Inquiry</span>
+              <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+            </>
+          )}
+        </button>
       </div>
     </Form>
   );
