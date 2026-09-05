@@ -10,7 +10,6 @@ import { Awards } from "@/features/studio/awards";
 import { Beliefs } from "@/features/studio/beliefs";
 import { Partners } from "@/features/studio/partners";
 import { StudioHero } from "@/features/studio/studio-hero";
-import { StudioIntroduction } from "@/features/studio/studio-introduction";
 import { TeamGrid } from "@/features/studio/team-grid";
 import { Timeline } from "@/features/studio/timeline";
 import { VisitStudio } from "@/features/studio/visit-studio";
@@ -51,20 +50,19 @@ export default async function StudioPage() {
     <>
       <JsonLd data={breadcrumbSchema([{ name: "Studio", path: "/studio" }])} />
 
-      {/* 1 — Cinematic hero opener */}
+      {/* 1 — Unified Editorial Monograph Opener */}
       {heroImage && (
         <StudioHero
           image={heroImage}
           overline={studio.overline}
           name={studio.name}
+          manifesto={studio.manifesto}
+          introduction={studio.introduction}
           caption={heroImage.caption}
         />
       )}
 
-      {/* 2 — Manifesto / Introduction split */}
-      <StudioIntroduction studio={studio} />
-
-      {/* 3 — Beliefs / Principles */}
+      {/* 2 — Beliefs / Principles */}
       <Beliefs studio={studio} />
 
       {/* 4 — Second atelier image (material samples) */}

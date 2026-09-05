@@ -12,6 +12,8 @@ interface StudioHeroProps {
   image: ImageAsset;
   overline: string;
   name: string;
+  manifesto?: string | undefined;
+  introduction?: string | undefined;
   caption?: string | undefined;
   className?: string;
 }
@@ -19,15 +21,24 @@ interface StudioHeroProps {
 /**
  * StudioHero
  *
- * Editorial Monograph Layout for the Studio page (Pattern B).
+ * Unified Editorial Monograph Opener for the Studio page (Pattern B).
  *
  * Features:
- * 1. Clean 12-column header: breadcrumb, monumental title, and overline.
- * 2. Uncropped photographic plate: 16:9 (mobile) to 21:9 (desktop) with full
- *    architectural clarity — no dark gradient scrims covering the building.
- * 3. Horizontal caption bar underneath the plate with studio index and archive note.
+ * 1. Clean 12-column header: breadcrumb, monumental title on the left;
+ *    overline, manifesto, and studio conviction narrative on the right.
+ * 2. Uncropped photographic plate: responsive 16:10 to 16:9 preserving
+ *    the complete architectural subject (roof, ground, and context).
+ * 3. Horizontal caption and monograph credit bar directly beneath the plate.
  */
-export function StudioHero({ image, overline, name, caption, className }: StudioHeroProps) {
+export function StudioHero({
+  image,
+  overline,
+  name,
+  manifesto,
+  introduction,
+  caption,
+  className,
+}: StudioHeroProps) {
   const displayCaption = caption || image.caption;
 
   return (
@@ -54,15 +65,21 @@ export function StudioHero({ image, overline, name, caption, className }: Studio
               </h1>
             </div>
 
-            {/* Right 6 cols: Studio Overline & Positioning */}
+            {/* Right 6 cols: Studio Overline, Manifesto & Introduction */}
             <div className="md:pt-md flex flex-col justify-between md:col-span-6 lg:col-span-6">
               <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
                 {overline}
               </p>
-              <p className="text-foreground/70 mt-xs w-full text-xl leading-relaxed md:text-2xl">
-                Kigali practice atelier — architecture that is quiet, considered, and rooted in its
-                place.
-              </p>
+              {manifesto && (
+                <h2 className="font-display text-foreground/90 mt-xs text-xl leading-snug font-medium tracking-tight text-balance sm:text-2xl lg:text-3xl">
+                  &ldquo;{manifesto}&rdquo;
+                </h2>
+              )}
+              {introduction && (
+                <p className="text-foreground/65 mt-sm text-sm leading-relaxed text-balance md:text-base">
+                  {introduction}
+                </p>
+              )}
             </div>
           </div>
         </Reveal>
@@ -71,7 +88,7 @@ export function StudioHero({ image, overline, name, caption, className }: Studio
       {/* ── 2. CINEMATIC UNCLIPPED HERO PHOTOGRAPHIC PLATE ── */}
       <Section container="wide">
         <ImageReveal className="w-full" visible>
-          <div className="relative aspect-[16/9] w-full overflow-hidden rounded-sm md:aspect-[21/9]">
+          <div className="relative aspect-[16/10] w-full overflow-hidden rounded-sm lg:aspect-[16/9]">
             <Image
               asset={image}
               fill
