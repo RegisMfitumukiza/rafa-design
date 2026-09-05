@@ -81,7 +81,7 @@ export interface Studio {
 
 export const studioContent: Studio = {
   name: "RAFA Design Hub",
-  overline: "Architecture & Interior Design // Porto",
+  overline: "Architecture & Interior Design // Kigali",
   manifesto:
     "We build less, better. Architecture begins with subtraction — removing until only what is essential remains.",
   introduction:
@@ -93,66 +93,72 @@ export const studioContent: Studio = {
       code: "PRINCIPLE 01",
       title: "Context",
       statement:
-        "The land, the light, the climate, the culture — we design from the site outward, never from a style inward.",
+        "Architecture belongs to its place. We study topography, orientation, climate, and the human patterns of the site before drawing a single line.",
     },
     {
       code: "PRINCIPLE 02",
-      title: "Materiality",
+      title: "Subtraction",
       statement:
-        "Honest materials age with the building. Wood patinas, stone weathers, and concrete records its making.",
+        "The best architectural move is often the one not made. We remove the superfluous to allow space, light, and material to register with full force.",
     },
     {
       code: "PRINCIPLE 03",
-      title: "Light",
+      title: "Material Honesty",
       statement:
-        "Light is the first material. We shape spaces around its movement across the day and the seasons.",
+        "Materials should be what they are. Raw concrete, local timber, brushed steel, lime plaster — each material speaks with its own voice and weathers with dignity.",
     },
     {
       code: "PRINCIPLE 04",
-      title: "Craft",
+      title: "Quiet Presence",
       statement:
-        "Every junction, joint, and threshold is a decision. Detailing is not the finish of the design — it is the design.",
+        "Our buildings do not clamour for attention. They settle into the landscape, revealing their quality through proportion, daylight, and tactile precision over time.",
     },
     {
       code: "PRINCIPLE 05",
-      title: "Clarity",
+      title: "Dialogue",
       statement:
-        "A building should be legible at first glance and reveal more with time. Simplicity is complexity resolved.",
+        "Every project is a collaborative pursuit. We work with clients, craftspeople, and engineers as co-authors of a shared architectural intention.",
+    },
+    {
+      code: "PRINCIPLE 06",
+      title: "Longevity",
+      statement:
+        "We design buildings that endure. Not merely in physical durability, but in relevance, adaptability, and the capacity to age gracefully across generations.",
     },
   ],
   workingMethods: [
     {
       code: "METHOD 01",
-      title: "Model Making",
+      title: "Iterative physical modelling",
       description:
-        "Every project begins as a physical object. Study models are built early and tested by hand — mass, proportion, and light resolved in three dimensions before they are drawn.",
+        "We work extensively with physical models — timber, plaster, card — to understand massing, proportion, and daylight before digital documentation begins.",
     },
     {
       code: "METHOD 02",
-      title: "Material Research",
+      title: "Material prototyping & 1:1 mock-ups",
       description:
-        "A material library is assembled for every project — stone, timber, metal, textiles. Samples are selected by hand, on site, in real light.",
+        "We build full-scale mock-ups of critical details — junctions, reveals, thresholds — testing textures and tolerances directly with craftspeople.",
     },
     {
       code: "METHOD 03",
-      title: "Design Review",
+      title: "Site-specific daylight studies",
       description:
-        "The studio critiques in the open. Weekly reviews at the model table — every decision defended, tested, or revised.",
+        "Every site has unique solar characteristics. We track diurnal and seasonal light paths to orient openings, courtyards, and deep overhangs precisely.",
     },
     {
       code: "METHOD 04",
-      title: "Site & Construction",
+      title: "Direct site presence",
       description:
         "Architecture is completed on site, not in the office. We supervise construction, test mock-ups, and refine details against real hands and real light.",
     },
   ],
   history:
-    "Founded in 2018, the studio began as a small practice focused on residential projects in northern Portugal. Over the years, our work has expanded across the country and into new typologies — commercial, cultural, and interior — while maintaining the same principles of material honesty and spatial clarity.",
+    "Founded in 2018, the studio began as a practice focused on residential and commercial architecture in Kigali. Over the years, our work has expanded across Rwanda and into new typologies — cultural, hospitality, and interior — while maintaining the same principles of material honesty and spatial clarity.",
   images: [
     {
       src: "/images/studio/studio-atelier.jpg",
-      alt: "The RAFA Design Hub studio in Porto",
-      caption: "The atelier in Porto's historic centre",
+      alt: "The RAFA Design Hub studio in Kigali",
+      caption: "The atelier in Kigali",
     },
     {
       src: "/images/studio/studio-materials.jpg",
@@ -161,9 +167,9 @@ export const studioContent: Studio = {
     },
   ],
   visit: {
-    overline: "The Studio // Porto",
+    overline: "The Studio // Kigali",
     heading: "The studio is open — to the work and to those who commission it.",
-    body: "Conversations begin informally. Write to us, or visit the atelier in Porto's historic centre, where the practice lives beside its models and its material library.",
+    body: "Conversations begin informally. Write to us, or visit the atelier in Kigali, where the practice lives beside its models and its material library.",
     visits: "Studio visits by appointment",
   },
 };

@@ -16,60 +16,80 @@ interface StudioHeroProps {
 /**
  * StudioHero
  *
- * Full-viewport cinematic opening composition for the Studio page.
- * Studio photography fills the viewport behind a gradient scrim.
- * Studio name and overline are anchored bottom-left — the same
- * editorial composition used on project detail pages.
+ * Cinematic opening composition for the Studio page.
+ * Constrained to `100svh - var(--header-height)` so the entire frame,
+ * photography, breadcrumb, overline, title, and caption appear
+ * simultaneously in the viewport without vertical clipping or overflow.
+ *
+ * The breadcrumb is unified directly above the overline to eliminate the
+ * awkward vertical dead space.
  */
 export function StudioHero({ image, overline, name, caption, className }: StudioHeroProps) {
+  const displayCaption = caption || image.caption || "RAFA Design Hub // Studio Archive";
+
   return (
-    <div className={cn("relative h-svh overflow-hidden", className)}>
-      {/* Parallax image layer */}
-      <Parallax className="absolute inset-0 h-full w-full" speed={0.15}>
+    <div
+      className={cn(
+        "relative h-[calc(100svh-var(--header-height))] max-h-[920px] min-h-[520px] w-full overflow-hidden",
+        className,
+      )}
+    >
+      {/* Parallax image layer with full cover fill */}
+      <Parallax className="absolute inset-0 h-full w-full" speed={0.06}>
         <Image
           asset={image}
-          className="h-full w-full scale-110 object-cover"
+          fill
+          className="h-full w-full"
+          imgClassName="object-cover w-full h-full object-center"
           sizes="100vw"
           priority
+          loading="eager"
+          fetchPriority="high"
         />
       </Parallax>
 
-      {/* Gradient scrim — bottom-heavy for text legibility */}
+      {/* Gradient scrim — soft at top, deep at bottom for crisp typographic contrast */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-black/20"
+        className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/20"
       />
 
-      {/* Top breadcrumb */}
-      <div className="top-md absolute right-0 left-0 z-10 px-[var(--container-gutter)]">
-        <div className="gap-xs flex items-center font-mono text-[10px] tracking-widest text-white/50">
-          <Link
-            href="/"
-            className="underline-offset-4 transition-colors hover:text-white/80 hover:underline"
-          >
-            RAFA
-          </Link>
-          <span className="text-white/30">→</span>
-          <span className="text-white/70">Studio</span>
+      {/* Bottom unified typographic plate — keeps breadcrumb, overline, title, and caption in full view */}
+      <div className="pb-md sm:pb-lg md:pb-xl absolute right-0 bottom-0 left-0 z-10 px-[var(--container-gutter)]">
+        <div className="gap-md flex flex-col items-start justify-between md:flex-row md:items-end">
+          {/* Left: Unified Breadcrumb → Overline → Title hierarchy */}
+          <div className="space-y-xs sm:space-y-sm max-w-4xl">
+            {/* Breadcrumb placed immediately above overline to eliminate the huge gap */}
+            <div className="gap-xs flex items-center font-mono text-[10px] tracking-widest text-white/70">
+              <Link
+                href="/"
+                className="underline-offset-4 transition-colors hover:text-white hover:underline"
+              >
+                RAFA
+              </Link>
+              <span className="text-white/40">→</span>
+              <span className="text-white/90">Studio</span>
+            </div>
+
+            <p className="font-mono text-[10px] tracking-widest text-white/75 uppercase">
+              {overline}
+            </p>
+
+            <h1 className="text-4xl leading-[0.92] font-medium tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
+              {name}
+            </h1>
+          </div>
+
+          {/* Right: Caption plate — anchored and clearly visible */}
+          {displayCaption && (
+            <div className="pl-sm max-w-xs shrink-0 border-l border-white/20 md:border-l-0 md:pl-0 md:text-right">
+              <p className="font-mono text-[10px] tracking-widest text-white/60 uppercase">
+                {displayCaption}
+              </p>
+            </div>
+          )}
         </div>
       </div>
-
-      {/* Bottom-left — overline + studio name */}
-      <div className="pb-xl absolute right-0 bottom-0 left-0 z-10 px-[var(--container-gutter)]">
-        <p className="mb-sm font-mono text-[10px] tracking-widest text-white/50 uppercase">
-          {overline}
-        </p>
-        <h1 className="max-w-3xl text-5xl leading-[0.92] font-medium tracking-tight text-white sm:text-6xl md:text-7xl lg:text-[5.5rem]">
-          {name}
-        </h1>
-      </div>
-
-      {/* Caption — bottom right */}
-      {caption && (
-        <p className="bottom-md absolute right-[var(--container-gutter)] z-10 font-mono text-[10px] tracking-widest text-white/35">
-          {caption}
-        </p>
-      )}
     </div>
   );
 }
