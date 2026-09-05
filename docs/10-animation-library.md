@@ -473,25 +473,27 @@ Media enters only when required.
 
 ---
 
-## Video Intro Splash
+## Intro Splash (Typographic Curtain)
 
 Purpose
 
-Branded full-screen intro on first visit of a session.
+Branded home-page intro on first visit of a session. (Revised 2026-09-05 — the earlier full-screen video intro was replaced by this GSAP typographic curtain, and the splash is now mounted **only on the home page**, not the root layout.)
 
 Deliverable
 
-Seamless video → live-site transition.
+Architectural monograph reveal + drafting-line draw across the type.
 
 Properties
 
-Full viewport video overlay (`object-fit: cover`).
+Full-viewport overlay (`fixed inset-0 z-overlay`).
 
-Autoplay, muted, plays inline, no controls.
+Monospace overline "SPECIFICATION // ARCHITECTURE STUDIO" + studio wordmark with dynamic tracking settling (0.4 em → 0.22 em).
 
-Fade out 300–500 ms (opacity only).
+1 px architectural drafting hairline expands center-outward (`scaleX` 0 → 1).
 
-Reveals the already-mounted header + content underneath.
+GPS coordinates overline (KIGALI, GASABO) staggers in.
+
+Curtain elevates off-screen (`yPercent` → -100, 550 ms, cubic-bezier 0.77 0 0.175 1) after a 150 ms pause.
 
 Session-gated (`sessionStorage`) — once per session.
 
@@ -499,15 +501,15 @@ Skips under `prefers-reduced-motion`.
 
 Duration
 
-Fade uses `duration-slow` (480 ms).
+~1.4 s total.
 
 Ease
 
-Emphasized.
+`power3.out` for text, `cubic-bezier(0.85, 0, 0.15, 1)` for the hairline, `cubic-bezier(0.77, 0, 0.175, 1)` for the curtain.
 
 Implementation
 
-`src/components/splash/SplashProvider.tsx` (logic) + `SplashScreen.tsx` (overlay).
+`src/components/splash/SplashProvider.tsx` (logic) + `SplashScreen.tsx` (overlay); mounted in `src/app/(site)/page.tsx` (home-only).
 
 # Three.js Motion
 

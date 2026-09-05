@@ -476,15 +476,15 @@ Progressive image loading
 
 Avoid fake loaders.
 
-## Approved Exception — Branded Video Intro
+## Approved Exception — Branded Intro Splash
 
-A real, branded full-screen intro video (`public/videos/rafa-video.mp4`) may play on the first visit of a session as a deliberate storytelling experience — it is not a fake loader. Constraints (implemented 2026-08-03):
+A real, branded home-page intro splash may play on the first visit of a session as a deliberate storytelling experience — it is not a fake loader. Revised 2026-09-05: this is now a **typographic/architectural GSAP curtain** (monospace "SPECIFICATION // ARCHITECTURE STUDIO" overline, studio wordmark in display font with letter-spacing settling, a 1 px drafting hairline expanding center-outward, Kigali GPS coordinates, then a curtain elevation off the top) — **not a video**. The earlier `public/videos/rafa-video.mp4` video version was replaced by the curtain, and the splash is now **home-only** (`SplashProvider` in `src/app/(site)/page.tsx`; inner pages skip it). Constraints (implemented 2026-08-03, revised 2026-09-05):
 
 - Plays once per session (`sessionStorage`), skipped on refresh and page navigation.
 - Waits for `window load` + `document.fonts.ready` before starting.
-- Fades out over 300–500 ms (opacity only) revealing the already-mounted header/content so the video's final logo aligns with the header logo.
+- Elevates its curtain off-screen over 550 ms (cubic-bezier 0.77 0 0.175 1) revealing the already-mounted header/content; total duration ~1.4 s.
 - Skips entirely under `prefers-reduced-motion`.
-- Locks scroll while active; cleans up all listeners.
+- Locks scroll while active; cleans up all listeners and GSAP context.
 
 ---
 

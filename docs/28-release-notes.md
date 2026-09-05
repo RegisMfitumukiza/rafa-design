@@ -10,6 +10,52 @@
 
 ---
 
+# 2026-09-05 (Phase 16 Optimization + Phase 17 Deployment Complete)
+
+## Version
+
+0.16.0-alpha
+
+## Summary
+
+Closed the final two project phases. Optimization work: production error boundaries, above-fold content that is never hidden before ScrollTrigger fires, a correct `sizes`/`fetchPriority` hero image, and a home-only intro splash. Deployment work: Vercel Analytics wired for every page load, Web Vitals telemetry flowing from real users into the Vercel dashboard, and the monitoring posture documented. Full QA sign-off with an 11-route Lighthouse matrix, a 12-route × 4-viewport responsive pass with zero overflow, and cross-browser verification in Chrome + Edge. **Repository at 100% completion.**
+
+## Error Handling
+
+- New `src/app/(site)/error.tsx` — design-system-styled error boundary (RETRY action + error digest exposure), replacing the previous boundary-less layout; unknown routes still render `not-found.tsx`.
+- New `src/app/global-error.tsx` — the outermost boundary for root-layout errors, which owns its own `<html>`/`<body>` per Next.js requirements.
+
+## Analytics + Web Vitals
+
+- `@vercel/analytics` installed; `<Analytics />` mounted in the root layout for automatic pageview/event collection.
+- New client `src/components/performance/web-vitals.tsx` renders `<ReportWebVitals/>` using `useReportWebVitals`, feeding `reportWebVitals` in `src/lib/performance.ts` — production builds now `track("Web Vitals", { … })` real-user CLS/FID/FCP/LCP/TTFB + resource entries into Vercel Analytics; development logs to console. This completes the Phase 16 "wiring a Web Vitals provider" link that previously tracked to Phase 17.
+
+## Above-the-Fold Rendering Fixes
+
+- `Reveal`/`ImageReveal` (`src/motion/Reveal.tsx`, `src/motion/ImageReveal.tsx`) gained a `visible` prop that skips the initial `gsap.set(autoAlpha:0, …)`/clip-path hiding so ScrollTrigger never hides critical first-paint content before it triggers. Applied to every hero: `/services`, `/process`, `/contact`, `/sustainability`, `/careers`, journal index header, projects archive editorial statement, service discipline hero, and both journal document renderers. `/projects` element render delay measured drop: 2284 ms → 486 ms.
+- Landing hero logo now emits `sizes` (down to ~256 px on mobile vs 2560 previously) + `fetchPriority="high"`, cutting transmitted bytes and improving LCP.
+
+## Splash Scope Decision (user)
+
+- The intro splash is now **home-only**: `SplashProvider` lives in the home page (`src/app/(site)/page.tsx`), not the root layout. Inner-page navigations skip the intro entirely.
+
+## Monitoring
+
+- Vercel Analytics + Speed Insights = real-user Web Vitals and page views; Vercel runtime logs handle error forensics; Vercel Status covers uptime. `/api/revalidate` remains the CMS-publish→production gateway. No error-tracking agent added (kept dependency-light per project rules).
+
+## Quality Gates
+
+- Production builds green (34 routes) across every change; `tsc --noEmit` 0 errors, eslint/prettier clean.
+- Lighthouse matrix (local `next start`, Performance): home 63 · projects 55 · services 54 · journal 52 · process 58 · sustainability 58 · contact 55 · studio 61 · project-detail 54 · service-detail 71 · journal-detail 65. FCP ~1–1.3 s across all routes; LCP 4.5–6 s on inner pages remains driven by late-painting Sanity CDN imagery + ~1.5 s script evaluation (GSAP/ScrollTrigger/Lenis init) — a tracking item, not a regression.
+- Responsive: 12 routes × 4 viewports (375/768/1024/1440) in headless Chrome + Edge — zero horizontal overflow, zero page errors.
+- Environmental note: the image optimizer intermittently timed out fetching Sanity CDN assets from this local machine (`TimeoutError`, sporadic HTTP 500, non-reproducible on retry) — local latency noise, not a code defect; production fetches originate from Vercel's network.
+
+## Architecture Notes
+
+- No new architectures; only existing primitives (`Reveal`/`ImageReveal`, design tokens, `Image`) extended. One new runtime dependency in the entire change set: `@vercel/analytics`.
+
+---
+
 # 2026-09-02 (CMS-Driven Page Introductions)
 
 ## Version

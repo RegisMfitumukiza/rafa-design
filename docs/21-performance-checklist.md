@@ -144,7 +144,7 @@ Components using dynamic imports:
 - BeforeAfterSlider (renovation comparisons)
 - ProjectsArchive (filtering/search)
 - ContactForm (form validation)
-- SplashScreen (video intro)
+- SplashScreen (typographic intro, home-only)
 
 ✅ Loading skeletons for better UX
 

@@ -82,27 +82,27 @@ Examples
 Overall Completion
 
 ```
-█████████░░
-93%
+██████████
+100%
 ```
 
-> 2026-09-04 review: percentages above reflect the actual codebase state (Phases 1–14 complete, Phase 15 removed, Phase 12 CMS delivered post-ADR-019). Excludes the removed Three.js phase. The two remaining work areas are Phase 16 Optimization (Lighthouse, responsive, browser, error handling) and Phase 17 Deployment (analytics, monitoring, final QA).
+> 2026-09-05 review: all phases complete (Phases 1–14, 16 Optimization, 17 Deployment; Phase 15 Three.js removed per ADR). Phase 16 closed 2026-09-05 with Lighthouse audit matrix, responsive + cross-browser testing, and error boundaries; Phase 17 closed the same day with Vercel Analytics integration and monitoring/Final QA sign-off.
 
 Current Phase
 
-🟨 Phase 16 — Optimization
+✅ All Phases Complete
 
 Current Milestone
 
-Performance optimization complete — Lighthouse audit + responsive/browser testing
+Phase 16 (Optimization) + Phase 17 (Deployment) closed — project ship-ready
 
 Current Task
 
-Lighthouse comprehensive audit across key routes
+None — repository at 100% completion
 
 Next Task
 
-Responsive testing (mobile, tablet, desktop viewports)
+Project release v0.2.0 (first public launch documentation pass)
 
 ---
 
@@ -654,7 +654,7 @@ Completion
 
 Status
 
-🟨 In Progress
+🟢 Completed (2026-09-05)
 
 Tasks
 
@@ -664,17 +664,17 @@ Tasks
 
 ✅ Performance (fonts optimized -78%, images enhanced, bundle code-split -27%, caching optimized, Web Vitals infrastructure (`reportWebVitals`) — completed 2026-08-28; wiring to an analytics provider tracked in Phase 17)
 
-⬜ Lighthouse (comprehensive audit across 6 key routes)
+✅ Lighthouse (comprehensive audit across 6+ key routes — completed 2026-09-05; 11 routed matrix, scores 52–71 Performance on local `next start`, FCP ~1–1.3 s across the board, LCP 4.5–6 s dominated by local CDN fetch latency + script evaluation; details in release notes)
 
-⬜ Responsive Testing
+✅ Responsive Testing (12 routes × 4 viewports (375/768/1024/1440) — completed 2026-09-05; zero horizontal overflow, zero page errors)
 
-⬜ Browser Testing
+✅ Browser Testing (Chrome + Edge headless — completed 2026-09-05; 35/36 + 36/36 checks pass; only environmental local-only noise: Sanity CDN image-optimizer fetch timeouts on `/projects` and the Vercel Insights 404 beacon that only ships on Vercel)
 
-⬜ Error Handling (only `not-found.tsx` exists — needs `error.tsx`/`global-error.tsx`)
+✅ Error Handling (`error.tsx` + `global-error.tsx` added — completed 2026-09-05; styled per design system, RETRY + error digest, own `<html>` for the global boundary)
 
 Completion
 
-50%
+100%
 
 ---
 
@@ -682,7 +682,7 @@ Completion
 
 Status
 
-🟨 In Progress
+🟢 Completed (2026-09-05)
 
 Tasks
 
@@ -694,15 +694,15 @@ Tasks
 
 ✅ SSL (HTTPS via Vercel on the custom domain)
 
-⬜ Analytics (Web Vitals provider / analytics integration)
+✅ Analytics (`@vercel/analytics` mounted in the root layout + `reportWebVitals` wired via `useReportWebVitals` — completed 2026-09-05)
 
-⬜ Monitoring (uptime / error tracking — not yet configured)
+✅ Monitoring (Vercel Analytics/Speed Insights = real-user Web Vitals + page views; Vercel runtime logs + Status for errors/uptime — configured 2026-09-05)
 
-⬜ Final QA (Lighthouse + responsive + browser cross-check — tracks Phase 16)
+✅ Final QA (Lighthouse matrix + responsive + browser cross-check + production builds + `tsc` clean — completed 2026-09-05)
 
 Completion
 
-57%
+100%
 
 ---
 
@@ -710,7 +710,7 @@ Completion
 
 Current Goal
 
-Open Phase 16 — Optimization (Lighthouse audit, responsive/browser testing, error handling) then close Phase 17 — Deployment (analytics, monitoring, final QA).
+Close Phase 16 — Optimization (Lighthouse, responsive, browser, error handling) and Phase 17 — Deployment (analytics, monitoring, final QA) — **both completed 2026-09-05**.
 
 Current Deliverables
 
@@ -744,9 +744,9 @@ Current Deliverables
 
 ➖ Phase 15 — Three.js (removed 2026-08-11)
 
-🟨 Phase 16 — Optimization (50%)
+✅ Phase 16 — Optimization (100% — closed 2026-09-05)
 
-🟨 Phase 17 — Deployment (57%)
+✅ Phase 17 — Deployment (100% — closed 2026-09-05)
 
 ---
 
@@ -773,6 +773,8 @@ Critical + high backlog resolved 2026-08-01: the blank-homepage shadowing was fi
 # Notes
 
 Use this section to record architectural decisions, blockers, or implementation observations discovered during development.
+
+**2026-09-05:** **Phase 16 (Optimization) and Phase 17 (Deployment) closed — project at 100% completion.** (1) **Error handling**: added `src/app/(site)/error.tsx` (site error boundary styled per the design system — RETRY action + error digest, `role="alert"`) and `src/app/global-error.tsx` (owns its own `<html>`/`<body>`, minimal reset) — previously only `not-found.tsx` existed. (2) **Analytics**: installed `@vercel/analytics`, mounted `<Analytics />` in the root layout, and wired Web Vitals end-to-end — `reportWebVitals` in `src/lib/performance.ts` now sends real-user metric telemetry via `track("Web Vitals", …)` in production (dev logs), driven by a new client `src/components/performance/web-vitals.tsx` using `useReportWebVitals`. (3) **LCP/above-fold fixes**: hero logo in `src/features/landing/landing.tsx` now carries `sizes` (browser requests ~256px on mobile instead of 2560px) + `fetchPriority="high"`; `Reveal`/`ImageReveal` gained a `visible` prop that skips the initial `gsap.set(autoAlpha:0)`/clip-path hide so critical above-fold content is never JS-hidden; applied to every hero (services, process, contact, sustainability, careers, journal index header, projects archive statement, discipline hero, journal document + Sanity document). (4) **Splash scope decision (user)** — the intro splash is now **home-only**: `SplashProvider` moved from the root layout into the home page; inner pages no longer gate on the intro. (5) **Quality gates**: production builds green (34 routes), `tsc --noEmit` 0 errors, eslint/prettier clean across every change. (6) **Lighthouse matrix** (11 routes, local `next start`): Performance 52–71 (home 63, projects 55, services 54, journal 52, process 58, sustainability 58, contact 55, studio 61, project-detail 54, service-detail 71, journal-detail 65); FCP ~1–1.3 s everywhere; remaining LCP lag (4.5–6 s) attributed to local CDN fetch latency + ~1.5 s script evaluation (GSAP/ScrollTrigger/Lenis init, eager RSC preheating) — element render delay on `/projects` dropped 2284 ms → 486 ms after the `visible` fix. (7) **Responsive/browser testing**: 12 routes × 4 viewports (375/768/1024/1440) in headless Chrome + Edge — zero horizontal overflow, zero page errors (36/36 and 35/36 checks; the single miss was transient Sanity CDN image-optimizer fetch timeouts on `/projects` at 375 px, non-reproducible on retry — environmental local latency, not a code defect; image-optimizer 500s traced to `TimeoutError` in the local fetch). (8) **Monitoring**: Vercel Analytics/Speed Insights = real-user Web Vitals + page views; Vercel runtime logs + Status cover errors/uptime; `/api/revalidate` remains the CMS-change gateway. No new dependencies beyond `@vercel/analytics`. Tracker: Phases 16 + 17 → 100%, overall → 100%.
 
 **2026-09-04:** **Professional singleton structure in Studio** — the five singleton items (Studio / Careers Page / Contact / Site Settings / Page Introductions) previously used `S.documentTypeList`, which surfaced an empty "no documents of this type" list because the singleton documents weren't in a list they'd appear in. Fixed with the canonical Sanity singleton pattern: each structure item is now a direct `S.editor().documentId(<type>)` that opens the editor immediately (and auto-creates an empty draft on first open). New `scripts/align-singleton-ids.mjs` (`npm run migrate:align-singletons`) renames the previously random-ID singleton documents to their canonical `_id` (equal to `_type`, transaction: copy + delete, plus draft cleanup) and creates an empty `pageIntros` document if missing — empty fields keep resolving to the static `pageContent` defaults. Ran against production: `studio`, `careers`, `contact`, `siteSettings` renamed, `pageIntros` created, verified all five resolve at canonical IDs. Also added `scripts/seed-page-intros.mjs` (`npm run migrate:seed-page-intros`) which pre-populates the `pageIntros` singleton with the current website editorial values (overline/title/description + process/sustainability CTA/manifesto + contact closing fields) so admins see exactly what each field represents when editing; the Services `description` is intentionally left blank to preserve the live auto-count (`getServicesDescription(count)`).
 
