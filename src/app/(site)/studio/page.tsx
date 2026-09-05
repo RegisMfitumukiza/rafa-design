@@ -65,16 +65,26 @@ export default async function StudioPage() {
       {/* 2 — Beliefs / Principles */}
       <Beliefs studio={studio} />
 
-      {/* 4 — Second atelier image (material samples) */}
+      {/* 3 — Second atelier image (material samples) */}
       {atelierImage && (
         <Section container="wide">
-          <Parallax>
-            <Image asset={atelierImage} className="aspect-hero w-full" sizes="100vw" />
+          <Parallax speed={0.06}>
+            <div className="relative aspect-[16/10] w-full overflow-hidden rounded-sm lg:aspect-[21/9]">
+              <Image
+                asset={atelierImage}
+                fill
+                className="h-full w-full"
+                imgClassName="object-cover w-full h-full object-center"
+                sizes="100vw"
+              />
+            </div>
           </Parallax>
           {atelierImage.caption && (
             <Reveal delay={0.1}>
               <div className="mt-sm gap-sm flex items-baseline justify-between">
-                <p className="text-foreground/40 text-xs">{atelierImage.caption}</p>
+                <p className="text-foreground/50 font-mono text-[10px] tracking-widest uppercase">
+                  02 // {atelierImage.caption}
+                </p>
                 <p className="text-foreground/30 font-mono text-[10px] tracking-widest uppercase">
                   {ui.overlines.atelier}
                 </p>

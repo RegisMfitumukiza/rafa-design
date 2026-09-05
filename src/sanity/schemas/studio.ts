@@ -211,7 +211,12 @@ export default defineType({
           ],
         },
       ],
-      description: "Order matters: [0] is the hero opener, [1] is the atelier plate.",
+      description:
+        "Curated monograph plates: [0] is the Hero Opener, [1] is the Atelier & Materials plate below Principles.",
+      validation: (Rule) =>
+        Rule.max(2).warning(
+          "The Studio page is architecturally designed for 2 curated plates: [0] Hero Opener and [1] Atelier Materials.",
+        ),
     }),
 
     // ═══════════════════════════════════════════════════════════════════════
