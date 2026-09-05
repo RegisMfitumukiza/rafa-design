@@ -33,7 +33,7 @@ export function JournalDocument({ article, categoryLabel }: JournalDocumentProps
     <>
       {/* Metadata + Title */}
       <Section container="narrow">
-        <Reveal>
+        <Reveal visible>
           {/* Breadcrumb integrated with content */}
           <nav aria-label="Breadcrumb" className="mb-md">
             <Link

@@ -52,10 +52,14 @@ export async function POST(request: Request) {
     const { Resend } = await import("resend");
     const resend = new Resend(apiKey);
 
-    const fromEmail = process.env.RESEND_FROM_EMAIL || "RAFA Design Hub <onboarding@resend.dev>";
-    // Fetch recipient email from Sanity CMS, fallback to static config
+    const senderAddress = process.env.RESEND_FROM_EMAIL || "noreply@rafadesignhub.com";
+    const fromEmail = senderAddress.includes("<")
+      ? senderAddress
+      : `RAFA Design Hub <${senderAddress}>`;
+
+    // Fetch studio recipient email from Sanity CMS, fallback to static config (rafadesignhub@gmail.com)
     const cmsContact = await getContactInformation().catch(() => null);
-    const toEmail = cmsContact?.email || contactInformation.email;
+    const studioEmail = cmsContact?.email || contactInformation.email;
 
     const emailBody = [
       `Name: ${name}`,
@@ -71,13 +75,54 @@ export async function POST(request: Request) {
       .filter(Boolean)
       .join("\n");
 
+    // 1. Send inquiry details to studio inbox (rafadesignhub@gmail.com)
     await resend.emails.send({
       from: fromEmail,
-      to: toEmail,
+      to: studioEmail,
       replyTo: email,
       subject: subject?.trim() || `[Inquiry] ${projectType || "Project"} — ${name}`,
       text: emailBody,
     });
+
+    // 2. Send automated confirmation to the client
+    try {
+      const clientConfirmationBody = [
+        `Dear ${name},`,
+        "",
+        "Thank you for contacting RAFA Design Hub.",
+        "",
+        `We have received your project brief regarding ${projectType || "your upcoming project"} and our team is currently reviewing your inquiry. We respond to all new engagements within two working days.`,
+        "",
+        "--- Summary of Your Inquiry ---",
+        `Discipline: ${projectType || "Architecture & Design"}`,
+        organization ? `Organization: ${organization}` : null,
+        location ? `Location: ${location}` : null,
+        timeline ? `Timeline: ${timeline}` : null,
+        "",
+        "Brief:",
+        message,
+        "",
+        `If you have architectural plans, drawings, or reference material to share in the meantime, please reply directly to this email or write to ${studioEmail}.`,
+        "",
+        "Kind regards,",
+        "",
+        "RAFA Design Hub",
+        "Kigali, Rwanda",
+        "https://rafadesignhub.com",
+      ]
+        .filter(Boolean)
+        .join("\n");
+
+      await resend.emails.send({
+        from: fromEmail,
+        to: email,
+        replyTo: studioEmail,
+        subject: `Inquiry Received // RAFA Design Hub`,
+        text: clientConfirmationBody,
+      });
+    } catch (clientEmailError) {
+      console.warn("Could not send client confirmation email:", clientEmailError);
+    }
 
     return NextResponse.json({ ok: true });
   } catch {

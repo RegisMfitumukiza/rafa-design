@@ -46,7 +46,7 @@ export function DisciplineHero({ service, leadProject, className }: DisciplineHe
   return (
     <div className={cn("w-full", className)}>
       {/* Cinematic lead image */}
-      <ImageReveal className="w-full">
+      <ImageReveal className="w-full" visible>
         {image ? (
           <Image
             asset={image}

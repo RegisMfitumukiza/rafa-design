@@ -210,7 +210,7 @@ export function ProjectsArchive({ initialProjects, categories, intro }: Projects
   return (
     <div className="gap-xl flex flex-col">
       {/* ── Editorial Statement ─────────────────────────────────────────────── */}
-      <Reveal>
+      <Reveal visible>
         <div className="gap-md flex flex-col justify-between md:flex-row md:items-end">
           <div>
             <p className="text-foreground/35 mb-xs font-mono text-[10px] tracking-widest uppercase">

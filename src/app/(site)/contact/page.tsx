@@ -47,7 +47,7 @@ export default async function ContactPage() {
 
       {/* ── 1. PATTERN B 12-COLUMN SPLIT HEADER ── */}
       <Section container="wide">
-        <Reveal>
+        <Reveal visible>
           <div className="gap-x-xl gap-y-md grid items-start md:grid-cols-12">
             {/* Left 6 cols: Title */}
             <div className="md:col-span-6 lg:col-span-6">

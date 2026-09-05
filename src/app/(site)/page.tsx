@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { SplashProvider } from "@/components/splash/SplashProvider";
 import { siteConfig } from "@/config/site";
 import { Landing } from "@/features/landing/landing";
 
@@ -11,5 +12,9 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
-  return <Landing />;
+  return (
+    <SplashProvider>
+      <Landing />
+    </SplashProvider>
+  );
 }

@@ -7,7 +7,6 @@ import Script from "next/script";
 
 import { WebVitals } from "@/components/performance/web-vitals";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { SplashProvider } from "@/components/splash/SplashProvider";
 import { organizationSchema, websiteSchema } from "@/config/schema";
 import { createMetadata } from "@/config/seo";
 import { siteConfig } from "@/config/site";
@@ -94,9 +93,7 @@ export default async function RootLayout({
         </a>
         <JsonLd data={organizationSchema(contact)} />
         <JsonLd data={websiteSchema()} />
-        <Providers>
-          <SplashProvider>{children}</SplashProvider>
-        </Providers>
+        <Providers>{children}</Providers>
         <Analytics />
         <WebVitals />
       </body>

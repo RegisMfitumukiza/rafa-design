@@ -14,6 +14,10 @@ interface ImageRevealProps {
   className?: string;
   start?: string;
   once?: boolean;
+  /** Skip the clip-path reveal — the image stays fully visible from the
+   *  first frame. Use for hero/above-the-fold images so the LCP element paints
+   *  immediately without waiting for GSAP/ScrollTrigger. */
+  visible?: boolean;
 }
 
 export function ImageReveal({
@@ -21,11 +25,12 @@ export function ImageReveal({
   className,
   start = revealStart,
   once = true,
+  visible = false,
 }: ImageRevealProps) {
   const reduced = useReducedMotion();
   const scope = useScopedGsap(
     (_, scopeRef) => {
-      if (reduced || !scopeRef.current) {
+      if (visible || reduced || !scopeRef.current) {
         return;
       }
       const image = gsap.utils.toArray<HTMLElement>("img", scopeRef.current)[0];

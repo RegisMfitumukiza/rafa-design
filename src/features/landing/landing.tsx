@@ -139,6 +139,8 @@ export function Landing() {
             width={2325}
             height={2159}
             priority
+            fetchPriority="high"
+            sizes="(min-width: 64rem) 60vw, (min-width: 48rem) 35vw, 60vw"
             className="h-[clamp(8rem,26vh,20rem)] w-auto object-contain invert md:h-[clamp(10rem,30vh,26rem)] lg:h-[clamp(26rem,62vh,68rem)] dark:invert-0"
           />
         </div>

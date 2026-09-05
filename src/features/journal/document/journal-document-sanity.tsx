@@ -55,7 +55,7 @@ export function JournalDocumentSanity({ article, categoryLabel }: JournalDocumen
       {/* ── Editorial Title Header ──────────────────────────────────────────
           Clean, monumental header spanning the full editorial width. */}
       <Section container="wide" className="pt-xl pb-xl">
-        <Reveal>
+        <Reveal visible>
           {/* Breadcrumb */}
           <nav aria-label="Breadcrumb" className="mb-lg">
             <Link

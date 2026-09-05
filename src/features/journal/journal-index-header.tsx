@@ -25,7 +25,7 @@ export function JournalIndexHeader({ categories, active, intro }: JournalIndexHe
     `Essays, research, and observations on architecture, craft, material culture, and the ideas behind the work.`;
 
   return (
-    <Reveal>
+    <Reveal visible>
       <header className="mb-2xl pb-xl border-border/20 border-b">
         <div className="gap-x-xl gap-y-md grid items-end md:grid-cols-12">
           {/* Left: Title + description */}

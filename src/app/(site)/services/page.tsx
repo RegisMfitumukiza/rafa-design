@@ -44,7 +44,7 @@ export default async function ServicesPage() {
       <JsonLd data={breadcrumbSchema([{ name: "Services", path: "/services" }])} />
       <Section container="wide">
         {/* Pattern B: 12-Column Split Intro (6/6 split, items-start, responsive display typography) */}
-        <Reveal>
+        <Reveal visible>
           <div className="mb-xl gap-x-xl gap-y-md grid items-start md:grid-cols-12">
             <div className="md:col-span-6 lg:col-span-6">
               <p className="text-foreground/50 font-mono text-xs tracking-widest uppercase">

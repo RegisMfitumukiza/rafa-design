@@ -39,17 +39,17 @@ export default async function SustainabilityPage() {
       <Section container="standard">
         <div className="gap-2xl grid items-start md:grid-cols-12">
           <div className="md:col-span-8 lg:col-span-7">
-            <Reveal>
+            <Reveal visible>
               <p className="text-foreground/40 mb-sm font-mono text-[10px] tracking-widest uppercase">
                 Specification // {overline}
               </p>
             </Reveal>
-            <Reveal delay={0.1}>
+            <Reveal visible>
               <h1 className="font-display mb-xl text-5xl leading-[0.95] tracking-tight text-balance sm:text-6xl md:text-7xl lg:text-8xl">
                 {heading}
               </h1>
             </Reveal>
-            <Reveal delay={0.2}>
+            <Reveal visible>
               <Text
                 variant="body"
                 className="text-foreground/60 max-w-prose text-lg leading-relaxed md:text-xl"

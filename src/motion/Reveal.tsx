@@ -19,6 +19,10 @@ interface RevealProps {
   start?: string;
   once?: boolean;
   mount?: boolean;
+  /** Skip the initial autoAlpha:0 / translateY hiding — content stays visible
+   *  from the first frame. Use for above-the-fold hero sections so the LCP
+   *  element paints immediately without waiting for GSAP/ScrollTrigger. */
+  visible?: boolean;
 }
 
 export function Reveal({
@@ -30,11 +34,12 @@ export function Reveal({
   start = revealStart,
   once = true,
   mount = false,
+  visible = false,
 }: RevealProps) {
   const reduced = useReducedMotion();
   const scope = useScopedGsap(
     (ctx, scopeRef) => {
-      if (reduced || !scopeRef.current) {
+      if (visible || reduced || !scopeRef.current) {
         return;
       }
 
