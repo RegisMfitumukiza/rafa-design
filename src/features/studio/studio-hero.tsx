@@ -1,9 +1,12 @@
+"use client";
+
 import Link from "next/link";
 
+import { Section } from "@/components/layout/Section";
 import { Image } from "@/components/media/Image";
 import type { ImageAsset } from "@/content/types";
 import { cn } from "@/lib/cn";
-import { Parallax } from "@/motion";
+import { ImageReveal, Reveal } from "@/motion";
 
 interface StudioHeroProps {
   image: ImageAsset;
@@ -16,80 +19,86 @@ interface StudioHeroProps {
 /**
  * StudioHero
  *
- * Cinematic opening composition for the Studio page.
- * Constrained to `100svh - var(--header-height)` so the entire frame,
- * photography, breadcrumb, overline, title, and caption appear
- * simultaneously in the viewport without vertical clipping or overflow.
+ * Editorial Monograph Layout for the Studio page (Pattern B).
  *
- * The breadcrumb is unified directly above the overline to eliminate the
- * awkward vertical dead space.
+ * Features:
+ * 1. Clean 12-column header: breadcrumb, monumental title, and overline.
+ * 2. Uncropped photographic plate: 16:9 (mobile) to 21:9 (desktop) with full
+ *    architectural clarity — no dark gradient scrims covering the building.
+ * 3. Horizontal caption bar underneath the plate with studio index and archive note.
  */
 export function StudioHero({ image, overline, name, caption, className }: StudioHeroProps) {
-  const displayCaption = caption || image.caption || "RAFA Design Hub // Studio Archive";
+  const displayCaption = caption || image.caption;
 
   return (
-    <div
-      className={cn(
-        "relative h-[calc(100svh-var(--header-height))] max-h-[920px] min-h-[520px] w-full overflow-hidden",
-        className,
-      )}
-    >
-      {/* Parallax image layer with full cover fill */}
-      <Parallax className="absolute inset-0 h-full w-full" speed={0.06}>
-        <Image
-          asset={image}
-          fill
-          className="h-full w-full"
-          imgClassName="object-cover w-full h-full object-center"
-          sizes="100vw"
-          priority
-          loading="eager"
-          fetchPriority="high"
-        />
-      </Parallax>
-
-      {/* Gradient scrim — soft at top, deep at bottom for crisp typographic contrast */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/20"
-      />
-
-      {/* Bottom unified typographic plate — keeps breadcrumb, overline, title, and caption in full view */}
-      <div className="pb-md sm:pb-lg md:pb-xl absolute right-0 bottom-0 left-0 z-10 px-[var(--container-gutter)]">
-        <div className="gap-md flex flex-col items-start justify-between md:flex-row md:items-end">
-          {/* Left: Unified Breadcrumb → Overline → Title hierarchy */}
-          <div className="space-y-xs sm:space-y-sm max-w-4xl">
-            {/* Breadcrumb placed immediately above overline to eliminate the huge gap */}
-            <div className="gap-xs flex items-center font-mono text-[10px] tracking-widest text-white/70">
+    <div className={cn("w-full", className)}>
+      {/* ── 1. EDITORIAL 12-COLUMN HEADER (Pattern B — 6/6 split) ── */}
+      <Section container="wide" className="pt-md pb-md md:pb-lg">
+        <Reveal visible>
+          <div className="gap-x-xl gap-y-md grid items-start md:grid-cols-12">
+            {/* Left 6 cols: Breadcrumb back link + Monumental Studio Title */}
+            <div className="md:col-span-6 lg:col-span-6">
               <Link
                 href="/"
-                className="underline-offset-4 transition-colors hover:text-white hover:underline"
+                className="group text-foreground/40 hover:text-foreground mb-sm inline-flex items-center gap-2 font-mono text-[10px] tracking-widest uppercase transition-colors"
               >
-                RAFA
+                <span className="transition-transform duration-300 group-hover:-translate-x-1">
+                  ←
+                </span>
+                <span>Index</span>
+                <span className="text-foreground/20">{"//"}</span>
+                <span>Studio</span>
               </Link>
-              <span className="text-white/40">→</span>
-              <span className="text-white/90">Studio</span>
+              <h1 className="font-display text-foreground mt-xs text-4xl font-medium tracking-tight sm:text-5xl lg:text-6xl xl:text-7xl">
+                {name}
+              </h1>
             </div>
 
-            <p className="font-mono text-[10px] tracking-widest text-white/75 uppercase">
-              {overline}
-            </p>
-
-            <h1 className="text-4xl leading-[0.92] font-medium tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
-              {name}
-            </h1>
-          </div>
-
-          {/* Right: Caption plate — anchored and clearly visible */}
-          {displayCaption && (
-            <div className="pl-sm max-w-xs shrink-0 border-l border-white/20 md:border-l-0 md:pl-0 md:text-right">
-              <p className="font-mono text-[10px] tracking-widest text-white/60 uppercase">
-                {displayCaption}
+            {/* Right 6 cols: Studio Overline & Positioning */}
+            <div className="md:pt-md flex flex-col justify-between md:col-span-6 lg:col-span-6">
+              <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
+                {overline}
+              </p>
+              <p className="text-foreground/70 mt-xs w-full text-xl leading-relaxed md:text-2xl">
+                Kigali practice atelier — architecture that is quiet, considered, and rooted in its
+                place.
               </p>
             </div>
-          )}
-        </div>
-      </div>
+          </div>
+        </Reveal>
+      </Section>
+
+      {/* ── 2. CINEMATIC UNCLIPPED HERO PHOTOGRAPHIC PLATE ── */}
+      <Section container="wide">
+        <ImageReveal className="w-full" visible>
+          <div className="relative aspect-[16/9] w-full overflow-hidden rounded-sm md:aspect-[21/9]">
+            <Image
+              asset={image}
+              fill
+              className="h-full w-full"
+              imgClassName="object-cover w-full h-full object-center"
+              sizes="100vw"
+              priority
+              loading="eager"
+              fetchPriority="high"
+            />
+          </div>
+        </ImageReveal>
+
+        {/* Clean, horizontal caption and credit bar directly beneath the plate */}
+        <Reveal delay={0.1}>
+          <div className="mt-sm gap-md flex items-baseline justify-between">
+            <p className="text-foreground/50 font-mono text-[10px] tracking-widest uppercase">
+              {displayCaption
+                ? `01 // ${displayCaption}`
+                : "01 // Kigali Studio — Atelier & Archives"}
+            </p>
+            <p className="text-foreground/35 font-mono text-[10px] tracking-widest uppercase">
+              RAFA Design Hub // Studio
+            </p>
+          </div>
+        </Reveal>
+      </Section>
     </div>
   );
 }
