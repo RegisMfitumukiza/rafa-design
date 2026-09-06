@@ -94,6 +94,7 @@ export function TeamMemberModal({ member, onClose, className }: TeamMemberModalP
               <div className="border-border/30 relative overflow-hidden rounded-md border">
                 <Image
                   asset={member.image}
+                  fill
                   className="aspect-portrait w-full"
                   sizes="(max-width: 48rem) 100vw, 320px"
                   priority

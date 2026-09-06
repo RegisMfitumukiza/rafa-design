@@ -31,6 +31,7 @@ export function TeamMemberCard({ member, onSelect, className }: TeamMemberCardPr
         <div className="border-border/20 relative overflow-hidden rounded-md border">
           <Image
             asset={member.image}
+            fill
             className="aspect-portrait w-full"
             imgClassName="transition-transform duration-700 ease-out motion-safe:group-hover:scale-105"
             sizes="(max-width: 48rem) 100vw, (max-width: 64rem) 50vw, 25vw"
