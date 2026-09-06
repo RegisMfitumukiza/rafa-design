@@ -80,11 +80,29 @@ export default defineConfig({
             S.listItem()
               .title("04 // Team")
               .icon(() => "👥")
-              .schemaType("teamMember")
               .child(
-                S.documentTypeList("teamMember")
-                  .title("Team Members")
-                  .defaultOrdering([{ field: "order", direction: "asc" }]),
+                S.list()
+                  .title("Team Management")
+                  .items([
+                    S.listItem()
+                      .title("Team Members")
+                      .icon(() => "👤")
+                      .schemaType("teamMember")
+                      .child(
+                        S.documentTypeList("teamMember")
+                          .title("Team Members")
+                          .defaultOrdering([{ field: "order", direction: "asc" }]),
+                      ),
+                    S.listItem()
+                      .title("Seniority Tiers (Categories)")
+                      .icon(() => "🏷️")
+                      .schemaType("teamCategory")
+                      .child(
+                        S.documentTypeList("teamCategory")
+                          .title("Seniority Tiers")
+                          .defaultOrdering([{ field: "order", direction: "asc" }]),
+                      ),
+                  ]),
               ),
 
             // 05 // Studio Page (Singleton)

@@ -453,7 +453,10 @@ export const teamQuery = `
       label
     },
     order,
-    category
+    category-> {
+      title,
+      order
+    }
   }
 `;
 

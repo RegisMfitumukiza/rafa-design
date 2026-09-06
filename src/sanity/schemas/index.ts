@@ -26,6 +26,7 @@ import serviceSchema from "./service";
 import siteSettingsSchema from "./siteSettings";
 import studioSchema from "./studio";
 import teamSchema from "./team";
+import teamCategorySchema from "./teamCategory";
 
 /**
  * Schema types array
@@ -36,6 +37,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   projectSchema,
   journalSchema,
   serviceSchema,
+  teamCategorySchema,
   teamSchema,
   studioSchema,
   careerSchema,
@@ -52,6 +54,7 @@ export {
   projectSchema,
   journalSchema,
   serviceSchema,
+  teamCategorySchema,
   teamSchema,
   studioSchema,
   careerSchema,

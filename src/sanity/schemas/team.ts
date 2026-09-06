@@ -217,20 +217,12 @@ export default defineType({
 
     defineField({
       name: "category",
-      title: "Category",
-      type: "string",
+      title: "Category // Seniority Tier",
+      type: "reference",
+      to: [{ type: "teamCategory" }],
       group: "configuration",
-      options: {
-        list: [
-          { title: "Director", value: "Director" },
-          { title: "Associate", value: "Associate" },
-          { title: "Senior Architect", value: "Senior Architect" },
-          { title: "Architect", value: "Architect" },
-          { title: "Interior Designer", value: "Interior Designer" },
-          { title: "Intern", value: "Intern" },
-        ],
-      },
-      description: "Optional grouping for future filtering",
+      description:
+        "Seniority tier — managed in Studio under Team Categories. Used for team ordering and future filter rails.",
     }),
 
     defineField({

@@ -668,7 +668,8 @@ export interface SanityRawTeamMember {
   image?: SanityRawImage;
   socialLinks?: Array<{ platform?: string; url?: string; label?: string }>;
   order?: number;
-  category?: string;
+  /** Dereferenced from teamCategory document via GROQ `category->` */
+  category?: { title?: string; order?: number };
   [key: string]: unknown;
 }
 
@@ -705,6 +706,12 @@ export function transformSanityTeamMember(sanityMember: SanityRawTeamMember): Te
   }
   if (sanityMember.phone) {
     member.phone = sanityMember.phone;
+  }
+  if (sanityMember.category?.title) {
+    member.category = {
+      title: sanityMember.category.title,
+      order: sanityMember.category.order ?? 99,
+    };
   }
 
   return member;

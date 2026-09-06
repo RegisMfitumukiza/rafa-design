@@ -23,6 +23,8 @@ export interface TeamMember {
   email?: string | undefined; // Direct contact email
   phone?: string | undefined; // Direct contact phone
   otherRoles?: OtherRole[] | undefined; // Roles at other studios, universities, etc.
+  /** Seniority tier — sourced from the teamCategory document in Sanity */
+  category?: { title: string; order: number } | undefined;
 }
 
 export interface Award {
