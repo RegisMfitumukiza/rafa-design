@@ -12,11 +12,10 @@
  */
 
 import { execFileSync } from "child_process";
+import { randomUUID } from "crypto";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath, pathToFileURL } from "url";
-
-import { randomUUID } from "crypto";
 
 import { client } from "./lib/sanity.mjs";
 

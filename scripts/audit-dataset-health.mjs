@@ -58,12 +58,6 @@ const FILE_KEYS = ["asset"];
 const REF_KEYS = ["_ref", "_type", "_weak"];
 const SLUG_KEYS = ["current", "source"];
 
-function fieldMap(fields = []) {
-  const m = new Map();
-  for (const f of fields) m.set(f.name, f);
-  return m;
-}
-
 function allowedFor(desc) {
   switch (desc.type) {
     case "document":
@@ -94,7 +88,6 @@ function pickItemDesc(of, item) {
 }
 
 function walk(value, desc, path, issues, allowSystem = false) {
-  const isArr = desc && Array.isArray(value) && (desc.type === "array" || Array.isArray(desc.of));
   if (Array.isArray(value) && desc && desc.type === "array") {
     for (let i = 0; i < value.length; i++) {
       const item = value[i];

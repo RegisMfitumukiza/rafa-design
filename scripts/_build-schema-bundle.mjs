@@ -1,5 +1,6 @@
-import * as esbuild from "esbuild";
 import path from "path";
+
+import * as esbuild from "esbuild";
 
 const out = process.argv[2];
 await esbuild.build({
