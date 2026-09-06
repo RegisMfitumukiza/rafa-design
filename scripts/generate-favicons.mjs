@@ -16,6 +16,7 @@
 
 import fs from "fs";
 import path from "path";
+
 import sharp from "sharp";
 
 // Bounding box of the mark alone in public/logo/rafa-bg-black.png
