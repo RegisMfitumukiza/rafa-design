@@ -74,6 +74,28 @@ const nextConfig: NextConfig = {
         : false,
   },
 
+  // Route root-level icon requests to /favicon/ directory
+  async rewrites() {
+    return [
+      {
+        source: "/favicon.ico",
+        destination: "/favicon/favicon.ico",
+      },
+      {
+        source: "/apple-touch-icon.png",
+        destination: "/favicon/apple-touch-icon.png",
+      },
+      {
+        source: "/apple-touch-icon-precomposed.png",
+        destination: "/favicon/apple-touch-icon.png",
+      },
+      {
+        source: "/manifest.json",
+        destination: "/favicon/site.webmanifest",
+      },
+    ];
+  },
+
   // Add security headers
   async headers() {
     return [

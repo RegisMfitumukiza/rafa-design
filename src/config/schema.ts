@@ -43,7 +43,7 @@ export function organizationSchema(
     "@type": "Organization",
     name: siteConfig.name,
     url: baseUrl,
-    logo: absolute("/icon.svg"),
+    logo: absolute("/logo/rafa-bg-black.png"),
     email: contactInformation.email,
     telephone: contactInformation.phone,
     address: {

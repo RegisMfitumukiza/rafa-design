@@ -3,8 +3,9 @@
 const CACHE_NAME = "rafa-studio-v1";
 const ASSETS_TO_CACHE = [
   "/",
-  "/manifest.json",
-  "/icon.svg",
+  "/favicon/site.webmanifest",
+  "/favicon/favicon-32x32.png",
+  "/favicon/favicon-16x16.png",
   "/images/projects/casa-monte-hero.jpg",
   "/images/projects/atelier-norte-hero.jpg",
   "/images/projects/villa-marim-hero.jpg",
