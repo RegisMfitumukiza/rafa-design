@@ -120,7 +120,7 @@ export function TeamMemberModal({ member, onClose, className }: TeamMemberModalP
                       title={`Call ${member.phone}`}
                     >
                       <span>{member.phone}</span>
-                      <span className="ml-xs">📞</span>
+                      <span className="ml-xs">→</span>
                     </a>
                   )}
                 </div>

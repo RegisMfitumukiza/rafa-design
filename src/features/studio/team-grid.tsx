@@ -37,7 +37,7 @@ export function TeamGrid({ members, className }: TeamGridProps) {
               <Heading variant="h2">{ui.sections.team}</Heading>
             </div>
             <p className="text-foreground/40 hidden font-mono text-xs tracking-wider uppercase sm:block">
-              {members.length} Members // Click card for dossier
+              {members.length} Members
             </p>
           </div>
         </Reveal>

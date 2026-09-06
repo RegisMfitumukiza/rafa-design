@@ -36,19 +36,12 @@ export function TeamMemberCard({ member, onSelect, className }: TeamMemberCardPr
             sizes="(max-width: 48rem) 100vw, (max-width: 64rem) 50vw, 25vw"
           />
 
-          {/* Hover scrim & trigger cue */}
+          {/* Hover scrim & disciplines reveal */}
           <div
             aria-hidden="true"
-            className="p-md pointer-events-none absolute inset-0 flex flex-col justify-between bg-black/0 transition-colors duration-500 group-hover:bg-black/35"
+            className="p-md pointer-events-none absolute inset-0 flex flex-col justify-end bg-black/0 transition-colors duration-500 group-hover:bg-black/35"
           >
-            {/* Top right tag */}
-            <div className="flex justify-end opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-              <span className="px-xs rounded-sm border border-white/10 bg-black/60 py-[2px] font-mono text-[9px] tracking-widest text-white/80 uppercase backdrop-blur-sm">
-                DOSSIER +
-              </span>
-            </div>
-
-            {/* Bottom disciplines tag */}
+            {/* Bottom disciplines tag — slides in on hover (desktop only, non-redundant) */}
             <div className="translate-y-2 opacity-0 transition-all duration-400 ease-out group-hover:translate-y-0 group-hover:opacity-100">
               {member.disciplines && member.disciplines.length > 0 && (
                 <p className="font-mono text-[9px] tracking-wider text-white/70 uppercase">
