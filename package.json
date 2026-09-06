@@ -20,6 +20,7 @@
     "migrate:careers": "node scripts/migrate-careers-to-sanity.mjs",
     "migrate:contact": "node scripts/migrate-contact-to-sanity.mjs",
     "migrate:site-settings": "node scripts/migrate-site-settings-to-sanity.mjs",
+    "migrate:team-categories": "node scripts/migrate-team-categories.mjs",
     "migrate:align-singletons": "node scripts/align-singleton-ids.mjs",
     "migrate:seed-page-intros": "node scripts/seed-page-intros.mjs",
     "migrate:company": "npm run migrate:team && npm run migrate:studio && npm run migrate:careers && npm run migrate:contact && npm run migrate:site-settings",
