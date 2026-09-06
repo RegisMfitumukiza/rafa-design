@@ -13,6 +13,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "generate:images": "node scripts/generate-placeholder-images.mjs",
+    "generate:favicons": "node scripts/generate-favicons.mjs",
     "migrate:journal": "node scripts/migrate-journal-to-sanity.mjs",
     "migrate:services": "node scripts/migrate-services-to-sanity.mjs",
     "migrate:team": "node scripts/migrate-team-to-sanity.mjs",
