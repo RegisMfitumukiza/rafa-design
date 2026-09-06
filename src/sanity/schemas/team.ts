@@ -127,6 +127,19 @@ export default defineType({
       options: {
         hotspot: true,
       },
+      fields: [
+        {
+          name: "alt",
+          type: "string",
+          title: "Alt Text",
+          description: "Accessibility description of the portrait",
+        },
+        {
+          name: "caption",
+          type: "string",
+          title: "Caption",
+        },
+      ],
       validation: (Rule) => Rule.required(),
       description: "Studio portrait / headshot (portrait 3:4 preferred)",
     }),
