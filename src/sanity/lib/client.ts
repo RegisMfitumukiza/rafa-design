@@ -36,12 +36,14 @@ const config = {
 };
 
 /**
- * Server-side client with CDN enabled for optimal performance
- * Use this for static/ISR pages
+ * Server-side client for Next.js ISR data fetching.
+ * useCdn MUST be false when using on-demand ISR revalidation via webhooks;
+ * otherwise Sanity's API CDN edge cache serves stale data for up to a minute
+ * after publishing. Next.js already handles caching at the framework level.
  */
 export const client = createClient({
   ...config,
-  useCdn: true, // Enable CDN for production reads
+  useCdn: false,
 });
 
 /**

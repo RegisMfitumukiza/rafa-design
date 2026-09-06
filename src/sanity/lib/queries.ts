@@ -461,9 +461,9 @@ export const teamQuery = `
  * STUDIO SINGLETON QUERY
  */
 
-// Get studio information (single document)
+// Get studio information (single published document)
 export const studioQuery = `
-  *[_type == "studio"][0] {
+  *[_type == "studio" && !(_id in path("drafts.**"))][0] {
     _id,
     name,
     overline,

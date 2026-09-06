@@ -61,7 +61,7 @@ const DOCUMENT_PATHS: Record<string, (slug?: string) => string[]> = {
   project: (slug) => (slug ? [`/projects`, `/projects/${slug}`] : [`/projects`]),
   service: (slug) => (slug ? [`/services`, `/services/${slug}`] : [`/services`]),
   teamMember: () => [`/studio`],
-  studio: () => [`/studio`],
+  studio: () => [`/studio`, `/services`],
   career: () => [`/careers`],
   careers: () => [`/careers`],
   contact: () => [`/contact`],
@@ -183,5 +183,50 @@ export async function POST(request: Request) {
     slug,
     tags: [...tags],
     paths,
+  });
+}
+
+/**
+ * GET handler — for manual or diagnostic revalidation via browser or curl.
+ *
+ * Example:
+ * /api/revalidate?secret=YOUR_SECRET&path=/studio
+ * /api/revalidate?secret=YOUR_SECRET&tag=studio
+ */
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const secret = searchParams.get("secret");
+  const path = searchParams.get("path");
+  const tag = searchParams.get("tag");
+
+  if (!webhookSecret || secret !== webhookSecret) {
+    return NextResponse.json({ message: "Invalid or missing secret" }, { status: 401 });
+  }
+
+  const revalidatedPaths: string[] = [];
+  const revalidatedTags: string[] = [];
+
+  if (path) {
+    revalidatePath(path);
+    revalidatedPaths.push(path);
+  }
+
+  if (tag) {
+    revalidateTag(tag, "max");
+    revalidatedTags.push(tag);
+  }
+
+  if (!path && !tag) {
+    for (const corePath of ["/", "/studio", "/services", "/projects", "/journal", "/contact"]) {
+      revalidatePath(corePath);
+      revalidatedPaths.push(corePath);
+    }
+  }
+
+  return NextResponse.json({
+    revalidated: true,
+    paths: revalidatedPaths,
+    tags: revalidatedTags,
+    timestamp: new Date().toISOString(),
   });
 }
