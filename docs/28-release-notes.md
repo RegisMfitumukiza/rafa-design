@@ -10,6 +10,37 @@
 
 ---
 
+# 2026-09-06 (Professional Favicon Set)
+
+## Version
+
+0.16.1-alpha
+
+## Summary
+
+Replaced the placeholder favicon set with a single professional brand mark: a rule-based geometric "R" (uniform 7-unit beams, closed counter, 45° V-bottom bowl) on a soft-black rounded tile in the studio's neutral palette. The mark replaces `public/icon.svg` and it is delivered as a complete, standards-compliant set.
+
+## What Changed
+
+- `public/icon.svg` redesigned — same brand identity (geometric R monogram) but corrected letterform: the previous path had no top bar, unbalanced stem/leg widths and a chevron "A-shaped" counter that rendered the mark illegible at favicon sizes; the new construction is traced from explicit rule coordinates (top bar `14..21`, stems `x15..22` / `x43..50`, baseline `y50`, counter `(22,21)(43,21)(43,33)(35,41)(30,41)(22,33)`) and exists only as reusable geometry.
+- Full raster set regenerated from the SVG (vector-rendered per size, no upscaling): `favicon-16x16.png`, `favicon-32x32.png`, `apple-touch-icon.png` (180×180, opaque), `android-chrome-192x192.png`, `android-chrome-512x512.png`, and multi-size `favicon.ico` (16/32/48, PNG-embedded). The new files replace the previous near-blank placeholder PNGs in `public/favicon/` (same filenames, so zero stale references).
+- `public/favicon.ico` + `public/apple-touch-icon.png` also placed at the public root for legacy auto-discovery browsers.
+- `public/manifest.json` (previously unlinked, SVG-only) now declares the full icon set (`any` + `any maskable`) and is wired up via metadata.
+- `src/config/seo.ts` icons metadata now emits the complete link set: `icon` (SVG + 32 + 16), `shortcut` (favicon.ico), `apple` (180×180), plus `manifest: "/manifest.json"`.
+
+## Verification
+
+- Production build green (34 routes).
+- `next start` head output confirmed: `rel=manifest`, `rel=shortcut icon`, `rel=icon` (svg/32/16), `rel=apple-touch-icon` — replacing the previous single `icon.svg` link.
+- All 9 favicon/manifest assets return `200` with correct content-types from the production server.
+- Mark verified optically by raster inspection at 16/32/64 px (counter, V-bowl and leg structure all legible at 16 px).
+
+## Notes
+
+- Part of the rafa-design favicon replacement request. No dependencies added; the favicon generation used the already-present `sharp` in `node_modules` (test tooling only, nothing committed).
+
+---
+
 # 2026-09-05 (Phase 16 Optimization + Phase 17 Deployment Complete)
 
 ## Version
