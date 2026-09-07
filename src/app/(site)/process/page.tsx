@@ -123,8 +123,8 @@ export default async function ProcessPage() {
         )}
       </Section>
 
-      {/* ── 3. METHODOLOGY INDEX ── */}
-      <Section container="wide" className="mt-2xl" id="methodology">
+      {/* ── 3. METHODOLOGY INDEX & BUILT PROOF ── */}
+      <Section container="wide" className="mt-xl md:mt-2xl" id="methodology">
         <Reveal>
           <div className="mb-md border-border/40 pb-sm flex items-baseline justify-between border-b font-mono text-[10px] tracking-widest uppercase">
             <div className="gap-xs text-foreground/45 flex items-center">
@@ -136,12 +136,10 @@ export default async function ProcessPage() {
         </Reveal>
 
         <ProcessTimeline steps={steps} titleAs="h2" />
-      </Section>
 
-      {/* ── 4. EDITORIAL PROOF TRANSITION ── */}
-      <Section container="wide" className="mt-2xl">
+        {/* ── 4. EDITORIAL PROOF TRANSITION (Unified single-line flow after Completion) ── */}
         <Reveal>
-          <div className="border-border/40 pt-2xl gap-y-lg gap-x-xl grid border-t md:grid-cols-12 md:items-start">
+          <div className="mt-xl md:mt-2xl gap-y-lg gap-x-xl grid md:grid-cols-12 md:items-start">
             <div className="md:col-span-5">
               <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
                 {proof.overline}
@@ -167,7 +165,7 @@ export default async function ProcessPage() {
       </Section>
 
       {/* ── 5. CTA ── */}
-      <DisciplineCta content={cta} className="mt-2xl" />
+      <DisciplineCta content={cta} />
     </>
   );
 }
