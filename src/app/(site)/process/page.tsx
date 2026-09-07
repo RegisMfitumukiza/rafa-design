@@ -11,7 +11,6 @@ import { breadcrumbSchema } from "@/config/schema";
 import { pageContent } from "@/content/pages";
 import { getProcessSteps, processHero } from "@/content/process";
 import { ui } from "@/content/ui";
-import { ProcessProgress } from "@/features/process/process-progress";
 import { ProcessTimeline } from "@/features/process/process-timeline";
 import { DisciplineCta } from "@/features/services/discipline-cta";
 import { ImageReveal, Reveal } from "@/motion";
@@ -74,7 +73,6 @@ export default async function ProcessPage() {
   return (
     <>
       <JsonLd data={breadcrumbSchema([{ name: "Process", path: "/process" }])} />
-      <ProcessProgress targetId="methodology" />
 
       {/* ── 1. EDITORIAL 12-COLUMN HEADER (Pattern B) ── */}
       <Section container="wide">
@@ -113,9 +111,14 @@ export default async function ProcessPage() {
         </ImageReveal>
         {heroImage.caption && (
           <Reveal delay={0.1}>
-            <p className="text-foreground/40 mt-sm font-mono text-[10px] tracking-widest uppercase">
-              {heroImage.caption}
-            </p>
+            <div className="mt-sm border-border/30 pt-xs flex items-baseline justify-between border-t font-mono text-[10px] tracking-widest uppercase">
+              <p className="text-foreground/45">
+                FIGURE 00 {"//"} {heroImage.caption}
+              </p>
+              <span className="text-foreground/25 hidden sm:inline-block">
+                Atelier Archive // In Progress
+              </span>
+            </div>
           </Reveal>
         )}
       </Section>
@@ -123,28 +126,27 @@ export default async function ProcessPage() {
       {/* ── 3. METHODOLOGY INDEX ── */}
       <Section container="wide" className="mt-2xl" id="methodology">
         <Reveal>
-          <div className="mb-md gap-sm border-border/40 pb-sm flex items-baseline justify-between border-b">
-            <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
-              {ui.overlines.sequence}
-            </p>
-            <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
-              01 — {total}
-            </p>
+          <div className="mb-md border-border/40 pb-sm flex items-baseline justify-between border-b font-mono text-[10px] tracking-widest uppercase">
+            <div className="gap-xs text-foreground/45 flex items-center">
+              <span className="bg-foreground/40 inline-block h-1 w-1 rounded-full" />
+              <span>{ui.overlines.sequence}</span>
+            </div>
+            <span className="text-foreground/40">PHASE 01 — {total}</span>
           </div>
         </Reveal>
 
         <ProcessTimeline steps={steps} titleAs="h2" />
       </Section>
 
-      {/* ── 4. EDITORIAL PROOF TRANSITION (Clean flow after Completion, no double line) ── */}
-      <Section container="wide" className="mt-xl md:mt-2xl">
+      {/* ── 4. EDITORIAL PROOF TRANSITION ── */}
+      <Section container="wide" className="mt-2xl">
         <Reveal>
-          <div className="gap-y-lg gap-x-xl grid md:grid-cols-12 md:items-start">
+          <div className="border-border/40 pt-2xl gap-y-lg gap-x-xl grid border-t md:grid-cols-12 md:items-start">
             <div className="md:col-span-5">
               <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
                 {proof.overline}
               </p>
-              <Heading variant="h2" className="mt-sm">
+              <Heading variant="h2" className="mt-sm text-3xl sm:text-4xl">
                 {proof.heading}
               </Heading>
             </div>
@@ -152,7 +154,7 @@ export default async function ProcessPage() {
               <p className="text-foreground/70 text-lg leading-relaxed md:text-xl">{proof.body}</p>
               <Link
                 href={(proof.actionUrl || "/projects") as Route}
-                className="border-border/60 hover:border-foreground hover:bg-foreground hover:text-background group px-md py-sm gap-lg inline-flex items-center justify-between rounded-sm border font-mono text-xs font-medium tracking-widest uppercase transition-all duration-300"
+                className="border-border/60 hover:border-foreground hover:bg-foreground hover:text-background group px-md py-sm gap-lg inline-flex items-center justify-between rounded-xs border font-mono text-xs font-medium tracking-widest uppercase transition-all duration-300"
               >
                 <span>{proof.actionText}</span>
                 <span className="transition-transform duration-300 group-hover:translate-x-1">

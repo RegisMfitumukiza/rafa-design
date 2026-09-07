@@ -41,19 +41,19 @@ export function ProcessStep({ step, index, titleAs = "h3", className }: ProcessS
       {/* Ruled row grid: index | title & duration | description & deliverables */}
       <div className="gap-x-md gap-y-sm grid items-start md:grid-cols-12">
         {/* Index code */}
-        <span className="text-foreground/40 font-mono text-[10px] tracking-wider uppercase md:col-span-1 md:pt-1">
+        <span className="text-foreground/35 font-mono text-[11px] tracking-widest uppercase md:col-span-1 md:pt-1.5">
           {code}
         </span>
 
         {/* Phase title & Duration */}
         <div className="md:col-span-4">
-          <Tag className="text-foreground/90 font-display text-2xl font-medium tracking-tight md:text-3xl">
+          <Tag className="text-foreground font-display text-2xl font-medium tracking-tight md:text-3xl lg:text-[2rem]">
             {step.title}
           </Tag>
           {step.duration && (
             <div className="mt-xs gap-xs flex items-center">
-              <span className="bg-foreground/40 inline-block h-px w-3" />
-              <span className="text-foreground/50 font-mono text-[10px] tracking-widest uppercase">
+              <span className="bg-foreground/30 inline-block h-px w-3" />
+              <span className="text-foreground/45 font-mono text-[10px] tracking-widest uppercase">
                 {step.duration}
               </span>
             </div>
@@ -66,21 +66,23 @@ export function ProcessStep({ step, index, titleAs = "h3", className }: ProcessS
             {step.description}
           </p>
 
-          {/* Deliverables micro-tags */}
+          {/* Deliverables architectural register */}
           {step.deliverables && step.deliverables.length > 0 && (
-            <div className="pt-xs">
-              <p className="text-foreground/30 mb-xs font-mono text-[9px] tracking-widest uppercase">
-                Deliverables
-              </p>
-              <div className="gap-x-xs flex flex-wrap items-center gap-y-1.5">
-                {step.deliverables.map((item) => (
-                  <span
-                    key={item}
-                    className="border-border/50 text-foreground/65 bg-foreground/[0.02] rounded-xs border px-2 py-0.5 font-mono text-[10px] tracking-wider uppercase"
-                  >
-                    {item}
-                  </span>
-                ))}
+            <div className="mt-md border-border/25 pt-sm border-t">
+              <div className="gap-x-md flex flex-wrap items-baseline gap-y-1.5 font-mono text-[10px] tracking-wider uppercase">
+                <span className="text-foreground/35 select-none">SPEC // DELIVERABLES:</span>
+                <div className="gap-x-sm flex flex-wrap items-center gap-y-1">
+                  {step.deliverables.map((item, idx) => (
+                    <span key={item} className="text-foreground/70 flex items-center">
+                      {idx > 0 && (
+                        <span className="text-foreground/25 mr-sm select-none" aria-hidden>
+                          /
+                        </span>
+                      )}
+                      <span>{item}</span>
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           )}
@@ -101,9 +103,12 @@ export function ProcessStep({ step, index, titleAs = "h3", className }: ProcessS
               />
             </ImageReveal>
             {caption && (
-              <p className="text-foreground/40 mt-sm font-mono text-[10px] tracking-widest uppercase">
-                {code} {"//"} {caption}
-              </p>
+              <div className="mt-sm border-border/25 pt-xs flex items-baseline justify-between border-t font-mono text-[10px] tracking-widest uppercase">
+                <p className="text-foreground/45">
+                  FIG. {code} {"//"} {caption}
+                </p>
+                <span className="text-foreground/25 hidden sm:inline-block">Phase Evidence</span>
+              </div>
             )}
           </div>
         </div>
