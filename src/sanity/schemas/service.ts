@@ -254,7 +254,7 @@ export default defineType({
           description:
             "Override default description for SEO (leave empty to use short description)",
           rows: 3,
-          validation: (Rule) => Rule.max(160),
+          validation: (Rule) => Rule.max(300),
         },
         {
           name: "keywords",

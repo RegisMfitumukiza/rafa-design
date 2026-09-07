@@ -308,7 +308,9 @@ export default defineType({
           title: "Meta Description",
           type: "text",
           rows: 3,
-          validation: (Rule) => Rule.max(160),
+          validation: (Rule) => Rule.max(300),
+          description:
+            "Recommended ~155–160 characters for search engine snippets, up to 300 for social previews.",
         }),
       ],
       description: "Optional metadata overrides for search engines and social cards.",

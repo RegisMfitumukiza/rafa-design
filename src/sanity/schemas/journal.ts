@@ -550,7 +550,7 @@ export default defineType({
           title: "Meta Description",
           description: "Override default excerpt for SEO (leave empty to use excerpt)",
           rows: 3,
-          validation: (Rule) => Rule.max(160),
+          validation: (Rule) => Rule.max(300),
         },
         {
           name: "keywords",

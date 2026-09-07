@@ -90,7 +90,9 @@ export default defineType({
           type: "text",
           title: "Default Meta Description",
           rows: 3,
-          validation: (Rule) => Rule.max(160),
+          validation: (Rule) => Rule.max(300),
+          description:
+            "Recommended ~155–160 characters for search engine snippets, up to 300 for social previews.",
         },
         {
           name: "keywords",

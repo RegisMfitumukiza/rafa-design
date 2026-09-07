@@ -165,7 +165,7 @@ export default defineType({
           type: "text",
           title: "Meta Description",
           rows: 3,
-          validation: (Rule) => Rule.max(160),
+          validation: (Rule) => Rule.max(300),
         },
       ],
     }),
