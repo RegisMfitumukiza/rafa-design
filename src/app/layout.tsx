@@ -27,6 +27,9 @@ export const metadata: Metadata = createMetadata({
   creator: siteConfig.creator,
   keywords: [...siteConfig.keywords],
   publisher: siteConfig.name,
+  verification: {
+    google: "uoeBlATnaUhu2CItaPyySNQgwkuIrLEMsXoklysHqlE",
+  },
   ...(siteConfig.url ? { metadataBase: new URL(siteConfig.url) } : {}),
 });
 
