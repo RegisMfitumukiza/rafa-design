@@ -758,3 +758,65 @@ export const pageIntrosQuery = `
     }
   }
 `;
+
+/**
+ * PROCESS PAGE SINGLETON QUERY
+ */
+export const processPageQuery = `
+  *[_type == "processPage" && !(_id in path("drafts.**"))][0] {
+    _id,
+    heroOverline,
+    heroTitle,
+    heroDescription,
+    heroImage {
+      asset->{
+        _id,
+        url,
+        metadata {
+          dimensions,
+          lqip
+        }
+      },
+      alt,
+      caption
+    },
+    steps[] {
+      _key,
+      order,
+      title,
+      duration,
+      description,
+      deliverables,
+      visual {
+        asset->{
+          _id,
+          url,
+          metadata {
+            dimensions,
+            lqip
+          }
+        },
+        alt,
+        caption
+      }
+    },
+    proof {
+      overline,
+      heading,
+      body,
+      actionText,
+      actionUrl
+    },
+    cta {
+      overline,
+      heading,
+      body,
+      action,
+      actionUrl
+    },
+    seo {
+      title,
+      description
+    }
+  }
+`;

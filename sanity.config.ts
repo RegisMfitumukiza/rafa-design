@@ -119,9 +119,23 @@ export default defineConfig({
                   .title("Studio Page Content"),
               ),
 
-            // 06 // Job Postings (Collection)
+            // 06 // Process Page (Singleton)
             S.listItem()
-              .title("06 // Job Postings")
+              .title("06 // Process Page")
+              .id("processPage")
+              .icon(() => "🧭")
+              .schemaType("processPage")
+              .child(
+                S.editor()
+                  .id("processPage")
+                  .schemaType("processPage")
+                  .documentId("processPage")
+                  .title("Process & Methodology Content"),
+              ),
+
+            // 07 // Job Postings (Collection)
+            S.listItem()
+              .title("07 // Job Postings")
               .icon(() => "💼")
               .schemaType("career")
               .child(
@@ -130,9 +144,9 @@ export default defineConfig({
                   .defaultOrdering([{ field: "order", direction: "asc" }]),
               ),
 
-            // 07 // Careers Page (Singleton)
+            // 08 // Careers Page (Singleton)
             S.listItem()
-              .title("07 // Careers Page")
+              .title("08 // Careers Page")
               .id("careers")
               .icon(() => "📄")
               .schemaType("careers")
@@ -144,9 +158,9 @@ export default defineConfig({
                   .title("Careers Page Content"),
               ),
 
-            // 08 // Contact Page (Singleton)
+            // 09 // Contact Page (Singleton)
             S.listItem()
-              .title("08 // Contact Page")
+              .title("09 // Contact Page")
               .id("contact")
               .icon(() => "✉️")
               .schemaType("contact")
@@ -158,9 +172,9 @@ export default defineConfig({
                   .title("Contact & Office Information"),
               ),
 
-            // 09 // Site Settings (Singleton)
+            // 10 // Site Settings (Singleton)
             S.listItem()
-              .title("09 // Site Settings")
+              .title("10 // Site Settings")
               .id("siteSettings")
               .icon(() => "⚙️")
               .schemaType("siteSettings")
@@ -172,9 +186,9 @@ export default defineConfig({
                   .title("Site Settings"),
               ),
 
-            // 10 // Page Introductions (Singleton)
+            // 11 // Page Introductions (Singleton)
             S.listItem()
-              .title("10 // Page Introductions")
+              .title("11 // Page Introductions")
               .id("pageIntros")
               .icon(() => "✍️")
               .schemaType("pageIntros")
@@ -200,7 +214,14 @@ export default defineConfig({
     // Filter out singleton types from the global "+" (New document) menu
     // so editors cannot accidentally create duplicate singletons
     templates: (prev) => {
-      const singletonTypes = ["studio", "careers", "contact", "siteSettings", "pageIntros"];
+      const singletonTypes = [
+        "studio",
+        "processPage",
+        "careers",
+        "contact",
+        "siteSettings",
+        "pageIntros",
+      ];
       return prev.filter((template) => !singletonTypes.includes(template.schemaType));
     },
   },
@@ -210,7 +231,14 @@ export default defineConfig({
     // For singleton documents, hide delete/duplicate/unpublish actions so only a
     // single document of each type can exist, while allowing publishing.
     actions: (prev, context) => {
-      const singletonTypes = ["studio", "careers", "contact", "siteSettings", "pageIntros"];
+      const singletonTypes = [
+        "studio",
+        "processPage",
+        "careers",
+        "contact",
+        "siteSettings",
+        "pageIntros",
+      ];
       const { schemaType } = context;
 
       if (singletonTypes.includes(schemaType as string)) {

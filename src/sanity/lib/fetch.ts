@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Sanity Data Fetching Utilities
  *
  * High-level functions for fetching and transforming Sanity data.
@@ -13,6 +13,7 @@ import type { Benefit, CareerPosition, CareersContent } from "@/content/company/
 import type { ContactInformation } from "@/content/company/contact";
 import type { JournalArticle, JournalCategory } from "@/content/journal";
 import type { PageIntros } from "@/content/pages";
+import type { ProcessPageContent } from "@/content/process";
 import type { Project } from "@/content/projects";
 import type { Service } from "@/content/services";
 import type { SiteSettings } from "@/content/siteSettings";
@@ -292,6 +293,7 @@ export const cacheTags = {
   contact: "contact",
   settings: "settings",
   pageIntros: "page-intros",
+  process: "process",
 } as const;
 
 /**
@@ -646,5 +648,34 @@ export async function getPageIntros(): Promise<PageIntros> {
   } catch (error) {
     console.error("Error fetching page intros:", error);
     return {};
+  }
+}
+
+/**
+ * ============================================================================
+ * PROCESS PAGE FETCHING
+ * ============================================================================
+ */
+
+/**
+ * Get the Process Page content (singleton document).
+ * Returns null if not published or on error (callers fall back to static content).
+ */
+export async function getProcessPage(): Promise<ProcessPageContent | null> {
+  try {
+    const { processPageQuery } = await import("./queries");
+    const { transformSanityProcessPage } = await import("./transforms");
+    const sanityProcess = await client.fetch(
+      processPageQuery,
+      {},
+      {
+        next: { tags: [cacheTags.process] },
+      },
+    );
+    if (!sanityProcess) return null;
+    return transformSanityProcessPage(sanityProcess);
+  } catch (error) {
+    console.error("Error fetching process page:", error);
+    return null;
   }
 }

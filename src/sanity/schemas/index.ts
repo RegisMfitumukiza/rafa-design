@@ -21,6 +21,7 @@ import careersSchema from "./careers";
 import contactSchema from "./contact";
 import journalSchema from "./journal";
 import pageIntrosSchema from "./pageIntros";
+import processPageSchema from "./processPage";
 import projectSchema from "./project";
 import serviceSchema from "./service";
 import siteSettingsSchema from "./siteSettings";
@@ -40,6 +41,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   teamCategorySchema,
   teamSchema,
   studioSchema,
+  processPageSchema,
   careerSchema,
   careersSchema,
   contactSchema,
@@ -57,6 +59,7 @@ export {
   teamCategorySchema,
   teamSchema,
   studioSchema,
+  processPageSchema,
   careerSchema,
   careersSchema,
   contactSchema,

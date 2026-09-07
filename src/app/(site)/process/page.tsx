@@ -15,12 +15,20 @@ import { ProcessProgress } from "@/features/process/process-progress";
 import { ProcessTimeline } from "@/features/process/process-timeline";
 import { DisciplineCta } from "@/features/services/discipline-cta";
 import { ImageReveal, Reveal } from "@/motion";
-import { getPageIntros } from "@/sanity/lib";
+import { getPageIntros, getProcessPage } from "@/sanity/lib";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const cmsIntros = await getPageIntros();
-  const title = cmsIntros.process?.title ?? pageContent.process.title;
-  const description = cmsIntros.process?.description ?? pageContent.process.description;
+  const [cmsProcess, cmsIntros] = await Promise.all([getProcessPage(), getPageIntros()]);
+  const title =
+    cmsProcess?.seo?.title ??
+    cmsProcess?.title ??
+    cmsIntros.process?.title ??
+    pageContent.process.title;
+  const description =
+    cmsProcess?.seo?.description ??
+    cmsProcess?.description ??
+    cmsIntros.process?.description ??
+    pageContent.process.description;
   return {
     title,
     description,
@@ -32,18 +40,35 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function ProcessPage() {
-  const steps = getProcessSteps();
+  const [cmsProcess, cmsIntros] = await Promise.all([getProcessPage(), getPageIntros()]);
+  const steps =
+    cmsProcess?.steps && cmsProcess.steps.length > 0 ? cmsProcess.steps : getProcessSteps();
   const total = String(steps.length).padStart(2, "0");
-  const cmsIntros = await getPageIntros();
-  const process = cmsIntros.process ?? {};
-  const overline = process.overline ?? pageContent.process.overline;
-  const title = process.title ?? pageContent.process.title;
-  const description = process.description ?? pageContent.process.description;
+  const heroImage = cmsProcess?.heroImage ?? processHero;
+
+  const processIntro = cmsIntros.process ?? {};
+  const overline = cmsProcess?.overline ?? processIntro.overline ?? pageContent.process.overline;
+  const title = cmsProcess?.title ?? processIntro.title ?? pageContent.process.title;
+  const description =
+    cmsProcess?.description ?? processIntro.description ?? pageContent.process.description;
+
+  const proof = {
+    overline: cmsProcess?.proof?.overline ?? "Specification // Evidence",
+    heading: cmsProcess?.proof?.heading ?? "Built Proof",
+    body:
+      cmsProcess?.proof?.body ??
+      "Our methodology is tested and refined through every built project — from private residences to adaptive reuse.",
+    actionText: cmsProcess?.proof?.actionText ?? ui.sections.seeTheWork,
+    actionUrl: cmsProcess?.proof?.actionUrl ?? "/projects",
+  };
+
   const cta = {
-    overline: process.cta?.overline ?? pageContent.process.cta.overline,
-    heading: process.cta?.heading ?? pageContent.process.cta.heading,
-    body: process.cta?.body ?? pageContent.process.cta.body,
-    action: process.cta?.action ?? pageContent.process.cta.action,
+    overline:
+      cmsProcess?.cta?.overline ?? processIntro.cta?.overline ?? pageContent.process.cta.overline,
+    heading:
+      cmsProcess?.cta?.heading ?? processIntro.cta?.heading ?? pageContent.process.cta.heading,
+    body: cmsProcess?.cta?.body ?? processIntro.cta?.body ?? pageContent.process.cta.body,
+    action: cmsProcess?.cta?.action ?? processIntro.cta?.action ?? pageContent.process.cta.action,
   };
 
   return (
@@ -78,18 +103,21 @@ export default async function ProcessPage() {
       <Section container="wide" className="mt-xl md:mt-2xl">
         <ImageReveal className="w-full">
           <Image
-            asset={processHero}
+            asset={heroImage}
+            fill
             sizes="100vw"
             priority
             className="aspect-[16/9] w-full md:aspect-[21/9]"
             imgClassName="object-cover"
           />
         </ImageReveal>
-        <Reveal delay={0.1}>
-          <p className="text-foreground/40 mt-sm font-mono text-[10px] tracking-widest uppercase">
-            {processHero.caption}
-          </p>
-        </Reveal>
+        {heroImage.caption && (
+          <Reveal delay={0.1}>
+            <p className="text-foreground/40 mt-sm font-mono text-[10px] tracking-widest uppercase">
+              {heroImage.caption}
+            </p>
+          </Reveal>
+        )}
       </Section>
 
       {/* ── 3. METHODOLOGY INDEX ── */}
@@ -114,22 +142,19 @@ export default async function ProcessPage() {
           <div className="gap-y-lg gap-x-xl grid md:grid-cols-12 md:items-start">
             <div className="md:col-span-5">
               <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
-                Specification // Evidence
+                {proof.overline}
               </p>
               <Heading variant="h2" className="mt-sm">
-                Built Proof
+                {proof.heading}
               </Heading>
             </div>
             <div className="space-y-lg md:col-span-7">
-              <p className="text-foreground/70 text-lg leading-relaxed md:text-xl">
-                Our methodology is tested and refined through every built project — from private
-                residences to adaptive reuse.
-              </p>
+              <p className="text-foreground/70 text-lg leading-relaxed md:text-xl">{proof.body}</p>
               <Link
-                href={"/projects" as Route}
+                href={(proof.actionUrl || "/projects") as Route}
                 className="border-border/60 hover:border-foreground hover:bg-foreground hover:text-background group px-md py-sm gap-lg inline-flex items-center justify-between rounded-sm border font-mono text-xs font-medium tracking-widest uppercase transition-all duration-300"
               >
-                <span>{ui.sections.seeTheWork}</span>
+                <span>{proof.actionText}</span>
                 <span className="transition-transform duration-300 group-hover:translate-x-1">
                   &rarr;
                 </span>

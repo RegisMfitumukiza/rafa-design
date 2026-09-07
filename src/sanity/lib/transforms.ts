@@ -17,6 +17,7 @@ import type {
 import type { ContactInformation, Office } from "@/content/company/contact";
 import type { JournalArticle, Person } from "@/content/journal";
 import type { PageIntros } from "@/content/pages";
+import type { ProcessPageContent, ProcessStep } from "@/content/process";
 import type {
   BeforeAfterImage,
   ChapterIntent,
@@ -1324,6 +1325,120 @@ export function transformSanityPageIntros(sanityPageIntros: SanityRawPageIntros)
       ...(sanityPageIntros.contact.dialogueOverline
         ? { dialogueOverline: sanityPageIntros.contact.dialogueOverline }
         : {}),
+    };
+  }
+
+  return result;
+}
+
+/**
+ * ============================================================================
+ * PROCESS PAGE TRANSFORMS
+ * ============================================================================
+ */
+
+export interface SanityRawProcessStep {
+  _key?: string;
+  order?: number;
+  title?: string;
+  duration?: string;
+  description?: string;
+  deliverables?: string[];
+  visual?: SanityRawImage;
+}
+
+export interface SanityRawProcessPage {
+  _id?: string;
+  heroOverline?: string;
+  heroTitle?: string;
+  heroDescription?: string;
+  heroImage?: SanityRawImage;
+  steps?: SanityRawProcessStep[];
+  proof?: {
+    overline?: string;
+    heading?: string;
+    body?: string;
+    actionText?: string;
+    actionUrl?: string;
+  };
+  cta?: {
+    overline?: string;
+    heading?: string;
+    body?: string;
+    action?: string;
+    actionUrl?: string;
+  };
+  seo?: {
+    title?: string;
+    description?: string;
+  };
+}
+
+export function transformSanityProcessPage(
+  sanityPage: SanityRawProcessPage | null | undefined,
+): ProcessPageContent | null {
+  if (!sanityPage?._id) return null;
+
+  const result: ProcessPageContent = {};
+
+  if (sanityPage.heroOverline) result.overline = sanityPage.heroOverline;
+  if (sanityPage.heroTitle) result.title = sanityPage.heroTitle;
+  if (sanityPage.heroDescription) result.description = sanityPage.heroDescription;
+
+  if (sanityPage.heroImage) {
+    const heroImg = sanityImageToAsset(sanityPage.heroImage);
+    if (heroImg) result.heroImage = heroImg;
+  }
+
+  if (Array.isArray(sanityPage.steps) && sanityPage.steps.length > 0) {
+    result.steps = sanityPage.steps
+      .filter((s) => s && s.title && s.description)
+      .map((s, index) => {
+        const step: ProcessStep = {
+          id: s._key || `step-${s.order || index + 1}`,
+          title: s.title || "",
+          description: s.description || "",
+          order: s.order ?? index + 1,
+          ...(s.duration ? { duration: s.duration } : {}),
+          ...(Array.isArray(s.deliverables) && s.deliverables.length > 0
+            ? { deliverables: s.deliverables }
+            : {}),
+        };
+
+        if (s.visual) {
+          const vis = sanityImageToAsset(s.visual);
+          if (vis) step.visual = vis;
+        }
+
+        return step;
+      })
+      .sort((a, b) => a.order - b.order);
+  }
+
+  if (sanityPage.proof) {
+    result.proof = {
+      ...(sanityPage.proof.overline ? { overline: sanityPage.proof.overline } : {}),
+      ...(sanityPage.proof.heading ? { heading: sanityPage.proof.heading } : {}),
+      ...(sanityPage.proof.body ? { body: sanityPage.proof.body } : {}),
+      ...(sanityPage.proof.actionText ? { actionText: sanityPage.proof.actionText } : {}),
+      ...(sanityPage.proof.actionUrl ? { actionUrl: sanityPage.proof.actionUrl } : {}),
+    };
+  }
+
+  if (sanityPage.cta) {
+    result.cta = {
+      ...(sanityPage.cta.overline ? { overline: sanityPage.cta.overline } : {}),
+      ...(sanityPage.cta.heading ? { heading: sanityPage.cta.heading } : {}),
+      ...(sanityPage.cta.body ? { body: sanityPage.cta.body } : {}),
+      ...(sanityPage.cta.action ? { action: sanityPage.cta.action } : {}),
+      ...(sanityPage.cta.actionUrl ? { actionUrl: sanityPage.cta.actionUrl } : {}),
+    };
+  }
+
+  if (sanityPage.seo) {
+    result.seo = {
+      ...(sanityPage.seo.title ? { title: sanityPage.seo.title } : {}),
+      ...(sanityPage.seo.description ? { description: sanityPage.seo.description } : {}),
     };
   }
 

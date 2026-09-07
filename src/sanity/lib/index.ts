@@ -59,6 +59,7 @@ export {
   getContactInformation,
   getSiteSettings,
   getPageIntros,
+  getProcessPage,
   cacheTags,
 } from "./fetch";
 

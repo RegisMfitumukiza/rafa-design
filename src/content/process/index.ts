@@ -10,6 +10,32 @@ export interface ProcessStep {
   visual?: ImageAsset;
 }
 
+export interface ProcessPageContent {
+  overline?: string;
+  title?: string;
+  description?: string;
+  heroImage?: ImageAsset;
+  steps?: ProcessStep[];
+  proof?: {
+    overline?: string;
+    heading?: string;
+    body?: string;
+    actionText?: string;
+    actionUrl?: string;
+  };
+  cta?: {
+    overline?: string;
+    heading?: string;
+    body?: string;
+    action?: string;
+    actionUrl?: string;
+  };
+  seo?: {
+    title?: string;
+    description?: string;
+  };
+}
+
 const steps: ProcessStep[] = [
   {
     id: "discovery",
