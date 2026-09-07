@@ -94,6 +94,7 @@ export function ProcessStep({ step, index, titleAs = "h3", className }: ProcessS
             <ImageReveal className="w-full">
               <Image
                 asset={step.visual}
+                fill
                 sizes="(max-width: 48rem) 100vw, 66vw"
                 className="aspect-[16/10] w-full"
                 imgClassName="object-cover"
