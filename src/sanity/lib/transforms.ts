@@ -33,6 +33,7 @@ import type {
 import type { Service, ServiceApproach } from "@/content/services";
 import type { SiteSettings } from "@/content/siteSettings";
 import type { Award, ClientSector, Studio, TeamMember, TimelineEvent } from "@/content/studio";
+import type { SustainabilityContent } from "@/content/sustainability";
 import type { ImageAsset, Location, SocialLink } from "@/content/types";
 
 import {
@@ -1454,4 +1455,76 @@ export function transformSanityProcessPage(
   }
 
   return result;
+}
+
+/**
+ * ============================================================================
+ * SUSTAINABILITY TRANSFORMS
+ * ============================================================================
+ */
+
+export interface SanityRawSustainability {
+  _id?: string;
+  manifesto?: { overline?: string; heading?: string; body?: string };
+  philosophy?: { heading?: string; body?: string };
+  materialImage?: SanityRawImage;
+  commitments?: Array<{ number?: string; title?: string; description?: string }>;
+  principles?: string[];
+  certifications?: Array<{ name?: string; description?: string }>;
+  collaboration?: { heading?: string; body?: string; cta?: string };
+  seo?: { title?: string; description?: string };
+  [key: string]: unknown;
+}
+
+export function transformSanitySustainability(
+  sanityDoc?: SanityRawSustainability | null,
+): SustainabilityContent | null {
+  if (!sanityDoc) return null;
+
+  const materialImage = sanityImageToAsset(sanityDoc.materialImage);
+
+  const content: SustainabilityContent = {
+    manifesto: {
+      overline: sanityDoc.manifesto?.overline || "",
+      heading: sanityDoc.manifesto?.heading || "",
+      body: sanityDoc.manifesto?.body || "",
+    },
+    philosophy: {
+      heading: sanityDoc.philosophy?.heading || "",
+      body: sanityDoc.philosophy?.body || "",
+    },
+    commitments: (sanityDoc.commitments || [])
+      .filter((c) => c?.title)
+      .map((c, idx) => ({
+        id: `commitment-${idx + 1}`,
+        number: c.number || String(idx + 1).padStart(2, "0"),
+        title: c.title || "",
+        description: c.description || "",
+      })),
+    principles: Array.isArray(sanityDoc.principles) ? sanityDoc.principles.filter(Boolean) : [],
+    certifications: (sanityDoc.certifications || [])
+      .filter((cert) => cert?.name)
+      .map((cert) => ({
+        name: cert.name || "",
+        description: cert.description || "",
+      })),
+    collaboration: {
+      heading: sanityDoc.collaboration?.heading || "",
+      body: sanityDoc.collaboration?.body || "",
+      cta: sanityDoc.collaboration?.cta || "",
+    },
+  };
+
+  if (materialImage) {
+    content.materialImage = materialImage;
+  }
+
+  if (sanityDoc.seo) {
+    content.seo = {
+      ...(sanityDoc.seo.title ? { title: sanityDoc.seo.title } : {}),
+      ...(sanityDoc.seo.description ? { description: sanityDoc.seo.description } : {}),
+    };
+  }
+
+  return content;
 }

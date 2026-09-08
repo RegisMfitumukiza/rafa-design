@@ -60,6 +60,7 @@ export {
   getSiteSettings,
   getPageIntros,
   getProcessPage,
+  getSustainabilityContent,
   cacheTags,
 } from "./fetch";
 

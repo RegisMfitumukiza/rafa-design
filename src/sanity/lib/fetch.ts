@@ -18,6 +18,7 @@ import type { Project } from "@/content/projects";
 import type { Service } from "@/content/services";
 import type { SiteSettings } from "@/content/siteSettings";
 import type { Award, ClientSector, Studio, TeamMember, TimelineEvent } from "@/content/studio";
+import type { SustainabilityContent } from "@/content/sustainability";
 
 import { client } from "./client";
 import {
@@ -294,6 +295,7 @@ export const cacheTags = {
   settings: "settings",
   pageIntros: "page-intros",
   process: "process",
+  sustainability: "sustainability",
 } as const;
 
 /**
@@ -677,5 +679,37 @@ export async function getProcessPage(): Promise<ProcessPageContent | null> {
   } catch (error) {
     console.error("Error fetching process page:", error);
     return null;
+  }
+}
+
+/**
+ * ============================================================================
+ * SUSTAINABILITY FETCHING
+ * ============================================================================
+ */
+
+/**
+ * Get sustainability page content (singleton document).
+ * Falls back to static content if not yet seeded or on error.
+ */
+export async function getSustainabilityContent(): Promise<SustainabilityContent> {
+  try {
+    const { sustainabilityQuery } = await import("./queries");
+    const { transformSanitySustainability } = await import("./transforms");
+    const sanityDoc = await client.fetch(
+      sustainabilityQuery,
+      {},
+      {
+        next: { tags: [cacheTags.sustainability] },
+      },
+    );
+    const transformed = transformSanitySustainability(sanityDoc);
+    if (transformed) return transformed;
+    const { sustainabilityContent } = await import("@/content/sustainability");
+    return sustainabilityContent;
+  } catch (error) {
+    console.error("Error fetching sustainability content:", error);
+    const { sustainabilityContent } = await import("@/content/sustainability");
+    return sustainabilityContent;
   }
 }

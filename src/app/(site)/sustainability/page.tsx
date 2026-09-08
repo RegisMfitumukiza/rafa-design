@@ -1,226 +1,277 @@
 import type { Metadata } from "next";
+import type { Route } from "next";
+
+import Link from "next/link";
 
 import { Section } from "@/components/layout/Section";
 import { Image } from "@/components/media/Image";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Heading } from "@/components/typography/Heading";
-import { Text } from "@/components/typography/Text";
-import { Link as TextLink } from "@/components/ui/Link";
 import { breadcrumbSchema } from "@/config/schema";
 import { pageContent } from "@/content/pages";
-import { sustainabilityContent } from "@/content/sustainability";
-import { Parallax, Reveal, Stagger } from "@/motion";
-import { getPageIntros } from "@/sanity/lib";
+import { ImageReveal, Reveal, Stagger } from "@/motion";
+import { getContactInformation, getSustainabilityContent } from "@/sanity/lib";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const cmsIntros = await getPageIntros();
-  const title = cmsIntros.sustainability?.heading ?? pageContent.sustainability.title;
-  const description = cmsIntros.sustainability?.body ?? pageContent.sustainability.description;
+  const content = await getSustainabilityContent();
+  const title =
+    content.seo?.title ??
+    (content.manifesto?.heading
+      ? `${content.manifesto.heading} | Sustainability`
+      : pageContent.sustainability.title);
+  const description =
+    content.seo?.description ?? content.manifesto?.body ?? pageContent.sustainability.description;
+
   return {
     title,
     description,
+    openGraph: {
+      title,
+      description,
+    },
   };
 }
 
 export default async function SustainabilityPage() {
-  const { manifesto, philosophy, materialImage, commitments, principles, collaboration } =
-    sustainabilityContent;
-  const cmsIntros = await getPageIntros();
+  const [content, contact] = await Promise.all([
+    getSustainabilityContent(),
+    getContactInformation(),
+  ]);
 
-  const overline = cmsIntros.sustainability?.overline ?? manifesto.overline;
-  const heading = cmsIntros.sustainability?.heading ?? manifesto.heading;
-  const body = cmsIntros.sustainability?.body ?? manifesto.body;
+  const {
+    manifesto,
+    philosophy,
+    materialImage,
+    commitments,
+    principles,
+    certifications = [],
+    collaboration,
+  } = content;
+
+  const contactEmail = contact?.email || "studio@rafadesign.com";
 
   return (
     <>
       <JsonLd data={breadcrumbSchema([{ name: "Sustainability", path: "/sustainability" }])} />
 
-      {/* 01 — Monograph Cover / Manifesto */}
-      <Section container="standard">
-        <div className="gap-2xl grid items-start md:grid-cols-12">
-          <div className="md:col-span-8 lg:col-span-7">
-            <Reveal visible>
-              <p className="text-foreground/40 mb-sm font-mono text-[10px] tracking-widest uppercase">
-                Specification // {overline}
+      {/* ── 01. EDITORIAL 12-COLUMN HEADER (Pattern B) ── */}
+      <Section container="wide">
+        <Reveal visible>
+          <div className="gap-x-xl gap-y-md grid items-start md:grid-cols-12">
+            {/* Left 6 cols: Overline & Title */}
+            <div className="md:col-span-6 lg:col-span-6">
+              <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
+                {manifesto.overline || "Environmental Responsibility // Ecological Stewardship"}
               </p>
-            </Reveal>
-            <Reveal visible>
-              <h1 className="font-display mb-xl text-5xl leading-[0.95] tracking-tight text-balance sm:text-6xl md:text-7xl lg:text-8xl">
-                {heading}
+              <h1 className="font-display text-foreground mt-sm text-4xl font-medium tracking-tight sm:text-5xl lg:text-6xl xl:text-7xl">
+                {manifesto.heading}
               </h1>
-            </Reveal>
-            <Reveal visible>
-              <Text
-                variant="body"
-                className="text-foreground/60 max-w-prose text-lg leading-relaxed md:text-xl"
-              >
-                {body}
-              </Text>
-            </Reveal>
-          </div>
-        </div>
-      </Section>
-
-      {/* 02 — Philosophy Statement */}
-      <Section container="standard">
-        <Reveal>
-          <div className="gap-2xl grid items-start md:grid-cols-12">
-            <div className="md:col-span-5">
-              <p className="text-foreground/40 mb-sm font-mono text-[10px] tracking-widest uppercase">
-                Specification // Philosophy
-              </p>
-              <Heading
-                variant="h2"
-                className="text-3xl leading-tight text-balance md:text-4xl lg:text-5xl"
-              >
-                {philosophy.heading}
-              </Heading>
             </div>
-            <div className="md:pt-lg md:col-span-7">
-              <Text variant="body" className="text-foreground/65 text-lg leading-relaxed">
-                {philosophy.body}
-              </Text>
+            {/* Right 6 cols: Lead Description */}
+            <div className="md:pt-md md:col-span-6 lg:col-span-6">
+              <p className="text-foreground/70 w-full text-xl leading-relaxed md:text-2xl">
+                {manifesto.body}
+              </p>
             </div>
           </div>
         </Reveal>
       </Section>
 
-      {/* 03 — Material Moment */}
+      {/* ── 02. PHILOSOPHY STATEMENT ── */}
+      <Section container="wide" className="mt-xl md:mt-2xl">
+        <Reveal>
+          <div className="border-border/40 pt-2xl gap-y-lg gap-x-xl grid border-t md:grid-cols-12 md:items-start">
+            <div className="md:col-span-5">
+              <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
+                Specification // Philosophy
+              </p>
+              <Heading variant="h2" className="mt-sm text-3xl sm:text-4xl">
+                {philosophy.heading}
+              </Heading>
+            </div>
+            <div className="space-y-md md:col-span-7">
+              <p className="text-foreground/70 text-lg leading-relaxed md:text-xl">
+                {philosophy.body}
+              </p>
+            </div>
+          </div>
+        </Reveal>
+      </Section>
+
+      {/* ── 03. MATERIAL ATELIER PLATE ── */}
       {materialImage && (
-        <Section container="wide">
-          <Parallax>
-            <Image asset={materialImage} className="aspect-[16/9] w-full" sizes="100vw" />
-          </Parallax>
+        <Section container="wide" className="mt-xl md:mt-2xl">
+          <ImageReveal className="w-full">
+            <Image
+              asset={materialImage}
+              fill
+              priority={false}
+              className="aspect-[16/9] w-full md:aspect-[21/9]"
+              imgClassName="object-cover"
+              sizes="100vw"
+            />
+          </ImageReveal>
           {materialImage.caption && (
             <Reveal delay={0.1}>
-              <div className="mt-sm gap-sm flex items-baseline justify-between">
-                <p className="text-foreground/40 text-xs">{materialImage.caption}</p>
-                <p className="text-foreground/30 font-mono text-[10px] tracking-widest uppercase">
-                  Material Study
+              <div className="border-border/30 mt-sm pt-xs flex items-baseline justify-between border-t font-mono text-[10px] tracking-widest uppercase">
+                <p className="text-foreground/45">
+                  FIGURE 01 {"//"} {materialImage.caption}
                 </p>
+                <span className="text-foreground/25 hidden sm:inline-block">
+                  Material Archive // Provenance
+                </span>
               </div>
             </Reveal>
           )}
         </Section>
       )}
 
-      {/* 04 — Four Commitments — Ruled Architectural Index */}
-      <Section container="standard">
-        <Reveal>
-          <div className="mb-2xl">
-            <p className="text-foreground/40 mb-sm font-mono text-[10px] tracking-widest uppercase">
-              Specification // Commitments
-            </p>
-            <Heading variant="h2" className="text-3xl md:text-4xl">
-              Four commitments
-            </Heading>
-          </div>
-        </Reveal>
-
-        <Stagger className="flex flex-col">
-          {commitments.map((commitment, idx) => (
-            <div
-              key={commitment.id}
-              className={`group border-border py-2xl gap-lg grid border-t transition-all md:grid-cols-12 ${
-                idx === commitments.length - 1 ? "border-b" : ""
-              }`}
-            >
-              <span className="text-foreground/30 group-hover:text-foreground/50 origin-left font-mono text-sm font-medium tracking-widest transition-all group-hover:scale-105 md:col-span-1">
-                {commitment.number}
-              </span>
-              <div className="md:col-span-3 lg:col-span-4">
-                <Heading
-                  as="h3"
-                  variant="h3"
-                  className="text-foreground/90 group-hover:text-foreground text-xl transition-colors md:text-2xl lg:text-3xl"
-                >
-                  {commitment.title}
-                </Heading>
+      {/* ── 04. FOUR COMMITMENTS (Architectural 4-Column Spec Matrix) ── */}
+      {commitments.length > 0 && (
+        <Section container="wide" className="mt-xl md:mt-2xl" id="commitments">
+          <Reveal>
+            <div className="mb-md border-border/40 pb-sm flex items-baseline justify-between border-b font-mono text-[10px] tracking-widest uppercase">
+              <div className="gap-xs text-foreground/45 flex items-center">
+                <span className="bg-foreground/40 inline-block h-1 w-1 rounded-full" />
+                <span>CORE COMMITMENTS // ECOLOGICAL METHODOLOGY</span>
               </div>
-              <div className="md:col-span-8 lg:col-span-7">
-                <Text
-                  variant="body"
-                  className="text-foreground/60 text-base leading-relaxed md:text-lg"
-                >
-                  {commitment.description}
-                </Text>
-              </div>
+              <span className="text-foreground/40">PILLARS 01 — 04</span>
             </div>
-          ))}
-        </Stagger>
-      </Section>
+          </Reveal>
 
-      {/* 05 — Design Principles */}
-      <Section container="standard">
-        <Reveal>
-          <div className="gap-2xl grid items-start md:grid-cols-12">
-            <div className="md:col-span-4">
-              <p className="text-foreground/40 mb-sm font-mono text-[10px] tracking-widest uppercase">
-                Specification // Principles
-              </p>
-              <Heading
-                variant="h2"
-                className="text-3xl leading-tight text-balance md:text-4xl lg:text-5xl"
+          <Stagger className="border-border/40 divide-border/40 grid grid-cols-1 divide-y border-y md:grid-cols-2 md:divide-x md:divide-y-0 lg:grid-cols-4">
+            {commitments.map((commitment) => (
+              <div
+                key={commitment.id}
+                className="py-lg md:py-xl md:px-lg flex flex-col justify-between px-0 first:md:pl-0 last:md:pr-0"
               >
-                Our guiding rules.
-              </Heading>
-            </div>
-            <div className="md:col-span-7 md:col-start-6">
-              <Stagger className="gap-xl flex flex-col">
-                {principles.map((principle, idx) => (
-                  <div
-                    key={idx}
-                    className="border-border/30 gap-lg pb-xl flex items-start border-b last:border-0 last:pb-0"
-                  >
-                    <span className="text-foreground/30 mt-1 shrink-0 font-mono text-sm tabular-nums">
-                      {String(idx + 1).padStart(2, "0")}
-                    </span>
-                    <Text
-                      variant="body"
-                      className="text-foreground/70 text-lg leading-relaxed italic md:text-xl"
-                    >
-                      &ldquo;{principle}&rdquo;
-                    </Text>
-                  </div>
-                ))}
-              </Stagger>
-            </div>
-          </div>
-        </Reveal>
-      </Section>
+                <div>
+                  <span className="text-foreground/35 font-mono text-[11px] tracking-widest uppercase">
+                    {commitment.number}
+                  </span>
+                  <h3 className="font-display text-foreground mt-sm text-xl font-medium tracking-tight sm:text-2xl">
+                    {commitment.title}
+                  </h3>
+                  <p className="text-foreground/65 mt-sm text-sm leading-relaxed md:text-base">
+                    {commitment.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </Stagger>
+        </Section>
+      )}
 
-      {/* 06 — Collaboration CTA */}
-      <Section container="standard">
+      {/* ── 05. GUIDING PRINCIPLES ── */}
+      {principles.length > 0 && (
+        <Section container="wide" className="mt-xl md:mt-2xl">
+          <Reveal>
+            <div className="border-border/40 pt-2xl gap-y-lg gap-x-xl grid border-t md:grid-cols-12 md:items-start">
+              <div className="md:col-span-5">
+                <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
+                  AXIOMS // GUIDING PRINCIPLES
+                </p>
+                <Heading variant="h2" className="mt-sm text-3xl sm:text-4xl">
+                  Our guiding rules.
+                </Heading>
+                <p className="text-foreground/50 mt-sm text-sm leading-relaxed md:text-base">
+                  Five non-negotiable architectural tenets that determine our material choices,
+                  structural lifecycle, and ecological footprint.
+                </p>
+              </div>
+
+              <div className="md:col-span-7">
+                <Stagger className="border-border/30 divide-border/30 flex flex-col divide-y">
+                  {principles.map((principle, idx) => (
+                    <div key={idx} className="py-md gap-md flex items-start first:pt-0 last:pb-0">
+                      <span className="text-foreground/35 shrink-0 pt-0.5 font-mono text-xs tracking-widest tabular-nums">
+                        {String(idx + 1).padStart(2, "0")}
+                      </span>
+                      <p className="text-foreground/85 text-base leading-relaxed italic md:text-lg">
+                        &ldquo;{principle}&rdquo;
+                      </p>
+                    </div>
+                  ))}
+                </Stagger>
+              </div>
+            </div>
+          </Reveal>
+        </Section>
+      )}
+
+      {/* ── 06. ENVIRONMENTAL FRAMEWORKS & CERTIFICATIONS ── */}
+      {certifications.length > 0 && (
+        <Section container="wide" className="mt-xl md:mt-2xl">
+          <Reveal>
+            <div className="mb-md border-border/40 pb-sm flex items-baseline justify-between border-b font-mono text-[10px] tracking-widest uppercase">
+              <div className="gap-xs text-foreground/45 flex items-center">
+                <span className="bg-foreground/40 inline-block h-1 w-1 rounded-full" />
+                <span>BENCHMARKS // ENVIRONMENTAL FRAMEWORKS</span>
+              </div>
+              <span className="text-foreground/40">CERTIFICATION STANDARDS</span>
+            </div>
+          </Reveal>
+
+          <Stagger className="border-border/40 divide-border/40 grid grid-cols-1 divide-y border-y md:grid-cols-2 md:divide-x md:divide-y-0 lg:grid-cols-4">
+            {certifications.map((cert, idx) => (
+              <div
+                key={idx}
+                className="py-lg md:py-xl md:px-lg flex flex-col justify-between px-0 first:md:pl-0 last:md:pr-0"
+              >
+                <div>
+                  <div className="gap-xs flex items-center">
+                    <span className="border-border/60 bg-muted/40 px-xs rounded-xs border py-0.5 font-mono text-[9px] tracking-widest uppercase">
+                      STANDARD
+                    </span>
+                  </div>
+                  <h3 className="font-display text-foreground mt-sm text-xl font-medium tracking-tight">
+                    {cert.name}
+                  </h3>
+                  <p className="text-foreground/60 mt-xs text-sm leading-relaxed">
+                    {cert.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </Stagger>
+        </Section>
+      )}
+
+      {/* ── 07. COLLABORATION CTA ── */}
+      <Section container="wide" className="mt-xl md:mt-2xl">
         <Reveal>
-          <div className="gap-2xl grid items-end md:grid-cols-12">
-            <div className="md:col-span-7">
-              <p className="text-foreground/40 mb-sm font-mono text-[10px] tracking-widest uppercase">
+          <div className="border-border/40 pt-2xl gap-y-lg gap-x-xl grid border-t md:grid-cols-12 md:items-start">
+            <div className="md:col-span-5">
+              <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
                 Specification // Collaboration
               </p>
-              <Heading
-                variant="h2"
-                className="text-3xl leading-tight text-balance md:text-4xl lg:text-5xl"
-              >
+              <Heading variant="h2" className="mt-sm text-3xl sm:text-4xl">
                 {collaboration.heading}
               </Heading>
             </div>
-            <div className="md:pb-xs md:col-span-4 md:col-start-9">
-              <Text
-                variant="body"
-                className="text-foreground/60 mb-lg text-base leading-relaxed md:text-lg"
-              >
+            <div className="space-y-lg md:col-span-7">
+              <p className="text-foreground/70 text-lg leading-relaxed md:text-xl">
                 {collaboration.body}
-              </Text>
-              <TextLink
-                href="/contact"
-                variant="underline"
-                className="group text-base font-medium md:text-lg"
-              >
-                {collaboration.cta}{" "}
-                <span className="inline-block transition-transform group-hover:translate-x-1">
-                  &rarr;
-                </span>
-              </TextLink>
+              </p>
+              <div className="pt-xs gap-md flex flex-wrap items-center">
+                <Link
+                  href={"/contact" as Route}
+                  className="border-border/60 hover:border-foreground hover:bg-foreground hover:text-background group px-md py-sm gap-lg inline-flex items-center justify-between rounded-xs border font-mono text-xs font-medium tracking-widest uppercase transition-all duration-300"
+                >
+                  <span>{collaboration.cta || "Start a conversation"}</span>
+                  <span className="transition-transform duration-300 group-hover:translate-x-1">
+                    &rarr;
+                  </span>
+                </Link>
+                <Link
+                  href={
+                    `mailto:${contactEmail}?subject=Inquiry: Sustainable Architecture Brief` as Route
+                  }
+                  className="text-foreground/50 hover:text-foreground font-mono text-xs tracking-wider uppercase underline underline-offset-4 transition-colors"
+                >
+                  Or email directly
+                </Link>
+              </div>
             </div>
           </div>
         </Reveal>

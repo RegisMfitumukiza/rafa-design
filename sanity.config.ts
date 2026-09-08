@@ -199,6 +199,20 @@ export default defineConfig({
                   .documentId("pageIntros")
                   .title("Page Introductions"),
               ),
+
+            // 12 // Sustainability Page (Singleton)
+            S.listItem()
+              .title("12 // Sustainability Page")
+              .id("sustainability")
+              .icon(() => "🌿")
+              .schemaType("sustainability")
+              .child(
+                S.editor()
+                  .id("sustainability")
+                  .schemaType("sustainability")
+                  .documentId("sustainability")
+                  .title("Sustainability & Environmental Stewardship"),
+              ),
           ]),
     }),
 
@@ -221,6 +235,7 @@ export default defineConfig({
         "contact",
         "siteSettings",
         "pageIntros",
+        "sustainability",
       ];
       return prev.filter((template) => !singletonTypes.includes(template.schemaType));
     },
@@ -238,6 +253,7 @@ export default defineConfig({
         "contact",
         "siteSettings",
         "pageIntros",
+        "sustainability",
       ];
       const { schemaType } = context;
 

@@ -26,6 +26,10 @@ export interface SustainabilityContent {
     body: string;
     cta: string;
   };
+  seo?: {
+    title?: string;
+    description?: string;
+  };
 }
 
 export const sustainabilityContent: SustainabilityContent = {

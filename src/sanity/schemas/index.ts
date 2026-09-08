@@ -26,6 +26,7 @@ import projectSchema from "./project";
 import serviceSchema from "./service";
 import siteSettingsSchema from "./siteSettings";
 import studioSchema from "./studio";
+import sustainabilitySchema from "./sustainability";
 import teamSchema from "./team";
 import teamCategorySchema from "./teamCategory";
 
@@ -47,6 +48,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   contactSchema,
   siteSettingsSchema,
   pageIntrosSchema,
+  sustainabilitySchema,
 ];
 
 /**
@@ -65,6 +67,7 @@ export {
   contactSchema,
   siteSettingsSchema,
   pageIntrosSchema,
+  sustainabilitySchema,
 };
 
 /**

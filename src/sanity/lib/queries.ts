@@ -822,3 +822,54 @@ export const processPageQuery = `
     }
   }
 `;
+
+/**
+ * SUSTAINABILITY SINGLETON QUERY
+ */
+
+// Get sustainability page singleton content
+export const sustainabilityQuery = `
+  *[_type == "sustainability"][0] {
+    _id,
+    manifesto {
+      overline,
+      heading,
+      body
+    },
+    philosophy {
+      heading,
+      body
+    },
+    materialImage {
+      asset->{
+        _id,
+        url,
+        metadata {
+          dimensions,
+          lqip
+        }
+      },
+      alt,
+      caption
+    },
+    commitments[] {
+      number,
+      title,
+      description
+    },
+    principles[],
+    certifications[] {
+      name,
+      description
+    },
+    collaboration {
+      heading,
+      body,
+      cta
+    },
+    seo {
+      title,
+      description
+    }
+  }
+`;

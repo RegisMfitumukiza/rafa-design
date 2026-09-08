@@ -51,6 +51,7 @@ const DOCUMENT_TAGS: Record<string, string[]> = {
   siteSettings: [cacheTags.settings],
   pageIntros: [cacheTags.pageIntros],
   processPage: [cacheTags.process],
+  sustainability: [cacheTags.sustainability],
 };
 
 /**
@@ -68,6 +69,7 @@ const DOCUMENT_PATHS: Record<string, (slug?: string) => string[]> = {
   careers: () => [`/careers`],
   contact: () => [`/contact`],
   siteSettings: () => [`/`],
+  sustainability: () => [`/sustainability`, `/`],
   pageIntros: () => [
     `/projects`,
     `/services`,
