@@ -123,6 +123,13 @@ export default defineType({
             select: {
               title: "title",
               subtitle: "description",
+              number: "number",
+            },
+            prepare({ title, subtitle, number }) {
+              return {
+                title: number ? `${number} // ${title || "Untitled"}` : title || "Untitled",
+                subtitle: subtitle || "",
+              };
             },
           },
         },

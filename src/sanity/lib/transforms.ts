@@ -883,6 +883,7 @@ export interface SanityRawCareer {
   _id?: string;
   slug?: { current?: string };
   title?: string;
+  discipline?: string;
   location?: string;
   type?: PositionType;
   description?: string;
@@ -908,6 +909,10 @@ export function transformSanityCareer(sanityCareer: SanityRawCareer): CareerPosi
     description: sanityCareer.description || "",
     requirements: sanityCareer.requirements || [],
   };
+
+  if (sanityCareer.discipline) {
+    position.discipline = sanityCareer.discipline;
+  }
 
   if (sanityCareer.applicationLink) {
     position.applicationLink = sanityCareer.applicationLink;
@@ -979,6 +984,12 @@ export function transformSanityCareersPage(sanityCareers: SanityRawCareersPage):
       alt: studioImage.alt,
       caption: studioImage.caption || "",
     };
+    if (typeof studioImage.width === "number") {
+      content.studioImage.width = studioImage.width;
+    }
+    if (typeof studioImage.height === "number") {
+      content.studioImage.height = studioImage.height;
+    }
   }
 
   const benefits: Benefit[] = (sanityCareers.benefits || [])

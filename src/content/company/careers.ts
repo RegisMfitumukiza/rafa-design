@@ -3,6 +3,7 @@ export type PositionType = "full-time" | "internship" | "contract";
 export interface CareerPosition {
   id: string;
   title: string;
+  discipline?: string;
   location: string;
   type: PositionType;
   description: string;

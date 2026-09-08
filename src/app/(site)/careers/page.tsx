@@ -98,6 +98,7 @@ export default async function CareersPage() {
                     <div className="mt-xs gap-xs flex items-center">
                       <span className="bg-foreground/30 inline-block h-px w-3" />
                       <span className="text-foreground/45 font-mono text-[10px] tracking-widest uppercase">
+                        {position.discipline ? `${position.discipline} // ` : ""}
                         {position.type.replace("-", " ")} {"//"} {position.location}
                       </span>
                     </div>

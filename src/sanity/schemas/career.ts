@@ -56,12 +56,29 @@ export default defineType({
     }),
 
     defineField({
+      name: "discipline",
+      title: "Discipline / Category",
+      type: "string",
+      group: "content",
+      options: {
+        list: [
+          { title: "Architecture", value: "Architecture" },
+          { title: "Interior Architecture", value: "Interior Architecture" },
+          { title: "Visualization & Media", value: "Visualization & Media" },
+          { title: "Urban Design & Research", value: "Urban Design & Research" },
+          { title: "Practice & Operations", value: "Practice & Operations" },
+        ],
+      },
+      description: 'Discipline classification, e.g. "Architecture"',
+    }),
+
+    defineField({
       name: "location",
       title: "Location",
       type: "string",
       group: "content",
       validation: (Rule) => Rule.required().max(80),
-      description: 'e.g. "Porto", "Lisbon", "Remote"',
+      description: 'e.g. "Kigali, Rwanda", "Remote", "Hybrid"',
     }),
 
     defineField({
