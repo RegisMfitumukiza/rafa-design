@@ -1,21 +1,33 @@
 import type { Metadata } from "next";
+import type { Route } from "next";
+
+import Link from "next/link";
 
 import { Section } from "@/components/layout/Section";
 import { Image } from "@/components/media/Image";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Heading } from "@/components/typography/Heading";
-import { Text } from "@/components/typography/Text";
-import { Link as TextLink } from "@/components/ui/Link";
 import { breadcrumbSchema } from "@/config/schema";
 import { pageContent } from "@/content/pages";
 import { ui } from "@/content/ui";
-import { Parallax, Reveal, Stagger } from "@/motion";
+import { ImageReveal, Reveal, Stagger } from "@/motion";
 import { getCareers, getCareersPageContent, getContactInformation } from "@/sanity/lib";
 
-export const metadata: Metadata = {
-  title: pageContent.careers.title,
-  description: pageContent.careers.description,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { content } = await getCareersPageContent();
+  const title = content.hero?.heading
+    ? `${content.hero.heading} | Careers`
+    : pageContent.careers.title;
+  const description = content.hero?.body ?? pageContent.careers.description;
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+    },
+  };
+}
 
 export default async function CareersPage() {
   const [careerPositions, { content, benefits }, contact] = await Promise.all([
@@ -27,114 +39,116 @@ export default async function CareersPage() {
   const careersContent = content;
   const { hero, openApplication, studioImage } = careersContent;
   const contactEmail = contact?.email || "studio@rafadesign.com";
+  const totalPositions = String(careerPositions.length).padStart(2, "0");
 
   return (
     <>
       <JsonLd data={breadcrumbSchema([{ name: "Careers", path: "/careers" }])} />
 
-      {/* 01 — Hero */}
-      <Section container="standard">
-        <div className="gap-2xl grid items-start md:grid-cols-12">
-          <div className="md:col-span-8 lg:col-span-7">
-            <Reveal visible>
-              <p className="text-foreground/40 mb-sm font-mono text-[10px] tracking-widest uppercase">
-                {ui.sections.careersOverline}
+      {/* ── 01. EDITORIAL 12-COLUMN HEADER (Pattern B) ── */}
+      <Section container="wide">
+        <Reveal visible>
+          <div className="gap-x-xl gap-y-md grid items-start md:grid-cols-12">
+            {/* Left 6 cols: Overline & Title */}
+            <div className="md:col-span-6 lg:col-span-6">
+              <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
+                {hero.overline || ui.sections.careersOverline}
               </p>
-            </Reveal>
-            <Reveal visible>
-              <h1 className="font-display mb-xl text-5xl leading-[0.95] tracking-tight text-balance sm:text-6xl md:text-7xl lg:text-8xl">
+              <h1 className="font-display text-foreground mt-sm text-4xl font-medium tracking-tight sm:text-5xl lg:text-6xl xl:text-7xl">
                 {hero.heading}
               </h1>
-            </Reveal>
-            <Reveal visible>
-              <Text
-                variant="body"
-                className="text-foreground/60 max-w-prose text-lg leading-relaxed md:text-xl"
-              >
+            </div>
+            {/* Right 6 cols: Lead Description */}
+            <div className="md:pt-md md:col-span-6 lg:col-span-6">
+              <p className="text-foreground/70 w-full text-xl leading-relaxed md:text-2xl">
                 {hero.body}
-              </Text>
-            </Reveal>
+              </p>
+            </div>
           </div>
-        </div>
+        </Reveal>
       </Section>
 
-      {/* 02 — Open Positions Index */}
-      <Section container="standard">
+      {/* ── 02. OPEN POSITIONS INDEX ── */}
+      <Section container="wide" className="mt-xl md:mt-2xl" id="positions">
         <Reveal>
-          <div className="mb-2xl">
-            <p className="text-foreground/40 mb-sm font-mono text-[10px] tracking-widest uppercase">
-              {ui.sections.openPositionsOverline}
-            </p>
-            <Heading variant="h2" className="text-3xl md:text-4xl">
-              Current opportunities
-            </Heading>
+          <div className="mb-md border-border/40 pb-sm flex items-baseline justify-between border-b font-mono text-[10px] tracking-widest uppercase">
+            <div className="gap-xs text-foreground/45 flex items-center">
+              <span className="bg-foreground/40 inline-block h-1 w-1 rounded-full" />
+              <span>{ui.sections.openPositionsOverline}</span>
+            </div>
+            <span className="text-foreground/40">ROLES 01 — {totalPositions}</span>
           </div>
         </Reveal>
 
         {careerPositions.length > 0 ? (
-          <Stagger className="flex flex-col">
+          <Stagger className="border-border/40 divide-border/40 flex flex-col divide-y border-y">
             {careerPositions.map((position, idx) => (
-              <div
-                key={position.id}
-                className={`group border-border py-2xl gap-lg grid border-t transition-all md:grid-cols-12 ${
-                  idx === careerPositions.length - 1 ? "border-b" : ""
-                }`}
-              >
-                <span className="text-foreground/30 group-hover:text-foreground/50 origin-left font-mono text-sm font-medium tracking-widest transition-all group-hover:scale-105 md:col-span-1">
-                  {String(idx + 1).padStart(2, "0")}
-                </span>
-                <div className="md:col-span-3 lg:col-span-4">
-                  <Heading
-                    as="h3"
-                    variant="h3"
-                    className="text-foreground/90 group-hover:text-foreground mb-xs text-xl transition-colors md:text-2xl lg:text-3xl"
-                  >
-                    {position.title}
-                  </Heading>
-                  <div className="gap-sm flex flex-wrap items-center text-xs md:text-sm">
-                    <span className="text-foreground/40 font-mono tracking-wider uppercase">
-                      {position.type.replace("-", " ")}
-                    </span>
-                    <span className="text-foreground/30">·</span>
-                    <span className="text-foreground/50">{position.location}</span>
-                  </div>
-                </div>
-                <div className="space-y-md md:col-span-8 lg:col-span-7">
-                  <Text
-                    variant="body"
-                    className="text-foreground/60 text-base leading-relaxed md:text-lg"
-                  >
-                    {position.description}
-                  </Text>
-                  {position.requirements.length > 0 && (
-                    <ul className="space-y-xs">
-                      {position.requirements.map((req, i) => (
-                        <li
-                          key={i}
-                          className="gap-sm text-foreground/55 flex text-sm leading-relaxed md:text-base"
-                        >
-                          <span className="text-foreground/30 mt-1 shrink-0">—</span>
-                          <span>{req}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                  <div className="pt-sm">
-                    <TextLink
-                      href={
-                        position.applicationLink
-                          ? position.applicationLink
-                          : `mailto:${contactEmail}?subject=Application — ${position.title}`
-                      }
-                      variant="underline"
-                      external={!!position.applicationLink}
-                      className="group/link gap-xs inline-flex items-center text-sm font-medium md:text-base"
-                    >
-                      {ui.sections.applyForPosition}
-                      <span className="inline-block transition-transform group-hover/link:translate-x-1">
-                        →
+              <div key={position.id} className="py-lg md:py-xl group transition-colors">
+                <div className="gap-x-md gap-y-sm grid items-start md:grid-cols-12">
+                  {/* Index code */}
+                  <span className="text-foreground/35 font-mono text-[11px] tracking-widest uppercase md:col-span-1 md:pt-1.5">
+                    {String(idx + 1).padStart(2, "0")}
+                  </span>
+
+                  {/* Role Title & Metadata */}
+                  <div className="md:col-span-4">
+                    <h2 className="font-display text-foreground text-2xl font-medium tracking-tight md:text-3xl">
+                      {position.title}
+                    </h2>
+                    <div className="mt-xs gap-xs flex items-center">
+                      <span className="bg-foreground/30 inline-block h-px w-3" />
+                      <span className="text-foreground/45 font-mono text-[10px] tracking-widest uppercase">
+                        {position.type.replace("-", " ")} {"//"} {position.location}
                       </span>
-                    </TextLink>
+                    </div>
+                  </div>
+
+                  {/* Description, Requirements & Action */}
+                  <div className="space-y-md md:col-span-7">
+                    <p className="text-foreground/70 text-base leading-relaxed md:text-lg">
+                      {position.description}
+                    </p>
+
+                    {/* Architectural Criteria Specification */}
+                    {position.requirements && position.requirements.length > 0 && (
+                      <div className="border-border/25 mt-md pt-sm border-t">
+                        <p className="text-foreground/35 mb-xs font-mono text-[10px] tracking-wider uppercase select-none">
+                          SPEC // CRITERIA & QUALIFICATIONS:
+                        </p>
+                        <ul className="pt-xs space-y-1.5">
+                          {position.requirements.map((req, i) => (
+                            <li
+                              key={i}
+                              className="gap-sm text-foreground/65 flex text-sm leading-relaxed"
+                            >
+                              <span className="text-foreground/30 select-none" aria-hidden>
+                                —
+                              </span>
+                              <span>{req}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {/* Industrial Apply Button */}
+                    <div className="pt-sm">
+                      <Link
+                        href={
+                          (position.applicationLink
+                            ? position.applicationLink
+                            : `mailto:${contactEmail}?subject=Application — ${position.title}`) as Route
+                        }
+                        target={position.applicationLink ? "_blank" : undefined}
+                        rel={position.applicationLink ? "noopener noreferrer" : undefined}
+                        className="border-border/60 hover:border-foreground hover:bg-foreground hover:text-background group/btn px-md py-sm gap-lg inline-flex items-center justify-between rounded-xs border font-mono text-xs font-medium tracking-widest uppercase transition-all duration-300"
+                      >
+                        <span>{ui.sections.applyForPosition}</span>
+                        <span className="transition-transform duration-300 group-hover/btn:translate-x-1">
+                          &rarr;
+                        </span>
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -142,123 +156,111 @@ export default async function CareersPage() {
           </Stagger>
         ) : (
           <Reveal>
-            <div className="border-border py-2xl border-y">
-              <Text
-                variant="body"
-                className="text-foreground/60 max-w-prose text-base leading-relaxed md:text-lg"
-              >
+            <div className="border-border/40 py-2xl border-y">
+              <p className="text-foreground/60 max-w-prose text-base leading-relaxed md:text-lg">
                 {ui.careers.emptyState}{" "}
-                <TextLink
-                  href={`mailto:${contactEmail}?subject=Open Application`}
-                  variant="underline"
-                  className="font-medium"
+                <Link
+                  href={`mailto:${contactEmail}?subject=Open Application` as Route}
+                  className="text-foreground hover:text-foreground/80 font-medium underline underline-offset-4"
                 >
                   {ui.careers.openApplication}
-                </TextLink>
+                </Link>
                 .
-              </Text>
+              </p>
             </div>
           </Reveal>
         )}
       </Section>
 
-      {/* 03 — Studio Image */}
+      {/* ── 03. STUDIO ATELIER PLATE ── */}
       {studioImage && (
-        <Section container="wide">
-          <Parallax>
-            <Image asset={studioImage} className="aspect-[16/9] w-full" sizes="100vw" />
-          </Parallax>
+        <Section container="wide" className="mt-xl md:mt-2xl">
+          <ImageReveal className="w-full">
+            <Image
+              asset={studioImage}
+              fill
+              priority={false}
+              className="aspect-[16/9] w-full md:aspect-[21/9]"
+              imgClassName="object-cover"
+              sizes="100vw"
+            />
+          </ImageReveal>
           {studioImage.caption && (
             <Reveal delay={0.1}>
-              <div className="mt-sm gap-sm flex items-baseline justify-between">
-                <p className="text-foreground/40 text-xs">{studioImage.caption}</p>
-                <p className="text-foreground/30 font-mono text-[10px] tracking-widest uppercase">
-                  The Atelier
+              <div className="border-border/30 mt-sm pt-xs flex items-baseline justify-between border-t font-mono text-[10px] tracking-widest uppercase">
+                <p className="text-foreground/45">
+                  FIGURE 01 {"//"} {studioImage.caption}
                 </p>
+                <span className="text-foreground/25 hidden sm:inline-block">
+                  Atelier Archive // Culture
+                </span>
               </div>
             </Reveal>
           )}
         </Section>
       )}
 
-      {/* 04 — Working at RAFA */}
-      <Section container="standard">
-        <Reveal>
-          <div className="mb-2xl">
-            <p className="text-foreground/40 mb-sm font-mono text-[10px] tracking-widest uppercase">
-              {ui.sections.workingAtRafaOverline}
-            </p>
-            <Heading variant="h2" className="text-3xl md:text-4xl">
-              Life at the practice
-            </Heading>
-          </div>
-        </Reveal>
-
-        <Stagger className="flex flex-col">
-          {benefits.map((benefit, idx) => (
-            <div
-              key={benefit.id}
-              className={`group border-border py-2xl gap-lg grid border-t transition-all md:grid-cols-12 ${
-                idx === benefits.length - 1 ? "border-b" : ""
-              }`}
-            >
-              <span className="text-foreground/30 group-hover:text-foreground/50 origin-left font-mono text-sm font-medium tracking-widest transition-all group-hover:scale-105 md:col-span-1">
-                {benefit.number}
-              </span>
-              <div className="md:col-span-3 lg:col-span-4">
-                <Heading
-                  as="h3"
-                  variant="h3"
-                  className="text-foreground/90 group-hover:text-foreground text-xl transition-colors md:text-2xl lg:text-3xl"
-                >
-                  {benefit.title}
-                </Heading>
+      {/* ── 04. LIFE AT THE PRACTICE (Architectural 4-Column Spec Matrix) ── */}
+      {benefits.length > 0 && (
+        <Section container="wide" className="mt-xl md:mt-2xl">
+          <Reveal>
+            <div className="mb-md border-border/40 pb-sm flex items-baseline justify-between border-b font-mono text-[10px] tracking-widest uppercase">
+              <div className="gap-xs text-foreground/45 flex items-center">
+                <span className="bg-foreground/40 inline-block h-1 w-1 rounded-full" />
+                <span>{ui.sections.workingAtRafaOverline}</span>
               </div>
-              <div className="md:col-span-8 lg:col-span-7">
-                <Text
-                  variant="body"
-                  className="text-foreground/60 text-base leading-relaxed md:text-lg"
-                >
-                  {benefit.description}
-                </Text>
-              </div>
+              <span className="text-foreground/40">PRACTICE // 04 PILLARS</span>
             </div>
-          ))}
-        </Stagger>
-      </Section>
+          </Reveal>
 
-      {/* 05 — Open Application CTA */}
-      <Section container="standard">
-        <Reveal>
-          <div className="gap-2xl grid items-end md:grid-cols-12">
-            <div className="md:col-span-7">
-              <p className="text-foreground/40 mb-sm font-mono text-[10px] tracking-widest uppercase">
-                Specification // {openApplication.overline}
-              </p>
-              <Heading
-                variant="h2"
-                className="text-3xl leading-tight text-balance md:text-4xl lg:text-5xl"
+          <Stagger className="border-border/40 divide-border/40 grid grid-cols-1 divide-y border-y md:grid-cols-2 md:divide-x md:divide-y-0 lg:grid-cols-4">
+            {benefits.map((benefit) => (
+              <div
+                key={benefit.id}
+                className="py-lg md:py-xl md:px-lg flex flex-col justify-between px-0 first:md:pl-0 last:md:pr-0"
               >
+                <div>
+                  <span className="text-foreground/35 font-mono text-[11px] tracking-widest uppercase">
+                    {benefit.number}
+                  </span>
+                  <h3 className="font-display text-foreground mt-sm text-xl font-medium tracking-tight sm:text-2xl">
+                    {benefit.title}
+                  </h3>
+                  <p className="text-foreground/65 mt-sm text-sm leading-relaxed md:text-base">
+                    {benefit.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </Stagger>
+        </Section>
+      )}
+
+      {/* ── 05. OPEN APPLICATION TRANSITION ── */}
+      <Section container="wide" className="mt-xl md:mt-2xl">
+        <Reveal>
+          <div className="border-border/40 pt-2xl gap-y-lg gap-x-xl grid border-t md:grid-cols-12 md:items-start">
+            <div className="md:col-span-5">
+              <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
+                Specification // {openApplication.overline || "Inquiry"}
+              </p>
+              <Heading variant="h2" className="mt-sm text-3xl sm:text-4xl">
                 {openApplication.heading}
               </Heading>
             </div>
-            <div className="md:pb-xs md:col-span-4 md:col-start-9">
-              <Text
-                variant="body"
-                className="text-foreground/60 mb-lg text-base leading-relaxed md:text-lg"
-              >
+            <div className="space-y-lg md:col-span-7">
+              <p className="text-foreground/70 text-lg leading-relaxed md:text-xl">
                 {openApplication.body}
-              </Text>
-              <TextLink
-                href={`mailto:${contactEmail}?subject=Open Application`}
-                variant="underline"
-                className="group text-base font-medium md:text-lg"
+              </p>
+              <Link
+                href={`mailto:${contactEmail}?subject=Open Application` as Route}
+                className="border-border/60 hover:border-foreground hover:bg-foreground hover:text-background group px-md py-sm gap-lg inline-flex items-center justify-between rounded-xs border font-mono text-xs font-medium tracking-widest uppercase transition-all duration-300"
               >
-                {openApplication.cta}{" "}
-                <span className="inline-block transition-transform group-hover:translate-x-1">
-                  →
+                <span>{openApplication.cta || "Send an open application"}</span>
+                <span className="transition-transform duration-300 group-hover:translate-x-1">
+                  &rarr;
                 </span>
-              </TextLink>
+              </Link>
             </div>
           </div>
         </Reveal>
