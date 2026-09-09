@@ -12,6 +12,8 @@ import { pageContent } from "@/content/pages";
 import { ImageReveal, Reveal, Stagger } from "@/motion";
 import { getContactInformation, getSustainabilityContent } from "@/sanity/lib";
 
+export const revalidate = 60;
+
 export async function generateMetadata(): Promise<Metadata> {
   const content = await getSustainabilityContent();
   const title =

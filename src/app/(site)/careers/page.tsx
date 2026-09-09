@@ -13,6 +13,8 @@ import { ui } from "@/content/ui";
 import { ImageReveal, Reveal, Stagger } from "@/motion";
 import { getCareers, getCareersPageContent, getContactInformation } from "@/sanity/lib";
 
+export const revalidate = 60;
+
 export async function generateMetadata(): Promise<Metadata> {
   const { content } = await getCareersPageContent();
   const title = content.hero?.heading
