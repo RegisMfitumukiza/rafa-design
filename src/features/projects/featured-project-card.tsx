@@ -71,10 +71,7 @@ export function FeaturedProjectCard({ project }: FeaturedProjectCardProps) {
           />
 
           {/* Metadata overline */}
-          <p
-            className="mb-xs md:mb-sm font-mono text-[10px] tracking-widest text-white/50 uppercase"
-            style={{ textShadow: "0 1px 12px rgba(0, 0, 0, 0.9), 0 2px 4px rgba(0, 0, 0, 1)" }}
-          >
+          <p className="mb-xs md:mb-sm font-mono text-[10px] tracking-widest text-white/50 uppercase [text-shadow:_0_1px_12px_rgba(0,0,0,0.9),_0_2px_4px_rgba(0,0,0,1)]">
             {project.year}
             {project.location && ` · ${project.location.city}, ${project.location.country}`}
             {project.typology &&
@@ -83,14 +80,8 @@ export function FeaturedProjectCard({ project }: FeaturedProjectCardProps) {
               ` · ${project.typology.join(", ")}`}
           </p>
 
-          {/* Title with enhanced text shadow (no backdrop box) */}
-          <h2
-            className="max-w-3xl text-3xl leading-[0.95] font-medium tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl"
-            style={{
-              textShadow:
-                "0 2px 16px rgba(0, 0, 0, 0.8), 0 4px 32px rgba(0, 0, 0, 0.6), 0 1px 4px rgba(0, 0, 0, 0.9)",
-            }}
-          >
+          {/* Title with enhanced text shadow */}
+          <h2 className="max-w-3xl text-3xl leading-[0.95] font-medium tracking-tight text-white [text-shadow:_0_2px_16px_rgba(0,0,0,0.8),_0_4px_32px_rgba(0,0,0,0.6),_0_1px_4px_rgba(0,0,0,0.9)] sm:text-4xl md:text-5xl lg:text-6xl">
             {project.title}
           </h2>
 

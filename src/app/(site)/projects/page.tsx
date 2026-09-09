@@ -8,10 +8,23 @@ import { getProjects, getActiveCategories } from "@/content/projects/sanity";
 import { ProjectsArchive } from "@/features/projects/projects-archive";
 import { getPageIntros } from "@/sanity/lib";
 
-export const metadata: Metadata = {
-  title: pageContent.projects.title,
-  description: pageContent.projects.description,
-};
+export const revalidate = 60;
+
+export async function generateMetadata(): Promise<Metadata> {
+  const cmsIntros = await getPageIntros();
+  const cmsProjectsIntro = cmsIntros.projects ?? {};
+  const title = cmsProjectsIntro.title ?? pageContent.projects.title;
+  const description = cmsProjectsIntro.description ?? pageContent.projects.description;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+    },
+  };
+}
 
 export default async function ProjectsPage() {
   const projects = await getProjects();

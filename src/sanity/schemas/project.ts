@@ -13,18 +13,57 @@ export default defineType({
   name: "project",
   title: "Project",
   type: "document",
+  groups: [
+    {
+      name: "identity",
+      title: "01 // Identity & Classification",
+      default: true,
+    },
+    {
+      name: "location",
+      title: "02 // Location & Specifications",
+    },
+    {
+      name: "editorial",
+      title: "03 // Editorial & Story",
+    },
+    {
+      name: "media",
+      title: "04 // Photography & Media",
+    },
+    {
+      name: "technical",
+      title: "05 // Chapters & Drawings",
+    },
+    {
+      name: "materials",
+      title: "06 // Materials & Services",
+    },
+    {
+      name: "team",
+      title: "07 // Team & Recognition",
+    },
+    {
+      name: "seo",
+      title: "08 // SEO",
+    },
+  ],
   fields: [
-    // ─── Identity ────────────────────────────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════════════════
+    // 01 // IDENTITY & CLASSIFICATION
+    // ═══════════════════════════════════════════════════════════════════════
     defineField({
       name: "title",
       title: "Project Title",
       type: "string",
+      group: "identity",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "slug",
       title: "Slug",
       type: "slug",
+      group: "identity",
       options: {
         source: "title",
         maxLength: 96,
@@ -35,6 +74,7 @@ export default defineType({
       name: "subtitle",
       title: "Subtitle",
       type: "string",
+      group: "identity",
       description: "Optional one-line description shown on cards",
     }),
 
@@ -43,6 +83,7 @@ export default defineType({
       name: "category",
       title: "Categories",
       type: "array",
+      group: "identity",
       of: [{ type: "string" }],
       options: {
         layout: "tags",
@@ -91,6 +132,7 @@ export default defineType({
       name: "typology",
       title: "Typology",
       type: "array",
+      group: "identity",
       of: [{ type: "string" }],
       options: {
         layout: "tags",
@@ -148,6 +190,7 @@ export default defineType({
       name: "status",
       title: "Status",
       type: "string",
+      group: "identity",
       options: {
         list: [
           { title: "Completed", value: "completed" },
@@ -162,14 +205,18 @@ export default defineType({
       name: "year",
       title: "Year",
       type: "number",
+      group: "identity",
       validation: (Rule) => Rule.required().min(1900).max(2100),
     }),
 
-    // ─── Location ────────────────────────────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════════════════
+    // 02 // LOCATION & SPECIFICATIONS
+    // ═══════════════════════════════════════════════════════════════════════
     defineField({
       name: "location",
       title: "Location",
       type: "object",
+      group: "location",
       fields: [
         { name: "city", type: "string", title: "City", validation: (Rule) => Rule.required() },
         {
@@ -185,6 +232,7 @@ export default defineType({
       name: "coordinates",
       title: "Coordinates",
       type: "object",
+      group: "location",
       fields: [
         { name: "lat", type: "number", title: "Latitude" },
         { name: "lng", type: "number", title: "Longitude" },
@@ -195,13 +243,17 @@ export default defineType({
       name: "areaM2",
       title: "Area (m²)",
       type: "number",
+      group: "location",
     }),
 
-    // ─── Editorial Content ───────────────────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════════════════
+    // 03 // EDITORIAL & STORY
+    // ═══════════════════════════════════════════════════════════════════════
     defineField({
       name: "concept",
       title: "Design Concept",
       type: "text",
+      group: "editorial",
       rows: 3,
       description: "The one-sentence central design idea (large type on detail page)",
     }),
@@ -209,6 +261,7 @@ export default defineType({
       name: "description",
       title: "Description",
       type: "text",
+      group: "editorial",
       rows: 4,
       description: "Short description for cards, listings, and SEO",
       validation: (Rule) => Rule.required(),
@@ -217,6 +270,7 @@ export default defineType({
       name: "story",
       title: "Story (Legacy)",
       type: "text",
+      group: "editorial",
       rows: 6,
       description: "Single-block narrative (fallback if chapters not provided)",
     }),
@@ -224,6 +278,7 @@ export default defineType({
       name: "chapters",
       title: "Narrative Chapters",
       type: "array",
+      group: "technical",
       of: [
         {
           type: "object",
@@ -296,6 +351,7 @@ export default defineType({
       name: "materialNarrative",
       title: "Material Narrative",
       type: "array",
+      group: "materials",
       of: [
         {
           type: "object",
@@ -323,6 +379,7 @@ export default defineType({
       name: "lightStrategy",
       title: "Light Strategy",
       type: "text",
+      group: "editorial",
       rows: 4,
       description: "How daylight was used as a design tool",
     }),
@@ -330,15 +387,19 @@ export default defineType({
       name: "siteResponse",
       title: "Site Response",
       type: "text",
+      group: "editorial",
       rows: 4,
       description: "How the building responds to the specific site",
     }),
 
-    // ─── Media ───────────────────────────────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════════════════
+    // 04 // PHOTOGRAPHY & MEDIA
+    // ═══════════════════════════════════════════════════════════════════════
     defineField({
       name: "heroImage",
       title: "Hero Image",
       type: "image",
+      group: "media",
       options: { hotspot: true },
       fields: [
         { name: "alt", type: "string", title: "Alt Text" },
@@ -350,6 +411,7 @@ export default defineType({
       name: "gallery",
       title: "Gallery",
       type: "array",
+      group: "media",
       of: [
         {
           type: "image",
@@ -388,66 +450,55 @@ export default defineType({
       name: "photographerCredit",
       title: "Photographer Credit",
       type: "string",
+      group: "media",
       description: "Attribution for architectural photographer",
     }),
-
-    // ─── Services ────────────────────────────────────────────────────────────
     defineField({
-      name: "services",
-      title: "Services",
-      type: "array",
-      of: [{ type: "string" }],
-      options: {
-        layout: "tags",
-        list: [
-          { title: "Architecture", value: "architecture" },
-          { title: "Interior Design", value: "interior-design" },
-          { title: "Master Planning", value: "master-planning" },
-          { title: "Urban Design", value: "urban-design" },
-          { title: "Landscape Design", value: "landscape-design" },
-          { title: "Feasibility Studies", value: "feasibility-studies" },
-          { title: "Project Management", value: "project-management" },
-          { title: "Construction Supervision", value: "construction-supervision" },
-          { title: "Renovation", value: "renovation" },
-          { title: "Visualization", value: "visualization" },
-        ],
-      },
-      validation: (Rule) =>
-        Rule.required()
-          .min(1)
-          .custom((services: string[] | undefined) => {
-            if (!services || services.length === 0) {
-              return "At least one service is required";
-            }
-
-            // Check for proper format: lowercase with hyphens only
-            const invalidFormats = services.filter((service) => {
-              // Allow lowercase letters, numbers, and hyphens only
-              const validFormat = /^[a-z0-9]+(-[a-z0-9]+)*$/;
-              return !validFormat.test(service);
-            });
-
-            if (invalidFormats.length > 0) {
-              return `Invalid format: "${invalidFormats.join('", "')}". Use lowercase with hyphens (e.g., "sustainability-consulting")`;
-            }
-
-            // Check for duplicates
-            const uniqueServices = new Set(services);
-            if (uniqueServices.size !== services.length) {
-              return "Duplicate services found. Each service should be unique.";
-            }
-
-            return true;
-          }),
-      description:
-        'Select from existing services or add new ones. Use lowercase-with-hyphens format (e.g., "sustainability-consulting")',
+      name: "beforeAfter",
+      title: "Before & After",
+      type: "object",
+      group: "media",
+      fields: [
+        {
+          name: "before",
+          type: "image",
+          title: "Before Image",
+          options: { hotspot: true },
+          fields: [
+            { name: "alt", type: "string", title: "Alt Text" },
+            { name: "caption", type: "string", title: "Caption" },
+          ],
+          validation: (Rule) => Rule.required(),
+        },
+        {
+          name: "after",
+          type: "image",
+          title: "After Image",
+          options: { hotspot: true },
+          fields: [
+            { name: "alt", type: "string", title: "Alt Text" },
+            { name: "caption", type: "string", title: "Caption" },
+          ],
+          validation: (Rule) => Rule.required(),
+        },
+        {
+          name: "caption",
+          type: "string",
+          title: "Overall Caption",
+          description: "Caption for the before/after comparison",
+        },
+      ],
+      description: "Before and after transformation images (for renovation projects)",
     }),
 
-    // ─── Technical Drawings ──────────────────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════════════════
+    // 05 // CHAPTERS & DRAWINGS
+    // ═══════════════════════════════════════════════════════════════════════
     defineField({
       name: "drawings",
       title: "Technical Drawings",
       type: "array",
+      group: "technical",
       of: [
         {
           type: "object",
@@ -523,54 +574,75 @@ export default defineType({
         "Architectural plans, sections, elevations, and technical drawings with metadata",
     }),
 
-    // ─── Before & After ──────────────────────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════════════════
+    // 06 // MATERIALS & SERVICES
+    // ═══════════════════════════════════════════════════════════════════════
     defineField({
-      name: "beforeAfter",
-      title: "Before & After",
-      type: "object",
-      fields: [
-        {
-          name: "before",
-          type: "image",
-          title: "Before Image",
-          options: { hotspot: true },
-          fields: [
-            { name: "alt", type: "string", title: "Alt Text" },
-            { name: "caption", type: "string", title: "Caption" },
-          ],
-          validation: (Rule) => Rule.required(),
-        },
-        {
-          name: "after",
-          type: "image",
-          title: "After Image",
-          options: { hotspot: true },
-          fields: [
-            { name: "alt", type: "string", title: "Alt Text" },
-            { name: "caption", type: "string", title: "Caption" },
-          ],
-          validation: (Rule) => Rule.required(),
-        },
-        {
-          name: "caption",
-          type: "string",
-          title: "Overall Caption",
-          description: "Caption for the before/after comparison",
-        },
-      ],
-      description: "Before and after transformation images (for renovation projects)",
+      name: "services",
+      title: "Services",
+      type: "array",
+      group: "materials",
+      of: [{ type: "string" }],
+      options: {
+        layout: "tags",
+        list: [
+          { title: "Architecture", value: "architecture" },
+          { title: "Interior Design", value: "interior-design" },
+          { title: "Master Planning", value: "master-planning" },
+          { title: "Urban Design", value: "urban-design" },
+          { title: "Landscape Design", value: "landscape-design" },
+          { title: "Feasibility Studies", value: "feasibility-studies" },
+          { title: "Project Management", value: "project-management" },
+          { title: "Construction Supervision", value: "construction-supervision" },
+          { title: "Renovation", value: "renovation" },
+          { title: "Visualization", value: "visualization" },
+        ],
+      },
+      validation: (Rule) =>
+        Rule.required()
+          .min(1)
+          .custom((services: string[] | undefined) => {
+            if (!services || services.length === 0) {
+              return "At least one service is required";
+            }
+
+            // Check for proper format: lowercase with hyphens only
+            const invalidFormats = services.filter((service) => {
+              // Allow lowercase letters, numbers, and hyphens only
+              const validFormat = /^[a-z0-9]+(-[a-z0-9]+)*$/;
+              return !validFormat.test(service);
+            });
+
+            if (invalidFormats.length > 0) {
+              return `Invalid format: "${invalidFormats.join('", "')}". Use lowercase with hyphens (e.g., "sustainability-consulting")`;
+            }
+
+            // Check for duplicates
+            const uniqueServices = new Set(services);
+            if (uniqueServices.size !== services.length) {
+              return "Duplicate services found. Each service should be unique.";
+            }
+
+            return true;
+          }),
+      description:
+        'Select from existing services or add new ones. Use lowercase-with-hyphens format (e.g., "sustainability-consulting")',
     }),
 
-    // ─── Team & Recognition ──────────────────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════════════════
+    // 07 // TEAM & RECOGNITION
+    // ═══════════════════════════════════════════════════════════════════════
     defineField({
       name: "client",
       title: "Client",
       type: "string",
+      group: "location",
     }),
     defineField({
       name: "team",
       title: "Project Team",
       type: "object",
+      group: "team",
       fields: [
         { name: "partnerInCharge", type: "string", title: "Partner in Charge" },
         { name: "projectLead", type: "string", title: "Project Lead" },
@@ -592,6 +664,7 @@ export default defineType({
       name: "awards",
       title: "Awards & Recognition",
       type: "array",
+      group: "team",
       of: [
         {
           type: "object",
@@ -632,21 +705,23 @@ export default defineType({
       ],
       description: "Awards and recognition received for this project",
     }),
-
-    // ─── Settings ────────────────────────────────────────────────────────────
     defineField({
       name: "featured",
       title: "Featured",
       type: "boolean",
+      group: "identity",
       description: "Show on homepage featured section",
       initialValue: false,
     }),
 
-    // ─── SEO ─────────────────────────────────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════════════════
+    // 08 // SEO
+    // ═══════════════════════════════════════════════════════════════════════
     defineField({
       name: "seo",
       title: "SEO",
       type: "object",
+      group: "seo",
       options: { collapsible: true, collapsed: true },
       fields: [
         { name: "title", type: "string", title: "Meta Title" },

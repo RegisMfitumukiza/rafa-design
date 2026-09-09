@@ -5,8 +5,6 @@ import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { Image } from "@/components/media/Image";
-import { Heading } from "@/components/typography/Heading";
-import { Text } from "@/components/typography/Text";
 import type { Project, ProjectCategory } from "@/content/projects";
 import { FeaturedProjectCard } from "@/features/projects/featured-project-card";
 import { ProjectCard } from "@/features/projects/project-card";
@@ -135,6 +133,54 @@ export function ProjectsArchive({ initialProjects, categories, intro }: Projects
       });
   }, [initialProjects, selectedCategory, selectedTypology, searchQuery]);
 
+  // ── Table Sorting (Spec Table Mode B) ──────────────────────────────────────
+  type SortField = "ref" | "title" | "year" | "area" | "typology";
+  type SortDirection = "asc" | "desc";
+
+  const [tableSort, setTableSort] = useState<{ field: SortField; direction: SortDirection }>({
+    field: "ref",
+    direction: "asc",
+  });
+
+  const handleSortToggle = useCallback((field: SortField) => {
+    setTableSort((prev) => {
+      if (prev.field === field) {
+        return { field, direction: prev.direction === "asc" ? "desc" : "asc" };
+      }
+      return { field, direction: field === "year" || field === "area" ? "desc" : "asc" };
+    });
+  }, []);
+
+  const handleResetFilters = useCallback(() => {
+    setSelectedCategory("all");
+    setSelectedTypology("all");
+    setSearchQuery("");
+  }, []);
+
+  const hasActiveFilters =
+    selectedCategory !== "all" || selectedTypology !== "all" || searchQuery.trim() !== "";
+
+  const sortedTableProjects = useMemo(() => {
+    if (viewMode !== "list") return filteredProjects;
+    return [...filteredProjects].sort((a, b) => {
+      let comparison = 0;
+      if (tableSort.field === "title") {
+        comparison = a.title.localeCompare(b.title);
+      } else if (tableSort.field === "year") {
+        comparison = a.year - b.year;
+      } else if (tableSort.field === "area") {
+        comparison = (a.areaM2 ?? 0) - (b.areaM2 ?? 0);
+      } else if (tableSort.field === "typology") {
+        const typA = a.typology?.[0] ?? "";
+        const typB = b.typology?.[0] ?? "";
+        comparison = typA.localeCompare(typB);
+      } else {
+        return 0;
+      }
+      return tableSort.direction === "asc" ? comparison : -comparison;
+    });
+  }, [filteredProjects, viewMode, tableSort]);
+
   // ── Animated count ─────────────────────────────────────────────────────────
   useEffect(() => {
     const el = countRef.current;
@@ -209,29 +255,53 @@ export function ProjectsArchive({ initialProjects, categories, intro }: Projects
 
   return (
     <div className="gap-xl flex flex-col">
-      {/* ── Editorial Statement ─────────────────────────────────────────────── */}
+      {/* ── 01. EDITORIAL 12-COLUMN HEADER (Pattern B) ── */}
       <Reveal visible>
-        <div className="gap-md flex flex-col justify-between md:flex-row md:items-end">
-          <div>
-            <p className="text-foreground/35 mb-xs font-mono text-[10px] tracking-widest uppercase">
-              {intro?.overline ?? "INDEX // PORTFOLIO ARCHIVE"}
+        <div className="gap-x-xl gap-y-md grid items-start md:grid-cols-12">
+          {/* Left 6 cols: Title & Overline */}
+          <div className="md:col-span-6 lg:col-span-6">
+            <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
+              {intro?.overline ?? "INDEX // ARCHITECTURAL PORTFOLIO"}
             </p>
-            <Heading
-              variant="h1"
-              className="text-4xl font-medium tracking-tight sm:text-5xl md:text-6xl"
-            >
+            <h1 className="font-display text-foreground mt-sm text-4xl font-medium tracking-tight sm:text-5xl lg:text-6xl xl:text-7xl">
               {intro?.title ?? "Projects"}
-            </Heading>
-            <p className="text-foreground/55 mt-xs max-w-xl text-base leading-relaxed font-light">
+            </h1>
+          </div>
+          {/* Right 6 cols: Narrative Statement & Archival Ledger */}
+          <div className="md:pt-md md:col-span-6 lg:col-span-6">
+            <p className="text-foreground/75 text-xl leading-relaxed font-light md:text-2xl">
               {intro?.description ??
                 "Our projects are physical inquiries into space, light, and material longevity."}
             </p>
+
+            {/* Archival Specification Ledger */}
+            <div className="border-border/30 mt-lg pt-sm gap-x-md gap-y-xs flex flex-wrap items-baseline justify-between border-t font-mono text-[10px] tracking-widest uppercase">
+              <div className="text-foreground/60 flex items-center gap-2">
+                <span
+                  className="bg-accent inline-block h-1.5 w-1.5 rounded-full"
+                  aria-hidden="true"
+                />
+                <span>
+                  <span ref={countRef} className="text-foreground font-bold">
+                    {String(filteredProjects.length).padStart(2, "0")}
+                  </span>{" "}
+                  COMMISSIONS ARCHIVED
+                </span>
+              </div>
+              <div className="gap-md text-foreground/40 flex items-center">
+                <span className="hidden sm:inline">EST. 2020 — 2026</span>
+                {hasActiveFilters && (
+                  <button
+                    type="button"
+                    onClick={handleResetFilters}
+                    className="text-accent hover:text-foreground underline underline-offset-2 transition-colors"
+                  >
+                    [ RESET FILTERS ]
+                  </button>
+                )}
+              </div>
+            </div>
           </div>
-          {/* Animated commission count */}
-          <p className="text-foreground/35 flex-shrink-0 font-mono text-[11px] tracking-widest">
-            <span ref={countRef}>{String(filteredProjects.length).padStart(2, "0")}</span>
-            {" COMMISSIONS ARCHIVED"}
-          </p>
         </div>
       </Reveal>
 
@@ -261,7 +331,8 @@ export function ProjectsArchive({ initialProjects, categories, intro }: Projects
                     )}
                     aria-hidden="true"
                   />
-                  0{i + 1} {mode === "grid" ? "GRID" : mode === "list" ? "SPEC TABLE" : "MAP INDEX"}
+                  0{i + 1}{" "}
+                  {mode === "grid" ? "GRID" : mode === "list" ? "SPEC TABLE" : "GEOGRAPHIC INDEX"}
                 </button>
               ))}
             </div>
@@ -380,10 +451,26 @@ export function ProjectsArchive({ initialProjects, categories, intro }: Projects
 
       {/* ── View Modes ─────────────────────────────────────────────────────── */}
       {filteredProjects.length === 0 ? (
-        <div className="py-2xl text-center">
-          <Text variant="body" className="text-foreground/40 italic">
-            No architectural projects match your search criteria.
-          </Text>
+        <div className="border-border/30 py-2xl my-xl flex flex-col items-center justify-center border text-center">
+          <p className="text-foreground/35 font-mono text-[10px] tracking-widest uppercase">
+            CRITERIA RETURNED 0 COMMISSIONS
+          </p>
+          <p className="font-display text-foreground mt-sm text-2xl font-medium tracking-tight">
+            No architectural projects match your current selection
+          </p>
+          <p className="text-foreground/50 mt-xs max-w-md text-sm font-light">
+            Try adjusting your discipline, typology, or search query to browse our wider portfolio
+            archive.
+          </p>
+          {hasActiveFilters && (
+            <button
+              type="button"
+              onClick={handleResetFilters}
+              className="px-lg py-sm border-border/60 hover:border-foreground hover:bg-foreground hover:text-background mt-lg rounded-xs border font-mono text-xs font-medium tracking-widest uppercase transition-all duration-300"
+            >
+              [ RESET ALL FILTERS ]
+            </button>
+          )}
         </div>
       ) : viewMode === "grid" ? (
         /* ── MODE A: Editorial Grid ─────────────────────────────────────────── */
@@ -453,14 +540,46 @@ export function ProjectsArchive({ initialProjects, categories, intro }: Projects
             <table className="w-full text-left font-mono text-xs">
               <thead>
                 <tr className="text-foreground/35 border-border/30 border-b uppercase">
-                  <th className="py-sm px-xs font-mono font-medium tracking-widest">REF</th>
-                  <th className="py-sm px-xs font-mono font-medium tracking-widest">
-                    PROJECT TITLE
+                  <th
+                    className="py-sm px-xs hover:text-foreground cursor-pointer font-mono font-medium tracking-widest select-none"
+                    onClick={() => handleSortToggle("ref")}
+                  >
+                    REF{" "}
+                    {tableSort.field === "ref" ? (tableSort.direction === "asc" ? "↑" : "↓") : ""}
                   </th>
-                  <th className="py-sm px-xs font-mono font-medium tracking-widest">TYPOLOGY</th>
+                  <th
+                    className="py-sm px-xs hover:text-foreground cursor-pointer font-mono font-medium tracking-widest select-none"
+                    onClick={() => handleSortToggle("title")}
+                  >
+                    PROJECT TITLE{" "}
+                    {tableSort.field === "title" ? (tableSort.direction === "asc" ? "↑" : "↓") : ""}
+                  </th>
+                  <th
+                    className="py-sm px-xs hover:text-foreground cursor-pointer font-mono font-medium tracking-widest select-none"
+                    onClick={() => handleSortToggle("typology")}
+                  >
+                    TYPOLOGY{" "}
+                    {tableSort.field === "typology"
+                      ? tableSort.direction === "asc"
+                        ? "↑"
+                        : "↓"
+                      : ""}
+                  </th>
                   <th className="py-sm px-xs font-mono font-medium tracking-widest">LOCATION</th>
-                  <th className="py-sm px-xs font-mono font-medium tracking-widest">AREA (M²)</th>
-                  <th className="py-sm px-xs font-mono font-medium tracking-widest">YEAR</th>
+                  <th
+                    className="py-sm px-xs hover:text-foreground cursor-pointer font-mono font-medium tracking-widest select-none"
+                    onClick={() => handleSortToggle("area")}
+                  >
+                    AREA (M²){" "}
+                    {tableSort.field === "area" ? (tableSort.direction === "asc" ? "↑" : "↓") : ""}
+                  </th>
+                  <th
+                    className="py-sm px-xs hover:text-foreground cursor-pointer font-mono font-medium tracking-widest select-none"
+                    onClick={() => handleSortToggle("year")}
+                  >
+                    YEAR{" "}
+                    {tableSort.field === "year" ? (tableSort.direction === "asc" ? "↑" : "↓") : ""}
+                  </th>
                   <th className="py-sm px-xs font-mono font-medium tracking-widest">STATUS</th>
                   <th className="py-sm px-xs text-right font-mono font-medium tracking-widest">
                     ACTION
@@ -468,7 +587,7 @@ export function ProjectsArchive({ initialProjects, categories, intro }: Projects
                 </tr>
               </thead>
               <tbody className="divide-border/30 divide-y">
-                {filteredProjects.map((project, i) => (
+                {sortedTableProjects.map((project, i) => (
                   <tr
                     key={project.slug}
                     className="group hover:bg-foreground/[0.025] transition-colors"

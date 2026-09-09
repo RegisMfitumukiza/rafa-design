@@ -43,7 +43,7 @@ export function ProjectCard({
               sizes="(max-width: 48rem) 100vw, (max-width: 64rem) 50vw, 33vw"
             />
 
-            {/* ── Hover metadata overlay — slides up from bottom ────────────── */}
+            {/* ── Hover metadata overlay — slides up from bottom with architectural specs ────────────── */}
             <div
               aria-hidden="true"
               className={cn(
@@ -54,20 +54,21 @@ export function ProjectCard({
                 "px-sm pb-sm pt-xl pointer-events-none min-w-0",
               )}
             >
-              <p className="truncate font-mono text-[9px] tracking-widest text-white/60 uppercase">
-                {project.location.city}, {project.location.country}
-                {" · "}
-                {project.year}
-                {project.typology &&
-                  Array.isArray(project.typology) &&
-                  project.typology.length > 0 &&
-                  ` · ${project.typology.join(", ")}`}
-              </p>
-              <p className="mt-[2px] truncate text-sm leading-snug font-medium text-white">
-                {project.title}
-              </p>
-              <p className="mt-xs font-mono text-[9px] tracking-[0.18em] text-white/45 uppercase">
-                View Project →
+              <div className="flex items-center justify-between gap-2 font-mono text-[9px] tracking-widest uppercase">
+                <span className="flex items-center gap-1.5 text-white/70">
+                  <span
+                    className={cn(
+                      "inline-block h-1.5 w-1.5 rounded-full",
+                      project.status === "completed" ? "bg-accent" : "bg-white/40",
+                    )}
+                    aria-hidden="true"
+                  />
+                  {project.status}
+                </span>
+                {project.areaM2 && <span className="text-white/60">{project.areaM2} m²</span>}
+              </div>
+              <p className="mt-xs font-mono text-[9px] tracking-[0.2em] text-white/50 uppercase">
+                Explore Monograph →
               </p>
             </div>
           </div>

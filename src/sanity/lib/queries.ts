@@ -64,6 +64,7 @@ export const projectsQuery = `
     location,
     status,
     areaM2,
+    coordinates,
     featured,
     description,
     services,

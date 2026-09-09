@@ -19,6 +19,8 @@ import { ProjectTeamMatrix } from "@/features/projects/project-team-matrix";
 import { RelatedProjects } from "@/features/projects/related-projects";
 import { Reveal } from "@/motion";
 
+export const revalidate = 60;
+
 export async function generateStaticParams() {
   const projects = await getProjects();
   return projects.map((project) => ({

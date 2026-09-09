@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Sanity-Backed Project Data Functions
  *
  * Drop-in replacement for hardcoded project data functions.
@@ -20,6 +20,11 @@ import {
 } from "@/sanity/lib/queries";
 import { transformSanityProject, transformSanityProjects } from "@/sanity/lib/transforms";
 
+import {
+  getProjectBySlug as getStaticProjectBySlug,
+  getProjects as getStaticProjects,
+} from "./index";
+
 // Remove cache - fetch fresh data every time in development
 // In production, Next.js will handle caching via ISR
 
@@ -40,10 +45,13 @@ export async function getProjects(): Promise<Project[]> {
     );
     const projects = transformSanityProjects(sanityProjects);
 
-    return projects;
+    if (projects.length > 0) {
+      return projects;
+    }
+    return getStaticProjects();
   } catch (error) {
     console.error("Failed to fetch projects from Sanity:", error);
-    return [];
+    return getStaticProjects();
   }
 }
 
@@ -74,13 +82,14 @@ export async function getProjectBySlug(slug: string): Promise<Project | undefine
     );
 
     if (!sanityProject) {
-      return undefined;
+      return getStaticProjectBySlug(slug);
     }
 
-    return transformSanityProject(sanityProject) ?? undefined;
+    const transformed = transformSanityProject(sanityProject);
+    return transformed ?? getStaticProjectBySlug(slug);
   } catch (error) {
     console.error(`Failed to fetch project ${slug} from Sanity:`, error);
-    return undefined;
+    return getStaticProjectBySlug(slug);
   }
 }
 
