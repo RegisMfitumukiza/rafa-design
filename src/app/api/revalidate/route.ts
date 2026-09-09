@@ -52,6 +52,7 @@ const DOCUMENT_TAGS: Record<string, string[]> = {
   pageIntros: [cacheTags.pageIntros],
   processPage: [cacheTags.process],
   sustainability: [cacheTags.sustainability],
+  teamCategory: [cacheTags.team],
 };
 
 /**
@@ -63,6 +64,7 @@ const DOCUMENT_PATHS: Record<string, (slug?: string) => string[]> = {
   project: (slug) => (slug ? [`/projects`, `/projects/${slug}`] : [`/projects`]),
   service: (slug) => (slug ? [`/services`, `/services/${slug}`] : [`/services`]),
   teamMember: () => [`/studio`],
+  teamCategory: () => [`/studio`],
   studio: () => [`/studio`, `/services`],
   processPage: () => [`/process`],
   career: () => [`/careers`],
