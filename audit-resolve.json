@@ -60,6 +60,36 @@
       "decision": "ignore",
       "madeAt": 1788296112939,
       "reason": "Sanity Studio CLI toolchain only; not shipped to the production site. No safe upstream fix (would force breaking sanity downgrade)."
+    },
+    "1193726|next-sanity>sanity>@sanity/cli>@sanity/runtime-cli>adm-zip>@vercel/frameworks>js-yaml": {
+      "decision": "ignore",
+      "madeAt": 1757464800000,
+      "reason": "Sanity Studio CLI toolchain only; not shipped to the production site. No safe upstream fix (would force breaking sanity downgrade)."
+    },
+    "1193726|sanity>@sanity/cli>@sanity/runtime-cli>adm-zip>@vercel/frameworks>js-yaml": {
+      "decision": "ignore",
+      "madeAt": 1757464800000,
+      "reason": "Sanity Studio CLI toolchain only; not shipped to the production site. No safe upstream fix (would force breaking sanity downgrade)."
+    },
+    "1193727|next-sanity>sanity>@sanity/cli>@sanity/runtime-cli>adm-zip>@vercel/frameworks>js-yaml": {
+      "decision": "ignore",
+      "madeAt": 1757464800000,
+      "reason": "Sanity Studio CLI toolchain only; not shipped to the production site. No safe upstream fix (would force breaking sanity downgrade)."
+    },
+    "1193727|sanity>@sanity/cli>@sanity/runtime-cli>adm-zip>@vercel/frameworks>js-yaml": {
+      "decision": "ignore",
+      "madeAt": 1757464800000,
+      "reason": "Sanity Studio CLI toolchain only; not shipped to the production site. No safe upstream fix (would force breaking sanity downgrade)."
+    },
+    "1193734|next-sanity>sanity>@sanity/cli>@sanity/runtime-cli>adm-zip": {
+      "decision": "ignore",
+      "madeAt": 1757464800000,
+      "reason": "Sanity Studio CLI toolchain only; not shipped to the production site. No safe upstream fix (would force breaking sanity downgrade)."
+    },
+    "1193734|sanity>@sanity/cli>@sanity/runtime-cli>adm-zip": {
+      "decision": "ignore",
+      "madeAt": 1757464800000,
+      "reason": "Sanity Studio CLI toolchain only; not shipped to the production site. No safe upstream fix (would force breaking sanity downgrade)."
     }
   }
 }

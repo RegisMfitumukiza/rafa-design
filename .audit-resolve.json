@@ -1,0 +1,38 @@
+﻿{
+  "1123686": {
+    "ignore": true,
+    "note": "adm-zip in @sanity/runtime-cli - Sanity CLI internal tooling only, not shipped to production. Will resolve when Sanity updates @sanity/runtime-cli."
+  },
+  "1193734": {
+    "ignore": true,
+    "note": "adm-zip symlink extraction in @sanity/runtime-cli - Sanity CLI internal tooling only. Will resolve when Sanity updates @sanity/runtime-cli."
+  },
+  "1112714": {
+    "ignore": true,
+    "note": "js-yaml prototype pollution via @vercel/frameworks in @sanity/cli - Sanity CLI tooling only, not shipped to production."
+  },
+  "1121859": {
+    "ignore": true,
+    "note": "js-yaml DoS via merge keys via @sanity/cli - Sanity CLI tooling only, not shipped to production."
+  },
+  "1123912": {
+    "ignore": true,
+    "note": "js-yaml quadratic CPU via @sanity/cli - Sanity CLI tooling only, not shipped to production."
+  },
+  "1138114": {
+    "ignore": true,
+    "note": "js-yaml quadratic CPU (oomap) via @sanity/cli - Sanity CLI tooling only, not shipped to production."
+  },
+  "1193726": {
+    "ignore": true,
+    "note": "js-yaml maxTotalMergeKeys CPU via @sanity/cli - Sanity CLI tooling only, not shipped to production."
+  },
+  "1193727": {
+    "ignore": true,
+    "note": "js-yaml maxTotalMergeKeys CPU via @sanity/cli (duplicate advisory) - Sanity CLI tooling only."
+  },
+  "1119441": {
+    "ignore": true,
+    "note": "uuid buffer bounds in typeid-js via @sanity/cli - Sanity CLI tooling only, not shipped to production."
+  }
+}
