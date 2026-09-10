@@ -701,8 +701,6 @@ export const siteSettingsQuery = `
         alt
       }
     },
-    email,
-    phone,
     analyticsCode,
     maintenanceMode,
     maintenanceMessage

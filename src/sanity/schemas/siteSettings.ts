@@ -2,8 +2,9 @@
  * Site Settings Schema
  *
  * Global singleton document for site-wide configuration: identity, SEO
- * defaults, and contact/analytics settings. Supplied in addition to the
- * dedicated `contact` and `studio` documents.
+ * defaults, and operational settings. Contact email/phone intentionally live
+ * in the dedicated `contact` document — Site Settings is not a second source
+ * of truth for contact details.
  */
 
 import { defineField, defineType } from "sanity";
@@ -23,12 +24,8 @@ export default defineType({
       title: "02 // SEO",
     },
     {
-      name: "organisation",
-      title: "03 // Organisation",
-    },
-    {
       name: "operational",
-      title: "04 // Operational",
+      title: "03 // Operational",
     },
   ],
   fields: [
@@ -112,26 +109,7 @@ export default defineType({
     }),
 
     // ═══════════════════════════════════════════════════════════════════════
-    // 03 // ORGANISATION
-    // ═══════════════════════════════════════════════════════════════════════
-
-    defineField({
-      name: "email",
-      title: "Contact Email",
-      type: "string",
-      group: "organisation",
-      validation: (Rule) => Rule.email(),
-    }),
-
-    defineField({
-      name: "phone",
-      title: "Contact Phone",
-      type: "string",
-      group: "organisation",
-    }),
-
-    // ═══════════════════════════════════════════════════════════════════════
-    // 04 // OPERATIONAL
+    // 03 // OPERATIONAL
     // ═══════════════════════════════════════════════════════════════════════
 
     defineField({

@@ -1,7 +1,9 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 
-import { siteConfig } from "@/config/site";
+import { useSiteConfig } from "@/features/site/site-config-context";
 import { cn } from "@/lib/cn";
 
 export interface LogoProps {
@@ -21,6 +23,7 @@ const variantSizes = {
 };
 
 export function Logo({ className, imgClassName, variant = "header", showWordmark }: LogoProps) {
+  const { name } = useSiteConfig();
   const sizeClass = imgClassName ?? variantSizes[variant];
 
   return (
@@ -30,11 +33,11 @@ export function Logo({ className, imgClassName, variant = "header", showWordmark
         "gap-xs inline-flex min-h-(--touch-target) items-center select-none",
         className,
       )}
-      aria-label={`${siteConfig.name} — Home`}
+      aria-label={`${name} — Home`}
     >
       <Image
         src="/logo/rafa-bg-black.png"
-        alt={siteConfig.name}
+        alt={name}
         width={2325}
         height={2159}
         priority

@@ -11,27 +11,32 @@ import { organizationSchema, websiteSchema } from "@/config/schema";
 import { createMetadata } from "@/config/seo";
 import { siteConfig } from "@/config/site";
 import { theme } from "@/config/theme";
+import { getSiteConfig } from "@/lib/get-site-config";
 import { Providers } from "@/providers/providers";
 import { getContactInformation } from "@/sanity/lib";
 
 import "./globals.css";
 
-export const metadata: Metadata = createMetadata({
-  title: {
-    default: siteConfig.name,
-    template: `%s | ${siteConfig.name}`,
-  },
-  description: siteConfig.description,
-  applicationName: siteConfig.name,
-  authors: [{ name: siteConfig.creator }],
-  creator: siteConfig.creator,
-  keywords: [...siteConfig.keywords],
-  publisher: siteConfig.name,
-  verification: {
-    google: "uoeBlATnaUhu2CItaPyySNQgwkuIrLEMsXoklysHqlE",
-  },
-  ...(siteConfig.url ? { metadataBase: new URL(siteConfig.url) } : {}),
-});
+export async function generateMetadata(): Promise<Metadata> {
+  // Sanity-first with a static fallback — identity driven by /admin Site Settings.
+  const config = await getSiteConfig();
+
+  return createMetadata(
+    {
+      title: {
+        default: config.name,
+        template: `%s | ${config.name}`,
+      },
+      description: config.description,
+      applicationName: config.name,
+      authors: [{ name: config.name }],
+      creator: config.name,
+      keywords: [...config.keywords],
+      publisher: config.name,
+    },
+    config,
+  );
+}
 
 export const viewport: Viewport = {
   colorScheme: theme.colorScheme,
@@ -53,7 +58,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const contact = await getContactInformation();
+  const [contact, config] = await Promise.all([getContactInformation(), getSiteConfig()]);
 
   return (
     <html lang={siteConfig.locale} className="h-full antialiased" suppressHydrationWarning>
@@ -97,6 +102,28 @@ export default async function RootLayout({
         <JsonLd data={organizationSchema(contact)} />
         <JsonLd data={websiteSchema()} />
         <Providers>{children}</Providers>
+        {/* Analytics driven by /admin Site Settings (Operational) when set */}
+        {config.analyticsCode && (
+          <Script
+            async
+            src={`https://www.googletagmanager.com/gtag/js?id=${config.analyticsCode}`}
+            strategy="afterInteractive"
+          />
+        )}
+        {config.analyticsCode && (
+          <Script
+            id="google-analytics"
+            strategy="afterInteractive"
+            dangerouslySetInnerHTML={{
+              __html: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', ${JSON.stringify(config.analyticsCode)});
+              `,
+            }}
+          />
+        )}
         <Analytics />
         <WebVitals />
       </body>

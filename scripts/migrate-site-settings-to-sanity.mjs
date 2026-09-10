@@ -26,7 +26,7 @@ async function migrateSiteSettings() {
     tagline: "Architecture & Interior Design // Porto",
     description:
       "RAFA Design Hub is an architecture and interior design studio in Porto, Portugal, building less and building better through context, materiality and craft.",
-    siteUrl: "https://rafadesign.pt",
+    siteUrl: "https://www.rafadesignhub.com",
     defaultSeo: {
       title: "RAFA Design Hub — Architecture & Interior Design Studio",
       description:

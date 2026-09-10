@@ -1126,8 +1126,6 @@ export interface SanityRawSiteSettings {
     keywords?: string[];
     ogImage?: SanityRawImage;
   };
-  email?: string;
-  phone?: string;
   analyticsCode?: string;
   maintenanceMode?: boolean;
   maintenanceMessage?: string;
@@ -1151,8 +1149,6 @@ export function transformSanitySiteSettings(
 
   if (sanitySettings.tagline) settings.tagline = sanitySettings.tagline;
   if (sanitySettings.siteUrl) settings.siteUrl = sanitySettings.siteUrl;
-  if (sanitySettings.email) settings.email = sanitySettings.email;
-  if (sanitySettings.phone) settings.phone = sanitySettings.phone;
   if (sanitySettings.analyticsCode) settings.analyticsCode = sanitySettings.analyticsCode;
   if (sanitySettings.maintenanceMessage)
     settings.maintenanceMessage = sanitySettings.maintenanceMessage;

@@ -1,15 +1,19 @@
 import type { Metadata } from "next";
 
 import { SplashProvider } from "@/components/splash/SplashProvider";
-import { siteConfig } from "@/config/site";
 import { Landing } from "@/features/landing/landing";
+import { getSiteConfig } from "@/lib/get-site-config";
 
-export const metadata: Metadata = {
-  title: {
-    absolute: siteConfig.name,
-  },
-  description: siteConfig.description,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const config = await getSiteConfig();
+
+  return {
+    title: {
+      absolute: config.name,
+    },
+    description: config.description,
+  };
+}
 
 export default function HomePage() {
   return (

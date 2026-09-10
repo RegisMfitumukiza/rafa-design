@@ -34,6 +34,13 @@ Elevated mobile responsiveness, touch-screen ergonomics, and visual hierarchy ac
 - `ProjectsArchive`:
   - Safeguarded view mode switcher rail (`01 GRID`, `02 SPEC TABLE`, `03 GEOGRAPHIC INDEX`) with horizontal scroll and `whitespace-nowrap` on narrow viewports.
   - Added `min-w-[680px]` to the Spec Table (`Mode B`) to avoid column squishing on mobile screens.
+- `ProjectDetailMonograph` (`/projects/[slug]`):
+  - Fixed Tailwind v4 `@theme` container mapping in `tokens.css`: explicitly defined `--container-xs` through `--container-7xl` and `--container-prose`, resolving project-wide bug where `max-w-xl` was constrained to 48px (causing word-by-word vertical text wrap).
+  - Fixed mobile viewport height overflow: replaced `h-svh` with `h-[calc(100svh-var(--header-height))] min-h-[520px]`, eliminating the 64px header overflow that pushed subtitles into the bottom bezel.
+  - Upgraded breadcrumb to an architectural frosted pill badge (`bg-black/40 backdrop-blur-md border border-white/15 rounded-full`) with a top gradient scrim for universal contrast.
+  - Enforced `font-display` and responsive sizing (`text-3xl sm:text-5xl md:text-6xl lg:text-7xl`) on the monumental H1.
+  - Stacked photographer credit inline on mobile to prevent collisions with the bottom title composition.
+  - Upgraded next project navigation banner in `ProjectNavigation` to responsive aspect ratio (`aspect-[16/10] sm:aspect-[16/9] md:aspect-[21/9]`) and enforced `font-display`.
 
 ## Verification
 

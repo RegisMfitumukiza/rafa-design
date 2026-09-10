@@ -27,7 +27,7 @@ export function ProjectNavigation({ prev, next, className = "" }: ProjectNavigat
             aria-label={`Next project: ${next.title}`}
           >
             {/* Background hero image */}
-            <div className="relative aspect-[21/9] w-full overflow-hidden">
+            <div className="relative aspect-[16/10] w-full overflow-hidden sm:aspect-[16/9] md:aspect-[21/9]">
               <Image
                 asset={next.heroImage}
                 sizes="100vw"
@@ -39,23 +39,23 @@ export function ProjectNavigation({ prev, next, className = "" }: ProjectNavigat
               <div className="absolute inset-0 bg-black/55 transition-colors duration-700 group-hover:bg-black/45" />
 
               {/* Text content - anchored to bottom-left */}
-              <div className="px-lg pb-xl md:px-xl md:pb-2xl lg:px-3xl lg:pb-3xl absolute right-0 bottom-0 left-0">
+              <div className="p-md sm:px-lg sm:pb-xl md:px-xl md:pb-2xl lg:px-3xl lg:pb-3xl absolute right-0 bottom-0 left-0">
                 <p className="mb-xs md:mb-sm font-mono text-[10px] tracking-widest text-white/50 uppercase">
                   Continue Reading — Next Project
                 </p>
                 <Heading
                   as="h2"
                   variant="h1"
-                  className="max-w-3xl text-3xl leading-[0.95] tracking-tight text-white transition-transform duration-700 motion-safe:group-hover:-translate-y-1 sm:text-4xl md:text-5xl lg:text-6xl"
+                  className="font-display max-w-3xl text-2xl leading-[0.95] tracking-tight text-white transition-transform duration-700 motion-safe:group-hover:-translate-y-1 sm:text-4xl md:text-5xl lg:text-6xl"
                 >
                   {next.title}
                 </Heading>
                 {next.subtitle && (
-                  <p className="mt-xs md:mt-sm max-w-xl text-sm font-light text-white/60 md:text-base">
+                  <p className="mt-xs md:mt-sm max-w-xl text-xs font-light text-white/70 sm:text-sm md:text-base">
                     {next.subtitle}
                   </p>
                 )}
-                <div className="mt-sm md:mt-md gap-xs flex flex-wrap items-center font-mono text-[10px] tracking-widest text-white/40 uppercase md:text-[11px]">
+                <div className="mt-xs sm:mt-sm md:mt-md gap-xs flex flex-wrap items-center font-mono text-[10px] tracking-widest text-white/40 uppercase md:text-[11px]">
                   <span>
                     {next.location.city}, {next.location.country}
                   </span>

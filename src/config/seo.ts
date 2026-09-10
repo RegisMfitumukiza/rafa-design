@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
-import { siteConfig } from "@/config/site";
+import { fallbackSiteConfig } from "@/lib/get-site-config";
+import type { SiteConfig } from "@/lib/get-site-config";
 
 export const seoConfig = {
   defaultRobots: {
@@ -9,34 +10,50 @@ export const seoConfig = {
   },
 } as const;
 
-export function createMetadata(overrides: Omit<Metadata, "metadataBase"> = {}): Metadata {
+/**
+ * Build page metadata.
+ *
+ * The root layout supplies the resolved site configuration (Sanity-first,
+ * static fallback) so global identity values — name, description, URL,
+ * keywords, default OG — never need to be hardcoded per page. Pages that
+ * call this without a config receive the static fallback.
+ */
+export function createMetadata(
+  overrides: Omit<Metadata, "metadataBase"> = {},
+  config: SiteConfig = fallbackSiteConfig,
+): Metadata {
   const { ...rest } = overrides;
 
+  const defaultTitle = config.seoDefaults?.title ?? config.name;
+  const defaultDescription = config.seoDefaults?.description ?? config.description;
+
   return {
+    metadataBase: new URL(config.url),
     robots: seoConfig.defaultRobots,
     alternates: {
       canonical: "/",
     },
     icons: {
       icon: [
+        { url: "/icon.svg", type: "image/svg+xml" },
         { url: "/favicon/favicon-32x32.png", sizes: "32x32", type: "image/png" },
         { url: "/favicon/favicon-16x16.png", sizes: "16x16", type: "image/png" },
       ],
-      shortcut: "/favicon/favicon.ico",
+      shortcut: "/favicon.ico",
       apple: [{ url: "/favicon/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
     },
-    manifest: "/favicon/site.webmanifest",
+    manifest: "/manifest.json",
     openGraph: {
       type: "website",
       locale: "en_US",
-      siteName: siteConfig.name,
-      title: siteConfig.name,
-      description: siteConfig.description,
+      siteName: config.name,
+      title: defaultTitle,
+      description: defaultDescription,
     },
     twitter: {
       card: "summary_large_image",
-      title: siteConfig.name,
-      description: siteConfig.description,
+      title: defaultTitle,
+      description: defaultDescription,
     },
     ...rest,
   };

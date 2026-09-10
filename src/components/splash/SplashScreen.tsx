@@ -3,7 +3,7 @@
 import { gsap } from "gsap";
 import { useEffect, useRef } from "react";
 
-import { siteConfig } from "@/config/site";
+import { useSiteConfig } from "@/features/site/site-config-context";
 import { cn } from "@/lib/cn";
 
 export type SplashPhase = "cover" | "playing" | "fading";
@@ -24,6 +24,7 @@ interface SplashScreenProps {
  *   4. Elevates curtain screen upward (yPercent: -100) with a precise architectural curve.
  */
 export function SplashScreen({ phase, onFadeComplete }: SplashScreenProps) {
+  const { name } = useSiteConfig();
   const containerRef = useRef<HTMLDivElement>(null);
   const lineRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLHeadingElement>(null);
@@ -103,7 +104,7 @@ export function SplashScreen({ phase, onFadeComplete }: SplashScreenProps) {
           ref={textRef}
           className="font-display text-foreground text-3xl font-medium uppercase opacity-0 sm:text-4xl md:text-5xl"
         >
-          {siteConfig.name}
+          {name}
         </h1>
 
         {/* 1px Architectural Drafting Line */}

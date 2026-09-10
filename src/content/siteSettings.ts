@@ -14,8 +14,6 @@ export interface SiteSettings {
   maintenanceMode: boolean;
   tagline?: string;
   siteUrl?: string;
-  email?: string;
-  phone?: string;
   analyticsCode?: string;
   maintenanceMessage?: string;
   defaultSeo?: {
