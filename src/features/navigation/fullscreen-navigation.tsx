@@ -7,12 +7,11 @@ import { useLayoutEffect, useEffect, useRef, useState } from "react";
 import { Logo } from "@/components/layout/Logo";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { useDialog } from "@/components/ui/useDialog";
-import { careerPositions } from "@/content/company/careers";
 import { supportingNavLinks } from "@/content/navigation";
-import { getServices } from "@/content/services";
 import { ui } from "@/content/ui";
 import { motion } from "@/design-system/motion";
 import { useContact } from "@/features/contact/contact-context";
+import { useServices } from "@/features/services/services-context";
 import { capitalize } from "@/lib/capitalize";
 import { useDualTime } from "@/lib/studio-time";
 import { useReducedMotion } from "@/motion";
@@ -23,7 +22,8 @@ import { PrimaryNavIndex } from "./primary-nav-index";
 
 export function FullscreenNavigation() {
   const contactInformation = useContact();
-  const { isMenuOpen, closeMenu } = useNavigation();
+  const { isMenuOpen, closeMenu, careersCount } = useNavigation();
+  const services = useServices();
   const reduced = useReducedMotion();
   const [isPresent, setPresent] = useState(false);
   const rootRef = useRef<HTMLDivElement | null>(null);
@@ -122,7 +122,6 @@ export function FullscreenNavigation() {
   }
 
   const socialLinks = contactInformation.socialLinks.filter((link) => link.url !== "#");
-  const services = getServices();
   const phoneHref = contactInformation.phone
     ? `tel:${contactInformation.phone.replace(/\s+/g, "")}`
     : null;
@@ -221,9 +220,9 @@ export function FullscreenNavigation() {
                       className="text-foreground/60 hover:text-foreground inline-flex min-h-(--touch-target) items-center text-sm transition-colors"
                     >
                       <span>{link.label}</span>
-                      {link.path === "/careers" && careerPositions.length > 0 && (
+                      {link.path === "/careers" && careersCount > 0 && (
                         <span className="text-accent ml-xs font-mono text-[11px] font-medium">
-                          ({careerPositions.length})
+                          ({careersCount})
                         </span>
                       )}
                     </Link>

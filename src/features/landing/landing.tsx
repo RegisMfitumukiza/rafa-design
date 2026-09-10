@@ -3,13 +3,15 @@
 import { gsap } from "gsap";
 import Image from "next/image";
 import Link from "next/link";
-import { useLayoutEffect, useRef } from "react";
+import { Fragment, useLayoutEffect, useRef } from "react";
 
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { siteConfig } from "@/config/site";
+import { supportingNavLinks } from "@/content/navigation";
 import { ui } from "@/content/ui";
 import { motion } from "@/design-system/motion";
 import { useContact } from "@/features/contact/contact-context";
+import { useNavigation } from "@/features/navigation/navigation-context";
 import { PrimaryNavIndex } from "@/features/navigation/primary-nav-index";
 import { capitalize } from "@/lib/capitalize";
 import { useDualTime } from "@/lib/studio-time";
@@ -19,6 +21,7 @@ import { LandingSocialStrip } from "./LandingSocialStrip";
 
 export function Landing() {
   const contactInformation = useContact();
+  const { careersCount } = useNavigation();
   const reduced = useReducedMotion();
   const rootRef = useRef<HTMLDivElement | null>(null);
   const { studio, visitor, sameZone } = useDualTime();
@@ -39,6 +42,7 @@ export function Landing() {
       const primary = root.querySelectorAll<HTMLElement>(
         "[data-landing-label], [data-nav-index-item]",
       );
+      const supporting = root.querySelector<HTMLElement>("[data-landing-supporting]");
       const socialMobile = root.querySelector<HTMLElement>("[data-landing-social-mobile]");
 
       const tl = gsap.timeline({ defaults: { ease: easeEmphasized } });
@@ -60,6 +64,12 @@ export function Landing() {
           { autoAlpha: 0, y: 20 },
           { autoAlpha: 1, y: 0, duration: durationBase, stagger: 0.05 },
           "-=0.3",
+        )
+        .fromTo(
+          supporting,
+          { autoAlpha: 0, y: 12 },
+          { autoAlpha: 1, y: 0, duration: durationBase },
+          "-=0.1",
         )
         .fromTo(
           socialMobile,
@@ -158,6 +168,33 @@ export function Landing() {
             <PrimaryNavIndex variant="display" />
           </nav>
 
+          {/* Supporting practice links — Careers & Sustainability */}
+          <div
+            data-landing-supporting
+            className="mt-md lg:mt-lg gap-sm text-foreground/45 flex flex-wrap items-center font-mono text-xs"
+          >
+            {supportingNavLinks.map((link, index) => (
+              <Fragment key={link.path}>
+                {index > 0 && (
+                  <span aria-hidden="true" className="text-foreground/25 select-none">
+                    ·
+                  </span>
+                )}
+                <Link
+                  href={link.path}
+                  className="hover:text-foreground inline-flex min-h-(--touch-target) items-center transition-colors"
+                >
+                  <span>{link.label}</span>
+                  {link.path === "/careers" && careersCount > 0 && (
+                    <span className="text-accent ml-xs font-mono text-[11px] font-medium">
+                      ({careersCount})
+                    </span>
+                  )}
+                </Link>
+              </Fragment>
+            ))}
+          </div>
+
           {/*
             Social links — visible on mobile & tablet only.
             On desktop these live in the right-side <LandingSocialStrip />.
@@ -166,7 +203,7 @@ export function Landing() {
           */}
           <div
             data-landing-social-mobile
-            className="mt-lg gap-md flex flex-wrap items-center lg:hidden"
+            className="border-border/20 mt-md pt-xs gap-md flex flex-wrap items-center border-t lg:hidden"
             aria-label="Social links"
           >
             <a

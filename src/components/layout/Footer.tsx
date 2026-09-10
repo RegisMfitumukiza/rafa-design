@@ -4,14 +4,14 @@ import Link from "next/link";
 import { Fragment, type ReactNode } from "react";
 
 import { Logo } from "@/components/layout/Logo";
-import { careerPositions } from "@/content/company/careers";
 import { footerContent } from "@/content/footer";
 import { supportingNavLinks } from "@/content/navigation";
-import { getServices } from "@/content/services";
 import { ui } from "@/content/ui";
 import { useContact } from "@/features/contact/contact-context";
 import { MenuSearch } from "@/features/navigation/menu-search";
+import { useNavigation } from "@/features/navigation/navigation-context";
 import { PrimaryNavIndex } from "@/features/navigation/primary-nav-index";
+import { useServices } from "@/features/services/services-context";
 import { useSiteConfig } from "@/features/site/site-config-context";
 import { capitalize } from "@/lib/capitalize";
 import { cn } from "@/lib/cn";
@@ -29,14 +29,24 @@ const directoryLinkClassName =
 export function Footer({ className }: FooterProps) {
   const contactInformation = useContact();
   const config = useSiteConfig();
+  const services = useServices();
+  const { careersCount } = useNavigation();
   const { studio, rights } = footerContent;
   const year = new Date().getFullYear();
   const socialLinks = contactInformation.socialLinks.filter((link) => link.url !== "#");
-  const services = getServices();
   const { formatted: studioTimeFormatted } = useStudioTime();
   const phoneHref = contactInformation.phone
     ? `tel:${contactInformation.phone.replace(/\s+/g, "")}`
     : null;
+
+  // Derive city and country from the primary office; fall back to address string.
+  const primaryOffice = contactInformation.offices?.[0];
+  const studioCity = primaryOffice?.city ?? "";
+  const studioCountry = primaryOffice?.country ?? "";
+  const studioLocation =
+    studioCity && studioCountry
+      ? `${studioCity}, ${studioCountry}`
+      : (contactInformation.address ?? "");
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -76,8 +86,8 @@ export function Footer({ className }: FooterProps) {
               {config.tagline ?? studio.tagline}
             </p>
             <p className="text-foreground/40 font-mono text-[10px] tracking-[0.2em] uppercase">
-              KIGALI, RWANDA{" "}
-              {contactInformation.coordinates ? `[${contactInformation.coordinates}]` : ""} ·{" "}
+              {studioLocation}
+              {contactInformation.coordinates ? ` [${contactInformation.coordinates}]` : ""} ·{" "}
               {studioTimeFormatted}
             </p>
 
@@ -116,10 +126,8 @@ export function Footer({ className }: FooterProps) {
                 <li key={link.path}>
                   <Link href={link.path} className={directoryLinkClassName}>
                     {link.label}
-                    {link.path === "/careers" && careerPositions.length > 0 && (
-                      <span className="text-accent ml-xs font-medium">
-                        ({careerPositions.length})
-                      </span>
+                    {link.path === "/careers" && careersCount > 0 && (
+                      <span className="text-accent ml-xs font-medium">({careersCount})</span>
                     )}
                   </Link>
                 </li>

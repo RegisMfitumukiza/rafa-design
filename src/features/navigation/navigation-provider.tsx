@@ -6,7 +6,13 @@ import { useCallback, useEffect, useRef, useState, type ReactNode } from "react"
 import { FullscreenNavigation } from "./fullscreen-navigation";
 import { NavigationContext } from "./navigation-context";
 
-export function NavigationProvider({ children }: { children: ReactNode }) {
+interface NavigationProviderProps {
+  children: ReactNode;
+  /** Live open positions count from Sanity — drives the careers badge in footer and menu. */
+  careersCount: number;
+}
+
+export function NavigationProvider({ children, careersCount }: NavigationProviderProps) {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
   const previousPathname = useRef(pathname);
@@ -50,7 +56,9 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
   }, [isMenuOpen]);
 
   return (
-    <NavigationContext.Provider value={{ isMenuOpen, openMenu, closeMenu, toggleMenu }}>
+    <NavigationContext.Provider
+      value={{ isMenuOpen, openMenu, closeMenu, toggleMenu, careersCount }}
+    >
       <div className="contents" inert={isMenuOpen || undefined}>
         {children}
       </div>

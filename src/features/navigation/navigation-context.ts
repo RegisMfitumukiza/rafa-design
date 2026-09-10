@@ -7,6 +7,8 @@ export interface NavigationContextValue {
   openMenu: () => void;
   closeMenu: () => void;
   toggleMenu: () => void;
+  /** Live open positions count from Sanity, used for the careers badge in footer and menu. */
+  careersCount: number;
 }
 
 export const NavigationContext = createContext<NavigationContextValue | null>(null);

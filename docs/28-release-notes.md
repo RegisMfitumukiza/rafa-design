@@ -8,6 +8,75 @@
 >
 > Unlike the Implementation Tracker, this document is historical and should never be rewritten. New entries are always added to the top.
 
+# 2026-09-10 (Homepage Supporting Practice Navigation Elevation)
+
+## Version
+
+0.16.8-alpha
+
+## Summary
+
+Elevated the Studio Index homepage (`/`) by adding quiet secondary architectural navigation directly underneath the primary `01–06` rail for `Careers` (with live Sanity active role count badge) and `Sustainability`. Eliminates discoverability friction for talent and institutional clients while strictly preserving the pristine, minimalist monograph cover aesthetic and avoiding redundant menu-in-menu popups.
+
+## What Changed
+
+- `Landing` (`src/features/landing/landing.tsx`):
+  - Added `data-landing-supporting` secondary practice links directly under the primary `01–06` monograph index.
+  - Sourced from `supportingNavLinks` (`Careers`, `Sustainability`).
+  - Integrated dynamic `careersCount` badge from `useNavigation()`.
+  - Added entrance animation step into GSAP timeline (`-=0.1` after primary nav).
+  - Mobile architecture: positioned supporting links directly above external social channels, separated by a delicate `border-border/20` hairline rule for crisp structural hierarchy.
+
+## Verification
+
+- `npm run typecheck` — exit 0
+- `npm run lint` — exit 0
+- `npm run format:check` — exit 0
+- `npm run build` — exit 0, all 34 routes compiled cleanly
+
+---
+
+# 2026-09-10 (Editorial Footer & Navigation Live Sanity Data Elevation)
+
+## Version
+
+0.16.7-alpha
+
+## Summary
+
+Complete industrial elevation of the Editorial Footer, Fullscreen Navigation Menu, and search ecosystem. Eliminated all hardcoded location strings, decoupled static content arrays from client UI components, and connected services/disciplines, careers count, and the site-wide search index directly to live Sanity CMS data via unified server layout fetching and React Context providers.
+
+## What Changed
+
+- `ServicesContext` & `ServicesProvider` (`src/features/services/services-context.ts`, `services-provider.tsx`):
+  - Created a new React context pattern mirroring `ContactProvider` and `SiteConfigProvider`.
+  - Injects live Sanity disciplines fetched via `getServices()` from `@/sanity/lib` into client surfaces, with seamless fallback to static `getServices()` when CMS is unreachable.
+- `SearchIndexContext` & `SearchIndexProvider` (`src/features/navigation/search-index-context.ts`, `search-index-provider.tsx`):
+  - Injects a server-built live search index across all published projects, services, and journal articles directly into client search components.
+- `search-index.ts` (`src/features/navigation/search-index.ts`):
+  - Refactored from a static module-level evaluation into a pure factory (`buildSearchIndex(projects, services, articles)`) and search executor (`searchContent(query, index)`). Eliminates static content capture at build time.
+- `NavigationContext` & `NavigationProvider` (`src/features/navigation/navigation-context.ts`, `navigation-provider.tsx`):
+  - Added `careersCount: number` to the navigation context value, passed down as a prop from server layout.
+- `(site)/layout.tsx`:
+  - Upgraded root site layout to resolve all site-wide entities concurrently via `Promise.all([getSiteConfig(), getContactInformation(), getServices(), getCareers(), getProjects(), getArticles()])`.
+  - Builds the dynamic `searchIndex` server-side once and mounts `ServicesProvider`, `SearchIndexProvider`, and `NavigationProvider` with live data. Zero client-side network roundtrips.
+- `Footer` (`src/components/layout/Footer.tsx`):
+  - Dynamic studio location: replaced the hardcoded `"KIGALI, RWANDA"` string with dynamic primary office city and country (`offices[0].city, offices[0].country`), falling back to `contactInformation.address`.
+  - Disciplines column: consumes live Sanity services via `useServices()`.
+  - Careers badge: consumes live Sanity active role count via `useNavigation().careersCount`.
+- `FullscreenNavigation` (`src/features/navigation/fullscreen-navigation.tsx`):
+  - Disciplines column: consumes live Sanity services via `useServices()`.
+  - Careers badge: consumes live Sanity active role count via `useNavigation().careersCount`.
+- `MenuSearch` (`src/features/navigation/menu-search.tsx`):
+  - Consumes live server-built index via `useSearchIndex()`.
+
+## Verification
+
+- `npm run typecheck` — exit 0
+- `npm run lint` — exit 0
+- `npm run format:check` — exit 0
+- `npm run build` — exit 0, all 34 routes compiled cleanly
+
 ---
 
 # 2026-09-10 (Fullscreen Navigation Careers Alignment & HiringBanner Pruning)

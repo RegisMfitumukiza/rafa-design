@@ -11,6 +11,7 @@ import { ui } from "@/content/ui";
 
 import { useNavigation } from "./navigation-context";
 import { searchContent, type SearchResult, type SearchResultType } from "./search-index";
+import { useSearchIndex } from "./search-index-context";
 
 const resultLabels: Record<SearchResultType, string> = {
   project: "Project",
@@ -27,8 +28,9 @@ export const MenuSearch = forwardRef<HTMLInputElement, MenuSearchProps>(function
   ref,
 ) {
   const { closeMenu } = useNavigation();
+  const searchIndex = useSearchIndex();
   const [query, setQuery] = useState("");
-  const results = useMemo(() => searchContent(query), [query]);
+  const results = useMemo(() => searchContent(query, searchIndex), [query, searchIndex]);
   const searchInputId = useId();
 
   return (
