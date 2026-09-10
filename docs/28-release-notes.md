@@ -10,6 +10,34 @@
 
 ---
 
+# 2026-09-10 (Fullscreen Navigation Careers Alignment & HiringBanner Pruning)
+
+## Version
+
+0.16.6-alpha
+
+## Summary
+
+Aligned the Fullscreen Navigation Menu with the Editorial Footer by adding an active position count badge to the Careers link when open roles exist, matching the architectural design of the studio directory. Pruned the unused `HiringBanner` component to eliminate dead code and preserve the studio's restraint against intrusive pop-ups and retail banners.
+
+## What Changed
+
+- `FullscreenNavigation` (`src/features/navigation/fullscreen-navigation.tsx`):
+  - Imported `careerPositions` from `@/content/company/careers`.
+  - Added an active position count badge (`({careerPositions.length})`) beside `Careers` in the Directory column when positions exist (`careerPositions.length > 0`), maintaining 100% typographic consistency with the Footer.
+  - When there are 0 openings, seamlessly displays plain `Careers` without a badge.
+- `HiringBanner` (`src/features/careers/hiring-banner.tsx`):
+  - Deleted the unused component completely.
+
+## Verification
+
+- `npm run typecheck` — exit 0
+- `npm run lint` — exit 0
+- `npm run format:check` — exit 0
+- `npm run build` — exit 0, all 34 routes compiled cleanly
+
+---
+
 # 2026-09-10 (Site Settings Ecosystem & Museum-Grade Maintenance Elevation)
 
 ## Version

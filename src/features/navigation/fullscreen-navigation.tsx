@@ -7,6 +7,7 @@ import { useLayoutEffect, useEffect, useRef, useState } from "react";
 import { Logo } from "@/components/layout/Logo";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { useDialog } from "@/components/ui/useDialog";
+import { careerPositions } from "@/content/company/careers";
 import { supportingNavLinks } from "@/content/navigation";
 import { getServices } from "@/content/services";
 import { ui } from "@/content/ui";
@@ -219,7 +220,12 @@ export function FullscreenNavigation() {
                       onClick={closeMenu}
                       className="text-foreground/60 hover:text-foreground inline-flex min-h-(--touch-target) items-center text-sm transition-colors"
                     >
-                      {link.label}
+                      <span>{link.label}</span>
+                      {link.path === "/careers" && careerPositions.length > 0 && (
+                        <span className="text-accent ml-xs font-mono text-[11px] font-medium">
+                          ({careerPositions.length})
+                        </span>
+                      )}
                     </Link>
                   </li>
                 ))}
