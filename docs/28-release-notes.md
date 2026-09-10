@@ -10,6 +10,36 @@
 
 ---
 
+# 2026-09-10 (Project Detail Monograph — Industrial UI/UX Elevation)
+
+## Version
+
+0.16.4-alpha
+
+## Summary
+
+Comprehensive UI/UX audit and elevation of the `projects/[slug]` project detail monograph page. Fixed semantic HTML errors, removed UI hierarchy violations, upgraded the BeforeAfterSlider to a real interactive drag comparison, restored backward project navigation, and polished mobile ergonomics across all 8 sub-components.
+
+## What Changed
+
+- `ProjectConcept`: Added `CONCEPT STATEMENT` architectural overline label (via `<Reveal>`) so the large editorial concept statement has explicit section hierarchy rather than floating anonymously after the hero.
+- `ProjectMetadata`: Moved the `Specifications` overline label inside the component (co-located with the data it describes); replaced the flat `<div>` wrapper with a semantic `<dl>` element so all `<dt>`/`<dd>` spec pairs are valid HTML (accessibility win); imports `Reveal` from `@/motion` for smooth entrance.
+- `page.tsx` (`/projects/[slug]`): Removed the duplicate hardcoded `<p>Specifications</p>` label that was previously orphaned in the grid column above `ProjectMetadata`; `ProjectMetadata` now owns its own overline. Always passes `prev` to `ProjectNavigation` (previously suppressed when `next` was also present).
+- `ProjectNavigation`: Restored full bidirectional project navigation — NEXT remains the dominant full-width cinematic panel; PREV now renders as a quiet horizontal strip below it (`border-t border-border/20`, `← Previous · {title}`, right-aligned year+city metadata) whenever a previous project exists.
+- `BeforeAfterSlider`: Upgraded from a static two-column image pair to a real interactive clip-path drag/touch comparison slider. Features: `clip-path: inset(0 X% 0 0)` clipping for the BEFORE layer; frosted circular drag handle with a `↔` SVG icon; mouse drag (`onMouseMove`), touch drag (`onTouchMove`), and keyboard (`ArrowLeft`/`ArrowRight`) support; ARIA `role="slider"` with `aria-valuenow`; respects `prefers-reduced-motion` (falls back to the original static side-by-side layout). No new dependencies.
+- `ProjectChapterBlock`: Fixed the mobile intent-label wrapping bug where the separator dot `·` could be orphaned on its own line. Labels now stack vertically on mobile (`flex-col`) and sit inline on `md+` (`md:flex-row`); the dot is hidden on mobile with `hidden md:inline`.
+- `ProjectGallery`: Changed container from `space-y-2xl` to `flex flex-col gap-2xl` (equivalent spacing but avoids the extra top margin that `space-y-*` adds via the `:not(:first-child)` selector, tightening the gap between the "Spatial Archive" overline and the first image); added `loading="lazy"` to contained gallery images for better page performance.
+- `ProjectDrawingViewer`: Changed drawing image from `aspect-landscape object-cover` (16:9, clips drawing edges) to `aspect-[2/1] object-contain` (shows the full drawing plate without cropping); background updated to `bg-muted/30` for better contrast against the `grayscale` drawing.
+
+## Verification
+
+- `npm run typecheck` — exit 0
+- `npm run lint` — exit 0
+- `npm run format:check` — exit 0
+- `npm run build` — exit 0, all 34 routes compiled
+
+---
+
 # 2026-09-10 (Site Settings — Single Source of Truth)
 
 ## Version

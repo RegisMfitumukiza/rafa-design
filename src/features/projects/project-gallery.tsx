@@ -33,7 +33,8 @@ export function ProjectGallery({ images, className }: ProjectGalleryProps) {
 
   return (
     <>
-      <div className={cn("space-y-2xl", className)}>
+      {/* Use divide styling instead of space-y to avoid extra top margin on first image */}
+      <div className={cn("gap-2xl flex flex-col", className)}>
         {images.map((image, i) => {
           const img = image as ChapterImage;
           const isFullBleed = img.fullBleed === true;
@@ -112,6 +113,7 @@ export function ProjectGallery({ images, className }: ProjectGalleryProps) {
                           asset={img}
                           className="aspect-landscape w-full rounded-sm object-cover"
                           sizes="(max-width: 48rem) 100vw, (max-width: 64rem) 70vw, 960px"
+                          loading="lazy"
                         />
                       </ImageReveal>
                       <div className="absolute inset-0 rounded-sm bg-black/0 transition-colors duration-500 group-hover:bg-black/10" />

@@ -105,7 +105,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
 
       {/* ─── [3] CONCEPT STATEMENT + SPEC FACTS ───────────────────────────────── */}
       <Section container="standard">
-        {/* Concept — large editorial type */}
+        {/* Concept — large editorial type (includes its own overline via ProjectConcept) */}
         {project.concept && (
           <div className="mb-xl">
             <ProjectConcept concept={project.concept} />
@@ -136,6 +136,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
             )}
 
             {/* Spec sheet — right column / below on mobile */}
+            {/* ProjectMetadata owns its own "Specifications" overline — no label needed here */}
             <div
               className={
                 hasFallbackStory
@@ -143,9 +144,6 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                   : "md:sticky md:top-24 md:col-span-5 md:col-start-8"
               }
             >
-              <p className="text-foreground/40 mb-md font-mono text-[10px] tracking-widest uppercase">
-                Specifications
-              </p>
               <ProjectMetadata project={project} />
             </div>
           </div>

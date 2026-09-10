@@ -73,14 +73,16 @@ export function ProjectChapterBlock({ chapter, index, className = "" }: ProjectC
                 )}
               >
                 {/* Heading / Intent label */}
-                <div className="mb-xs gap-xs flex flex-wrap items-center">
+                <div className="mb-xs md:gap-xs flex flex-col gap-0.5 md:flex-row md:flex-wrap md:items-center">
                   {chapter.heading && (
                     <span className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
                       {chapter.heading}
                     </span>
                   )}
                   {chapter.heading && image.intent && (
-                    <span className="text-foreground/20 font-mono text-[10px]">·</span>
+                    <span className="text-foreground/20 hidden font-mono text-[10px] md:inline">
+                      ·
+                    </span>
                   )}
                   {image.intent && (
                     <span className="text-accent font-mono text-[10px] tracking-widest uppercase">

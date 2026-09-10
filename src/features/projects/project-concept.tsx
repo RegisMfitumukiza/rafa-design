@@ -1,5 +1,5 @@
 import type { Project } from "@/content/projects";
-import { TextReveal } from "@/motion";
+import { Reveal, TextReveal } from "@/motion";
 
 interface ProjectConceptProps {
   concept: Project["concept"];
@@ -16,6 +16,13 @@ export function ProjectConcept({ concept, className = "" }: ProjectConceptProps)
 
   return (
     <div className={className}>
+      {/* Section overline — gives the concept statement editorial hierarchy */}
+      <Reveal>
+        <p className="text-foreground/40 mb-md font-mono text-[10px] tracking-widest uppercase">
+          Concept Statement
+        </p>
+      </Reveal>
+
       {paragraphs.length === 1 ? (
         // Single paragraph - use TextReveal
         <TextReveal

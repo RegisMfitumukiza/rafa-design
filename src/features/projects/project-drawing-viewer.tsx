@@ -68,10 +68,10 @@ export function ProjectDrawingViewer({ drawings, className }: ProjectDrawingView
       {/* Active Drawing Plate */}
       <div className="space-y-md">
         <ImageReveal>
-          <figure className="border-border/30 bg-muted/20 relative overflow-hidden rounded-sm border">
+          <figure className="border-border/30 bg-muted/30 relative overflow-hidden rounded-sm border">
             <Image
               asset={activeDrawing.image}
-              className="aspect-landscape w-full object-cover contrast-110 grayscale filter"
+              className="aspect-[2/1] w-full object-contain contrast-110 grayscale filter"
               sizes="100vw"
             />
             {/* Architectural Drawing Badge Overlay */}

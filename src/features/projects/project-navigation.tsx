@@ -81,18 +81,26 @@ export function ProjectNavigation({ prev, next, className = "" }: ProjectNavigat
         </Reveal>
       )}
 
-      {/* Previous project — minimal quiet link, only if no next */}
-      {prev && !next && (
+      {/* Previous project — always shown as a quiet strip when it exists */}
+      {prev && (
         <Reveal>
-          <div className="border-border py-xl border-t">
+          <div className="border-border/20 py-md flex items-center justify-between border-t px-[var(--container-gutter)]">
             <Link
               href={`/projects/${prev.slug}` as Route}
-              className="group gap-sm inline-flex items-center"
+              className="group gap-sm inline-flex items-center transition-opacity hover:opacity-100"
+              aria-label={`Previous project: ${prev.title}`}
             >
-              <span className="text-foreground/40 group-hover:text-foreground font-mono text-sm transition-colors">
-                ← {prev.title}
+              <span className="text-foreground/40 group-hover:text-foreground font-mono text-[10px] tracking-widest uppercase transition-colors">
+                ← Previous
+              </span>
+              <span className="text-foreground/60 group-hover:text-foreground font-mono text-xs transition-colors">
+                {prev.title}
               </span>
             </Link>
+            {/* Year + location metadata */}
+            <span className="text-foreground/30 hidden font-mono text-[10px] tracking-widest uppercase sm:block">
+              {prev.year} · {prev.location.city}
+            </span>
           </div>
         </Reveal>
       )}
