@@ -8,6 +8,36 @@
 >
 > Unlike the Implementation Tracker, this document is historical and should never be rewritten. New entries are always added to the top.
 
+# 2026-09-10 (Zero-Flash System Theme Persistence & Background Restoration)
+
+## Version
+
+0.16.11-alpha
+
+## Summary
+
+Implemented a bulletproof, zero-flash theme persistence architecture ensuring that the active theme (whether from OS system preference or manual user toggle) is synchronously applied to the document root and background before initial paint on every reload. Moved the theme initialization script directly into `<head>` as an inline synchronous script, added native CSS `@media (prefers-color-scheme: dark)` token overrides in `tokens.css`, synchronized `document.documentElement.style.colorScheme` and `.light` / `.dark` classes in `ThemeProvider`, and wired dynamic live listening for OS theme changes when no manual override exists.
+
+## What Changed
+
+- `src/app/layout.tsx`:
+  - Moved `themeScript` into `<head>` as a synchronous inline `<script id="theme-init">`, executing before the browser parses `<body>` and eliminating all white flashes on page reload.
+  - Script now sets both `.dark` / `.light` classes and `document.documentElement.style.colorScheme` immediately.
+- `src/styles/tokens.css`:
+  - Added `@media (prefers-color-scheme: dark) { :root:not(.light) { ... } }` brand palette fallback so system dark mode colors apply natively at the stylesheet level before script evaluation.
+- `src/providers/theme-provider.tsx`:
+  - `toggleTheme`: synchronizes `.dark`, `.light`, and `style.colorScheme` on `document.documentElement`.
+  - `subscribeToTheme`: added a live listener on `window.matchMedia("(prefers-color-scheme: dark)")` that updates the site in real-time if the user changes their OS theme while browsing (when no manual override is saved).
+
+## Verification
+
+- `npm run typecheck` — exit 0
+- `npm run lint` — exit 0
+- `npm run format:check` — exit 0
+- `npm run build` — exit 0, all 34 routes compiled cleanly
+
+---
+
 # 2026-09-10 (Micro-Typography Utility Fix & Featured Project Card Layout Restoration)
 
 ## Version

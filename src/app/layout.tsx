@@ -46,12 +46,11 @@ export const viewport: Viewport = {
   ],
 };
 
-// Inline theme initialisation — runs before React hydration to prevent flash.
-// Uses next/script strategy="beforeInteractive" so Next.js hoists this into
-// the document head without the React script-tag-in-JSX warning.
+// Inline theme initialisation — runs synchronously in <head> before first paint.
+// Guarantees zero flash of wrong theme/background during page reload or navigation.
 const themeScript = `(function(){try{var p=localStorage.getItem(${JSON.stringify(
   theme.storageKey,
-)});var d=p?p==="dark":window.matchMedia("(prefers-color-scheme: dark)").matches;if(d)document.documentElement.classList.add("dark");}catch(e){}})();`;
+)});var isDark=p?p==="dark":window.matchMedia("(prefers-color-scheme: dark)").matches;var r=document.documentElement;if(isDark){r.classList.add("dark");r.classList.remove("light");r.style.colorScheme="dark";}else{r.classList.add("light");r.classList.remove("dark");r.style.colorScheme="light";}}catch(e){}})();`;
 
 export default async function RootLayout({
   children,
@@ -63,6 +62,8 @@ export default async function RootLayout({
   return (
     <html lang={siteConfig.locale} className="h-full antialiased" suppressHydrationWarning>
       <head>
+        {/* Synchronous theme initialization before first paint */}
+        <script id="theme-init" dangerouslySetInnerHTML={{ __html: themeScript }} />
         {/* Preload critical fonts for optimal LCP */}
         <link
           rel="preload"
@@ -87,12 +88,6 @@ export default async function RootLayout({
         />
       </head>
       <body className="bg-background text-foreground flex min-h-dvh flex-col font-sans">
-        {/* Theme init script - must be in body for Next.js Script component */}
-        <Script
-          id="theme-init"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{ __html: themeScript }}
-        />
         <a
           href="#main-content"
           className="focus:left-md focus:top-md focus:z-modal focus:bg-surface focus:px-md focus:py-sm focus:text-foreground focus:shadow-medium sr-only focus:not-sr-only focus:fixed focus:rounded-sm"

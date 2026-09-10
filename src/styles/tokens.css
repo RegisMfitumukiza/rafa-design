@@ -127,6 +127,17 @@
   --touch-target: 2.75rem;
 }
 
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    --rafa-background: #0a0a0a;
+    --rafa-foreground: #fafafa;
+    --rafa-surface: #141414;
+    --rafa-accent: #fafafa;
+    --rafa-border: #262626;
+    --rafa-muted: #1a1a1a;
+  }
+}
+
 .dark {
   --rafa-background: #0a0a0a;
   --rafa-foreground: #fafafa;
