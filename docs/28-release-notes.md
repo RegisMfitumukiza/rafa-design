@@ -10,6 +10,37 @@
 
 ---
 
+# 2026-09-10 (Site Settings — Single Source of Truth)
+
+## Version
+
+0.16.3-alpha
+
+## Summary
+
+The Sanity `siteSettings` singleton is now the single source of truth for global website configuration (identity, canonical URL, footer copy, maintenance, analytics) — no more hardcoded site values in components or metadata. Canonical/domain registry corrected to `https://www.rafadesignhub.com`.
+
+## What Changed
+
+- **`src/lib/get-site-config.ts`** (new) — `SiteConfig` interface + async `getSiteConfig()` resolving the resolved configuration from the tagged Sanity `siteSettings` fetch with a static `src/config/site.ts` fallback; exports a synchronous `fallbackSiteConfig` for non-async contexts.
+- **Root `layout.tsx`** — metadata converted from static `export const metadata` to async `generateMetadata`; `createMetadata` now accepts the resolved config and drives `metadataBase` (canonical), og/twitter defaults, title/description/keywords/applicationName/authors/creator/publisher. Google Analytics gtag `<Script>`s are injected only when `siteSettings.analyticsCode` is set (Operational group).
+- **`src/config/seo.ts`** — `createMetadata(overrides, config = fallbackSiteConfig)`; `metadataBase` derived from the site URL so absolute URLs (canonical, og) always point to the configured domain.
+- **Home `/`** — static metadata replaced with async `generateMetadata`.
+- **`SiteConfigProvider` / `useSiteConfig`** (`src/features/site/`) — client context mirroring the `useContact` pattern; server layout feeds the resolved config. `Footer` (tagline + copyright name), `Logo` (alt/aria-label, now a client component), and `SplashScreen` consume it. Footer fallback tagline remains in `src/content/footer/index.ts` (static `studio.name` removed).
+- **Maintenance mode** — `(site)/layout.tsx` renders a full-screen maintenance view (studio name + optional `maintenanceMessage`) when `siteSettings.maintenanceMode` is on. Placed below the root layout so `/admin` (Studio) and API routes stay reachable to disable it. Toggling in Studio revalidates via the existing `siteSettings` cache tag — takes effect without a redeploy. Verified end-to-end against the production dataset (ON → maintenance view, OFF → normal site).
+- **Contact de-duplication** — `email`/`phone` removed from the `siteSettings` schema (the now-empty "Organisation" group was dropped), `siteSettingsQuery`, `transformSanitySiteSettings`, and the `SiteSettings` content type. Contact details live exclusively in the `contact` document.
+- **`scripts/remove-site-settings-contact.mjs`** (new, `npm run migrate:remove-site-settings-contact`) — unset the stored `email` (`studio@rafadesign.com`) and `phone` from the production singleton.
+- **Domain correction** — the seeded `siteSettings.siteUrl` was `https://rafadesign.pt` while the real domain is `https://www.rafadesignhub.com`; corrected the production dataset value and the seed in `scripts/migrate-site-settings-to-sanity.mjs`.
+
+## Verification
+
+- `npm run typecheck`: 0 errors
+- `npm run lint`: 0 errors (changed files)
+- `npm run build`: 34 routes generated, 0 errors
+- Served HTML on `localhost:8000`: `<title>` and `description` from config, `canonical` = `https://www.rafadesignhub.com`, footer tagline pulled from the CMS ("Architecture & Interior Design // Porto"), no gtag markup emitted when `analyticsCode` is unset, maintenance gate toggled ON/OFF through the real `/api/revalidate` flow.
+
+---
+
 # 2026-09-10 (Projects Mobile UI/UX Elevation)
 
 ## Version
