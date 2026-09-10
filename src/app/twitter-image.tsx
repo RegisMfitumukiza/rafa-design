@@ -1,15 +1,18 @@
 import { ImageResponse } from "next/og";
 
-import { siteConfig } from "@/config/site";
+import { getSiteConfig } from "@/lib/get-site-config";
 
-export const alt = siteConfig.name;
 export const size = {
   width: 1200,
   height: 630,
 };
 export const contentType = "image/png";
 
-export default function TwitterImage() {
+export default async function TwitterImage() {
+  const config = await getSiteConfig();
+  const title = config.seoDefaults?.title ?? config.name;
+  const tagline = config.tagline ?? "Architecture & Spatial Design Studio";
+
   return new ImageResponse(
     <div
       style={{
@@ -21,24 +24,53 @@ export default function TwitterImage() {
         backgroundColor: "#0a0a0a",
         color: "#fafafa",
         padding: 72,
+        fontFamily: "sans-serif",
       }}
     >
-      <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-        <div style={{ fontSize: 36, textTransform: "uppercase", opacity: 0.6 }}>
-          Architecture &amp; Interior Design
-        </div>
-        <div style={{ fontSize: 88, fontWeight: 600, letterSpacing: -2 }}>{siteConfig.name}</div>
-      </div>
-      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 16,
+        }}
+      >
         <div
           style={{
-            width: 48,
-            height: 48,
-            borderRadius: 24,
-            backgroundColor: "#986f45",
+            fontSize: 24,
+            textTransform: "uppercase",
+            letterSpacing: 4,
+            opacity: 0.5,
           }}
-        />
-        <div style={{ fontSize: 28, opacity: 0.7 }}>{siteConfig.url}</div>
+        >
+          {tagline}
+        </div>
+        <div
+          style={{
+            fontSize: 72,
+            fontWeight: 600,
+            letterSpacing: -2,
+            lineHeight: 1.05,
+            maxWidth: 900,
+          }}
+        >
+          {title}
+        </div>
+      </div>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+          <div
+            style={{
+              width: 16,
+              height: 16,
+              borderRadius: 8,
+              backgroundColor: "#fafafa",
+            }}
+          />
+          <div style={{ fontSize: 24, letterSpacing: 1, opacity: 0.75 }}>{config.name}</div>
+        </div>
+        <div style={{ fontSize: 22, opacity: 0.45, letterSpacing: 2, textTransform: "uppercase" }}>
+          {config.url.replace(/^https?:\/\//, "")}
+        </div>
       </div>
     </div>,
     size,

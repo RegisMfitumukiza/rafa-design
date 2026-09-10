@@ -4,18 +4,22 @@ import type { ContactInformation } from "@/content/company/contact";
 import type { JournalArticle } from "@/content/journal";
 import type { Project } from "@/content/projects";
 import type { Service } from "@/content/services";
+import type { SiteConfig } from "@/lib/get-site-config";
 
 const baseUrl = siteConfig.url.replace(/\/$/, "");
 
-function absolute(src: string): string {
+function absolute(src: string, base: string = baseUrl): string {
   if (/^https?:\/\//.test(src)) return src;
-  return `${baseUrl}${src.startsWith("/") ? src : `/${src}`}`;
+  return `${base}${src.startsWith("/") ? src : `/${src}`}`;
 }
 
 export function organizationSchema(
   contact: ContactInformation | null = null,
+  config?: SiteConfig,
 ): Record<string, unknown> {
   const contactInformation = contact ?? staticContactInformation;
+  const studioName = config?.name || siteConfig.name;
+  const currentBaseUrl = config ? config.url.replace(/\/$/, "") : baseUrl;
 
   const social = contactInformation.socialLinks
     .map((link) => link.url)
@@ -41,9 +45,9 @@ export function organizationSchema(
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: siteConfig.name,
-    url: baseUrl,
-    logo: absolute("/logo/rafa-bg-black.png"),
+    name: studioName,
+    url: currentBaseUrl,
+    logo: absolute("/logo/rafa-bg-black.png", currentBaseUrl),
     email: contactInformation.email,
     telephone: contactInformation.phone,
     address: {
@@ -57,12 +61,15 @@ export function organizationSchema(
   };
 }
 
-export function websiteSchema(): Record<string, unknown> {
+export function websiteSchema(config?: SiteConfig): Record<string, unknown> {
+  const studioName = config?.name || siteConfig.name;
+  const currentBaseUrl = config ? config.url.replace(/\/$/, "") : baseUrl;
+
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: siteConfig.name,
-    url: baseUrl,
+    name: studioName,
+    url: currentBaseUrl,
     inLanguage: siteConfig.locale,
   };
 }

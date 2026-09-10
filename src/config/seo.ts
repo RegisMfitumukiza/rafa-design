@@ -26,6 +26,18 @@ export function createMetadata(
 
   const defaultTitle = config.seoDefaults?.title ?? config.name;
   const defaultDescription = config.seoDefaults?.description ?? config.description;
+  const ogImage = config.seoDefaults?.ogImage;
+
+  const defaultImages = ogImage?.src
+    ? [
+        {
+          url: ogImage.src,
+          width: ogImage.width ?? 1200,
+          height: ogImage.height ?? 630,
+          alt: ogImage.alt ?? defaultTitle,
+        },
+      ]
+    : undefined;
 
   return {
     metadataBase: new URL(config.url),
@@ -49,11 +61,15 @@ export function createMetadata(
       siteName: config.name,
       title: defaultTitle,
       description: defaultDescription,
+      ...(defaultImages ? { images: defaultImages } : {}),
+      ...rest.openGraph,
     },
     twitter: {
       card: "summary_large_image",
       title: defaultTitle,
       description: defaultDescription,
+      ...(defaultImages ? { images: [ogImage!.src] } : {}),
+      ...rest.twitter,
     },
     ...rest,
   };

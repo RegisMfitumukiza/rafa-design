@@ -1,9 +1,10 @@
 import type { MetadataRoute } from "next";
 
-import { siteConfig } from "@/config/site";
+import { getSiteConfig } from "@/lib/get-site-config";
 
-export default function robots(): MetadataRoute.Robots {
-  const baseUrl = siteConfig.url.replace(/\/$/, "");
+export default async function robots(): Promise<MetadataRoute.Robots> {
+  const config = await getSiteConfig();
+  const baseUrl = config.url.replace(/\/$/, "");
 
   return {
     rules: [

@@ -2,13 +2,14 @@ import type { MetadataRoute } from "next";
 
 import { navigationConfig } from "@/config/navigation";
 import { routes, type RouteKey } from "@/config/routes";
-import { siteConfig } from "@/config/site";
 import { getArticles } from "@/content/journal/sanity-adapter";
 import { getProjects } from "@/content/projects/sanity";
 import { getServices } from "@/content/services";
+import { getSiteConfig } from "@/lib/get-site-config";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const base = siteConfig.url;
+  const config = await getSiteConfig();
+  const base = config.url.replace(/\/$/, "");
 
   const staticRouteKeys: Array<"" | RouteKey> = [
     "",

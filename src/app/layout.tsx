@@ -99,18 +99,18 @@ export default async function RootLayout({
         >
           Skip to content
         </a>
-        <JsonLd data={organizationSchema(contact)} />
-        <JsonLd data={websiteSchema()} />
+        <JsonLd data={organizationSchema(contact, config)} />
+        <JsonLd data={websiteSchema(config)} />
         <Providers>{children}</Providers>
         {/* Analytics driven by /admin Site Settings (Operational) when set */}
-        {config.analyticsCode && (
+        {config.analyticsCode?.trim() && (
           <Script
             async
-            src={`https://www.googletagmanager.com/gtag/js?id=${config.analyticsCode}`}
+            src={`https://www.googletagmanager.com/gtag/js?id=${config.analyticsCode.trim()}`}
             strategy="afterInteractive"
           />
         )}
-        {config.analyticsCode && (
+        {config.analyticsCode?.trim() && (
           <Script
             id="google-analytics"
             strategy="afterInteractive"
@@ -119,7 +119,7 @@ export default async function RootLayout({
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
-                gtag('config', ${JSON.stringify(config.analyticsCode)});
+                gtag('config', ${JSON.stringify(config.analyticsCode.trim())});
               `,
             }}
           />

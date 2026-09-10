@@ -10,6 +10,48 @@
 
 ---
 
+# 2026-09-10 (Site Settings Ecosystem & Museum-Grade Maintenance Elevation)
+
+## Version
+
+0.16.5-alpha
+
+## Summary
+
+Complete industrial elevation of the Site Settings ecosystem across all 8 architectural touchpoints. Created a dedicated museum-grade `MaintenanceScreen` component, resolved OpenGraph and Twitter default image omissions in `seo.ts`, made dynamic OG route generators strictly monochromatic and dynamic via `getSiteConfig()`, updated JSON-LD schemas (`organizationSchema`, `websiteSchema`) to accept dynamic configuration, and wired dynamic canonical URLs into `sitemap.ts` and `robots.ts`.
+
+## What Changed
+
+- `MaintenanceScreen` (`src/components/maintenance/MaintenanceScreen.tsx`):
+  - Extracted inline layout markup into a dedicated museum-grade architectural holding screen.
+  - Features: top ledger with GPS coordinates (`[41.1579° N, 8.6291° W]`) and live studio time (`useStudioTime`); centered display logo mark (`Logo variant="display"`); animated pulsing status beacon (`Status // Archival Maintenance`); monumental title and custom editorial notice from Sanity; direct private commission contact fallback with interactive `mailto:` and `tel:` links; bottom ledger with legal copyright and discreet staff portal link to `/admin`.
+- `(site)/layout.tsx`:
+  - Upgraded to fetch `config` and `contact` concurrently using `Promise.all([getSiteConfig(), getContactInformation()])`.
+  - When `config.maintenanceMode` is active, mounts `<MaintenanceScreen config={config} contact={contact} />`, while `/admin` and `/api` remain accessible.
+- `src/config/seo.ts`:
+  - Fixed critical bug where `config.seoDefaults?.ogImage` was not being populated into `openGraph.images` or `twitter.images`. Default social cards now reliably display the Sanity-uploaded OG asset.
+- `src/app/opengraph-image.tsx` & `src/app/twitter-image.tsx`:
+  - Upgraded route handlers to async functions consuming `await getSiteConfig()`.
+  - Replaced legacy `#986f45` bronze circle with the monochromatic design system palette (`#fafafa` on `#0a0a0a`).
+- `src/config/schema.ts`:
+  - Updated `organizationSchema` and `websiteSchema` to accept dynamic `config?: SiteConfig`. Google search bots and schema indexers now receive real-time updates when studio identity or canonical URLs change in Sanity.
+- `src/app/layout.tsx`:
+  - Passed `config` to `organizationSchema(contact, config)` and `websiteSchema(config)`.
+  - Sanitized `analyticsCode?.trim()` to prevent empty script tag injection from accidental whitespace.
+- `src/app/(site)/page.tsx`:
+  - Homepage `generateMetadata` now calls `createMetadata` passing `config.seoDefaults?.title ?? config.name` and `config.seoDefaults?.description ?? config.description`, ensuring homepage social cards and meta tags inherit full Sanity SEO defaults.
+- `src/app/sitemap.ts` & `src/app/robots.ts`:
+  - Upgraded to resolve canonical base URL dynamically via `(await getSiteConfig()).url`.
+
+## Verification
+
+- `npm run typecheck` — exit 0
+- `npm run lint` — exit 0
+- `npm run format:check` — exit 0
+- `npm run build` — exit 0, all 34 routes compiled cleanly
+
+---
+
 # 2026-09-10 (Project Detail Monograph — Industrial UI/UX Elevation)
 
 ## Version
