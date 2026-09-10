@@ -47,10 +47,8 @@ export function ProjectCard({
             <div
               aria-hidden="true"
               className={cn(
-                "hidden md:block",
-                "absolute inset-x-0 bottom-0 translate-y-2 opacity-0",
-                "motion-safe:group-hover:translate-y-0 motion-safe:group-hover:opacity-100",
-                "transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
+                "card-hover-overlay hidden md:block",
+                "absolute inset-x-0 bottom-0",
                 "bg-gradient-to-t from-black/85 via-black/50 to-transparent",
                 "px-sm pb-sm pt-xl pointer-events-none min-w-0",
               )}

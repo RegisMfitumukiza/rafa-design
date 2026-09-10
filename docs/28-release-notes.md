@@ -26,11 +26,11 @@ Elevated mobile responsiveness, touch-screen ergonomics, and visual hierarchy ac
   - Upgraded overshadowed "Featured Commission" text to an industrial frosted architectural pill badge (`backdrop-blur-md`, hairline border, drop shadow, white beacon dot).
   - Added a top gradient scrim (`h-28 bg-gradient-to-b from-black/60 via-black/20 to-transparent`) ensuring complete legibility across any photographic exposure or bright concrete/sky elements.
   - Replaced cramped 16:9 mobile aspect with an editorial 4:3 ratio (`aspect-[4/3] sm:aspect-[16/9] md:aspect-[21/9] lg:aspect-[3/1]`) to provide vertical presence and adequate typographical canvas on mobile.
-  - Resolved mobile hover invisibility: subtitle and `View Project →` CTA are directly visible on touch viewports while retaining animated reveal on desktop `sm:` hover.
+  - Subtitle ("A hillside retreat in the Algarve") and `View Project →` CTA are permanently visible by default across all devices (`text-white/80`), eliminating empty void spaces, with interactive brightening to `text-white` and an animated arrow slide (`group-hover:translate-x-1`) on hover.
   - Added `font-display` to the H2 title for Design System conformity.
 - `ProjectCard`:
-  - Bridged the mobile hover gap by introducing an architectural spec ledger directly within `Card.Content` on `< md` viewports (status beacon dot in header row, square meterage, and `Explore Monograph →` CTA in border-t footer row).
-  - Preserved the cinematic slide-up bottom gradient overlay on desktop (`md:` and above).
+  - Implemented `.card-hover-overlay` in `src/styles/utilities.css` bypassing Tailwind v4's `@media (hover: hover)` restriction, ensuring desktop and hybrid/touchscreen laptops reliably trigger the bottom architectural spec overlay (status beacon, square meterage, and `Explore Monograph →` CTA) upon cursor hover.
+  - On mobile (`< md`), specs remain directly legible within `Card.Content` so mobile users never miss completion status or area.
 - `ProjectsArchive`:
   - Safeguarded view mode switcher rail (`01 GRID`, `02 SPEC TABLE`, `03 GEOGRAPHIC INDEX`) with horizontal scroll and `whitespace-nowrap` on narrow viewports.
   - Added `min-w-[680px]` to the Spec Table (`Mode B`) to avoid column squishing on mobile screens.

@@ -92,17 +92,23 @@ export function FeaturedProjectCard({ project }: FeaturedProjectCardProps) {
             {project.title}
           </h2>
 
-          {/* Subtitle — visible on mobile, reveals on hover on desktop */}
+          {/* Subtitle — always clearly visible with editorial elegance, brightens on hover */}
           {project.subtitle && (
-            <p className="mt-xs md:mt-sm line-clamp-2 max-w-lg text-xs leading-relaxed font-light text-white/70 transition-all duration-700 sm:line-clamp-none sm:translate-y-2 sm:text-sm sm:text-white/0 sm:group-hover:translate-y-0 sm:group-hover:text-white/70">
+            <p className="mt-xs md:mt-sm max-w-lg text-xs leading-relaxed font-light text-white/80 transition-colors duration-300 [text-shadow:_0_1px_8px_rgba(0,0,0,0.8)] group-hover:text-white sm:text-sm md:text-base">
               {project.subtitle}
             </p>
           )}
 
-          {/* Architectural CTA — visible on mobile, reveals on hover on desktop */}
-          <p className="mt-xs sm:mt-sm font-mono text-[10px] tracking-[0.2em] text-white/80 uppercase transition-all duration-500 sm:text-white/0 sm:group-hover:text-white/70">
-            View Project →
-          </p>
+          {/* Architectural CTA — clean monospace indicator with animated arrow */}
+          <div className="mt-xs sm:mt-sm flex items-center gap-1.5 font-mono text-[10px] tracking-[0.2em] text-white/70 uppercase transition-colors duration-300 [text-shadow:_0_1px_8px_rgba(0,0,0,0.8)] group-hover:text-white">
+            <span>View Project</span>
+            <span
+              className="inline-block transition-transform duration-300 group-hover:translate-x-1"
+              aria-hidden="true"
+            >
+              →
+            </span>
+          </div>
         </div>
       </div>
     </Link>
