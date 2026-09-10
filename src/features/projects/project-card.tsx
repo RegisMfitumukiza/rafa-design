@@ -1,4 +1,4 @@
-﻿import type { Route } from "next";
+import type { Route } from "next";
 
 import Link from "next/link";
 
@@ -74,25 +74,13 @@ export function ProjectCard({
         </Card.Image>
 
         <Card.Content className={cn("min-w-0", contentClassName)}>
-          <div className="text-foreground/40 text-overline flex items-center justify-between gap-2 font-mono tracking-widest uppercase">
-            <span className="truncate">
-              {project.location.city}, {project.location.country} · {project.year}
-              {project.typology &&
-                Array.isArray(project.typology) &&
-                project.typology.length > 0 &&
-                ` · ${project.typology.join(", ")}`}
-            </span>
-            {/* Mobile Status Indicator */}
-            <span className="text-foreground/60 flex shrink-0 items-center gap-1 md:hidden">
-              <span
-                className={cn(
-                  "inline-block h-1.5 w-1.5 rounded-full",
-                  project.status === "completed" ? "bg-accent" : "bg-foreground/30",
-                )}
-                aria-hidden="true"
-              />
-              {project.status}
-            </span>
+          {/* Metadata overline — full width, no truncation so typology is always readable */}
+          <div className="text-foreground/40 text-overline font-mono tracking-widest uppercase">
+            {project.location.city}, {project.location.country} · {project.year}
+            {project.typology &&
+              Array.isArray(project.typology) &&
+              project.typology.length > 0 &&
+              ` · ${project.typology.join(", ")}`}
           </div>
           <Heading
             as={titleAs}
@@ -110,9 +98,21 @@ export function ProjectCard({
             </Text>
           )}
 
-          {/* Mobile-only spec ledger: Area & Explore Monograph CTA */}
+          {/* Mobile-only spec ledger: Status · Area & Explore Monograph CTA */}
           <div className="border-border/30 mt-sm pt-xs text-foreground/50 text-micro flex items-center justify-between border-t font-mono tracking-widest uppercase md:hidden">
-            {project.areaM2 ? <span>{project.areaM2} m²</span> : <span />}
+            <span className="flex items-center gap-1.5">
+              <span
+                className={cn(
+                  "inline-block h-1.5 w-1.5 rounded-full",
+                  project.status === "completed" ? "bg-accent" : "bg-foreground/30",
+                )}
+                aria-hidden="true"
+              />
+              <span>
+                {project.status}
+                {project.areaM2 && ` · ${project.areaM2} m²`}
+              </span>
+            </span>
             <span className="text-foreground/70 font-medium">Explore Monograph →</span>
           </div>
         </Card.Content>
