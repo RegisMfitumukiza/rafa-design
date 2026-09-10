@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { gsap } from "gsap";
 import Link from "next/link";
@@ -260,7 +260,7 @@ export function ProjectsArchive({ initialProjects, categories, intro }: Projects
         <div className="gap-x-xl gap-y-md grid items-start md:grid-cols-12">
           {/* Left 6 cols: Title & Overline */}
           <div className="md:col-span-6 lg:col-span-6">
-            <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
+            <p className="text-foreground/40 text-overline font-mono tracking-widest uppercase">
               {intro?.overline ?? "INDEX // ARCHITECTURAL PORTFOLIO"}
             </p>
             <h1 className="font-display text-foreground mt-sm text-4xl font-medium tracking-tight sm:text-5xl lg:text-6xl xl:text-7xl">
@@ -275,7 +275,7 @@ export function ProjectsArchive({ initialProjects, categories, intro }: Projects
             </p>
 
             {/* Archival Specification Ledger */}
-            <div className="border-border/30 mt-lg pt-sm gap-x-md gap-y-xs flex flex-wrap items-baseline justify-between border-t font-mono text-[10px] tracking-widest uppercase">
+            <div className="border-border/30 mt-lg pt-sm gap-x-md gap-y-xs text-overline flex flex-wrap items-baseline justify-between border-t font-mono tracking-widest uppercase">
               <div className="text-foreground/60 flex items-center gap-2">
                 <span
                   className="bg-accent inline-block h-1.5 w-1.5 rounded-full"
@@ -362,7 +362,7 @@ export function ProjectsArchive({ initialProjects, categories, intro }: Projects
           <div className="py-sm gap-sm flex flex-col font-mono text-xs">
             {/* Discipline Scroll Rail */}
             <div className="relative flex min-w-0 items-center">
-              <span className="text-foreground/35 mr-md w-20 flex-shrink-0 text-[10px] tracking-widest uppercase select-none">
+              <span className="text-foreground/35 mr-md text-overline w-20 flex-shrink-0 tracking-widest uppercase select-none">
                 Discipline
               </span>
               <div className="relative min-w-0 flex-1 overflow-hidden">
@@ -384,7 +384,7 @@ export function ProjectsArchive({ initialProjects, categories, intro }: Projects
                         <span>{cat === "all" ? "All" : cat.replace("-", " ")}</span>
                         <span
                           className={cn(
-                            "font-mono text-[9px]",
+                            "text-micro font-mono",
                             isActive ? "text-accent font-semibold" : "text-foreground/35",
                           )}
                         >
@@ -405,7 +405,7 @@ export function ProjectsArchive({ initialProjects, categories, intro }: Projects
             {/* Typology Scroll Rail */}
             {typologies.length > 0 && (
               <div className="border-border/15 pt-xs relative flex min-w-0 items-center border-t">
-                <span className="text-foreground/35 mr-md w-20 flex-shrink-0 text-[10px] tracking-widest uppercase select-none">
+                <span className="text-foreground/35 mr-md text-overline w-20 flex-shrink-0 tracking-widest uppercase select-none">
                   Typology
                 </span>
                 <div className="relative min-w-0 flex-1 overflow-hidden">
@@ -427,7 +427,7 @@ export function ProjectsArchive({ initialProjects, categories, intro }: Projects
                           <span>{typ === "all" ? "All" : typ}</span>
                           <span
                             className={cn(
-                              "font-mono text-[9px]",
+                              "text-micro font-mono",
                               isActive ? "text-accent font-semibold" : "text-foreground/35",
                             )}
                           >
@@ -452,7 +452,7 @@ export function ProjectsArchive({ initialProjects, categories, intro }: Projects
       {/* ── View Modes ─────────────────────────────────────────────────────── */}
       {filteredProjects.length === 0 ? (
         <div className="border-border/30 py-2xl my-xl flex flex-col items-center justify-center border text-center">
-          <p className="text-foreground/35 font-mono text-[10px] tracking-widest uppercase">
+          <p className="text-foreground/35 text-overline font-mono tracking-widest uppercase">
             CRITERIA RETURNED 0 COMMISSIONS
           </p>
           <p className="font-display text-foreground mt-sm text-2xl font-medium tracking-tight">
@@ -636,10 +636,10 @@ export function ProjectsArchive({ initialProjects, categories, intro }: Projects
         <div>
           {/* Section header */}
           <div className="mb-md flex items-center justify-between">
-            <p className="text-foreground/35 font-mono text-[10px] tracking-widest uppercase">
+            <p className="text-foreground/35 text-overline font-mono tracking-widest uppercase">
               GEOGRAPHIC INDEX // LOCATIONS PLOTTED
             </p>
-            <span className="text-foreground/35 font-mono text-[10px]">
+            <span className="text-foreground/35 text-overline font-mono">
               {filteredProjects.length} COMMISSIONS
             </span>
           </div>
@@ -657,7 +657,7 @@ export function ProjectsArchive({ initialProjects, categories, intro }: Projects
               >
                 <div className="gap-md p-md grid items-start md:grid-cols-[2rem_1fr_auto]">
                   {/* REF number */}
-                  <span className="text-foreground/25 hidden pt-[3px] font-mono text-[10px] tracking-widest md:block">
+                  <span className="text-foreground/25 text-overline hidden pt-[3px] font-mono tracking-widest md:block">
                     {String(i + 1).padStart(2, "0")}
                   </span>
 
@@ -665,7 +665,7 @@ export function ProjectsArchive({ initialProjects, categories, intro }: Projects
                   <div className="min-w-0">
                     {/* Location label + coordinates */}
                     <div className="mb-xs gap-x-md gap-y-xs flex flex-wrap items-center">
-                      <span className="text-foreground/40 font-mono text-[10px] tracking-wider uppercase">
+                      <span className="text-foreground/40 text-overline font-mono tracking-wider uppercase">
                         {project.coordinates?.label ??
                           `${project.location.city}, ${project.location.country}`}
                       </span>
@@ -675,12 +675,14 @@ export function ProjectsArchive({ initialProjects, categories, intro }: Projects
                           target="_blank"
                           rel="noopener noreferrer"
                           title={`Open ${project.title} site on satellite maps`}
-                          className="text-foreground/35 hover:text-foreground relative z-10 font-mono text-[10px] tracking-wide underline-offset-4 transition-colors hover:underline"
+                          className="text-foreground/35 hover:text-foreground text-overline relative z-10 font-mono tracking-wide underline-offset-4 transition-colors hover:underline"
                         >
                           {project.coordinates.lat}°N {project.coordinates.lng}°W ↗
                         </a>
                       ) : (
-                        <span className="text-foreground/20 font-mono text-[10px]">COORDS N/A</span>
+                        <span className="text-foreground/20 text-overline font-mono">
+                          COORDS N/A
+                        </span>
                       )}
                     </div>
 
@@ -697,7 +699,7 @@ export function ProjectsArchive({ initialProjects, categories, intro }: Projects
                     {/* Metadata row */}
                     <div className="mt-xs gap-x-sm gap-y-xs flex flex-wrap items-center">
                       {/* Status dot */}
-                      <span className="gap-xs text-foreground/40 flex items-center font-mono text-[10px] tracking-widest uppercase">
+                      <span className="gap-xs text-foreground/40 text-overline flex items-center font-mono tracking-widest uppercase">
                         <span
                           className={cn(
                             "inline-block h-1.5 w-1.5 rounded-full",
@@ -711,22 +713,22 @@ export function ProjectsArchive({ initialProjects, categories, intro }: Projects
                         />
                         {project.status}
                       </span>
-                      <span className="text-foreground/20 font-mono text-[10px]">·</span>
-                      <span className="text-foreground/40 font-mono text-[10px]">
+                      <span className="text-foreground/20 text-overline font-mono">·</span>
+                      <span className="text-foreground/40 text-overline font-mono">
                         {project.typology &&
                         Array.isArray(project.typology) &&
                         project.typology.length > 0
                           ? project.typology.join(", ")
                           : project.category[0]}
                       </span>
-                      <span className="text-foreground/20 font-mono text-[10px]">·</span>
-                      <span className="text-foreground/40 font-mono text-[10px]">
+                      <span className="text-foreground/20 text-overline font-mono">·</span>
+                      <span className="text-foreground/40 text-overline font-mono">
                         {project.year}
                       </span>
                       {project.areaM2 && (
                         <>
-                          <span className="text-foreground/20 font-mono text-[10px]">·</span>
-                          <span className="text-foreground/40 font-mono text-[10px]">
+                          <span className="text-foreground/20 text-overline font-mono">·</span>
+                          <span className="text-foreground/40 text-overline font-mono">
                             {project.areaM2} m²
                           </span>
                         </>

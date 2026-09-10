@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { gsap } from "gsap";
 import { useLayoutEffect, useRef } from "react";
@@ -79,7 +79,7 @@ export function LandingSocialStrip() {
         {/* Vertical label — always visible hint */}
         <span
           aria-hidden="true"
-          className="text-foreground/50 hover:text-foreground/80 mb-4 block rotate-180 font-mono text-[11px] tracking-[0.2em] uppercase transition-colors duration-300 select-none"
+          className="text-foreground/50 hover:text-foreground/80 text-label mb-4 block rotate-180 font-mono tracking-[0.2em] uppercase transition-colors duration-300 select-none"
           style={{ writingMode: "vertical-rl" }}
         >
           Follow
@@ -92,7 +92,7 @@ export function LandingSocialStrip() {
               if (el) linksRef.current[0] = el;
             }}
             href={`mailto:${contactInformation.email}`}
-            className="text-foreground/60 hover:text-foreground inline-flex min-h-(--touch-target) items-center py-1 pr-1 text-[10px] tracking-widest uppercase transition-colors"
+            className="text-foreground/60 hover:text-foreground text-overline inline-flex min-h-(--touch-target) items-center py-1 pr-1 tracking-widest uppercase transition-colors"
           >
             {contactInformation.email}
           </a>
@@ -106,7 +106,7 @@ export function LandingSocialStrip() {
               href={link.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-foreground/60 hover:text-foreground inline-flex min-h-(--touch-target) items-center py-1 pr-1 text-[10px] tracking-widest uppercase transition-colors"
+              className="text-foreground/60 hover:text-foreground text-overline inline-flex min-h-(--touch-target) items-center py-1 pr-1 tracking-widest uppercase transition-colors"
             >
               {link.label || capitalize(link.platform)}
             </a>

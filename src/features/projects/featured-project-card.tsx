@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import type { Route } from "next";
 
@@ -63,7 +63,7 @@ export function FeaturedProjectCard({ project }: FeaturedProjectCardProps) {
 
         {/* Featured architectural badge — top left */}
         <div className="top-sm left-sm sm:top-md sm:left-md absolute z-10">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-black/50 px-2.5 py-1 font-mono text-[9px] tracking-[0.2em] text-white/90 uppercase backdrop-blur-md [text-shadow:_0_1px_4px_rgba(0,0,0,0.8)]">
+          <span className="text-micro inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-black/50 px-2.5 py-1 font-mono tracking-[0.2em] text-white/90 uppercase backdrop-blur-md [text-shadow:_0_1px_4px_rgba(0,0,0,0.8)]">
             <span className="h-1.5 w-1.5 rounded-full bg-white/90" aria-hidden="true" />
             Featured Commission
           </span>
@@ -78,7 +78,7 @@ export function FeaturedProjectCard({ project }: FeaturedProjectCardProps) {
           />
 
           {/* Metadata overline */}
-          <p className="mb-xs md:mb-sm font-mono text-[10px] tracking-widest text-white/60 uppercase [text-shadow:_0_1px_12px_rgba(0,0,0,0.9),_0_2px_4px_rgba(0,0,0,1)]">
+          <p className="mb-xs md:mb-sm text-overline font-mono tracking-widest text-white/60 uppercase [text-shadow:_0_1px_12px_rgba(0,0,0,0.9),_0_2px_4px_rgba(0,0,0,1)]">
             {project.year}
             {project.location && ` · ${project.location.city}, ${project.location.country}`}
             {project.typology &&
@@ -100,7 +100,7 @@ export function FeaturedProjectCard({ project }: FeaturedProjectCardProps) {
           )}
 
           {/* Architectural CTA — clean monospace indicator with animated arrow */}
-          <div className="mt-xs sm:mt-sm flex items-center gap-1.5 font-mono text-[10px] tracking-[0.2em] text-white/70 uppercase transition-colors duration-300 [text-shadow:_0_1px_8px_rgba(0,0,0,0.8)] group-hover:text-white">
+          <div className="mt-xs sm:mt-sm text-overline flex items-center gap-1.5 font-mono tracking-[0.2em] text-white/70 uppercase transition-colors duration-300 [text-shadow:_0_1px_8px_rgba(0,0,0,0.8)] group-hover:text-white">
             <span>View Project</span>
             <span
               className="inline-block transition-transform duration-300 group-hover:translate-x-1"

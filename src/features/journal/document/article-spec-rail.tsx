@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import type { JournalArticle } from "@/content/journal";
 import { ShareButton } from "@/features/journal/document/share-button";
@@ -27,17 +27,17 @@ export function ArticleSpecRail({ article, categoryLabel, className }: ArticleSp
       aria-label="Article Specifications"
     >
       <div className="border-border/20 pt-sm border-t">
-        <p className="text-foreground/35 mb-md font-mono text-[10px] tracking-widest uppercase">
+        <p className="text-foreground/35 mb-md text-overline font-mono tracking-widest uppercase">
           Specification {"//"} Meta
         </p>
 
-        <dl className="space-y-3 font-mono text-[10px] tracking-widest uppercase">
+        <dl className="text-overline space-y-3 font-mono tracking-widest uppercase">
           <div>
             <dt className="text-foreground/35">Author</dt>
             <dd className="text-foreground/85 mt-0.5 font-sans text-xs font-medium tracking-normal">
               {authorName || "RAFA Design Hub"}
               {authorRole && (
-                <span className="text-foreground/40 block font-mono text-[10px] tracking-widest uppercase">
+                <span className="text-foreground/40 text-overline block font-mono tracking-widest uppercase">
                   {authorRole}
                 </span>
               )}

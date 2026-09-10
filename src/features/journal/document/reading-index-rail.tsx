@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 
@@ -54,7 +54,7 @@ export function ReadingIndexRail({ headings, className }: ReadingIndexRailProps)
   return (
     <aside className={cn("space-y-md sticky top-28", className)} aria-label="Table of Contents">
       <div className="border-border/20 pt-sm border-t">
-        <p className="text-foreground/35 mb-md font-mono text-[10px] tracking-widest uppercase">
+        <p className="text-foreground/35 mb-md text-overline font-mono tracking-widest uppercase">
           Index {"//"} Sections
         </p>
 
@@ -77,7 +77,7 @@ export function ReadingIndexRail({ headings, className }: ReadingIndexRailProps)
                     {heading.number ? (
                       <span
                         className={cn(
-                          "shrink-0 font-mono text-[10px] tracking-wider transition-colors",
+                          "text-overline shrink-0 font-mono tracking-wider transition-colors",
                           isActive ? "text-foreground font-semibold" : "text-foreground/40",
                         )}
                       >

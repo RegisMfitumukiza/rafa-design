@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Section } from "@/components/layout/Section";
@@ -8,7 +8,7 @@ export default function NotFound() {
     <PageContainer>
       <Section container="narrow" className="py-3xl">
         <div className="space-y-md">
-          <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
+          <p className="text-foreground/40 text-overline font-mono tracking-widest uppercase">
             Specification // 404 Spatial Error
           </p>
 

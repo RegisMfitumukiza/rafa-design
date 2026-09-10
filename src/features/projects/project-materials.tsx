@@ -1,4 +1,4 @@
-import type { ProjectMaterial } from "@/content/projects";
+﻿import type { ProjectMaterial } from "@/content/projects";
 import { Reveal } from "@/motion";
 
 interface ProjectMaterialsProps {
@@ -12,7 +12,7 @@ export function ProjectMaterials({ materials, className = "" }: ProjectMaterials
   return (
     <div className={className}>
       <Reveal>
-        <p className="text-foreground/40 mb-md font-mono text-[10px] tracking-widest uppercase">
+        <p className="text-foreground/40 mb-md text-overline font-mono tracking-widest uppercase">
           Material Palette
         </p>
         <div className="border-border/30 divide-border/30 divide-y border-t">

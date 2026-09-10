@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import type { Route } from "next";
 
@@ -70,13 +70,13 @@ export function DisciplineHero({ service, leadProject, className }: DisciplineHe
         <div className="mt-sm gap-md flex items-baseline justify-between">
           {/* Left: custom caption OR project reference link */}
           {customCaption ? (
-            <span className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
+            <span className="text-foreground/40 text-overline font-mono tracking-widest uppercase">
               {index} {"//"} {service.title} — {customCaption}
             </span>
           ) : leadProject && projectSlug ? (
             <Link
               href={`/projects/${projectSlug}` as Route}
-              className="group text-foreground/40 hover:text-foreground/70 gap-xs inline-flex items-center font-mono text-[10px] tracking-widest uppercase transition-colors"
+              className="group text-foreground/40 hover:text-foreground/70 gap-xs text-overline inline-flex items-center font-mono tracking-widest uppercase transition-colors"
             >
               <span>
                 {index} {"//"} {service.title}
@@ -89,14 +89,14 @@ export function DisciplineHero({ service, leadProject, className }: DisciplineHe
               </span>
             </Link>
           ) : (
-            <span className="text-foreground/30 font-mono text-[10px] tracking-widest uppercase">
+            <span className="text-foreground/30 text-overline font-mono tracking-widest uppercase">
               {index} {"//"} {service.title}
             </span>
           )}
 
           {/* Right: credit */}
           {credit && (
-            <span className="text-foreground/30 shrink-0 font-mono text-[10px] tracking-widest uppercase">
+            <span className="text-foreground/30 text-overline shrink-0 font-mono tracking-widest uppercase">
               {credit.toLowerCase().includes("photo") ||
               credit.toLowerCase().includes("render") ||
               credit.toLowerCase().includes("visual") ||

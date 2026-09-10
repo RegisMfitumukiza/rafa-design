@@ -1,4 +1,4 @@
-import type { Route } from "next";
+﻿import type { Route } from "next";
 
 import Link from "next/link";
 
@@ -40,7 +40,7 @@ export function ProjectNavigation({ prev, next, className = "" }: ProjectNavigat
 
               {/* Text content - anchored to bottom-left */}
               <div className="p-md sm:px-lg sm:pb-xl md:px-xl md:pb-2xl lg:px-3xl lg:pb-3xl absolute right-0 bottom-0 left-0">
-                <p className="mb-xs md:mb-sm font-mono text-[10px] tracking-widest text-white/50 uppercase">
+                <p className="mb-xs md:mb-sm text-overline font-mono tracking-widest text-white/50 uppercase">
                   Continue Reading — Next Project
                 </p>
                 <Heading
@@ -55,7 +55,7 @@ export function ProjectNavigation({ prev, next, className = "" }: ProjectNavigat
                     {next.subtitle}
                   </p>
                 )}
-                <div className="mt-xs sm:mt-sm md:mt-md gap-xs flex flex-wrap items-center font-mono text-[10px] tracking-widest text-white/40 uppercase md:text-[11px]">
+                <div className="mt-xs sm:mt-sm md:mt-md gap-xs text-overline md:text-label flex flex-wrap items-center font-mono tracking-widest text-white/40 uppercase">
                   <span>
                     {next.location.city}, {next.location.country}
                   </span>
@@ -90,7 +90,7 @@ export function ProjectNavigation({ prev, next, className = "" }: ProjectNavigat
               className="group gap-sm inline-flex items-center transition-opacity hover:opacity-100"
               aria-label={`Previous project: ${prev.title}`}
             >
-              <span className="text-foreground/40 group-hover:text-foreground font-mono text-[10px] tracking-widest uppercase transition-colors">
+              <span className="text-foreground/40 group-hover:text-foreground text-overline font-mono tracking-widest uppercase transition-colors">
                 ← Previous
               </span>
               <span className="text-foreground/60 group-hover:text-foreground font-mono text-xs transition-colors">
@@ -98,7 +98,7 @@ export function ProjectNavigation({ prev, next, className = "" }: ProjectNavigat
               </span>
             </Link>
             {/* Year + location metadata */}
-            <span className="text-foreground/30 hidden font-mono text-[10px] tracking-widest uppercase sm:block">
+            <span className="text-foreground/30 text-overline hidden font-mono tracking-widest uppercase sm:block">
               {prev.year} · {prev.location.city}
             </span>
           </div>

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { Image } from "@/components/media/Image";
 import type { ChapterImage } from "@/content/projects";
@@ -56,12 +56,12 @@ export function DisciplineImageNarrative({ images, className }: DisciplineImageN
           {(first.caption || first.narrative) && (
             <Reveal delay={0.1}>
               <div className="mt-sm gap-md grid md:grid-cols-12">
-                <p className="text-foreground/30 font-mono text-[10px] tracking-widest uppercase md:col-span-1">
+                <p className="text-foreground/30 text-overline font-mono tracking-widest uppercase md:col-span-1">
                   01
                 </p>
                 <div className="md:col-span-7">
                   {first.caption && (
-                    <p className="text-foreground/50 font-mono text-[10px] tracking-widest uppercase">
+                    <p className="text-foreground/50 text-overline font-mono tracking-widest uppercase">
                       {first.caption}
                     </p>
                   )}
@@ -93,11 +93,11 @@ export function DisciplineImageNarrative({ images, className }: DisciplineImageN
           </div>
           {(second.caption || second.narrative) && (
             <Reveal delay={0.1} className="md:pb-sm md:col-span-5">
-              <p className="text-foreground/30 font-mono text-[10px] tracking-widest uppercase">
+              <p className="text-foreground/30 text-overline font-mono tracking-widest uppercase">
                 02
               </p>
               {second.caption && (
-                <p className="text-foreground/50 mt-xs font-mono text-[10px] tracking-widest uppercase">
+                <p className="text-foreground/50 mt-xs text-overline font-mono tracking-widest uppercase">
                   {second.caption}
                 </p>
               )}
@@ -116,11 +116,11 @@ export function DisciplineImageNarrative({ images, className }: DisciplineImageN
         <div className="gap-md grid items-end md:grid-cols-12">
           {(third.caption || third.narrative) && (
             <Reveal delay={0.1} className="md:pb-sm md:col-span-4">
-              <p className="text-foreground/30 font-mono text-[10px] tracking-widest uppercase">
+              <p className="text-foreground/30 text-overline font-mono tracking-widest uppercase">
                 03
               </p>
               {third.caption && (
-                <p className="text-foreground/50 mt-xs font-mono text-[10px] tracking-widest uppercase">
+                <p className="text-foreground/50 mt-xs text-overline font-mono tracking-widest uppercase">
                   {third.caption}
                 </p>
               )}
@@ -162,12 +162,12 @@ export function DisciplineImageNarrative({ images, className }: DisciplineImageN
           {(fourth.caption || fourth.narrative) && (
             <Reveal delay={0.1}>
               <div className="mt-sm gap-md grid md:grid-cols-12">
-                <p className="text-foreground/30 font-mono text-[10px] tracking-widest uppercase md:col-span-1">
+                <p className="text-foreground/30 text-overline font-mono tracking-widest uppercase md:col-span-1">
                   04
                 </p>
                 <div className="md:col-span-7">
                   {fourth.caption && (
-                    <p className="text-foreground/50 font-mono text-[10px] tracking-widest uppercase">
+                    <p className="text-foreground/50 text-overline font-mono tracking-widest uppercase">
                       {fourth.caption}
                     </p>
                   )}
@@ -199,11 +199,11 @@ export function DisciplineImageNarrative({ images, className }: DisciplineImageN
             {(fifth.caption || fifth.narrative) && (
               <Reveal delay={0.1}>
                 <div className="mt-sm">
-                  <p className="text-foreground/30 font-mono text-[10px] tracking-widest uppercase">
+                  <p className="text-foreground/30 text-overline font-mono tracking-widest uppercase">
                     05
                   </p>
                   {fifth.caption && (
-                    <p className="text-foreground/50 mt-xs font-mono text-[10px] tracking-widest uppercase">
+                    <p className="text-foreground/50 mt-xs text-overline font-mono tracking-widest uppercase">
                       {fifth.caption}
                     </p>
                   )}

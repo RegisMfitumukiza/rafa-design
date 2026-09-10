@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useRef, useState } from "react";
 
@@ -48,14 +48,14 @@ export function RelatedArticlesCarousel({ articles, className }: RelatedArticles
       {/* Header controls & counter */}
       <Reveal>
         <div className="gap-md border-border/40 pb-sm flex items-baseline justify-between border-b">
-          <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
+          <p className="text-foreground/40 text-overline font-mono tracking-widest uppercase">
             Related Stories // {String(current + 1).padStart(2, "0")} —{" "}
             {String(total).padStart(2, "0")}
           </p>
 
           {/* Prev / Next controls */}
           {total > 1 && (
-            <div className="gap-xs flex items-center font-mono text-[10px] tracking-widest uppercase">
+            <div className="gap-xs text-overline flex items-center font-mono tracking-widest uppercase">
               <button
                 type="button"
                 onClick={prev}

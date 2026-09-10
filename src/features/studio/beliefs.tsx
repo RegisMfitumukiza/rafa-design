@@ -1,4 +1,4 @@
-import { Section } from "@/components/layout/Section";
+﻿import { Section } from "@/components/layout/Section";
 import { Heading } from "@/components/typography/Heading";
 import { Text } from "@/components/typography/Text";
 import type { Studio } from "@/content/studio";
@@ -47,7 +47,7 @@ export function Beliefs({ studio, className }: BeliefsProps) {
             className="gap-x-md gap-y-sm py-md grid items-center md:grid-cols-12"
           >
             {/* Code — 2 cols */}
-            <span className="text-foreground/40 font-mono text-[10px] tracking-wider uppercase md:col-span-2">
+            <span className="text-foreground/40 text-overline font-mono tracking-wider uppercase md:col-span-2">
               {belief.code}
             </span>
 

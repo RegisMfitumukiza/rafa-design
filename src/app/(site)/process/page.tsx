@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import type { Route } from "next";
 
 import Link from "next/link";
@@ -80,7 +80,7 @@ export default async function ProcessPage() {
           <div className="gap-x-xl gap-y-md grid items-start md:grid-cols-12">
             {/* Left 6 cols: Title */}
             <div className="md:col-span-6 lg:col-span-6">
-              <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
+              <p className="text-foreground/40 text-overline font-mono tracking-widest uppercase">
                 {overline}
               </p>
               <h1 className="font-display text-foreground mt-sm text-4xl font-medium tracking-tight sm:text-5xl lg:text-6xl xl:text-7xl">
@@ -111,7 +111,7 @@ export default async function ProcessPage() {
         </ImageReveal>
         {heroImage.caption && (
           <Reveal delay={0.1}>
-            <div className="mt-sm border-border/30 pt-xs flex items-baseline justify-between border-t font-mono text-[10px] tracking-widest uppercase">
+            <div className="mt-sm border-border/30 pt-xs text-overline flex items-baseline justify-between border-t font-mono tracking-widest uppercase">
               <p className="text-foreground/45">
                 FIGURE 00 {"//"} {heroImage.caption}
               </p>
@@ -126,7 +126,7 @@ export default async function ProcessPage() {
       {/* ── 3. METHODOLOGY INDEX & BUILT PROOF ── */}
       <Section container="wide" className="mt-xl md:mt-2xl" id="methodology">
         <Reveal>
-          <div className="mb-md border-border/40 pb-sm flex items-baseline justify-between border-b font-mono text-[10px] tracking-widest uppercase">
+          <div className="mb-md border-border/40 pb-sm text-overline flex items-baseline justify-between border-b font-mono tracking-widest uppercase">
             <div className="gap-xs text-foreground/45 flex items-center">
               <span className="bg-foreground/40 inline-block h-1 w-1 rounded-full" />
               <span>{ui.overlines.sequence}</span>
@@ -141,7 +141,7 @@ export default async function ProcessPage() {
         <Reveal>
           <div className="mt-xl md:mt-2xl gap-y-lg gap-x-xl grid md:grid-cols-12 md:items-start">
             <div className="md:col-span-5">
-              <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
+              <p className="text-foreground/40 text-overline font-mono tracking-widest uppercase">
                 {proof.overline}
               </p>
               <Heading variant="h2" className="mt-sm text-3xl sm:text-4xl">

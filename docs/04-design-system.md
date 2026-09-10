@@ -116,23 +116,38 @@ Components do not.
 
 ---
 
-## Font Pairing
+## Typeface
 
-Primary
+Primary (Display + Body)
 
-General Sans
+Century Gothic Paneuropean
 
-Secondary
+A single geometric sans-serif family serves both editorial display headings and
+body copy. This is a deliberate decision: one face, one voice, one identity.
 
-Manrope
+The same typeface scales from monumental display headlines to fine body text
+because Century Gothic's geometric proportions hold legibility at every size.
 
-Fallback
+Weights in use
 
-Inter
+Regular (400) — body text, default paragraphs
+
+SemiBold (600) — navigation, medium emphasis
+
+Bold (700) — headings, strong editorial statements
 
 Monospace
 
-JetBrains Mono
+JetBrains Mono / ui-monospace system stack
+
+Used exclusively for
+
+metadata labels, overlines, captions, coordinates, dates, counts, and all
+specification-table content. Mono signals machine-precision data.
+
+Fallback
+
+AppleGothic → Manrope → system-ui → sans-serif
 
 ---
 
@@ -166,13 +181,24 @@ Body
 
 Default paragraphs.
 
-Caption
+Caption / Small
 
 Project metadata.
 
-Overline
+Overline — `text-overline` (10px)
 
-Small uppercase labels.
+Section overlines, ledger labels, captions, specification table labels.
+Always uppercase, always monospace, always tracked wide.
+
+Micro — `text-micro` (9px)
+
+Image overlays, hover badges, icon labels, keyboard hints.
+Reserved for the smallest visible typographic element.
+
+Label — `text-label` (11px)
+
+Gallery captions, timeline entries, tag pills, secondary metadata.
+Between overline and body-small — slightly more readable than overline.
 
 Navigation
 

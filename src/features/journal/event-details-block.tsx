@@ -1,4 +1,4 @@
-import { Link as TextLink } from "@/components/ui/Link";
+﻿import { Link as TextLink } from "@/components/ui/Link";
 import type { EventDetails } from "@/content/journal";
 import { cn } from "@/lib/cn";
 
@@ -68,7 +68,7 @@ export function EventDetailsBlock({ details, className }: EventDetailsBlockProps
 
   return (
     <div className={cn("border-border py-2xl my-2xl border-y", className)}>
-      <p className="text-foreground/40 mb-md font-mono text-[10px] tracking-widest uppercase">
+      <p className="text-foreground/40 mb-md text-overline font-mono tracking-widest uppercase">
         Specification // Event Details
       </p>
 

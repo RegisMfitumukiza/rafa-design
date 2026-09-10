@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import type { Route } from "next";
 
@@ -37,7 +37,7 @@ export function SelectedWork({ projects, className }: SelectedWorkProps) {
   return (
     <Section container="content" className={cn(className)}>
       <Reveal>
-        <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
+        <p className="text-foreground/40 text-overline font-mono tracking-widest uppercase">
           {ui.sections.selectedWork}
         </p>
       </Reveal>
@@ -45,7 +45,7 @@ export function SelectedWork({ projects, className }: SelectedWorkProps) {
       {projects.length === 0 ? (
         <Reveal delay={0.05}>
           <div className="border-border/40 mt-md py-lg border-y">
-            <p className="text-foreground/30 font-mono text-[10px] tracking-widest uppercase">
+            <p className="text-foreground/30 text-overline font-mono tracking-widest uppercase">
               {ui.overlines.noProjectEvidence}
             </p>
           </div>
@@ -68,7 +68,7 @@ export function SelectedWork({ projects, className }: SelectedWorkProps) {
                 onBlur={() => setActiveIndex(index)}
               >
                 {/* Index number */}
-                <span className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase md:col-span-1">
+                <span className="text-foreground/40 text-overline font-mono tracking-widest uppercase md:col-span-1">
                   {String(index + 1).padStart(2, "0")}
                 </span>
 
@@ -78,7 +78,7 @@ export function SelectedWork({ projects, className }: SelectedWorkProps) {
                 </h3>
 
                 {/* Metadata */}
-                <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase md:col-span-4">
+                <p className="text-foreground/40 text-overline font-mono tracking-widest uppercase md:col-span-4">
                   {project.location.city}, {project.location.country} · {project.year}
                   {project.typology &&
                     Array.isArray(project.typology) &&
@@ -115,14 +115,14 @@ export function SelectedWork({ projects, className }: SelectedWorkProps) {
                   />
                 ) : (
                   <div className="p-sm flex size-full items-end">
-                    <span className="text-foreground/30 font-mono text-[10px] tracking-widest uppercase">
+                    <span className="text-foreground/30 text-overline font-mono tracking-widest uppercase">
                       Selected Work // Built Evidence
                     </span>
                   </div>
                 )}
               </div>
               {activeProject && (
-                <p className="text-foreground/40 mt-sm font-mono text-[10px] tracking-widest uppercase transition-all duration-300">
+                <p className="text-foreground/40 mt-sm text-overline font-mono tracking-widest uppercase transition-all duration-300">
                   {activeProject.title} — {activeProject.location.city} · {activeProject.year}
                 </p>
               )}

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
@@ -78,7 +78,7 @@ export function ContactForm() {
     return (
       <div className="border-border/20 py-2xl space-y-xl border-t">
         {/* Overline */}
-        <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
+        <p className="text-foreground/40 text-overline font-mono tracking-widest uppercase">
           Specification // Confirmation
         </p>
 
@@ -95,17 +95,19 @@ export function ContactForm() {
         {/* Ruled confirmation spec */}
         <div className="border-border/30 divide-border/30 divide-y border-y font-mono text-xs">
           <div className="py-sm gap-sm flex justify-between">
-            <span className="text-foreground/40 text-[10px] tracking-wider uppercase">Status</span>
+            <span className="text-foreground/40 text-overline tracking-wider uppercase">
+              Status
+            </span>
             <span className="text-foreground/80">Inquiry received</span>
           </div>
           <div className="py-sm gap-sm flex justify-between">
-            <span className="text-foreground/40 text-[10px] tracking-wider uppercase">
+            <span className="text-foreground/40 text-overline tracking-wider uppercase">
               Response
             </span>
             <span className="text-foreground/80">Within two working days</span>
           </div>
           <div className="py-sm gap-sm flex justify-between">
-            <span className="text-foreground/40 text-[10px] tracking-wider uppercase">
+            <span className="text-foreground/40 text-overline tracking-wider uppercase">
               Next step
             </span>
             <span className="text-foreground/80">Check your inbox for acknowledgement</span>
@@ -160,7 +162,7 @@ export function ContactForm() {
 
         {/* 04 // PROJECT TYPE */}
         <div className="space-y-xs">
-          <label className="text-foreground/40 block font-mono text-[10px] tracking-widest uppercase">
+          <label className="text-foreground/40 text-overline block font-mono tracking-widest uppercase">
             {ui.form.projectType.label}
           </label>
           <div className="gap-xs pt-xs flex flex-wrap">
@@ -172,7 +174,7 @@ export function ContactForm() {
                   type="button"
                   onClick={() => handleSelectType(type)}
                   className={cn(
-                    "px-md py-xs rounded-xs border font-mono text-[10px] font-medium tracking-wider uppercase transition-all duration-300",
+                    "px-md py-xs text-overline rounded-xs border font-mono font-medium tracking-wider uppercase transition-all duration-300",
                     isSelected
                       ? "border-foreground bg-foreground text-background"
                       : "border-border/50 text-foreground/60 hover:border-foreground/60 hover:text-foreground bg-transparent",
@@ -220,7 +222,7 @@ export function ContactForm() {
           role="alert"
           className="border-accent/40 bg-accent/5 px-md py-sm gap-md flex items-start rounded-xs border"
         >
-          <span className="text-accent shrink-0 pt-0.5 font-mono text-[10px] font-medium tracking-widest uppercase">
+          <span className="text-accent text-overline shrink-0 pt-0.5 font-mono font-medium tracking-widest uppercase">
             Error
           </span>
           <p className="text-foreground/80 text-sm leading-relaxed">{submitError}</p>
@@ -229,7 +231,7 @@ export function ContactForm() {
 
       {/* Response Time Indicator */}
       <div className="border-border/20 pt-md border-t">
-        <p className="text-foreground/40 mb-xs font-mono text-[10px] tracking-widest uppercase">
+        <p className="text-foreground/40 mb-xs text-overline font-mono tracking-widest uppercase">
           {ui.contact.responseTime}
         </p>
         <p className="text-foreground/60 text-sm">{ui.contact.responseTimeMessage}</p>

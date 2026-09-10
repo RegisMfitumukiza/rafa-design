@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { gsap } from "gsap";
 import Link from "next/link";
@@ -149,7 +149,7 @@ export function FullscreenNavigation() {
         {/* Center — Studio time (Kigali) + visitor's local time */}
         <div
           aria-hidden="true"
-          className="gap-xs text-foreground/40 hidden items-center font-mono text-[10px] tracking-[0.2em] uppercase select-none md:flex"
+          className="gap-xs text-foreground/40 text-overline hidden items-center font-mono tracking-[0.2em] uppercase select-none md:flex"
         >
           <span>KIGALI</span>
           <span className="text-foreground/20">|</span>
@@ -192,7 +192,7 @@ export function FullscreenNavigation() {
           <nav aria-label={ui.navigation.general} className="flex flex-col">
             <p
               data-nav-label
-              className="text-foreground/40 mb-md font-mono text-[10px] tracking-[0.25em] uppercase"
+              className="text-foreground/40 mb-md text-overline font-mono tracking-[0.25em] uppercase"
             >
               {ui.navigation.general}
             </p>
@@ -208,7 +208,7 @@ export function FullscreenNavigation() {
           <div className="gap-xl pt-xs grid md:grid-cols-3">
             {/* Column 1 — Core Pages */}
             <div data-nav-dir-col className="flex flex-col">
-              <p className="text-foreground/40 mb-sm font-mono text-[10px] tracking-[0.2em] uppercase">
+              <p className="text-foreground/40 mb-sm text-overline font-mono tracking-[0.2em] uppercase">
                 Directory
               </p>
               <ul className="gap-xs flex flex-col">
@@ -221,7 +221,7 @@ export function FullscreenNavigation() {
                     >
                       <span>{link.label}</span>
                       {link.path === "/careers" && careersCount > 0 && (
-                        <span className="text-accent ml-xs font-mono text-[11px] font-medium">
+                        <span className="text-accent ml-xs text-label font-mono font-medium">
                           ({careersCount})
                         </span>
                       )}
@@ -233,7 +233,7 @@ export function FullscreenNavigation() {
 
             {/* Column 2 — Disciplines & Services */}
             <div data-nav-dir-col className="flex flex-col">
-              <p className="text-foreground/40 mb-sm font-mono text-[10px] tracking-[0.2em] uppercase">
+              <p className="text-foreground/40 mb-sm text-overline font-mono tracking-[0.2em] uppercase">
                 {ui.navigation.disciplines}
               </p>
               <ul className="gap-xs flex flex-col">
@@ -253,7 +253,7 @@ export function FullscreenNavigation() {
 
             {/* Column 3 — Connect & Social */}
             <div data-nav-dir-col className="flex flex-col">
-              <p className="text-foreground/40 mb-sm font-mono text-[10px] tracking-[0.2em] uppercase">
+              <p className="text-foreground/40 mb-sm text-overline font-mono tracking-[0.2em] uppercase">
                 {ui.navigation.menu} {"//"} Connect
               </p>
               <div className="gap-xs flex flex-col">

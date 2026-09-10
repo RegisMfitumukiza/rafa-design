@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { Fragment, type ReactNode } from "react";
@@ -22,7 +22,7 @@ interface FooterProps {
 }
 
 const overlineClassName =
-  "text-foreground/40 mb-md font-mono text-[10px] tracking-[0.2em] uppercase";
+  "text-foreground/40 mb-md font-mono text-overline tracking-[0.2em] uppercase";
 const directoryLinkClassName =
   "text-foreground/60 hover:text-foreground inline-flex min-h-(--touch-target) items-center text-sm transition-colors";
 
@@ -85,7 +85,7 @@ export function Footer({ className }: FooterProps) {
             <p className="text-foreground/60 max-w-[20rem] text-sm">
               {config.tagline ?? studio.tagline}
             </p>
-            <p className="text-foreground/40 font-mono text-[10px] tracking-[0.2em] uppercase">
+            <p className="text-foreground/40 text-overline font-mono tracking-[0.2em] uppercase">
               {studioLocation}
               {contactInformation.coordinates ? ` [${contactInformation.coordinates}]` : ""} ·{" "}
               {studioTimeFormatted}

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import type { Route } from "next";
 
 import Link from "next/link";
@@ -62,7 +62,7 @@ export default async function SustainabilityPage() {
           <div className="gap-x-xl gap-y-md grid items-start md:grid-cols-12">
             {/* Left 6 cols: Overline & Title */}
             <div className="md:col-span-6 lg:col-span-6">
-              <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
+              <p className="text-foreground/40 text-overline font-mono tracking-widest uppercase">
                 {manifesto.overline || "Environmental Responsibility // Ecological Stewardship"}
               </p>
               <h1 className="font-display text-foreground mt-sm text-4xl font-medium tracking-tight sm:text-5xl lg:text-6xl xl:text-7xl">
@@ -84,7 +84,7 @@ export default async function SustainabilityPage() {
         <Reveal>
           <div className="border-border/40 pt-2xl gap-y-lg gap-x-xl grid border-t md:grid-cols-12 md:items-start">
             <div className="md:col-span-5">
-              <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
+              <p className="text-foreground/40 text-overline font-mono tracking-widest uppercase">
                 Specification // Philosophy
               </p>
               <Heading variant="h2" className="mt-sm text-3xl sm:text-4xl">
@@ -115,7 +115,7 @@ export default async function SustainabilityPage() {
           </ImageReveal>
           {materialImage.caption && (
             <Reveal delay={0.1}>
-              <div className="border-border/30 mt-sm pt-xs flex items-baseline justify-between border-t font-mono text-[10px] tracking-widest uppercase">
+              <div className="border-border/30 mt-sm pt-xs text-overline flex items-baseline justify-between border-t font-mono tracking-widest uppercase">
                 <p className="text-foreground/45">
                   FIGURE 01 {"//"} {materialImage.caption}
                 </p>
@@ -132,7 +132,7 @@ export default async function SustainabilityPage() {
       {commitments.length > 0 && (
         <Section container="wide" className="mt-xl md:mt-2xl" id="commitments">
           <Reveal>
-            <div className="mb-md border-border/40 pb-sm flex items-baseline justify-between border-b font-mono text-[10px] tracking-widest uppercase">
+            <div className="mb-md border-border/40 pb-sm text-overline flex items-baseline justify-between border-b font-mono tracking-widest uppercase">
               <div className="gap-xs text-foreground/45 flex items-center">
                 <span className="bg-foreground/40 inline-block h-1 w-1 rounded-full" />
                 <span>CORE COMMITMENTS // ECOLOGICAL METHODOLOGY</span>
@@ -148,7 +148,7 @@ export default async function SustainabilityPage() {
                 className="py-lg md:py-xl md:px-lg flex flex-col justify-between px-0 first:md:pl-0 last:md:pr-0"
               >
                 <div>
-                  <span className="text-foreground/35 font-mono text-[11px] tracking-widest uppercase">
+                  <span className="text-foreground/35 text-label font-mono tracking-widest uppercase">
                     {commitment.number}
                   </span>
                   <h3 className="font-display text-foreground mt-sm text-xl font-medium tracking-tight sm:text-2xl">
@@ -170,7 +170,7 @@ export default async function SustainabilityPage() {
           <Reveal>
             <div className="border-border/40 pt-2xl gap-y-lg gap-x-xl grid border-t md:grid-cols-12 md:items-start">
               <div className="md:col-span-5">
-                <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
+                <p className="text-foreground/40 text-overline font-mono tracking-widest uppercase">
                   AXIOMS // GUIDING PRINCIPLES
                 </p>
                 <Heading variant="h2" className="mt-sm text-3xl sm:text-4xl">
@@ -205,7 +205,7 @@ export default async function SustainabilityPage() {
       {certifications.length > 0 && (
         <Section container="wide" className="mt-xl md:mt-2xl">
           <Reveal>
-            <div className="mb-md border-border/40 pb-sm flex items-baseline justify-between border-b font-mono text-[10px] tracking-widest uppercase">
+            <div className="mb-md border-border/40 pb-sm text-overline flex items-baseline justify-between border-b font-mono tracking-widest uppercase">
               <div className="gap-xs text-foreground/45 flex items-center">
                 <span className="bg-foreground/40 inline-block h-1 w-1 rounded-full" />
                 <span>BENCHMARKS // ENVIRONMENTAL FRAMEWORKS</span>
@@ -222,7 +222,7 @@ export default async function SustainabilityPage() {
               >
                 <div>
                   <div className="gap-xs flex items-center">
-                    <span className="border-border/60 bg-muted/40 px-xs rounded-xs border py-0.5 font-mono text-[9px] tracking-widest uppercase">
+                    <span className="border-border/60 bg-muted/40 px-xs text-micro rounded-xs border py-0.5 font-mono tracking-widest uppercase">
                       STANDARD
                     </span>
                   </div>
@@ -244,7 +244,7 @@ export default async function SustainabilityPage() {
         <Reveal>
           <div className="border-border/40 pt-2xl gap-y-lg gap-x-xl grid border-t md:grid-cols-12 md:items-start">
             <div className="md:col-span-5">
-              <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
+              <p className="text-foreground/40 text-overline font-mono tracking-widest uppercase">
                 Specification // Collaboration
               </p>
               <Heading variant="h2" className="mt-sm text-3xl sm:text-4xl">

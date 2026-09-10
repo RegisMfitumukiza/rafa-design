@@ -1,4 +1,4 @@
-import type { Service } from "@/content/services";
+﻿import type { Service } from "@/content/services";
 import { cn } from "@/lib/cn";
 import { Stagger } from "@/motion";
 
@@ -25,7 +25,7 @@ export function DisciplineApproach({ service, className }: DisciplineApproachPro
           key={point.title}
           className="gap-x-md gap-y-sm py-md grid items-center md:grid-cols-12"
         >
-          <span className="text-foreground/40 font-mono text-[10px] tracking-wider uppercase md:col-span-2">
+          <span className="text-foreground/40 text-overline font-mono tracking-wider uppercase md:col-span-2">
             {String(index + 1).padStart(2, "0")}
           </span>
           <h3 className="text-foreground/90 font-display text-xl font-medium tracking-tight md:col-span-4">

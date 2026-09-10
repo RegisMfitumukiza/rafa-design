@@ -1,4 +1,4 @@
-import { Section } from "@/components/layout/Section";
+﻿import { Section } from "@/components/layout/Section";
 import { Heading } from "@/components/typography/Heading";
 import { Text } from "@/components/typography/Text";
 import type { Award } from "@/content/studio";
@@ -42,7 +42,7 @@ export function Awards({ awards, className }: AwardsProps) {
             key={`${award.title}-${award.year}`}
             className="gap-y-xs gap-x-md py-md grid md:grid-cols-12 md:items-baseline"
           >
-            <span className="text-foreground/40 font-mono text-[10px] tracking-wider uppercase md:col-span-2">
+            <span className="text-foreground/40 text-overline font-mono tracking-wider uppercase md:col-span-2">
               {award.year}
             </span>
             <div className="md:col-span-5">
@@ -50,7 +50,7 @@ export function Awards({ awards, className }: AwardsProps) {
                 {award.title}
               </h3>
               {award.project && (
-                <span className="text-foreground/40 font-mono text-[10px] tracking-wider uppercase">
+                <span className="text-foreground/40 text-overline font-mono tracking-wider uppercase">
                   {award.project}
                 </span>
               )}

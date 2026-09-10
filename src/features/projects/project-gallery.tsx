@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 
@@ -58,7 +58,7 @@ export function ProjectGallery({ images, className }: ProjectGalleryProps) {
                     </ImageReveal>
                     {/* Hover cue */}
                     <div className="absolute inset-0 bg-black/0 transition-colors duration-500 group-hover:bg-black/10" />
-                    <span className="bottom-md right-md absolute font-mono text-[10px] tracking-widest text-white/0 uppercase transition-colors duration-300 group-hover:text-white/60">
+                    <span className="bottom-md right-md text-overline absolute font-mono tracking-widest text-white/0 uppercase transition-colors duration-300 group-hover:text-white/60">
                       EXPAND ↗
                     </span>
                   </button>
@@ -67,7 +67,7 @@ export function ProjectGallery({ images, className }: ProjectGalleryProps) {
                   <Reveal>
                     <div className="mt-md px-md mx-auto max-w-2xl">
                       {img.intent && (
-                        <p className="text-foreground/40 mb-xs font-mono text-[10px] tracking-widest uppercase">
+                        <p className="text-foreground/40 mb-xs text-overline font-mono tracking-widest uppercase">
                           {intentLabels[img.intent]}
                         </p>
                       )}
@@ -77,7 +77,7 @@ export function ProjectGallery({ images, className }: ProjectGalleryProps) {
                         </p>
                       )}
                       {img.caption && (
-                        <p className="text-foreground/35 mt-xs font-mono text-[11px]">
+                        <p className="text-foreground/35 mt-xs text-label font-mono">
                           {img.caption}
                         </p>
                       )}
@@ -117,14 +117,12 @@ export function ProjectGallery({ images, className }: ProjectGalleryProps) {
                         />
                       </ImageReveal>
                       <div className="absolute inset-0 rounded-sm bg-black/0 transition-colors duration-500 group-hover:bg-black/10" />
-                      <span className="bottom-xs right-xs absolute font-mono text-[9px] tracking-widest text-white/0 uppercase transition-colors duration-300 group-hover:text-white/60">
+                      <span className="bottom-xs right-xs text-micro absolute font-mono tracking-widest text-white/0 uppercase transition-colors duration-300 group-hover:text-white/60">
                         EXPAND ↗
                       </span>
                     </button>
                     {img.caption && !img.narrative && (
-                      <p className="text-foreground/35 mt-xs font-mono text-[11px]">
-                        {img.caption}
-                      </p>
+                      <p className="text-foreground/35 mt-xs text-label font-mono">{img.caption}</p>
                     )}
                   </div>
 
@@ -132,7 +130,7 @@ export function ProjectGallery({ images, className }: ProjectGalleryProps) {
                   {hasNarrative && (
                     <div className="mt-md md:col-span-3 md:col-start-10 md:mt-0 md:flex md:flex-col md:justify-center">
                       {img.intent && (
-                        <p className="text-foreground/40 mb-xs font-mono text-[10px] tracking-widest uppercase">
+                        <p className="text-foreground/40 mb-xs text-overline font-mono tracking-widest uppercase">
                           {intentLabels[img.intent]}
                         </p>
                       )}
@@ -140,7 +138,7 @@ export function ProjectGallery({ images, className }: ProjectGalleryProps) {
                         {img.narrative}
                       </p>
                       {img.caption && (
-                        <p className="text-foreground/35 mt-xs font-mono text-[11px]">
+                        <p className="text-foreground/35 mt-xs text-label font-mono">
                           {img.caption}
                         </p>
                       )}

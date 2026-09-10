@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { Image } from "@/components/media/Image";
 import type { HeadingTag } from "@/components/typography/Heading";
@@ -41,7 +41,7 @@ export function ProcessStep({ step, index, titleAs = "h3", className }: ProcessS
       {/* Ruled row grid: index | title & duration | description & deliverables */}
       <div className="gap-x-md gap-y-sm grid items-start md:grid-cols-12">
         {/* Index code */}
-        <span className="text-foreground/35 font-mono text-[11px] tracking-widest uppercase md:col-span-1 md:pt-1.5">
+        <span className="text-foreground/35 text-label font-mono tracking-widest uppercase md:col-span-1 md:pt-1.5">
           {code}
         </span>
 
@@ -53,7 +53,7 @@ export function ProcessStep({ step, index, titleAs = "h3", className }: ProcessS
           {step.duration && (
             <div className="mt-xs gap-xs flex items-center">
               <span className="bg-foreground/30 inline-block h-px w-3" />
-              <span className="text-foreground/45 font-mono text-[10px] tracking-widest uppercase">
+              <span className="text-foreground/45 text-overline font-mono tracking-widest uppercase">
                 {step.duration}
               </span>
             </div>
@@ -69,7 +69,7 @@ export function ProcessStep({ step, index, titleAs = "h3", className }: ProcessS
           {/* Deliverables architectural register */}
           {step.deliverables && step.deliverables.length > 0 && (
             <div className="mt-md border-border/25 pt-sm border-t">
-              <div className="gap-x-md flex flex-wrap items-baseline gap-y-1.5 font-mono text-[10px] tracking-wider uppercase">
+              <div className="gap-x-md text-overline flex flex-wrap items-baseline gap-y-1.5 font-mono tracking-wider uppercase">
                 <span className="text-foreground/35 select-none">SPEC // DELIVERABLES:</span>
                 <div className="gap-x-sm flex flex-wrap items-center gap-y-1">
                   {step.deliverables.map((item, idx) => (
@@ -103,7 +103,7 @@ export function ProcessStep({ step, index, titleAs = "h3", className }: ProcessS
               />
             </ImageReveal>
             {caption && (
-              <div className="mt-sm border-border/25 pt-xs flex items-baseline justify-between border-t font-mono text-[10px] tracking-widest uppercase">
+              <div className="mt-sm border-border/25 pt-xs text-overline flex items-baseline justify-between border-t font-mono tracking-widest uppercase">
                 <p className="text-foreground/45">
                   FIG. {code} {"//"} {caption}
                 </p>

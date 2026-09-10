@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import type { Route } from "next";
 
@@ -100,7 +100,7 @@ export function DisciplineIndex({
                   className="group gap-y-sm py-md hover:bg-foreground/[0.02] md:gap-x-md md:py-lg relative grid transition-colors md:grid-cols-12 md:items-baseline"
                 >
                   {/* Discipline index number — from CMS order field */}
-                  <span className="text-foreground/40 font-mono text-[10px] tracking-wider uppercase md:col-span-1">
+                  <span className="text-foreground/40 text-overline font-mono tracking-wider uppercase md:col-span-1">
                     {serviceIndex}
                   </span>
 
@@ -117,7 +117,7 @@ export function DisciplineIndex({
                   {/* Project count — only rendered when discipline has built evidence */}
                   <div className="hidden md:col-span-1 md:flex md:flex-col md:items-end md:justify-center md:gap-1">
                     {projectCount > 0 && (
-                      <span className="text-foreground/30 group-hover:text-foreground/60 font-mono text-[10px] tracking-widest uppercase transition-colors">
+                      <span className="text-foreground/30 group-hover:text-foreground/60 text-overline font-mono tracking-widest uppercase transition-colors">
                         {String(projectCount).padStart(2, "0")}
                       </span>
                     )}
@@ -151,7 +151,7 @@ export function DisciplineIndex({
               sizes="(max-width: 64rem) 0vw, 24vw"
             />
           </div>
-          <p className="text-foreground/50 mt-sm font-mono text-[10px] tracking-wider uppercase transition-colors duration-300">
+          <p className="text-foreground/50 mt-sm text-overline font-mono tracking-wider uppercase transition-colors duration-300">
             {caption}
           </p>
         </div>

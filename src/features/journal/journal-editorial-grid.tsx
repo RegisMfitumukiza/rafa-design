@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Journal Editorial Grid
  *
  * Asymmetric editorial layout — no view toggle, no uniform grid.
@@ -97,13 +97,13 @@ export function JournalEditorialGrid({
           <button
             type="button"
             onClick={() => setVisibleCount((prev) => prev + batchSize)}
-            className="group gap-xs text-foreground/60 hover:text-foreground inline-flex items-center font-mono text-[10px] tracking-widest uppercase transition-colors"
+            className="group gap-xs text-foreground/60 hover:text-foreground text-overline inline-flex items-center font-mono tracking-widest uppercase transition-colors"
             aria-label={`Load ${Math.min(batchSize, articles.length - visibleCount)} more articles`}
           >
             {ui.journal.loadMore}
             <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
           </button>
-          <p className="text-foreground/30 font-mono text-[10px] tracking-widest uppercase">
+          <p className="text-foreground/30 text-overline font-mono tracking-widest uppercase">
             {ui.journal.showing} {Math.min(visibleCount, articles.length)} {ui.journal.of}{" "}
             {articles.length}
           </p>

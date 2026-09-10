@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 
@@ -51,7 +51,7 @@ export function StudioHero({
             <div className="md:col-span-6 lg:col-span-6">
               <Link
                 href="/"
-                className="group text-foreground/40 hover:text-foreground mb-sm inline-flex items-center gap-2 font-mono text-[10px] tracking-widest uppercase transition-colors"
+                className="group text-foreground/40 hover:text-foreground mb-sm text-overline inline-flex items-center gap-2 font-mono tracking-widest uppercase transition-colors"
               >
                 <span className="transition-transform duration-300 group-hover:-translate-x-1">
                   ←
@@ -67,7 +67,7 @@ export function StudioHero({
 
             {/* Right 6 cols: Studio Overline, Manifesto & Introduction */}
             <div className="md:pt-md flex flex-col justify-between md:col-span-6 lg:col-span-6">
-              <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
+              <p className="text-foreground/40 text-overline font-mono tracking-widest uppercase">
                 {overline}
               </p>
               {manifesto && (
@@ -105,12 +105,12 @@ export function StudioHero({
         {/* Clean, horizontal caption and credit bar directly beneath the plate */}
         <Reveal delay={0.1}>
           <div className="mt-sm gap-md flex items-baseline justify-between">
-            <p className="text-foreground/50 font-mono text-[10px] tracking-widest uppercase">
+            <p className="text-foreground/50 text-overline font-mono tracking-widest uppercase">
               {displayCaption
                 ? `01 // ${displayCaption}`
                 : "01 // Kigali Studio — Atelier & Archives"}
             </p>
-            <p className="text-foreground/35 font-mono text-[10px] tracking-widest uppercase">
+            <p className="text-foreground/35 text-overline font-mono tracking-widest uppercase">
               RAFA Design Hub // Studio
             </p>
           </div>

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -88,7 +88,7 @@ export function BeforeAfterSlider({ data, className = "" }: BeforeAfterSliderPro
       <div className={className}>
         <Reveal>
           <div className="mb-md">
-            <p className="text-foreground/40 mb-xs font-mono text-[10px] tracking-widest uppercase">
+            <p className="text-foreground/40 mb-xs text-overline font-mono tracking-widest uppercase">
               Transformation
             </p>
             {data.caption && (
@@ -100,7 +100,7 @@ export function BeforeAfterSlider({ data, className = "" }: BeforeAfterSliderPro
         <div className="gap-md grid md:grid-cols-2">
           <Reveal delay={0.1}>
             <div className="border-border/40 relative border">
-              <div className="bg-background/85 text-foreground/70 px-xs absolute top-3 left-3 z-10 py-1 font-mono text-[10px] tracking-widest uppercase">
+              <div className="bg-background/85 text-foreground/70 px-xs text-overline absolute top-3 left-3 z-10 py-1 font-mono tracking-widest uppercase">
                 The Existing Building
               </div>
               <Image
@@ -113,7 +113,7 @@ export function BeforeAfterSlider({ data, className = "" }: BeforeAfterSliderPro
 
           <Reveal delay={0.2}>
             <div className="border-border/40 relative border">
-              <div className="bg-foreground text-background px-xs absolute top-3 left-3 z-10 py-1 font-mono text-[10px] tracking-widest uppercase">
+              <div className="bg-foreground text-background px-xs text-overline absolute top-3 left-3 z-10 py-1 font-mono tracking-widest uppercase">
                 The Completed Work
               </div>
               <Image
@@ -133,7 +133,7 @@ export function BeforeAfterSlider({ data, className = "" }: BeforeAfterSliderPro
     <div className={className}>
       <Reveal>
         <div className="mb-md">
-          <p className="text-foreground/40 mb-xs font-mono text-[10px] tracking-widest uppercase">
+          <p className="text-foreground/40 mb-xs text-overline font-mono tracking-widest uppercase">
             Transformation
           </p>
           {data.caption && (
@@ -144,7 +144,7 @@ export function BeforeAfterSlider({ data, className = "" }: BeforeAfterSliderPro
 
       {/* Drag instructions */}
       <Reveal>
-        <p className="text-foreground/30 mb-sm font-mono text-[10px] tracking-widest uppercase">
+        <p className="text-foreground/30 mb-sm text-overline font-mono tracking-widest uppercase">
           Drag to compare ↔
         </p>
       </Reveal>
@@ -177,7 +177,7 @@ export function BeforeAfterSlider({ data, className = "" }: BeforeAfterSliderPro
             priority
           />
           {/* After label */}
-          <div className="bg-foreground text-background px-xs absolute top-3 right-3 z-10 py-1 font-mono text-[10px] tracking-widest uppercase">
+          <div className="bg-foreground text-background px-xs text-overline absolute top-3 right-3 z-10 py-1 font-mono tracking-widest uppercase">
             The Completed Work
           </div>
         </div>
@@ -193,7 +193,7 @@ export function BeforeAfterSlider({ data, className = "" }: BeforeAfterSliderPro
             priority
           />
           {/* Before label */}
-          <div className="bg-background/85 text-foreground/70 px-xs absolute top-3 left-3 z-10 py-1 font-mono text-[10px] tracking-widest uppercase">
+          <div className="bg-background/85 text-foreground/70 px-xs text-overline absolute top-3 left-3 z-10 py-1 font-mono tracking-widest uppercase">
             The Existing Building
           </div>
         </div>

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect } from "react";
 
@@ -24,7 +24,7 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
     <html lang="en">
       <body className="bg-background text-foreground px-md flex min-h-dvh flex-col items-center justify-center font-sans">
         <div className="space-y-md max-w-xl text-center">
-          <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
+          <p className="text-foreground/40 text-overline font-mono tracking-widest uppercase">
             Specification // Critical Error
           </p>
           <h1 className="font-display text-foreground text-5xl font-medium tracking-tight">

@@ -1,4 +1,4 @@
-// ============================================================================
+﻿// ============================================================================
 // JOURNAL DOCUMENT
 // Main document renderer for editorial content
 // ============================================================================
@@ -149,7 +149,7 @@ export function JournalDocument({ article, categoryLabel }: JournalDocumentProps
         !article.sections?.some((s) => s.blocks.some((b) => b.type === "credits")) && (
           <Section container="narrow">
             <div className="border-border pt-2xl mt-3xl border-t">
-              <p className="text-foreground/40 mb-lg font-mono text-[10px] tracking-widest uppercase">
+              <p className="text-foreground/40 mb-lg text-overline font-mono tracking-widest uppercase">
                 Specification // Credits
               </p>
               <div className="gap-y-md flex flex-col">

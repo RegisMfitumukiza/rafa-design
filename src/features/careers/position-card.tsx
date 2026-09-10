@@ -1,4 +1,3 @@
-import { Heading } from "@/components/typography/Heading";
 import type { HeadingTag } from "@/components/typography/Heading";
 import { Text } from "@/components/typography/Text";
 import { Badge } from "@/components/ui/Badge";
@@ -12,21 +11,26 @@ interface PositionCardProps {
   className?: string;
 }
 
-export function PositionCard({ position, index, titleAs = "h3", className }: PositionCardProps) {
+export function PositionCard({
+  position,
+  index,
+  titleAs: Tag = "h3",
+  className,
+}: PositionCardProps) {
   const positionNumber = index !== undefined ? String(index + 1).padStart(2, "0") : null;
 
   return (
     <Card variant="bordered" className={className ?? ""}>
       <Card.Content>
         <div className="gap-sm flex items-center justify-between">
-          <Heading as={titleAs} variant="h3">
+          <Tag className="font-display text-xl font-medium tracking-tight">
             {positionNumber && (
-              <span className="text-foreground/30 mr-sm font-mono text-sm">
-                {positionNumber} {/* divider */}
+              <span className="text-foreground/30 mr-sm text-overline font-mono">
+                {positionNumber}
               </span>
             )}
             {position.title}
-          </Heading>
+          </Tag>
           <Badge variant="outline" size="sm">
             {position.type.replace("-", " ")}
           </Badge>

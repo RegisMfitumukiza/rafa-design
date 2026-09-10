@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 // ============================================================================
 // READING INDEX
@@ -129,7 +129,7 @@ export function ReadingIndex({ sections, estimatedReadingTime, className }: Read
       </div>
 
       <div className="pl-md">
-        <p className="text-foreground/40 mb-md font-mono text-[10px] tracking-widest uppercase">
+        <p className="text-foreground/40 mb-md text-overline font-mono tracking-widest uppercase">
           Index
         </p>
 

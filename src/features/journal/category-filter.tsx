@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useRouter } from "next/navigation";
 
@@ -65,7 +65,7 @@ export function CategoryFilterPills({ categories, active, className }: CategoryF
         type="button"
         onClick={() => select(null)}
         className={cn(
-          "font-mono text-[10px] tracking-widest uppercase transition-colors",
+          "text-overline font-mono tracking-widest uppercase transition-colors",
           active === null
             ? "text-foreground underline decoration-1 underline-offset-4"
             : "text-foreground/40 hover:text-foreground/70",
@@ -76,12 +76,12 @@ export function CategoryFilterPills({ categories, active, className }: CategoryF
       </button>
       {categories.map((cat) => (
         <span key={cat} className="inline-flex items-center gap-2">
-          <span className="text-foreground/20 text-[10px]">·</span>
+          <span className="text-foreground/20 text-overline">·</span>
           <button
             type="button"
             onClick={() => select(cat)}
             className={cn(
-              "font-mono text-[10px] tracking-widest uppercase transition-colors",
+              "text-overline font-mono tracking-widest uppercase transition-colors",
               active === cat
                 ? "text-foreground underline decoration-1 underline-offset-4"
                 : "text-foreground/40 hover:text-foreground/70",

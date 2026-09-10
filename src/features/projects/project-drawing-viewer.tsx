@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 
@@ -32,7 +32,7 @@ export function ProjectDrawingViewer({ drawings, className }: ProjectDrawingView
       <Reveal>
         <div className="gap-md border-border/40 pb-sm flex flex-col justify-between border-b md:flex-row md:items-end">
           <div>
-            <p className="text-foreground/40 mb-xs font-mono text-[10px] tracking-widest uppercase">
+            <p className="text-foreground/40 mb-xs text-overline font-mono tracking-widest uppercase">
               Specification // Architectural Drawings & Plans
             </p>
             <h3 className="font-display text-foreground text-2xl font-medium tracking-tight md:text-3xl">
@@ -41,7 +41,7 @@ export function ProjectDrawingViewer({ drawings, className }: ProjectDrawingView
           </div>
 
           {/* Layer Selector Tabs */}
-          <div className="gap-xs flex flex-wrap items-center font-mono text-[10px] tracking-widest uppercase">
+          <div className="gap-xs text-overline flex flex-wrap items-center font-mono tracking-widest uppercase">
             {drawings.map((dwg) => {
               const isActive = dwg.id === activeId;
               return (
@@ -75,7 +75,7 @@ export function ProjectDrawingViewer({ drawings, className }: ProjectDrawingView
               sizes="100vw"
             />
             {/* Architectural Drawing Badge Overlay */}
-            <div className="top-md right-md bg-background/90 px-sm py-xs border-border/40 text-foreground/70 absolute rounded-xs border font-mono text-[10px] tracking-widest uppercase backdrop-blur-md">
+            <div className="top-md right-md bg-background/90 px-sm py-xs border-border/40 text-foreground/70 text-overline absolute rounded-xs border font-mono tracking-widest uppercase backdrop-blur-md">
               SCALE: {activeDrawing.scale}
             </div>
           </figure>
@@ -88,7 +88,7 @@ export function ProjectDrawingViewer({ drawings, className }: ProjectDrawingView
               <p className="text-foreground font-mono text-xs font-semibold tracking-wider uppercase">
                 {activeDrawing.code} {"//"} {activeDrawing.title}
               </p>
-              <p className="text-foreground/40 mt-xs font-mono text-[10px] tracking-widest uppercase">
+              <p className="text-foreground/40 mt-xs text-overline font-mono tracking-widest uppercase">
                 SCALE {activeDrawing.scale}
               </p>
             </div>

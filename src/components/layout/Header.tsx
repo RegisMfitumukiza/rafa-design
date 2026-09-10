@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { gsap } from "gsap";
 import { useLayoutEffect, useRef } from "react";
@@ -78,7 +78,7 @@ export function Header({ className }: HeaderProps) {
         {/* Center — Studio time (Kigali) + visitor's local time */}
         <div
           aria-hidden="true"
-          className="gap-xs text-foreground/40 hidden items-center font-mono text-[10px] tracking-[0.2em] uppercase select-none md:flex"
+          className="gap-xs text-foreground/40 text-overline hidden items-center font-mono tracking-[0.2em] uppercase select-none md:flex"
         >
           <span>KIGALI</span>
           <span className="text-foreground/20">|</span>
@@ -134,7 +134,7 @@ export function Header({ className }: HeaderProps) {
             {/* Keyboard hint indicator on desktop */}
             <span
               aria-hidden="true"
-              className="ml-xs text-foreground/30 border-border/40 hidden rounded-xs border px-1 py-0.5 font-mono text-[9px] lg:inline-block"
+              className="ml-xs text-foreground/30 border-border/40 text-micro hidden rounded-xs border px-1 py-0.5 font-mono lg:inline-block"
             >
               /
             </span>

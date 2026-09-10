@@ -1,4 +1,4 @@
-import { Section } from "@/components/layout/Section";
+﻿import { Section } from "@/components/layout/Section";
 import { Heading } from "@/components/typography/Heading";
 import { Text } from "@/components/typography/Text";
 import { Link as TextLink } from "@/components/ui/Link";
@@ -55,7 +55,7 @@ export function WorkingMethods({ studio, className }: WorkingMethodsProps) {
             className="group p-md md:p-lg hover:bg-foreground/[0.02] flex flex-col justify-between transition-colors"
           >
             <div>
-              <span className="text-foreground/40 mb-md block font-mono text-[10px] tracking-wider uppercase">
+              <span className="text-foreground/40 mb-md text-overline block font-mono tracking-wider uppercase">
                 {method.code}
               </span>
 

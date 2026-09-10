@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 // ============================================================================
 // SHARE BLOCK
@@ -49,7 +49,7 @@ export function ShareBlock({ title, url, className }: ShareBlockProps) {
 
   return (
     <div className={cn("border-border py-xl my-2xl border-y", className)}>
-      <p className="text-foreground/40 mb-md font-mono text-[10px] tracking-widest uppercase">
+      <p className="text-foreground/40 mb-md text-overline font-mono tracking-widest uppercase">
         Specification // Share Article
       </p>
 

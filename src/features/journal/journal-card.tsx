@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Journal Card
  *
  * Supports three editorial sizes:
@@ -80,7 +80,7 @@ export function JournalCard({
 
         {/* Category overline */}
         {categoryLabel && (
-          <p className="text-foreground/40 mb-xs font-mono text-[10px] tracking-widest uppercase">
+          <p className="text-foreground/40 mb-xs text-overline font-mono tracking-widest uppercase">
             {categoryLabel}
           </p>
         )}
@@ -103,7 +103,7 @@ export function JournalCard({
         )}
 
         {/* Meta */}
-        <p className="text-foreground/35 font-mono text-[10px] tracking-widest uppercase">
+        <p className="text-foreground/35 text-overline font-mono tracking-widest uppercase">
           {authorName && `${authorName} · `}
           {formattedDate}
           {article.estimatedReadingTime && ` · ${article.estimatedReadingTime} min`}

@@ -1,4 +1,4 @@
-import type { Route } from "next";
+﻿import type { Route } from "next";
 
 import Link from "next/link";
 
@@ -74,7 +74,7 @@ export async function VisitStudio({ studio, className }: VisitStudioProps) {
                           {office.address} ↗
                         </span>
                         {contactInformation.coordinates && (
-                          <span className="text-foreground/35 mt-[2px] text-[10px]">
+                          <span className="text-foreground/35 text-overline mt-[2px]">
                             {contactInformation.coordinates}
                           </span>
                         )}

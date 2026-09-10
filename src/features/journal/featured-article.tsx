@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Featured Article
  *
  * Cinematic editorial hero — the most dominant element on the journal page.
@@ -41,7 +41,7 @@ export function FeaturedArticle({ article, className }: FeaturedArticleProps) {
   return (
     <section className={cn("mb-2xl", className)}>
       {/* Section label */}
-      <p className="text-foreground/30 mb-lg font-mono text-[10px] tracking-widest uppercase">
+      <p className="text-foreground/30 mb-lg text-overline font-mono tracking-widest uppercase">
         {ui.sections.featuredArticle}
       </p>
 
@@ -67,7 +67,7 @@ export function FeaturedArticle({ article, className }: FeaturedArticleProps) {
           <div className="md:col-span-4 md:flex md:flex-col md:justify-end md:self-end md:pb-2">
             <Reveal delay={0.1}>
               {categoryLabel && (
-                <p className="text-foreground/40 mb-md font-mono text-[10px] tracking-widest uppercase">
+                <p className="text-foreground/40 mb-md text-overline font-mono tracking-widest uppercase">
                   {categoryLabel}
                 </p>
               )}
@@ -82,7 +82,7 @@ export function FeaturedArticle({ article, className }: FeaturedArticleProps) {
                   {article.excerpt}
                 </Text>
               )}
-              <p className="text-foreground/35 font-mono text-[10px] tracking-widest uppercase">
+              <p className="text-foreground/35 text-overline font-mono tracking-widest uppercase">
                 {authorName && `${authorName} · `}
                 {formattedDate}
                 {article.estimatedReadingTime && ` · ${article.estimatedReadingTime} min read`}

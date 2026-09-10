@@ -1,4 +1,4 @@
-import type { PullQuoteBlock as PullQuoteBlockType } from "@/content/journal";
+﻿import type { PullQuoteBlock as PullQuoteBlockType } from "@/content/journal";
 import { cn } from "@/lib/cn";
 
 interface PullQuoteBlockProps {
@@ -27,7 +27,7 @@ export function PullQuoteBlock({ block, className }: PullQuoteBlockProps) {
       <div className="gap-x-xl gap-y-sm grid items-start md:grid-cols-12">
         {/* Left 3 cols: Monospace metadata & Author */}
         <div className="md:col-span-3">
-          <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
+          <p className="text-foreground/40 text-overline font-mono tracking-widest uppercase">
             Specification // Statement
           </p>
           {author && <p className="text-foreground/60 mt-xs font-mono text-xs">— {author}</p>}

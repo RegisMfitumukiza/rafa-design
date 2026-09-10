@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { X } from "lucide-react";
 
@@ -72,7 +72,7 @@ export function TeamMemberModal({ member, onClose, className }: TeamMemberModalP
         <div className="border-border/40 px-lg py-md bg-surface/80 flex shrink-0 items-center justify-between border-b backdrop-blur-sm">
           <div className="gap-xs flex items-center">
             <span className="bg-foreground/40 size-2 rounded-full" />
-            <p className="text-foreground/60 font-mono text-[10px] tracking-widest uppercase">
+            <p className="text-foreground/60 text-overline font-mono tracking-widest uppercase">
               DOSSIER // {member.role}
             </p>
           </div>
@@ -107,7 +107,7 @@ export function TeamMemberModal({ member, onClose, className }: TeamMemberModalP
                   {member.email && (
                     <a
                       href={`mailto:${member.email}`}
-                      className="border-border/60 hover:border-foreground hover:bg-foreground hover:text-background px-md py-xs flex items-center justify-between rounded-sm border font-mono text-[10px] tracking-wider uppercase transition-all duration-300"
+                      className="border-border/60 hover:border-foreground hover:bg-foreground hover:text-background px-md py-xs text-overline flex items-center justify-between rounded-sm border font-mono tracking-wider uppercase transition-all duration-300"
                       title={`Send email to ${member.email}`}
                     >
                       <span className="truncate">{member.email}</span>
@@ -117,7 +117,7 @@ export function TeamMemberModal({ member, onClose, className }: TeamMemberModalP
                   {member.phone && (
                     <a
                       href={`tel:${member.phone.replace(/\s/g, "")}`}
-                      className="border-border/60 hover:border-foreground hover:bg-foreground hover:text-background px-md py-xs flex items-center justify-between rounded-sm border font-mono text-[10px] tracking-wider uppercase transition-all duration-300"
+                      className="border-border/60 hover:border-foreground hover:bg-foreground hover:text-background px-md py-xs text-overline flex items-center justify-between rounded-sm border font-mono tracking-wider uppercase transition-all duration-300"
                       title={`Call ${member.phone}`}
                     >
                       <span>{member.phone}</span>
@@ -130,7 +130,7 @@ export function TeamMemberModal({ member, onClose, className }: TeamMemberModalP
               {/* Social & Portfolio links */}
               {socialLinks.length > 0 && (
                 <div className="border-border/30 pt-sm border-t">
-                  <p className="mb-xs text-foreground/35 font-mono text-[9px] tracking-widest uppercase">
+                  <p className="mb-xs text-foreground/35 text-micro font-mono tracking-widest uppercase">
                     Profiles & Networks
                   </p>
                   <div className="gap-x-md gap-y-xs flex flex-wrap">
@@ -138,7 +138,7 @@ export function TeamMemberModal({ member, onClose, className }: TeamMemberModalP
                       <a
                         key={link.platform}
                         href={link.url}
-                        className="text-foreground/60 hover:text-foreground inline-flex items-center font-mono text-[10px] tracking-wider uppercase transition-colors"
+                        className="text-foreground/60 hover:text-foreground text-overline inline-flex items-center font-mono tracking-wider uppercase transition-colors"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -162,7 +162,7 @@ export function TeamMemberModal({ member, onClose, className }: TeamMemberModalP
                     {member.name}
                   </h3>
                   {member.experience !== undefined && (
-                    <span className="text-foreground/40 font-mono text-[10px] tracking-wider whitespace-nowrap uppercase">
+                    <span className="text-foreground/40 text-overline font-mono tracking-wider whitespace-nowrap uppercase">
                       {member.experience} years experience
                     </span>
                   )}
@@ -174,7 +174,7 @@ export function TeamMemberModal({ member, onClose, className }: TeamMemberModalP
 
               {/* Biography / Personal Story */}
               <div>
-                <p className="mb-xs text-foreground/35 font-mono text-[9px] tracking-widest uppercase">
+                <p className="mb-xs text-foreground/35 text-micro font-mono tracking-widest uppercase">
                   Biography & Story
                 </p>
                 <Text variant="body" className="text-foreground/75 leading-relaxed text-balance">
@@ -188,14 +188,14 @@ export function TeamMemberModal({ member, onClose, className }: TeamMemberModalP
                 <div className="border-border/30 pt-md gap-sm flex flex-col border-t">
                   {member.disciplines && member.disciplines.length > 0 && (
                     <div>
-                      <p className="mb-xs text-foreground/35 font-mono text-[9px] tracking-widest uppercase">
+                      <p className="mb-xs text-foreground/35 text-micro font-mono tracking-widest uppercase">
                         Core Disciplines
                       </p>
                       <div className="gap-xs flex flex-wrap">
                         {member.disciplines.map((discipline) => (
                           <span
                             key={discipline}
-                            className="bg-foreground/5 border-border/40 px-xs text-foreground/70 rounded-sm border py-[2px] font-mono text-[10px] tracking-wider uppercase"
+                            className="bg-foreground/5 border-border/40 px-xs text-foreground/70 text-overline rounded-sm border py-[2px] font-mono tracking-wider uppercase"
                           >
                             {discipline}
                           </span>
@@ -206,10 +206,10 @@ export function TeamMemberModal({ member, onClose, className }: TeamMemberModalP
 
                   {member.interests && member.interests.length > 0 && (
                     <div>
-                      <p className="mb-xs text-foreground/35 font-mono text-[9px] tracking-widest uppercase">
+                      <p className="mb-xs text-foreground/35 text-micro font-mono tracking-widest uppercase">
                         Design Interests & Focus
                       </p>
-                      <p className="text-foreground/60 font-mono text-[11px]">
+                      <p className="text-foreground/60 text-label font-mono">
                         {member.interests.join(" · ")}
                       </p>
                     </div>
@@ -220,7 +220,7 @@ export function TeamMemberModal({ member, onClose, className }: TeamMemberModalP
               {/* External Affiliations & Other Roles */}
               {member.otherRoles && member.otherRoles.length > 0 && (
                 <div className="border-border/30 pt-md border-t">
-                  <p className="mb-sm text-foreground/35 font-mono text-[9px] tracking-widest uppercase">
+                  <p className="mb-sm text-foreground/35 text-micro font-mono tracking-widest uppercase">
                     Parallel Practice & Affiliations (Also At)
                   </p>
                   <div className="border-border/40 divide-border/40 divide-y border-y">
@@ -232,7 +232,7 @@ export function TeamMemberModal({ member, onClose, className }: TeamMemberModalP
                         <span className="text-foreground/85 text-xs font-medium">
                           {roleItem.title}
                         </span>
-                        <span className="text-foreground/50 font-mono text-[10px]">
+                        <span className="text-foreground/50 text-overline font-mono">
                           {roleItem.company}
                           {roleItem.location && ` (${roleItem.location})`}
                         </span>

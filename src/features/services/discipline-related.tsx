@@ -1,4 +1,4 @@
-import type { Route } from "next";
+﻿import type { Route } from "next";
 
 import Link from "next/link";
 
@@ -28,7 +28,7 @@ export function DisciplineRelated({ services, className }: DisciplineRelatedProp
   return (
     <Section container="content" className={cn(className ?? "")}>
       <Reveal>
-        <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
+        <p className="text-foreground/40 text-overline font-mono tracking-widest uppercase">
           {ui.sections.relatedDisciplines}
         </p>
       </Reveal>
@@ -39,7 +39,7 @@ export function DisciplineRelated({ services, className }: DisciplineRelatedProp
             href={`/services/${related.slug}` as Route}
             className="group gap-x-md gap-y-sm py-md hover:bg-foreground/[0.02] grid items-baseline transition-colors md:grid-cols-12"
           >
-            <span className="text-foreground/40 font-mono text-[10px] tracking-wider uppercase md:col-span-2">
+            <span className="text-foreground/40 text-overline font-mono tracking-wider uppercase md:col-span-2">
               {related.order
                 ? String(related.order).padStart(2, "0")
                 : getServiceIndex(related.slug)}

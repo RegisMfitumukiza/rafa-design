@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { gsap } from "gsap";
 import Image from "next/image";
@@ -108,7 +108,7 @@ export function Landing() {
         {/* Center — Studio time (Kigali) + visitor's local time */}
         <div
           aria-hidden="true"
-          className="gap-xs text-foreground/40 hidden items-center font-mono text-[10px] tracking-[0.2em] uppercase select-none md:flex"
+          className="gap-xs text-foreground/40 text-overline hidden items-center font-mono tracking-[0.2em] uppercase select-none md:flex"
         >
           <span>KIGALI</span>
           <span className="text-foreground/20">|</span>
@@ -161,7 +161,7 @@ export function Landing() {
           <nav aria-label={ui.navigation.menu} className="flex flex-col">
             <p
               data-landing-label
-              className="text-foreground/35 mb-sm lg:mb-md font-mono text-[9px] tracking-[0.3em] uppercase"
+              className="text-foreground/35 mb-sm lg:mb-md text-micro font-mono tracking-[0.3em] uppercase"
             >
               {ui.navigation.menu}
             </p>
@@ -186,7 +186,7 @@ export function Landing() {
                 >
                   <span>{link.label}</span>
                   {link.path === "/careers" && careersCount > 0 && (
-                    <span className="text-accent ml-xs font-mono text-[11px] font-medium">
+                    <span className="text-accent ml-xs text-label font-mono font-medium">
                       ({careersCount})
                     </span>
                   )}
@@ -208,7 +208,7 @@ export function Landing() {
           >
             <a
               href={`mailto:${contactInformation.email}`}
-              className="text-foreground/45 hover:text-foreground inline-flex min-h-(--touch-target) items-center font-mono text-[9px] tracking-[0.25em] uppercase transition-colors"
+              className="text-foreground/45 hover:text-foreground text-micro inline-flex min-h-(--touch-target) items-center font-mono tracking-[0.25em] uppercase transition-colors"
             >
               Email
             </a>
@@ -218,7 +218,7 @@ export function Landing() {
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-foreground/45 hover:text-foreground inline-flex min-h-(--touch-target) items-center font-mono text-[9px] tracking-[0.25em] uppercase transition-colors"
+                className="text-foreground/45 hover:text-foreground text-micro inline-flex min-h-(--touch-target) items-center font-mono tracking-[0.25em] uppercase transition-colors"
               >
                 {link.label || capitalize(link.platform)}
               </a>

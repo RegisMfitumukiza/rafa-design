@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 
@@ -77,7 +77,7 @@ export function ProjectHeroParallax({
       <div className="absolute inset-0 z-10 flex flex-col px-[var(--container-gutter)]">
         {/* Top breadcrumb — frosted architectural pill */}
         <div className="pt-sm sm:pt-md pb-xs">
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/40 px-3 py-1 font-mono text-[10px] tracking-widest text-white/70 uppercase backdrop-blur-md">
+          <div className="text-overline inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/40 px-3 py-1 font-mono tracking-widest text-white/70 uppercase backdrop-blur-md">
             <Link
               href="/projects"
               className="underline-offset-4 transition-colors hover:text-white hover:underline"
@@ -99,7 +99,7 @@ export function ProjectHeroParallax({
         {/* Bottom title composition */}
         <div className="pb-md sm:pb-lg md:pb-xl">
           {/* Overline metadata */}
-          <p className="mb-xs md:mb-sm font-mono text-[10px] tracking-widest text-white/60 uppercase [text-shadow:_0_1px_12px_rgba(0,0,0,0.9)]">
+          <p className="mb-xs md:mb-sm text-overline font-mono tracking-widest text-white/60 uppercase [text-shadow:_0_1px_12px_rgba(0,0,0,0.9)]">
             {year}
             {locationCity && ` · ${locationCity}, ${locationCountry}`}
             {typology &&
@@ -122,7 +122,7 @@ export function ProjectHeroParallax({
 
           {/* Photographer credit — inline on mobile */}
           {photographerCredit && (
-            <p className="mt-xs font-mono text-[9px] tracking-widest text-white/45 uppercase md:hidden">
+            <p className="mt-xs text-micro font-mono tracking-widest text-white/45 uppercase md:hidden">
               Photography: {photographerCredit}
             </p>
           )}
@@ -131,7 +131,7 @@ export function ProjectHeroParallax({
 
       {/* Photographer credit — bottom right on desktop */}
       {photographerCredit && (
-        <p className="bottom-md absolute right-[var(--container-gutter)] z-10 hidden font-mono text-[10px] tracking-widest text-white/40 uppercase md:block">
+        <p className="bottom-md text-overline absolute right-[var(--container-gutter)] z-10 hidden font-mono tracking-widest text-white/40 uppercase md:block">
           Photography: {photographerCredit}
         </p>
       )}

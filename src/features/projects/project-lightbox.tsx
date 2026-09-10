@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { gsap } from "gsap";
 import { useCallback, useEffect, useLayoutEffect, useRef } from "react";
@@ -102,7 +102,7 @@ export function ProjectLightbox({
         className="px-md py-sm flex items-center justify-between"
         onClick={(e) => e.stopPropagation()}
       >
-        <p className="font-mono text-[10px] tracking-widest text-white/40 uppercase">
+        <p className="text-overline font-mono tracking-widest text-white/40 uppercase">
           SPATIAL ARCHIVE /{" "}
           <span className="text-white/70">{String(currentIndex + 1).padStart(2, "0")}</span> OF{" "}
           {String(images.length).padStart(2, "0")}
@@ -111,7 +111,7 @@ export function ProjectLightbox({
           type="button"
           onClick={onClose}
           aria-label="Close lightbox"
-          className="font-mono text-[10px] tracking-widest text-white/50 uppercase transition-colors hover:text-white"
+          className="text-overline font-mono tracking-widest text-white/50 uppercase transition-colors hover:text-white"
         >
           ESC · CLOSE
         </button>
@@ -141,7 +141,7 @@ export function ProjectLightbox({
         {/* Caption */}
         <p
           className={cn(
-            "flex-1 font-mono text-[11px] tracking-wide text-white/40 italic",
+            "text-label flex-1 font-mono tracking-wide text-white/40 italic",
             !image.caption && "opacity-0 select-none",
           )}
         >
@@ -149,7 +149,7 @@ export function ProjectLightbox({
         </p>
 
         {/* Prev / Next */}
-        <div className="gap-md flex items-center font-mono text-[10px] tracking-widest uppercase">
+        <div className="gap-md text-overline flex items-center font-mono tracking-widest uppercase">
           <button
             type="button"
             onClick={handlePrev}

@@ -1,4 +1,4 @@
-import { Link as TextLink } from "@/components/ui/Link";
+﻿import { Link as TextLink } from "@/components/ui/Link";
 import type { ProjectReferenceBlock as ProjectReferenceBlockType } from "@/content/journal";
 import { cn } from "@/lib/cn";
 
@@ -12,7 +12,7 @@ export function ProjectReferenceBlock({ block, className }: ProjectReferenceBloc
 
   return (
     <div className={cn("border-border py-xl my-2xl border-y", className)}>
-      <p className="text-foreground/40 mb-md font-mono text-[10px] tracking-widest uppercase">
+      <p className="text-foreground/40 mb-md text-overline font-mono tracking-widest uppercase">
         Specification // Project Reference
       </p>
 

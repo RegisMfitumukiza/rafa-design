@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import type { Route } from "next";
 
@@ -44,7 +44,7 @@ export function MaintenanceScreen({ config, contact }: MaintenanceScreenProps) {
       className="bg-background text-foreground selection:bg-foreground selection:text-background relative flex min-h-dvh flex-col justify-between p-6 sm:p-10 md:p-14"
     >
       {/* Top Ledger: Studio Coordinates & Time */}
-      <header className="border-border/30 text-foreground/45 flex flex-wrap items-center justify-between gap-4 border-b pb-4 font-mono text-[10px] tracking-[0.2em] uppercase">
+      <header className="border-border/30 text-foreground/45 text-overline flex flex-wrap items-center justify-between gap-4 border-b pb-4 font-mono tracking-[0.2em] uppercase">
         <div className="flex items-center gap-2">
           <span className="bg-foreground/60 inline-block h-1.5 w-1.5 animate-pulse rounded-full" />
           <span>
@@ -64,7 +64,7 @@ export function MaintenanceScreen({ config, contact }: MaintenanceScreenProps) {
         </div>
 
         {/* Status Pill Badge */}
-        <div className="border-border/60 bg-surface/80 text-foreground/75 mb-6 inline-flex items-center gap-2 rounded-full border px-4 py-1.5 font-mono text-[10px] tracking-[0.22em] uppercase shadow-xs backdrop-blur-sm">
+        <div className="border-border/60 bg-surface/80 text-foreground/75 text-overline mb-6 inline-flex items-center gap-2 rounded-full border px-4 py-1.5 font-mono tracking-[0.22em] uppercase shadow-xs backdrop-blur-sm">
           <span className="relative flex h-2 w-2">
             <span className="bg-foreground/40 absolute inline-flex h-full w-full animate-ping rounded-full opacity-75" />
             <span className="bg-foreground/80 relative inline-flex h-2 w-2 rounded-full" />
@@ -92,7 +92,7 @@ export function MaintenanceScreen({ config, contact }: MaintenanceScreenProps) {
 
         {/* Direct Private Inquiries Fallback */}
         <div className="border-border/40 bg-surface/40 mt-10 rounded-sm border px-6 pt-6 pb-6">
-          <p className="text-foreground/45 mb-3 font-mono text-[10px] tracking-[0.2em] uppercase">
+          <p className="text-foreground/45 text-overline mb-3 font-mono tracking-[0.2em] uppercase">
             Direct Inquiries For Private Commissions & Press
           </p>
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 font-mono text-xs">
@@ -118,7 +118,7 @@ export function MaintenanceScreen({ config, contact }: MaintenanceScreenProps) {
       </div>
 
       {/* Bottom Ledger: Legal attribution & Discreet Staff Link */}
-      <footer className="border-border/30 text-foreground/45 flex flex-wrap items-center justify-between gap-4 border-t pt-4 font-mono text-[10px] tracking-[0.2em] uppercase">
+      <footer className="border-border/30 text-foreground/45 text-overline flex flex-wrap items-center justify-between gap-4 border-t pt-4 font-mono tracking-[0.2em] uppercase">
         <div>
           &copy; {new Date().getFullYear()} {config.name}. All Rights Reserved.
         </div>

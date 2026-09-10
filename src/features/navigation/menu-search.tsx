@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import type { Route } from "next";
 
@@ -53,7 +53,7 @@ export const MenuSearch = forwardRef<HTMLInputElement, MenuSearchProps>(function
         />
         <span
           aria-hidden="true"
-          className="text-foreground/30 pointer-events-none absolute right-0 font-mono text-[9px] tracking-widest uppercase"
+          className="text-foreground/30 text-micro pointer-events-none absolute right-0 font-mono tracking-widest uppercase"
         >
           ⌘K / /
         </span>
@@ -105,7 +105,7 @@ function SearchResultLink({ result, onNavigate }: SearchResultLinkProps) {
         )}
         <div className="flex min-w-0 flex-1 flex-col gap-0.5">
           <div className="gap-xs flex items-center">
-            <span className="text-foreground/50 font-mono text-[9px] tracking-widest uppercase">
+            <span className="text-foreground/50 text-micro font-mono tracking-widest uppercase">
               {resultLabels[result.type]}
             </span>
             <span className="text-foreground group-hover:text-accent truncate text-sm font-medium transition-colors">

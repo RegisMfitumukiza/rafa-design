@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 
@@ -56,12 +56,12 @@ export function ProjectChapterBlock({ chapter, index, className = "" }: ProjectC
                     />
                   </ImageReveal>
                   <div className="absolute inset-0 rounded-sm bg-black/0 transition-colors duration-500 group-hover:bg-black/10" />
-                  <span className="bottom-xs right-xs absolute font-mono text-[9px] tracking-widest text-white/0 uppercase transition-colors duration-300 group-hover:text-white/60">
+                  <span className="bottom-xs right-xs text-micro absolute font-mono tracking-widest text-white/0 uppercase transition-colors duration-300 group-hover:text-white/60">
                     EXPAND ↗
                   </span>
                 </button>
                 {image.caption && (
-                  <p className="text-foreground/35 mt-xs font-mono text-[11px]">{image.caption}</p>
+                  <p className="text-foreground/35 mt-xs text-label font-mono">{image.caption}</p>
                 )}
               </div>
 
@@ -75,17 +75,17 @@ export function ProjectChapterBlock({ chapter, index, className = "" }: ProjectC
                 {/* Heading / Intent label */}
                 <div className="mb-xs md:gap-xs flex flex-col gap-0.5 md:flex-row md:flex-wrap md:items-center">
                   {chapter.heading && (
-                    <span className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
+                    <span className="text-foreground/40 text-overline font-mono tracking-widest uppercase">
                       {chapter.heading}
                     </span>
                   )}
                   {chapter.heading && image.intent && (
-                    <span className="text-foreground/20 hidden font-mono text-[10px] md:inline">
+                    <span className="text-foreground/20 text-overline hidden font-mono md:inline">
                       ·
                     </span>
                   )}
                   {image.intent && (
-                    <span className="text-accent font-mono text-[10px] tracking-widest uppercase">
+                    <span className="text-accent text-overline font-mono tracking-widest uppercase">
                       {intentLabels[image.intent]}
                     </span>
                   )}
@@ -116,7 +116,7 @@ export function ProjectChapterBlock({ chapter, index, className = "" }: ProjectC
           <Section container="narrow" noPadding className="py-md">
             <Reveal delay={index * 0.05}>
               {chapter.heading && (
-                <p className="text-foreground/40 mb-xs font-mono text-[10px] tracking-widest uppercase">
+                <p className="text-foreground/40 mb-xs text-overline font-mono tracking-widest uppercase">
                   {chapter.heading}
                 </p>
               )}
@@ -142,7 +142,7 @@ export function ProjectChapterBlock({ chapter, index, className = "" }: ProjectC
                   <Image asset={image} className="aspect-hero w-full object-cover" sizes="100vw" />
                 </ImageReveal>
                 <div className="absolute inset-0 bg-black/0 transition-colors duration-500 group-hover:bg-black/10" />
-                <span className="bottom-md right-md absolute font-mono text-[10px] tracking-widest text-white/0 uppercase transition-colors duration-300 group-hover:text-white/60">
+                <span className="bottom-md right-md text-overline absolute font-mono tracking-widest text-white/0 uppercase transition-colors duration-300 group-hover:text-white/60">
                   EXPAND ↗
                 </span>
               </button>
@@ -150,14 +150,14 @@ export function ProjectChapterBlock({ chapter, index, className = "" }: ProjectC
                 <Reveal>
                   <div className="container-standard mt-sm gap-md border-border/20 pb-md flex flex-col justify-between border-b md:flex-row md:items-baseline">
                     {image.intent && (
-                      <span className="text-accent flex-shrink-0 font-mono text-[10px] tracking-widest uppercase">
+                      <span className="text-accent text-overline flex-shrink-0 font-mono tracking-widest uppercase">
                         {intentLabels[image.intent]}
                       </span>
                     )}
                     <p className="text-foreground/70 max-w-3xl text-sm leading-relaxed italic">
                       {image.narrative}
                       {image.caption && (
-                        <span className="text-foreground/40 ml-xs font-mono text-[11px] not-italic">
+                        <span className="text-foreground/40 ml-xs text-label font-mono not-italic">
                           — {image.caption}
                         </span>
                       )}

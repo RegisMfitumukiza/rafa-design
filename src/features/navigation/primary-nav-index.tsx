@@ -144,7 +144,7 @@ export function PrimaryNavIndex({
               <span
                 data-nav-index-title
                 className={cn(
-                  "font-medium tracking-tight",
+                  "font-display font-medium tracking-tight",
                   display ? "text-2xl md:text-3xl" : "text-sm",
                 )}
               >

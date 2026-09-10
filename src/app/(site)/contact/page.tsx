@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 
 import { Section } from "@/components/layout/Section";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -51,7 +51,7 @@ export default async function ContactPage() {
           <div className="gap-x-xl gap-y-md grid items-start md:grid-cols-12">
             {/* Left 6 cols: Title */}
             <div className="md:col-span-6 lg:col-span-6">
-              <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
+              <p className="text-foreground/40 text-overline font-mono tracking-widest uppercase">
                 {overline}
               </p>
               <h1 className="font-display text-foreground mt-sm text-4xl font-medium tracking-tight sm:text-5xl lg:text-6xl xl:text-7xl">
@@ -82,7 +82,7 @@ export default async function ContactPage() {
           <div className="md:col-span-7">
             <Reveal delay={0.1}>
               <div>
-                <p className="text-foreground/40 mb-xs font-mono text-[10px] tracking-widest uppercase">
+                <p className="text-foreground/40 mb-xs text-overline font-mono tracking-widest uppercase">
                   {ui.contact.inquiryOverline}
                 </p>
                 <h2 className="font-display text-foreground mb-lg text-2xl font-medium tracking-tight md:text-3xl">

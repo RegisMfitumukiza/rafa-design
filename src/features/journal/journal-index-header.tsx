@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Journal Index Header
  *
  * Single row: H1 title + description (left) / category filter pills (right).
@@ -30,7 +30,7 @@ export function JournalIndexHeader({ categories, active, intro }: JournalIndexHe
         <div className="gap-x-xl gap-y-md grid items-end md:grid-cols-12">
           {/* Left: Title + description */}
           <div className="md:col-span-7 lg:col-span-6">
-            <p className="text-foreground/40 mb-sm font-mono text-[10px] tracking-widest uppercase">
+            <p className="text-foreground/40 mb-sm text-overline font-mono tracking-widest uppercase">
               {overline}
             </p>
             <h1 className="font-display text-foreground text-5xl font-medium tracking-tight sm:text-6xl lg:text-7xl">

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Portable Text Components
  *
  * Custom React components for rendering Sanity portable text content blocks.
@@ -97,7 +97,7 @@ function ImageBlock({ value }: { value: ImageBlockValue }) {
         <figcaption className="text-foreground/50 mt-sm gap-x-md flex flex-wrap items-baseline justify-between text-xs">
           {value.caption && <span>{value.caption}</span>}
           {value.credit && (
-            <span className="text-foreground/35 font-mono text-[10px] tracking-widest uppercase">
+            <span className="text-foreground/35 text-overline font-mono tracking-widest uppercase">
               Photo: {value.credit}
             </span>
           )}
@@ -140,7 +140,7 @@ function GalleryBlock({ value }: { value: GalleryBlockValue }) {
               />
             </div>
             {image.caption && (
-              <figcaption className="text-foreground/40 mt-xs font-mono text-[10px] tracking-wider uppercase">
+              <figcaption className="text-foreground/40 mt-xs text-overline font-mono tracking-wider uppercase">
                 {image.caption}
               </figcaption>
             )}
@@ -163,7 +163,7 @@ function PullQuoteBlock({ value }: { value: PullQuoteBlockValue }) {
         &ldquo;{value.content}&rdquo;
       </p>
       {value.author && (
-        <cite className="text-foreground/40 mt-md block font-mono text-[10px] tracking-widest uppercase not-italic">
+        <cite className="text-foreground/40 mt-md text-overline block font-mono tracking-widest uppercase not-italic">
           — {value.author}
         </cite>
       )}
@@ -214,7 +214,7 @@ function VideoBlock({ value }: { value: VideoBlockValue }) {
         <figcaption className="text-foreground/50 mt-sm flex items-baseline justify-between text-xs">
           {value.caption && <span>{value.caption}</span>}
           {value.credit && (
-            <span className="text-foreground/35 font-mono text-[10px] tracking-widest uppercase">
+            <span className="text-foreground/35 text-overline font-mono tracking-widest uppercase">
               {value.credit}
             </span>
           )}
@@ -259,7 +259,7 @@ function ProjectReferenceBlock({ value }: { value: ProjectReferenceBlockValue })
           }
         >
           <div>
-            <p className="text-foreground/40 mb-xs font-mono text-[10px] tracking-widest uppercase">
+            <p className="text-foreground/40 mb-xs text-overline font-mono tracking-widest uppercase">
               Specification // Project Reference
             </p>
             <h3 className="font-display text-foreground group-hover:text-foreground/70 mb-xs text-xl font-medium tracking-tight transition-colors">
@@ -272,7 +272,7 @@ function ProjectReferenceBlock({ value }: { value: ProjectReferenceBlockValue })
           </div>
 
           {(project.year || project.location) && (
-            <p className="text-foreground/40 mt-md border-border/20 pt-sm border-t font-mono text-[10px] tracking-widest uppercase">
+            <p className="text-foreground/40 mt-md border-border/20 pt-sm text-overline border-t font-mono tracking-widest uppercase">
               {project.location && <span>{project.location}</span>}
               {project.year && project.location && <span className="mx-xs">·</span>}
               {project.year && <span>{project.year}</span>}
@@ -337,7 +337,7 @@ const portableTextComponents: PartialPortableTextComponents = {
       return (
         <div id={id} className="mt-3xl mb-lg border-border/20 pt-xl scroll-mt-28 border-t">
           {number && (
-            <p className="text-foreground/35 mb-1.5 font-mono text-[10px] tracking-widest uppercase">
+            <p className="text-foreground/35 text-overline mb-1.5 font-mono tracking-widest uppercase">
               {number} {"//"} Section
             </p>
           )}

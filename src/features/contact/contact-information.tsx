@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import type { ContactInformation as ContactInfo } from "@/content/company/contact";
 import { ui } from "@/content/ui";
@@ -27,12 +27,12 @@ export function ContactInformation({ info, className }: ContactInformationProps)
     <div className={cn("space-y-xl", className ?? "")}>
       {/* Studio Header & Direct Contact */}
       <div>
-        <p className="text-foreground/40 mb-xs font-mono text-[10px] tracking-widest uppercase">
+        <p className="text-foreground/40 mb-xs text-overline font-mono tracking-widest uppercase">
           {ui.contact.directInquiryOverline}
         </p>
         <div className="space-y-xs font-mono text-sm">
           <p>
-            <span className="text-foreground/40 mr-2 text-[10px] tracking-wider uppercase">
+            <span className="text-foreground/40 text-overline mr-2 tracking-wider uppercase">
               EMAIL:
             </span>
             <a
@@ -43,7 +43,7 @@ export function ContactInformation({ info, className }: ContactInformationProps)
             </a>
           </p>
           <p>
-            <span className="text-foreground/40 mr-2 text-[10px] tracking-wider uppercase">
+            <span className="text-foreground/40 text-overline mr-2 tracking-wider uppercase">
               PHONE:
             </span>
             <a
@@ -58,7 +58,7 @@ export function ContactInformation({ info, className }: ContactInformationProps)
 
       {/* Ruled Office Specification Index */}
       <div>
-        <p className="text-foreground/40 mb-md font-mono text-[10px] tracking-widest uppercase">
+        <p className="text-foreground/40 mb-md text-overline font-mono tracking-widest uppercase">
           {ui.contact.ateliersOverline}
         </p>
         <Stagger className="border-border/40 divide-border/40 divide-y border-y" stagger={0.06}>
@@ -69,7 +69,7 @@ export function ContactInformation({ info, className }: ContactInformationProps)
                 <h3 className="text-foreground font-mono text-xs font-medium tracking-wider uppercase">
                   {String(index + 1).padStart(2, "0")} {"//"} {office.name}
                 </h3>
-                <span className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
+                <span className="text-foreground/40 text-overline font-mono tracking-widest uppercase">
                   {office.hours}
                 </span>
               </div>
@@ -78,7 +78,7 @@ export function ContactInformation({ info, className }: ContactInformationProps)
               <p className="text-foreground/70 text-sm leading-relaxed">{office.address}</p>
 
               {/* Coordinates & Maps Link */}
-              <div className="pt-xs gap-sm text-foreground/50 flex flex-wrap items-center justify-between font-mono text-[10px] tracking-widest uppercase">
+              <div className="pt-xs gap-sm text-foreground/50 text-overline flex flex-wrap items-center justify-between font-mono tracking-widest uppercase">
                 <span>GPS // {office.coordinates}</span>
                 <a
                   href={office.mapsUrl}
@@ -98,7 +98,7 @@ export function ContactInformation({ info, className }: ContactInformationProps)
       {/* Social Networks */}
       {socialLinks.length > 0 && (
         <div>
-          <p className="text-foreground/40 mb-sm font-mono text-[10px] tracking-widest uppercase">
+          <p className="text-foreground/40 mb-sm text-overline font-mono tracking-widest uppercase">
             {ui.sections.follow}
           </p>
           <div className="gap-xs flex flex-wrap">
@@ -108,7 +108,7 @@ export function ContactInformation({ info, className }: ContactInformationProps)
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="border-border/50 text-foreground/70 hover:border-foreground hover:bg-foreground hover:text-background px-md py-xs inline-flex items-center rounded-xs border font-mono text-[10px] font-medium tracking-wider uppercase transition-all duration-300"
+                className="border-border/50 text-foreground/70 hover:border-foreground hover:bg-foreground hover:text-background px-md py-xs text-overline inline-flex items-center rounded-xs border font-mono font-medium tracking-wider uppercase transition-all duration-300"
               >
                 {capitalize(link.platform)}
               </a>

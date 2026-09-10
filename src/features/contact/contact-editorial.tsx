@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { Image } from "@/components/media/Image";
 import { pageContent } from "@/content/pages";
@@ -58,7 +58,7 @@ export function ContactEditorial({
           />
         </ImageReveal>
         <Reveal delay={0.1}>
-          <p className="text-foreground/40 mt-sm font-mono text-[10px] tracking-widest uppercase">
+          <p className="text-foreground/40 mt-sm text-overline font-mono tracking-widest uppercase">
             {editorialOverline}
           </p>
         </Reveal>
@@ -69,7 +69,7 @@ export function ContactEditorial({
         <Reveal>
           <div className="gap-y-md gap-x-xl grid md:grid-cols-12 md:items-baseline">
             <div className="md:col-span-5">
-              <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
+              <p className="text-foreground/40 text-overline font-mono tracking-widest uppercase">
                 {dialogueOverline}
               </p>
               <h2 className="font-display text-foreground mt-sm text-3xl font-medium tracking-tight text-balance md:text-4xl">

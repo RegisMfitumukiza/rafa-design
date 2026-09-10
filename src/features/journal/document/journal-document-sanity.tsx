@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Journal Document (Sanity Version)
  *
  * Architectural monograph layout:
@@ -60,7 +60,7 @@ export function JournalDocumentSanity({ article, categoryLabel }: JournalDocumen
           <nav aria-label="Breadcrumb" className="mb-lg">
             <Link
               href="/journal"
-              className="text-foreground/40 hover:text-foreground inline-flex items-center gap-1.5 font-mono text-[10px] tracking-widest uppercase transition-colors"
+              className="text-foreground/40 hover:text-foreground text-overline inline-flex items-center gap-1.5 font-mono tracking-widest uppercase transition-colors"
             >
               <span>← Journal</span>
               <span className="text-foreground/20">{"//"}</span>
@@ -102,7 +102,7 @@ export function JournalDocumentSanity({ article, categoryLabel }: JournalDocumen
                 <figcaption className="container-wide text-foreground/45 mt-sm gap-x-lg flex flex-wrap items-baseline justify-between text-xs">
                   {article.hero?.caption && <p>{article.hero.caption}</p>}
                   {heroCreditText && (
-                    <p className="text-foreground/30 font-mono text-[10px] tracking-widest uppercase">
+                    <p className="text-foreground/30 text-overline font-mono tracking-widest uppercase">
                       Photo: {heroCreditText}
                     </p>
                   )}
@@ -143,13 +143,13 @@ export function JournalDocumentSanity({ article, categoryLabel }: JournalDocumen
             {article.credits && article.credits.length > 0 && (
               <Reveal>
                 <div className="border-border/25 mt-3xl pt-xl border-t">
-                  <p className="text-foreground/35 mb-md font-mono text-[10px] tracking-widest uppercase">
+                  <p className="text-foreground/35 mb-md text-overline font-mono tracking-widest uppercase">
                     Specification {"//"} Credits & Attribution
                   </p>
                   <dl className="gap-md grid font-mono text-xs sm:grid-cols-2">
                     {article.credits.map((credit, index) => (
                       <div key={index} className="border-border/20 pb-sm border-b">
-                        <dt className="text-foreground/40 mb-1 text-[10px] tracking-widest capitalize uppercase">
+                        <dt className="text-foreground/40 text-overline mb-1 tracking-widest capitalize uppercase">
                           {credit.role}
                         </dt>
                         <dd className="text-foreground/85 font-sans text-sm">
@@ -181,13 +181,13 @@ export function JournalDocumentSanity({ article, categoryLabel }: JournalDocumen
             {article.keywords && article.keywords.length > 0 && (
               <Reveal>
                 <div className="border-border/15 mt-xl pt-md flex flex-wrap items-center gap-2 border-t">
-                  <span className="text-foreground/30 mr-2 font-mono text-[10px] tracking-widest uppercase">
+                  <span className="text-foreground/30 text-overline mr-2 font-mono tracking-widest uppercase">
                     Keywords:
                   </span>
                   {article.keywords.map((keyword) => (
                     <span
                       key={keyword}
-                      className="border-border/30 bg-foreground/[0.04] text-foreground/60 rounded-xs px-2 py-0.5 font-mono text-[10px] tracking-wider uppercase"
+                      className="border-border/30 bg-foreground/[0.04] text-foreground/60 text-overline rounded-xs px-2 py-0.5 font-mono tracking-wider uppercase"
                     >
                       #{keyword}
                     </span>

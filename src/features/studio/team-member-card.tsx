@@ -1,4 +1,4 @@
-import { Image } from "@/components/media/Image";
+﻿import { Image } from "@/components/media/Image";
 import { Heading } from "@/components/typography/Heading";
 import { Text } from "@/components/typography/Text";
 import type { TeamMember } from "@/content/studio";
@@ -45,7 +45,7 @@ export function TeamMemberCard({ member, onSelect, className }: TeamMemberCardPr
             {/* Bottom disciplines tag — slides in on hover (desktop only, non-redundant) */}
             <div className="translate-y-2 opacity-0 transition-all duration-400 ease-out group-hover:translate-y-0 group-hover:opacity-100">
               {member.disciplines && member.disciplines.length > 0 && (
-                <p className="font-mono text-[9px] tracking-wider text-white/70 uppercase">
+                <p className="text-micro font-mono tracking-wider text-white/70 uppercase">
                   {member.disciplines.join(" · ")}
                 </p>
               )}
@@ -62,7 +62,7 @@ export function TeamMemberCard({ member, onSelect, className }: TeamMemberCardPr
             {member.name}
           </Heading>
           {member.experience !== undefined && (
-            <span className="text-foreground/40 font-mono text-[10px] tracking-wider whitespace-nowrap uppercase">
+            <span className="text-foreground/40 text-overline font-mono tracking-wider whitespace-nowrap uppercase">
               {member.experience} yrs
             </span>
           )}
@@ -74,7 +74,7 @@ export function TeamMemberCard({ member, onSelect, className }: TeamMemberCardPr
         </Text>
 
         {/* Action link cue at bottom */}
-        <div className="mt-sm border-border/30 pt-xs text-foreground/40 group-hover:text-foreground flex items-center justify-between border-t font-mono text-[10px] tracking-widest uppercase transition-colors">
+        <div className="mt-sm border-border/30 pt-xs text-foreground/40 group-hover:text-foreground text-overline flex items-center justify-between border-t font-mono tracking-widest uppercase transition-colors">
           <span>View Dossier</span>
           <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
         </div>

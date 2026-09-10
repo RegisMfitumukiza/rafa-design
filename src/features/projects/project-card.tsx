@@ -1,4 +1,4 @@
-import type { Route } from "next";
+﻿import type { Route } from "next";
 
 import Link from "next/link";
 
@@ -53,7 +53,7 @@ export function ProjectCard({
                 "px-sm pb-sm pt-xl pointer-events-none min-w-0",
               )}
             >
-              <div className="flex items-center justify-between gap-2 font-mono text-[9px] tracking-widest uppercase">
+              <div className="text-micro flex items-center justify-between gap-2 font-mono tracking-widest uppercase">
                 <span className="flex items-center gap-1.5 text-white/70">
                   <span
                     className={cn(
@@ -66,7 +66,7 @@ export function ProjectCard({
                 </span>
                 {project.areaM2 && <span className="text-white/60">{project.areaM2} m²</span>}
               </div>
-              <p className="mt-xs font-mono text-[9px] tracking-[0.2em] text-white/50 uppercase">
+              <p className="mt-xs text-micro font-mono tracking-[0.2em] text-white/50 uppercase">
                 Explore Monograph →
               </p>
             </div>
@@ -74,7 +74,7 @@ export function ProjectCard({
         </Card.Image>
 
         <Card.Content className={cn("min-w-0", contentClassName)}>
-          <div className="text-foreground/40 flex items-center justify-between gap-2 font-mono text-[10px] tracking-widest uppercase">
+          <div className="text-foreground/40 text-overline flex items-center justify-between gap-2 font-mono tracking-widest uppercase">
             <span className="truncate">
               {project.location.city}, {project.location.country} · {project.year}
               {project.typology &&
@@ -111,7 +111,7 @@ export function ProjectCard({
           )}
 
           {/* Mobile-only spec ledger: Area & Explore Monograph CTA */}
-          <div className="border-border/30 mt-sm pt-xs text-foreground/50 flex items-center justify-between border-t font-mono text-[9px] tracking-widest uppercase md:hidden">
+          <div className="border-border/30 mt-sm pt-xs text-foreground/50 text-micro flex items-center justify-between border-t font-mono tracking-widest uppercase md:hidden">
             {project.areaM2 ? <span>{project.areaM2} m²</span> : <span />}
             <span className="text-foreground/70 font-medium">Explore Monograph →</span>
           </div>

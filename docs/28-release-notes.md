@@ -8,6 +8,42 @@
 >
 > Unlike the Implementation Tracker, this document is historical and should never be rewritten. New entries are always added to the top.
 
+# 2026-09-10 (System-wide Typography Harmonization & Micro-Scale Tokenization)
+
+## Version
+
+0.16.9-alpha
+
+## Summary
+
+Completed an exhaustive, page-by-page audit and architectural harmonization of the site-wide typography. Validated Century Gothic Paneuropean as the client's singular, unified identity typeface across both display headings and body text, updating design system documentation to match production reality. Eliminated all hardcoded arbitrary micro-text sizes (`text-[10px]`, `text-[9px]`, `text-[11px]`) across 73 components by establishing named design tokens in `tokens.css`: `text-overline` (10px), `text-micro` (9px), and `text-label` (11px). Fixed the oversized heading in Careers `PositionCard` and restored semantic `font-display` to the primary navigation index.
+
+## What Changed
+
+- `Design System & Documentation` (`docs/04-design-system.md`, `src/styles/tokens.css`):
+  - Updated typeface documentation from legacy General Sans + Manrope to the intentional client choice: Century Gothic Paneuropean across display and body roles, with monospace reserved for machine-precision data and specifications.
+  - Defined named micro-scale typography tokens in `@theme`:
+    - `--font-size-overline: 0.625rem` (`text-overline`, 10px) — section overlines, architectural ledgers, specification table labels.
+    - `--font-size-micro: 0.5625rem` (`text-micro`, 9px) — image overlays, hover badges, micro status indicators.
+    - `--font-size-label: 0.6875rem` (`text-label`, 11px) — gallery captions, timeline entries, tag pills.
+- `Careers Position Card` (`src/features/careers/position-card.tsx`):
+  - Replaced oversized `Heading variant="h3"` (which clamped to 32–56px) with semantic `Tag` using `className="font-display text-xl font-medium tracking-tight"`, matching the card heading standard in `ProjectCard` and `JournalCard`.
+- `Primary Navigation Index` (`src/features/navigation/primary-nav-index.tsx`):
+  - Added explicit `font-display` to `data-nav-index-title` to ensure semantic adherence to the design system.
+- `Codebase-wide Tokenization` (73 files across `src/features/`, `src/components/`, `src/app/`):
+  - Replaced all raw `text-[10px]` instances with `text-overline`.
+  - Replaced all raw `text-[9px]` instances with `text-micro`.
+  - Replaced all raw `text-[11px]` instances with `text-label`.
+
+## Verification
+
+- `npm run typecheck` — exit 0
+- `npm run lint` — exit 0
+- `npm run format:check` — exit 0
+- `npm run build` — exit 0, all 34 routes compiled cleanly
+
+---
+
 # 2026-09-10 (Homepage Supporting Practice Navigation Elevation)
 
 ## Version

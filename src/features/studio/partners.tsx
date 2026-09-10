@@ -1,4 +1,4 @@
-import type { Route } from "next";
+﻿import type { Route } from "next";
 
 import Link from "next/link";
 
@@ -57,7 +57,7 @@ export function Partners({ sectors, note, className }: PartnersProps) {
               className="gap-y-xs gap-x-md py-md grid md:grid-cols-12 md:items-baseline"
             >
               {/* Sector Code */}
-              <span className="text-foreground/40 font-mono text-[10px] tracking-wider uppercase md:col-span-3">
+              <span className="text-foreground/40 text-overline font-mono tracking-wider uppercase md:col-span-3">
                 {sector.code}
               </span>
 
@@ -74,7 +74,7 @@ export function Partners({ sectors, note, className }: PartnersProps) {
 
                 {/* Interactive Commissions / Projects Links */}
                 {hasProjects && (
-                  <div className="mt-xs gap-x-xs flex flex-wrap items-baseline font-mono text-[10px]">
+                  <div className="mt-xs gap-x-xs text-overline flex flex-wrap items-baseline font-mono">
                     <span className="text-foreground/35 tracking-widest uppercase">
                       Commissions //
                     </span>
@@ -105,7 +105,7 @@ export function Partners({ sectors, note, className }: PartnersProps) {
 
                 {/* Collaborators */}
                 {hasCollaborators && (
-                  <div className="mt-xs gap-x-xs flex flex-wrap items-baseline font-mono text-[10px]">
+                  <div className="mt-xs gap-x-xs text-overline flex flex-wrap items-baseline font-mono">
                     <span className="text-foreground/35 tracking-widest uppercase">
                       Collaborators //
                     </span>
@@ -117,7 +117,7 @@ export function Partners({ sectors, note, className }: PartnersProps) {
 
                 {/* Key Clients */}
                 {hasClients && (
-                  <div className="mt-xs gap-x-xs flex flex-wrap items-baseline font-mono text-[10px]">
+                  <div className="mt-xs gap-x-xs text-overline flex flex-wrap items-baseline font-mono">
                     <span className="text-foreground/35 tracking-widest uppercase">
                       Key Clients //
                     </span>
@@ -134,7 +134,7 @@ export function Partners({ sectors, note, className }: PartnersProps) {
 
       {note && (
         <Reveal delay={0.1}>
-          <p className="text-foreground/35 mt-md font-mono text-[10px] tracking-widest uppercase">
+          <p className="text-foreground/35 mt-md text-overline font-mono tracking-widest uppercase">
             {note}
           </p>
         </Reveal>

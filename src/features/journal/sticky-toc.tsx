@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 
@@ -79,7 +79,7 @@ export function StickyTOC({ sections, className }: StickyTOCProps) {
       )}
     >
       <div className="border-border pl-md border-l">
-        <p className="text-foreground/40 mb-md font-mono text-[10px] tracking-widest uppercase">
+        <p className="text-foreground/40 mb-md text-overline font-mono tracking-widest uppercase">
           Specification // Index
         </p>
 

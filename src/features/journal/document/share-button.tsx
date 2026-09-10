@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 
@@ -41,7 +41,7 @@ export function ShareButton({ title, className }: ShareButtonProps) {
       type="button"
       onClick={handleShare}
       className={cn(
-        "inline-flex items-center gap-1.5 font-mono text-[10px] tracking-widest uppercase transition-colors",
+        "text-overline inline-flex items-center gap-1.5 font-mono tracking-widest uppercase transition-colors",
         copied ? "text-foreground font-medium" : "text-foreground/50 hover:text-foreground",
         className,
       )}

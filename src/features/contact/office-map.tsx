@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 
@@ -38,7 +38,7 @@ export function OfficeMap({ offices, className }: OfficeMapProps) {
       <Reveal>
         <div className="mb-lg gap-md flex flex-wrap items-baseline justify-between">
           <div>
-            <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
+            <p className="text-foreground/40 text-overline font-mono tracking-widest uppercase">
               {ui.contact.locationOverline}
             </p>
             <h2 className="font-display text-foreground mt-xs text-2xl font-medium tracking-tight md:text-3xl">
@@ -57,7 +57,7 @@ export function OfficeMap({ offices, className }: OfficeMapProps) {
                     type="button"
                     onClick={() => setActiveId(office.id)}
                     className={cn(
-                      "px-md py-xs rounded-xs border font-mono text-[10px] font-medium tracking-wider uppercase transition-all duration-300",
+                      "px-md py-xs text-overline rounded-xs border font-mono font-medium tracking-wider uppercase transition-all duration-300",
                       isActive
                         ? "border-foreground bg-foreground text-background"
                         : "border-border/50 text-foreground/60 hover:border-foreground/60 hover:text-foreground bg-transparent",
@@ -91,7 +91,7 @@ export function OfficeMap({ offices, className }: OfficeMapProps) {
         <div className="space-y-md md:col-span-5">
           <Reveal key={activeOffice.id}>
             <div>
-              <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
+              <p className="text-foreground/40 text-overline font-mono tracking-widest uppercase">
                 {activeOffice.city}, {activeOffice.country}
               </p>
               <h3 className="font-display text-foreground mt-xs text-2xl font-medium tracking-tight">
@@ -101,24 +101,26 @@ export function OfficeMap({ offices, className }: OfficeMapProps) {
 
             <div className="border-border/40 divide-border/40 mt-md space-y-sm py-sm divide-y border-y font-mono text-xs">
               <div className="py-xs gap-sm flex justify-between">
-                <span className="text-foreground/40 text-[10px] tracking-wider uppercase">
+                <span className="text-foreground/40 text-overline tracking-wider uppercase">
                   ADDRESS
                 </span>
                 <span className="text-foreground/80 text-right">{activeOffice.address}</span>
               </div>
               <div className="py-xs gap-sm flex justify-between">
-                <span className="text-foreground/40 text-[10px] tracking-wider uppercase">GPS</span>
+                <span className="text-foreground/40 text-overline tracking-wider uppercase">
+                  GPS
+                </span>
                 <span className="text-foreground/80 text-right">{activeOffice.coordinates}</span>
               </div>
               <div className="py-xs gap-sm flex justify-between">
-                <span className="text-foreground/40 text-[10px] tracking-wider uppercase">
+                <span className="text-foreground/40 text-overline tracking-wider uppercase">
                   HOURS
                 </span>
                 <span className="text-foreground/80 text-right">{activeOffice.hours}</span>
               </div>
               {activeOffice.phone && (
                 <div className="py-xs gap-sm flex justify-between">
-                  <span className="text-foreground/40 text-[10px] tracking-wider uppercase">
+                  <span className="text-foreground/40 text-overline tracking-wider uppercase">
                     PHONE
                   </span>
                   <a

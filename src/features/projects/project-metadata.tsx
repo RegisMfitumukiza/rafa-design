@@ -1,4 +1,4 @@
-import type { Project } from "@/content/projects";
+﻿import type { Project } from "@/content/projects";
 import { cn } from "@/lib/cn";
 import { Reveal } from "@/motion";
 
@@ -12,7 +12,7 @@ export function ProjectMetadata({ project, className }: ProjectMetadataProps) {
     <div className={cn(className)}>
       {/* Section overline — lives here so page.tsx doesn't need to duplicate it */}
       <Reveal>
-        <p className="text-foreground/40 mb-md font-mono text-[10px] tracking-widest uppercase">
+        <p className="text-foreground/40 mb-md text-overline font-mono tracking-widest uppercase">
           Specifications
         </p>
       </Reveal>
@@ -49,7 +49,7 @@ export function ProjectMetadata({ project, className }: ProjectMetadataProps) {
                 <span>
                   {project.coordinates.lat}°N, {project.coordinates.lng}°W
                 </span>
-                <span className="text-foreground/40 text-[10px]">↗</span>
+                <span className="text-foreground/40 text-overline">↗</span>
               </a>
             </dd>
           </div>

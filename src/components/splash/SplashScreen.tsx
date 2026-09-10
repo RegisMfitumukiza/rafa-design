@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { gsap } from "gsap";
 import { useEffect, useRef } from "react";
@@ -94,7 +94,7 @@ export function SplashScreen({ phase, onFadeComplete }: SplashScreenProps) {
         {/* Monospace Specification Overline */}
         <p
           ref={overlineRef}
-          className="text-foreground/40 font-mono text-[9px] tracking-[0.25em] uppercase opacity-0"
+          className="text-foreground/40 text-micro font-mono tracking-[0.25em] uppercase opacity-0"
         >
           SPECIFICATION // ARCHITECTURE STUDIO
         </p>
@@ -116,7 +116,7 @@ export function SplashScreen({ phase, onFadeComplete }: SplashScreenProps) {
         {/* GPS Coordinates & Local Studio Time */}
         <p
           ref={coordsRef}
-          className="text-foreground/40 font-mono text-[9px] tracking-[0.2em] uppercase opacity-0"
+          className="text-foreground/40 text-micro font-mono tracking-[0.2em] uppercase opacity-0"
         >
           1.9592° S, 30.1047° E // KIGALI, GASABO
         </p>

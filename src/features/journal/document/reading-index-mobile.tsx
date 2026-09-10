@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 // ============================================================================
 // READING INDEX MOBILE
@@ -114,7 +114,7 @@ export function ReadingIndexMobile({
         <div className="p-lg">
           {/* Header */}
           <div className="mb-lg flex items-center justify-between">
-            <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
+            <p className="text-foreground/40 text-overline font-mono tracking-widest uppercase">
               Index
             </p>
             <button

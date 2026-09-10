@@ -1,4 +1,4 @@
-import type { Route } from "next";
+﻿import type { Route } from "next";
 
 import Link from "next/link";
 
@@ -34,7 +34,7 @@ export function DisciplineCta({ className, content }: DisciplineCtaProps) {
     <Section container="content" className={cn(className ?? "")}>
       <div className="border-border/40 pt-2xl border-t">
         <Reveal>
-          <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
+          <p className="text-foreground/40 text-overline font-mono tracking-widest uppercase">
             {cta.overline}
           </p>
           <h2 className="font-display text-foreground mt-sm text-3xl leading-tight font-medium tracking-tight text-balance sm:text-4xl md:text-5xl">

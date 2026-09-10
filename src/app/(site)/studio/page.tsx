@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 
 import { Section } from "@/components/layout/Section";
 import { Image } from "@/components/media/Image";
@@ -82,10 +82,10 @@ export default async function StudioPage() {
           {atelierImage.caption && (
             <Reveal delay={0.1}>
               <div className="mt-sm gap-sm flex items-baseline justify-between">
-                <p className="text-foreground/50 font-mono text-[10px] tracking-widest uppercase">
+                <p className="text-foreground/50 text-overline font-mono tracking-widest uppercase">
                   02 // {atelierImage.caption}
                 </p>
-                <p className="text-foreground/30 font-mono text-[10px] tracking-widest uppercase">
+                <p className="text-foreground/30 text-overline font-mono tracking-widest uppercase">
                   {ui.overlines.atelier}
                 </p>
               </div>

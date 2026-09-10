@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect } from "react";
 
@@ -24,7 +24,7 @@ export default function Error({ error, reset }: ErrorProps) {
   return (
     <Section container="narrow" className="py-3xl flex-1">
       <div className="space-y-md">
-        <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
+        <p className="text-foreground/40 text-overline font-mono tracking-widest uppercase">
           Specification // Runtime Error
         </p>
 
@@ -48,7 +48,7 @@ export default function Error({ error, reset }: ErrorProps) {
         </div>
 
         {error.digest ? (
-          <p className="text-foreground/40 font-mono text-[10px] tracking-widest uppercase">
+          <p className="text-foreground/40 text-overline font-mono tracking-widest uppercase">
             Reference // {error.digest}
           </p>
         ) : null}

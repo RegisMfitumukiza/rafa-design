@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useRef } from "react";
 
@@ -119,7 +119,7 @@ export function Timeline({ events, intro, className }: TimelineProps) {
               key={`${event.year}-${event.title}-mobile`}
               className="gap-y-xs gap-x-md py-md grid grid-cols-12 items-baseline"
             >
-              <Text variant="small" className="text-foreground/40 col-span-3 font-mono text-[11px]">
+              <Text variant="small" className="text-foreground/40 text-label col-span-3 font-mono">
                 {event.year}
               </Text>
               <div className="col-span-9">
