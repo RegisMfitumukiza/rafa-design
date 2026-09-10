@@ -902,6 +902,8 @@ Use this section to record architectural decisions, blockers, or implementation 
 
 **2026-07-29:** Global providers configured. GSAP provider registers ScrollTrigger plugin. Lenis provider initializes smooth scroll, syncs with GSAP ScrollTrigger, and provides the Lenis instance via React context for use by hooks like `useLenis`. Phase 1 and Phase 2 are now complete.
 
+**2026-09-10:** Fixed project card typology truncation on real mobile phones. Removed `truncate` + mobile status badge from top metadata overline — typology now spans full card width. Moved `● STATUS · AREA M²` into the bottom mobile spec ledger. Commit `f5d8c65`.
+
 ---
 
 # Definition of Complete

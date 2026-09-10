@@ -8,6 +8,30 @@
 >
 > Unlike the Implementation Tracker, this document is historical and should never be rewritten. New entries are always added to the top.
 
+# 2026-09-10 (Mobile Project Card Typology Fix)
+
+## Version
+
+0.16.12-alpha
+
+## Summary
+
+Fixed a UX bug on real mobile phones (360–390px viewport) where the project card typology label (`ADAPTIVE REUSE`, `RESIDENTIAL`, etc.) was being truncated to `ADAPT...` because the metadata overline tried to fit both the location/year/typology string and the `● COMPLETED` status badge on the same line. Typology now always renders in full. Status info is relocated to the bottom spec ledger.
+
+## What Changed
+
+- `src/features/projects/project-card.tsx`:
+  - Removed `truncate` CSS class and the flex `justify-between` layout from the top metadata overline row.
+  - Removed the mobile `● STATUS` badge from the top row entirely.
+  - Typology text now occupies 100% of the card width and wraps naturally on narrow screens.
+  - Bottom mobile spec ledger updated: left side now shows `● STATUS · AREA M²` (status dot + label + area in one group), right side retains `Explore Monograph →`.
+
+## Motivation
+
+On real 360–390px phones the status badge was ~85px wide, leaving only ~240px for the metadata string. With projects like "PORTO, PORTUGAL · 2024 · ADAPTIVE REUSE" that exceeded this budget, `truncate` silently clipped the typology — producing `ADAPT...`. This is inconsistent with industrial/museum-grade quality standards. The fix gives typology a full-width line.
+
+---
+
 # 2026-09-10 (Zero-Flash System Theme Persistence & Background Restoration)
 
 ## Version
