@@ -8,6 +8,37 @@
 >
 > Unlike the Implementation Tracker, this document is historical and should never be rewritten. New entries are always added to the top.
 
+# 2026-09-10 (Micro-Typography Utility Fix & Featured Project Card Layout Restoration)
+
+## Version
+
+0.16.10-alpha
+
+## Summary
+
+Diagnosed and resolved the root cause of enlarged micro-text and broken layout in the Projects Archive featured commission card. In Tailwind CSS v4, `--font-size-*` in `@theme` does not generate `text-*` utilities, causing `text-overline`, `text-micro`, and `text-label` to be omitted from the compiled CSS (defaulting to 16px). Concurrently, custom `--spacing-*` tokens in `@theme` caused Tailwind to map `max-w-lg` to `--spacing-lg` (32px) and `max-w-3xl` to `--spacing-3xl` (96px), squeezing the featured project title and subtitle into narrow vertical columns that expanded upwards and overlapped the top badge. Fixed by renaming `@theme` variables to `--text-*`, adding dedicated `@utility` declarations in `utilities.css`, enforcing container widths on `max-w-*`, and upgrading `FeaturedProjectCard` to design-system `aspect-hero` (`21/9`) with a safe minimum height.
+
+## What Changed
+
+- `src/styles/tokens.css`:
+  - Renamed `@theme` typography keys from `--font-size-*` to `--text-overline: 0.625rem`, `--text-micro: 0.5625rem`, `--text-label: 0.6875rem` so Tailwind v4 recognizes them as font-size utilities.
+- `src/styles/utilities.css`:
+  - Added explicit `@utility text-overline`, `@utility text-micro`, and `@utility text-label` rules with corresponding line-heights.
+  - Added explicit container `.max-w-*` rules mapping `max-w-xs` through `max-w-4xl` to their respective `--container-*` design tokens (`!important`), preventing Tailwind v4 from overriding them with spacing tokens.
+- `src/features/projects/featured-project-card.tsx`:
+  - Updated title to `max-w-(--container-3xl)` and subtitle to `max-w-(--container-lg)`.
+  - Replaced cramped arbitrary `lg:aspect-[3/1]` with design-system `aspect-hero` (`md:aspect-[21/9]`) and safe responsive minimum heights (`min-h-[360px] sm:min-h-[420px] md:min-h-[460px]`), ensuring ample breathing room between photography, badge, and copy on all viewports.
+
+## Verification
+
+- `npm run typecheck` — exit 0
+- `npm run lint` — exit 0
+- `npm run format:check` — exit 0
+- `npm run build` — exit 0, all 34 routes compiled cleanly
+- CSS verification: confirmed `.text-overline{font-size:.625rem}`, `.text-micro{font-size:.5625rem}`, and `.max-w-lg{max-width:var(--container-lg)!important}` are present in compiled output.
+
+---
+
 # 2026-09-10 (System-wide Typography Harmonization & Micro-Scale Tokenization)
 
 ## Version

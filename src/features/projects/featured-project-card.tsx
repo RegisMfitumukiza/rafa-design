@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import type { Route } from "next";
 
@@ -35,7 +35,7 @@ export function FeaturedProjectCard({ project }: FeaturedProjectCardProps) {
       aria-label={`View featured project: ${project.title}`}
     >
       {/* Photography — fills container, parallax on hover */}
-      <div className="relative aspect-[4/3] overflow-hidden sm:aspect-[16/9] md:aspect-[21/9] lg:aspect-[3/1]">
+      <div className="relative aspect-[4/3] min-h-[360px] overflow-hidden sm:aspect-[16/9] sm:min-h-[420px] md:aspect-[21/9] md:min-h-[460px]">
         <Image
           asset={project.heroImage}
           fill
@@ -88,13 +88,13 @@ export function FeaturedProjectCard({ project }: FeaturedProjectCardProps) {
           </p>
 
           {/* Title with enhanced text shadow and design system display font */}
-          <h2 className="font-display max-w-3xl text-2xl leading-[0.95] font-medium tracking-tight text-white [text-shadow:_0_2px_16px_rgba(0,0,0,0.8),_0_4px_32px_rgba(0,0,0,0.6),_0_1px_4px_rgba(0,0,0,0.9)] sm:text-4xl md:text-5xl lg:text-6xl">
+          <h2 className="font-display max-w-(--container-3xl) text-2xl leading-[0.95] font-medium tracking-tight text-white [text-shadow:_0_2px_16px_rgba(0,0,0,0.8),_0_4px_32px_rgba(0,0,0,0.6),_0_1px_4px_rgba(0,0,0,0.9)] sm:text-4xl md:text-5xl lg:text-6xl">
             {project.title}
           </h2>
 
           {/* Subtitle — always clearly visible with editorial elegance, brightens on hover */}
           {project.subtitle && (
-            <p className="mt-xs md:mt-sm max-w-lg text-xs leading-relaxed font-light text-white/80 transition-colors duration-300 [text-shadow:_0_1px_8px_rgba(0,0,0,0.8)] group-hover:text-white sm:text-sm md:text-base">
+            <p className="mt-xs md:mt-sm max-w-(--container-lg) text-xs leading-relaxed font-light text-white/80 transition-colors duration-300 [text-shadow:_0_1px_8px_rgba(0,0,0,0.8)] group-hover:text-white sm:text-sm md:text-base">
               {project.subtitle}
             </p>
           )}
