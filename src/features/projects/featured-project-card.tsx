@@ -35,7 +35,7 @@ export function FeaturedProjectCard({ project }: FeaturedProjectCardProps) {
       aria-label={`View featured project: ${project.title}`}
     >
       {/* Photography — fills container, parallax on hover */}
-      <div className="relative aspect-[16/9] overflow-hidden md:aspect-[21/9] lg:aspect-[3/1]">
+      <div className="relative aspect-[4/3] overflow-hidden sm:aspect-[16/9] md:aspect-[21/9] lg:aspect-[3/1]">
         <Image
           asset={project.heroImage}
           fill
@@ -44,6 +44,12 @@ export function FeaturedProjectCard({ project }: FeaturedProjectCardProps) {
           priority={true}
           loading="eager"
           fetchPriority="high"
+        />
+
+        {/* Top gradient scrim — guarantees contrast for top metadata on light imagery */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-black/60 via-black/20 to-transparent"
         />
 
         {/* Gradient — bottom-heavy for title legibility, dynamically adjusted */}
@@ -55,15 +61,16 @@ export function FeaturedProjectCard({ project }: FeaturedProjectCardProps) {
           )}
         />
 
-        {/* Featured overline — top left */}
-        <div className="top-md left-md absolute z-10">
-          <p className="font-mono text-[9px] tracking-[0.2em] text-white/50 uppercase">
+        {/* Featured architectural badge — top left */}
+        <div className="top-sm left-sm sm:top-md sm:left-md absolute z-10">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-black/50 px-2.5 py-1 font-mono text-[9px] tracking-[0.2em] text-white/90 uppercase backdrop-blur-md [text-shadow:_0_1px_4px_rgba(0,0,0,0.8)]">
+            <span className="h-1.5 w-1.5 rounded-full bg-white/90" aria-hidden="true" />
             Featured Commission
-          </p>
+          </span>
         </div>
 
         {/* Title composition — bottom left */}
-        <div className="p-md md:p-xl absolute right-0 bottom-0 left-0 z-10">
+        <div className="p-sm sm:p-lg md:p-xl absolute right-0 bottom-0 left-0 z-10">
           {/* Additional backdrop for text area - dynamically adjusted */}
           <div
             aria-hidden="true"
@@ -71,7 +78,7 @@ export function FeaturedProjectCard({ project }: FeaturedProjectCardProps) {
           />
 
           {/* Metadata overline */}
-          <p className="mb-xs md:mb-sm font-mono text-[10px] tracking-widest text-white/50 uppercase [text-shadow:_0_1px_12px_rgba(0,0,0,0.9),_0_2px_4px_rgba(0,0,0,1)]">
+          <p className="mb-xs md:mb-sm font-mono text-[10px] tracking-widest text-white/60 uppercase [text-shadow:_0_1px_12px_rgba(0,0,0,0.9),_0_2px_4px_rgba(0,0,0,1)]">
             {project.year}
             {project.location && ` · ${project.location.city}, ${project.location.country}`}
             {project.typology &&
@@ -80,20 +87,20 @@ export function FeaturedProjectCard({ project }: FeaturedProjectCardProps) {
               ` · ${project.typology.join(", ")}`}
           </p>
 
-          {/* Title with enhanced text shadow */}
-          <h2 className="max-w-3xl text-3xl leading-[0.95] font-medium tracking-tight text-white [text-shadow:_0_2px_16px_rgba(0,0,0,0.8),_0_4px_32px_rgba(0,0,0,0.6),_0_1px_4px_rgba(0,0,0,0.9)] sm:text-4xl md:text-5xl lg:text-6xl">
+          {/* Title with enhanced text shadow and design system display font */}
+          <h2 className="font-display max-w-3xl text-2xl leading-[0.95] font-medium tracking-tight text-white [text-shadow:_0_2px_16px_rgba(0,0,0,0.8),_0_4px_32px_rgba(0,0,0,0.6),_0_1px_4px_rgba(0,0,0,0.9)] sm:text-4xl md:text-5xl lg:text-6xl">
             {project.title}
           </h2>
 
-          {/* Subtitle — reveals only on hover via opacity */}
+          {/* Subtitle — visible on mobile, reveals on hover on desktop */}
           {project.subtitle && (
-            <p className="mt-xs md:mt-sm max-w-lg translate-y-2 text-sm leading-relaxed font-light text-white/0 transition-all duration-700 group-hover:translate-y-0 group-hover:text-white/60">
+            <p className="mt-xs md:mt-sm line-clamp-2 max-w-lg text-xs leading-relaxed font-light text-white/70 transition-all duration-700 sm:line-clamp-none sm:translate-y-2 sm:text-sm sm:text-white/0 sm:group-hover:translate-y-0 sm:group-hover:text-white/70">
               {project.subtitle}
             </p>
           )}
 
-          {/* Architectural CTA */}
-          <p className="mt-sm font-mono text-[10px] tracking-[0.2em] text-white/0 uppercase transition-all duration-500 group-hover:text-white/50">
+          {/* Architectural CTA — visible on mobile, reveals on hover on desktop */}
+          <p className="mt-xs sm:mt-sm font-mono text-[10px] tracking-[0.2em] text-white/80 uppercase transition-all duration-500 sm:text-white/0 sm:group-hover:text-white/70">
             View Project →
           </p>
         </div>

@@ -311,13 +311,13 @@ export function ProjectsArchive({ initialProjects, categories, intro }: Projects
           {/* Row 1 — View mode switcher + search */}
           <div className="py-sm gap-sm flex flex-col justify-between sm:flex-row sm:items-center">
             {/* View mode */}
-            <div className="gap-md flex items-center font-mono text-xs">
+            <div className="gap-md scrollbar-hide flex items-center overflow-x-auto font-mono text-xs whitespace-nowrap">
               {(["grid", "list", "map"] as ViewMode[]).map((mode, i) => (
                 <button
                   key={mode}
                   onClick={() => setViewMode(mode)}
                   className={cn(
-                    "gap-xs flex items-center py-0.5 uppercase transition-colors",
+                    "gap-xs flex flex-shrink-0 items-center py-0.5 uppercase transition-colors",
                     viewMode === mode
                       ? "text-foreground font-medium"
                       : "text-foreground/40 hover:text-foreground/70",
@@ -537,7 +537,7 @@ export function ProjectsArchive({ initialProjects, categories, intro }: Projects
           </div>
 
           <div className="border-border/30 divide-border/30 divide-y overflow-x-auto border-y">
-            <table className="w-full text-left font-mono text-xs">
+            <table className="w-full min-w-[680px] text-left font-mono text-xs">
               <thead>
                 <tr className="text-foreground/35 border-border/30 border-b uppercase">
                   <th
