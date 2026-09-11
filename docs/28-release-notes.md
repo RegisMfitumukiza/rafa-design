@@ -8,6 +8,38 @@
 >
 > Unlike the Implementation Tracker, this document is historical and should never be rewritten. New entries are always added to the top.
 
+# 2026-09-11 (Team Dossier Modal — Responsive Bottom-Sheet & Scroll Fix)
+
+## Version
+
+0.16.14-alpha
+
+## Summary
+
+Fixed the Team Member Dossier modal on `/studio` which appeared "stuck" and non-scrollable when the browser viewport was sized to mobile/tablet widths (laptop dev-tools responsive mode). Three root causes were identified and resolved: (1) Missing `data-lenis-prevent` attribute — Lenis smooth-scroll was intercepting all wheel/touch events inside the overlay, making it impossible to scroll the panel content; (2) Incorrect scroll ownership — the outer `fixed inset-0` wrapper held `overflow-y-auto` while the inner panel had `overflow-hidden`, producing content that was clipped and unreachable on any viewport narrower than the full panel height; (3) No mobile UX pattern — the centred modal treated all viewports identically with no affordance for small screens.
+
+## Changes
+
+### `src/features/studio/team-member-modal.tsx`
+
+- Restructured into a **responsive adaptive layout**: bottom-sheet drawer on `< md` breakpoint, centred modal on `≥ md`
+- On mobile/tablet: panel is `fixed inset-x-0 bottom-0 max-h-[96dvh] overflow-y-auto rounded-t-xl` — the sheet itself scrolls, the backdrop remains separate
+- On desktop: `fixed inset-0 m-auto h-fit max-h-[88vh] flex-col overflow-hidden` — inner body is the only scrollable zone
+- Added `data-lenis-prevent` on the panel element to prevent Lenis hijacking scroll inside the modal
+- Added a **drag-handle pill** (mobile-only) above the header bar — the universal iOS/Android bottom-sheet affordance
+- Added `h-safe-bottom` bottom padding inside the body to clear home-indicator notch on iOS/Android
+- Removed the old single-wrapper `overflow-y-auto flex items-center` centring approach that caused the regression
+- Separated the backdrop scrim into its own sibling element (no longer inside the scroll wrapper)
+
+## Verification
+
+- `npx tsc --noEmit` — exit 0
+- `npx eslint src/features/studio/team-member-modal.tsx` — exit 0
+- Husky / lint-staged pre-commit — passed
+- Commit `f6a2aec` pushed to `origin/main`
+
+---
+
 # 2026-09-11 (Video Architecture Upgrade & Hardcoded Video Cleanup)
 
 ## Version
