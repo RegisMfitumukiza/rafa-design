@@ -90,7 +90,10 @@ export function breadcrumbSchema(
 }
 
 export function projectSchema(project: Project): Record<string, unknown> {
-  const images = [project.heroImage, ...project.gallery].map((image) => absolute(image.src));
+  const images = [project.heroImage, ...project.gallery]
+    .map((image) => ("src" in image ? image.src : image.poster?.src))
+    .filter((src): src is string => Boolean(src))
+    .map((src) => absolute(src));
 
   // Country ISO codes map
   const countryISOMap: Record<string, string> = {

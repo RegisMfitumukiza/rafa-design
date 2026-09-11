@@ -408,6 +408,19 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: "heroVideo",
+      title: "Hero Cinematic Video (Optional)",
+      type: "file",
+      group: "media",
+      options: { accept: "video/*" },
+      description:
+        "Short cinematic loop (recommended ≤ 60s, ≤ 50 MB, .mp4 / .webm). When provided, powers an ambient video loop in the monograph hero and a silent card preview on desktop hover.",
+      fields: [
+        { name: "caption", type: "string", title: "Caption" },
+        { name: "credit", type: "string", title: "Cinematographer / Credit" },
+      ],
+    }),
+    defineField({
       name: "gallery",
       title: "Gallery",
       type: "array",
@@ -443,6 +456,75 @@ export default defineType({
             },
             { name: "fullBleed", type: "boolean", title: "Full Bleed", initialValue: false },
           ],
+        },
+        {
+          type: "object",
+          name: "galleryVideo",
+          title: "Video Plate",
+          fields: [
+            {
+              name: "asset",
+              type: "file",
+              title: "Video File",
+              options: { accept: "video/*" },
+              validation: (Rule) => Rule.required(),
+            },
+            {
+              name: "poster",
+              type: "image",
+              title: "Poster Frame / Still Image",
+              options: { hotspot: true },
+              description: "Still image shown before playback or when reduced motion is preferred.",
+            },
+            {
+              name: "caption",
+              type: "string",
+              title: "Caption",
+            },
+            {
+              name: "credit",
+              type: "string",
+              title: "Credit",
+            },
+            {
+              name: "narrative",
+              type: "text",
+              title: "Editorial Narrative",
+              rows: 2,
+              description:
+                "Editorial narrative for this clip (e.g. construction timelapse, spatial walkthrough)",
+            },
+            {
+              name: "intent",
+              type: "string",
+              title: "Intent",
+              options: {
+                list: [
+                  { title: "Design Intent", value: "design-intent" },
+                  { title: "Spatial Experience", value: "spatial-experience" },
+                  { title: "Materiality", value: "materiality" },
+                  { title: "Site Relationship", value: "site-relationship" },
+                  { title: "Environmental", value: "environmental" },
+                  { title: "Construction", value: "construction" },
+                ],
+              },
+            },
+            { name: "fullBleed", type: "boolean", title: "Full Bleed", initialValue: false },
+          ],
+          preview: {
+            select: {
+              caption: "caption",
+              intent: "intent",
+              media: "poster",
+            },
+            prepare({ caption, intent, media }) {
+              return {
+                title: caption || "Video Plate",
+                subtitle: intent ? `Video • ${intent}` : "Video Plate",
+                media,
+              };
+            },
+          },
         },
       ],
     }),

@@ -61,6 +61,35 @@ export interface ChapterImage extends ImageAsset {
   fullBleed?: boolean;
 }
 
+export interface ProjectHeroVideo {
+  /** Video file URL hosted on Sanity CDN or external source */
+  url: string;
+  /** Optional caption describing the video footage */
+  caption?: string;
+  /** Optional cinematographer or visualizer credit */
+  credit?: string;
+}
+
+export interface ProjectGalleryVideo {
+  type: "video";
+  /** Video file URL */
+  url: string;
+  /** High-resolution poster frame / still image */
+  poster?: ImageAsset;
+  /** Caption displayed under plate */
+  caption?: string;
+  /** Videographer or drone operator credit */
+  credit?: string;
+  /** 1–3 sentence editorial narrative */
+  narrative?: string;
+  /** Architectural story intent (e.g. spatial-experience, construction) */
+  intent?: ChapterIntent;
+  /** If true, renders edge-to-edge as a cinematic moment */
+  fullBleed?: boolean;
+}
+
+export type ProjectGalleryMedia = (ChapterImage & { type?: "image" }) | ProjectGalleryVideo;
+
 export interface ProjectChapter {
   /** Optional chapter heading — rendered as a small overline label */
   heading?: string;
@@ -170,7 +199,8 @@ export interface Project {
 
   // Media
   heroImage: ImageAsset;
-  gallery: ImageAsset[];
+  heroVideo?: ProjectHeroVideo;
+  gallery: (ChapterImage | ProjectGalleryVideo)[];
   drawings?: ProjectDrawing[];
   beforeAfter?: BeforeAfterImage;
 

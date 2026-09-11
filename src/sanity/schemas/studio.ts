@@ -196,6 +196,27 @@ export default defineType({
     }),
 
     defineField({
+      name: "atelierVideo",
+      title: "Studio Atelier Film / Practice Video (Optional)",
+      type: "file",
+      group: "media",
+      options: { accept: "video/*" },
+      description:
+        "Cinematic film depicting studio culture, design practice, model making, or atelier atmosphere (recommended ≤ 3 min, ≤ 100MB, .mp4 / .webm). Displayed as a monograph film section on the Studio page.",
+      fields: [
+        {
+          name: "poster",
+          type: "image",
+          title: "Poster Frame / Still Image",
+          options: { hotspot: true },
+          description: "High-resolution still frame displayed before playback.",
+        },
+        { name: "caption", type: "string", title: "Caption" },
+        { name: "credit", type: "string", title: "Cinematographer / Director Credit" },
+      ],
+    }),
+
+    defineField({
       name: "images",
       title: "Studio Images",
       type: "array",

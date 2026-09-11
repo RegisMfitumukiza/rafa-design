@@ -8,6 +8,63 @@
 >
 > Unlike the Implementation Tracker, this document is historical and should never be rewritten. New entries are always added to the top.
 
+# 2026-09-11 (Video Architecture Upgrade & Hardcoded Video Cleanup)
+
+## Version
+
+0.16.13-alpha
+
+## Summary
+
+Removed static hardcoded intro video asset (`public/videos/rafa-video.mp4` and `introVideo` in `site.ts`) from the repository. Implemented complete industrial, dynamic video upload infrastructure across Sanity CMS and the frontend: (1) Project monograph hero video upload with desktop card hover video preview loops on `ProjectCard` and `FeaturedProjectCard`; (2) Ambient monograph hero video layer in `ProjectHeroParallax` with accessible play/pause & mute controls and cinematography credit; (3) Project gallery mixed-media support for `galleryVideo` plates with poster frames, narrative, intent tags, full-bleed presentation, and `ProjectLightbox` video playback; (4) Studio atelier film (`atelierVideo`) in Sanity schema + dedicated `StudioFilm` component on `/studio`; (5) Journal Portable Text video block upgraded with direct file upload alongside URL embeds.
+
+## What Changed
+
+- Deleted `public/videos/rafa-video.mp4` (removed ~4MB static binary).
+- `src/config/site.ts`: Removed `introVideo` property.
+- `src/sanity/schemas/project.ts`:
+  - Added `heroVideo` file field to group `04 // Photography & Media`.
+  - Updated `gallery` array schema with `galleryVideo` object type (video file asset, poster image, caption, credit, narrative, intent, fullBleed).
+- `src/sanity/schemas/studio.ts`:
+  - Added `atelierVideo` file field to group `03 // Media` with poster frame, caption, and cinematography credit.
+- `src/sanity/schemas/journal.ts`:
+  - Added `videoFile` file upload field to the Portable Text video block; customized validation so either an uploaded video file or an external URL satisfies the block.
+- `src/sanity/lib/queries.ts`:
+  - Added `videoProjection` and `galleryMediaProjection`.
+  - Updated `projectsQuery`, `projectBySlugQuery`, and `projectsBySlugQuery` to project `heroVideo` and mixed gallery plates.
+  - Updated `studioQuery` to project `atelierVideo`.
+  - Updated `articleBySlugQuery` to project uploaded `videoFile.asset`.
+- `src/sanity/lib/transforms.ts`:
+  - Updated `transformSanityProject` to map `heroVideo` and mixed gallery items (images or video plates).
+  - Updated `transformSanityStudio` to map `atelierVideo`.
+- `src/content/projects/index.ts`:
+  - Added `ProjectHeroVideo`, `ProjectGalleryVideo`, `ProjectGalleryMedia` types.
+  - Updated `Project` interface with `heroVideo?: ProjectHeroVideo` and `gallery: (ChapterImage | ProjectGalleryVideo)[]`.
+- `src/content/studio/index.ts`:
+  - Added `StudioVideo` interface and `atelierVideo?: StudioVideo` to `Studio`.
+- `src/features/projects/project-card.tsx`:
+  - Converted to `"use client"`. Added silent desktop hover video preview loop with smooth opacity cross-fade when `project.heroVideo` exists.
+- `src/features/projects/featured-project-card.tsx`:
+  - Added desktop hover video preview loop with smooth cross-fade.
+- `src/features/projects/project-hero-parallax.tsx`:
+  - Renders ambient video loop in parallax hero layer with poster fallback. Added accessible PLAY/PAUSE and SOUND ON/MUTED controls + cinematography credit.
+- `src/app/(site)/projects/[slug]/page.tsx`:
+  - Passed `heroVideo={project.heroVideo}` to `ProjectHeroParallax`.
+- `src/features/projects/project-gallery.tsx`:
+  - Added rendering for `ProjectGalleryVideo` plates in both full-bleed and standard column layouts with intent tags, narrative, caption, and credit.
+- `src/features/projects/project-lightbox.tsx`:
+  - Discriminated video items in lightbox and rendered `<video>` with native controls and autoplay.
+- `src/features/studio/studio-film.tsx`:
+  - New component rendering the optional Atelier Film monograph essay with poster frame, custom layout, caption, and credit.
+- `src/app/(site)/studio/page.tsx`:
+  - Rendered `StudioFilm` section when `studio.atelierVideo` is uploaded.
+- `src/components/journal/portable-text.tsx`:
+  - Upgraded `VideoBlock` to render native `<video>` tag for direct uploaded Sanity CDN video files.
+- `src/config/schema.ts` & `src/app/(site)/services/[slug]/page.tsx`:
+  - Updated image extraction to safely narrow and handle video posters.
+
+---
+
 # 2026-09-10 (Mobile Project Card Typology Fix)
 
 ## Version

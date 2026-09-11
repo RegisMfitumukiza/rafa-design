@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 
 import { Section } from "@/components/layout/Section";
 import { Image } from "@/components/media/Image";
@@ -9,6 +9,7 @@ import { ui } from "@/content/ui";
 import { Awards } from "@/features/studio/awards";
 import { Beliefs } from "@/features/studio/beliefs";
 import { Partners } from "@/features/studio/partners";
+import { StudioFilm } from "@/features/studio/studio-film";
 import { StudioHero } from "@/features/studio/studio-hero";
 import { TeamGrid } from "@/features/studio/team-grid";
 import { Timeline } from "@/features/studio/timeline";
@@ -93,6 +94,9 @@ export default async function StudioPage() {
           )}
         </Section>
       )}
+
+      {/* 4 — Atelier Film / Practice Video (Optional) */}
+      {studio.atelierVideo && <StudioFilm video={studio.atelierVideo} />}
 
       {/* 5 — Team */}
       <TeamGrid members={team} />

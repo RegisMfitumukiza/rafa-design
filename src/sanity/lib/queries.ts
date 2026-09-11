@@ -26,6 +26,16 @@ export const imageProjection = `
   credit
 `;
 
+// Video projection for file assets
+export const videoProjection = `
+  asset->{
+    _id,
+    url
+  },
+  caption,
+  credit
+`;
+
 // Chapter image projection (extends base with narrative and intent)
 export const chapterImageProjection = `
   asset,
@@ -34,6 +44,29 @@ export const chapterImageProjection = `
   narrative,
   intent,
   fullBleed
+`;
+
+// Mixed gallery media projection (handles both images and video plates)
+export const galleryMediaProjection = `
+  _type,
+  _key,
+  _type == "galleryVideo" => {
+    asset->{
+      _id,
+      url
+    },
+    poster {
+      ${imageProjection}
+    },
+    caption,
+    credit,
+    narrative,
+    intent,
+    fullBleed
+  },
+  _type != "galleryVideo" => {
+    ${chapterImageProjection}
+  }
 `;
 
 // Base SEO projection
@@ -70,6 +103,9 @@ export const projectsQuery = `
     services,
     heroImage {
       ${imageProjection}
+    },
+    heroVideo {
+      ${videoProjection}
     }
   }
 `;
@@ -113,8 +149,11 @@ export const projectBySlugQuery = `
     heroImage {
       ${imageProjection}
     },
+    heroVideo {
+      ${videoProjection}
+    },
     gallery[] {
-      ${chapterImageProjection}
+      ${galleryMediaProjection}
     },
     drawings[] {
       image,
@@ -175,8 +214,11 @@ export const projectsBySlugQuery = `
     heroImage {
       ${imageProjection}
     },
+    heroVideo {
+      ${videoProjection}
+    },
     gallery[] {
-      ${chapterImageProjection}
+      ${galleryMediaProjection}
     }
   }
 `;
@@ -253,6 +295,15 @@ export const articleBySlugQuery = `
           location,
           heroImage {
             ${imageProjection}
+          }
+        }
+      },
+      _type == "video" => {
+        ...,
+        videoFile {
+          asset->{
+            _id,
+            url
           }
         }
       }
@@ -487,6 +538,17 @@ export const studioQuery = `
     history,
     atelierImage {
       ${imageProjection}
+    },
+    atelierVideo {
+      asset->{
+        _id,
+        url
+      },
+      poster {
+        ${imageProjection}
+      },
+      caption,
+      credit
     },
     images[] {
       asset->{

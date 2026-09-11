@@ -266,11 +266,18 @@ export default defineType({
           title: "Video",
           fields: [
             {
+              name: "videoFile",
+              type: "file",
+              title: "Upload Video File",
+              description:
+                "Upload .mp4 / .webm file directly to Sanity CDN (recommended for loops and short architectural documentaries)",
+              options: { accept: "video/*" },
+            },
+            {
               name: "url",
               type: "url",
               title: "Video URL",
-              description: "YouTube, Vimeo, or direct video URL",
-              validation: (Rule) => Rule.required(),
+              description: "Alternative: YouTube, Vimeo, or direct video URL",
             },
             {
               name: "caption",
@@ -283,14 +290,22 @@ export default defineType({
               title: "Credit",
             },
           ],
+          validation: (Rule) =>
+            Rule.custom((fields?: { videoFile?: unknown; url?: string }) => {
+              if (!fields?.videoFile && !fields?.url) {
+                return "Either upload a video file or provide a video URL.";
+              }
+              return true;
+            }),
           preview: {
             select: {
               url: "url",
+              hasFile: "videoFile.asset._ref",
             },
-            prepare({ url }) {
+            prepare({ url, hasFile }) {
               return {
                 title: "Video",
-                subtitle: url,
+                subtitle: hasFile ? "Uploaded Video File" : url || "No video specified",
               };
             },
           },

@@ -1,16 +1,17 @@
-﻿"use client";
+"use client";
 
 import { gsap } from "gsap";
 import { useCallback, useEffect, useLayoutEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 
 import { Image } from "@/components/media/Image";
+import type { ChapterImage, ProjectGalleryVideo } from "@/content/projects";
 import type { ImageAsset } from "@/content/types";
 import { cn } from "@/lib/cn";
 import { useReducedMotion } from "@/motion";
 
 interface ProjectLightboxProps {
-  images: ImageAsset[];
+  images: (ImageAsset | ChapterImage | ProjectGalleryVideo)[];
   currentIndex: number;
   onClose: () => void;
   onNavigate: (index: number) => void;
@@ -117,19 +118,30 @@ export function ProjectLightbox({
         </button>
       </div>
 
-      {/* Image container */}
+      {/* Image / Video container */}
       <div
         ref={imageRef}
         className="p-md relative flex flex-1 items-center justify-center"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="relative mx-auto h-full w-full max-w-6xl">
-          <Image
-            asset={image}
-            className="h-full w-full object-contain"
-            sizes="(max-width: 768px) 100vw, 90vw"
-            priority
-          />
+          {"url" in image ? (
+            <video
+              src={image.url}
+              poster={image.poster?.src}
+              controls
+              autoPlay
+              playsInline
+              className="h-full w-full object-contain"
+            />
+          ) : (
+            <Image
+              asset={image}
+              className="h-full w-full object-contain"
+              sizes="(max-width: 768px) 100vw, 90vw"
+              priority
+            />
+          )}
         </div>
       </div>
 

@@ -12,5 +12,4 @@ export const siteConfig = {
     "residential architecture",
     "spatial design",
   ],
-  introVideo: "/videos/rafa-video.mp4",
 } as const;

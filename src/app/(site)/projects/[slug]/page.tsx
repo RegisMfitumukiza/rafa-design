@@ -94,6 +94,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
       {/* ─── [1+2] CINEMATIC HERO PARALLAX — title merged with photography ─── */}
       <ProjectHeroParallax
         heroImage={project.heroImage}
+        heroVideo={project.heroVideo}
         title={project.title}
         subtitle={project.subtitle}
         year={project.year}

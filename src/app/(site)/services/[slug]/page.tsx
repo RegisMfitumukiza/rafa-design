@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { Section } from "@/components/layout/Section";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema, serviceSchema } from "@/config/schema";
-import type { Project } from "@/content/projects";
+import type { ChapterImage, Project } from "@/content/projects";
 import { getRelatedServicesForService } from "@/content/services";
 import { DisciplineApproach } from "@/features/services/discipline-approach";
 import { DisciplineCta } from "@/features/services/discipline-cta";
@@ -69,12 +69,12 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
 
   const narrativeImages = selectedProjects
     .flatMap((project: Project) => project.gallery)
-    .filter((img: Project["gallery"][number]) => {
-      const ci = img as { intent?: string; caption?: string; narrative?: string };
+    .filter((img): img is ChapterImage => "src" in img && !("type" in img && img.type === "video"))
+    .filter((img: ChapterImage) => {
       // Must match a discipline intent (or accept all if intents empty)
-      const intentMatch = intents.size === 0 || (ci.intent && intents.has(ci.intent as never));
+      const intentMatch = intents.size === 0 || (img.intent && intents.has(img.intent as never));
       // Must have at least a caption or narrative to be editorially useful
-      const hasText = Boolean(ci.caption ?? ci.narrative);
+      const hasText = Boolean(img.caption ?? img.narrative);
       // No duplicates
       const isNew = !seenSrcs.has(img.src);
       if (intentMatch && hasText && isNew) {
@@ -84,7 +84,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
       return false;
     })
     .slice(0, 5)
-    .map((img: Project["gallery"][number]) => {
+    .map((img: ChapterImage) => {
       const ci = img as { caption?: string; narrative?: string };
       return {
         image: img,

@@ -21,27 +21,32 @@ import type { ProcessPageContent, ProcessStep } from "@/content/process";
 import type {
   BeforeAfterImage,
   ChapterIntent,
+  ChapterImage,
   Project,
   ProjectAward,
   ProjectChapter,
   ProjectCoordinates,
   ProjectDrawing,
+  ProjectGalleryVideo,
+  ProjectHeroVideo,
   ProjectMaterial,
   ProjectSEO,
   ProjectTeam,
 } from "@/content/projects";
 import type { Service, ServiceApproach } from "@/content/services";
 import type { SiteSettings } from "@/content/siteSettings";
-import type { Award, ClientSector, Studio, TeamMember, TimelineEvent } from "@/content/studio";
+import type {
+  Award,
+  ClientSector,
+  Studio,
+  StudioVideo,
+  TeamMember,
+  TimelineEvent,
+} from "@/content/studio";
 import type { SustainabilityContent } from "@/content/sustainability";
 import type { ImageAsset, Location, SocialLink } from "@/content/types";
 
-import {
-  sanityImageToAsset,
-  sanityImageToChapterImage,
-  sanityImagesToChapterImages,
-  type SanityRawImage,
-} from "./image";
+import { sanityImageToAsset, sanityImageToChapterImage, type SanityRawImage } from "./image";
 
 interface SanityRawProject {
   slug?: { current?: string };
@@ -61,7 +66,12 @@ interface SanityRawProject {
   story?: string;
   services?: string[];
   heroImage?: SanityRawImage;
-  gallery?: SanityRawImage[];
+  heroVideo?: {
+    asset?: { _id?: string; url?: string };
+    caption?: string;
+    credit?: string;
+  };
+  gallery?: (SanityRawImage | Record<string, unknown>)[];
   chapters?: Array<{ heading?: string; body?: string; image?: SanityRawImage }>;
   materialNarrative?: Array<{ name?: string; rationale?: string }>;
   lightStrategy?: string;
@@ -102,8 +112,39 @@ export function transformSanityProject(sanityProject: SanityRawProject): Project
     return null; // Return null instead of throwing, will be filtered out
   }
 
-  // Transform gallery images (can include ChapterImage metadata)
-  const gallery = sanityImagesToChapterImages(sanityProject.gallery || []);
+  // Transform hero video if present
+  const heroVideo: ProjectHeroVideo | undefined = sanityProject.heroVideo?.asset?.url
+    ? {
+        url: sanityProject.heroVideo.asset.url,
+        ...(sanityProject.heroVideo.caption ? { caption: sanityProject.heroVideo.caption } : {}),
+        ...(sanityProject.heroVideo.credit ? { credit: sanityProject.heroVideo.credit } : {}),
+      }
+    : undefined;
+
+  // Transform gallery items (can include ChapterImage or ProjectGalleryVideo)
+  const gallery: (ChapterImage | ProjectGalleryVideo)[] = (sanityProject.gallery || [])
+    .map((item) => {
+      const raw = item as Record<string, unknown>;
+      if (raw?._type === "galleryVideo" && (raw.asset as { url?: string })?.url) {
+        const videoAsset = raw.asset as { url: string };
+        const posterAsset = raw.poster
+          ? sanityImageToAsset(raw.poster as SanityRawImage)
+          : undefined;
+        const videoPlate: ProjectGalleryVideo = {
+          type: "video",
+          url: videoAsset.url,
+          ...(posterAsset ? { poster: posterAsset } : {}),
+          ...(typeof raw.caption === "string" ? { caption: raw.caption } : {}),
+          ...(typeof raw.credit === "string" ? { credit: raw.credit } : {}),
+          ...(typeof raw.narrative === "string" ? { narrative: raw.narrative } : {}),
+          ...(typeof raw.intent === "string" ? { intent: raw.intent as ChapterIntent } : {}),
+          ...(typeof raw.fullBleed === "boolean" ? { fullBleed: raw.fullBleed } : {}),
+        };
+        return videoPlate;
+      }
+      return sanityImageToChapterImage(item as SanityRawImage);
+    })
+    .filter((g): g is ChapterImage | ProjectGalleryVideo => g !== null);
 
   // Transform drawings if present
   const drawings = sanityProject.drawings
@@ -203,6 +244,7 @@ export function transformSanityProject(sanityProject: SanityRawProject): Project
     ...(team ? { team } : {}),
     ...(awards && awards.length > 0 ? { awards } : {}),
     ...(seo ? { seo } : {}),
+    ...(heroVideo ? { heroVideo } : {}),
   };
 
   return project;
@@ -754,6 +796,12 @@ export interface SanityRawStudio {
   workingMethods?: Array<{ code?: string; title?: string; description?: string }>;
   history?: string;
   atelierImage?: SanityRawImage;
+  atelierVideo?: {
+    asset?: { _id?: string; url?: string };
+    poster?: SanityRawImage;
+    caption?: string;
+    credit?: string;
+  };
   images?: SanityRawImage[];
   visit?: { overline?: string; heading?: string; body?: string; visits?: string };
   timeline?: Array<{ year?: number; title?: string; description?: string }>;
@@ -783,6 +831,21 @@ export function transformSanityStudio(sanityStudio: SanityRawStudio): Studio | n
   if (!sanityStudio?._id) return null;
 
   const atelierImage = sanityImageToAsset(sanityStudio.atelierImage) ?? undefined;
+  const atelierVideoPoster = sanityStudio.atelierVideo?.poster
+    ? (sanityImageToAsset(sanityStudio.atelierVideo.poster) ?? undefined)
+    : undefined;
+
+  const atelierVideo: StudioVideo | undefined = sanityStudio.atelierVideo?.asset?.url
+    ? {
+        url: sanityStudio.atelierVideo.asset.url,
+        ...(atelierVideoPoster ? { poster: atelierVideoPoster } : {}),
+        ...(sanityStudio.atelierVideo.caption
+          ? { caption: sanityStudio.atelierVideo.caption }
+          : {}),
+        ...(sanityStudio.atelierVideo.credit ? { credit: sanityStudio.atelierVideo.credit } : {}),
+      }
+    : undefined;
+
   const images = (sanityStudio.images || [])
     .map(sanityImageToAsset)
     .filter((img): img is ImageAsset => img !== null);
@@ -808,6 +871,7 @@ export function transformSanityStudio(sanityStudio: SanityRawStudio): Studio | n
       description: method.description || "",
     })),
     ...(atelierImage ? { atelierImage } : {}),
+    ...(atelierVideo ? { atelierVideo } : {}),
     images: images.length > 0 ? images : [fallbackImage],
     visit: {
       overline: sanityStudio.visit?.overline || "",

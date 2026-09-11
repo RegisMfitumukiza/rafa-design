@@ -3,6 +3,7 @@
 import type { Route } from "next";
 
 import Link from "next/link";
+import { useRef, useState } from "react";
 
 import { Image } from "@/components/media/Image";
 import type { Project } from "@/content/projects";
@@ -27,12 +28,31 @@ export function FeaturedProjectCard({ project }: FeaturedProjectCardProps) {
   const imageUrl = project.heroImage?.src;
   const { brightness } = useImageBrightness(imageUrl);
   const overlayClasses = getOverlayOpacity(brightness);
+  const [isHovered, setIsHovered] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+    if (videoRef.current) {
+      videoRef.current.currentTime = 0;
+      videoRef.current.play().catch(() => {});
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    if (videoRef.current) {
+      videoRef.current.pause();
+    }
+  };
 
   return (
     <Link
       href={`/projects/${project.slug}` as Route}
       className="group relative block w-full overflow-hidden"
       aria-label={`View featured project: ${project.title}`}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       {/* Photography — fills container, parallax on hover */}
       <div className="relative aspect-[4/3] min-h-[360px] overflow-hidden sm:aspect-[16/9] sm:min-h-[420px] md:aspect-[21/9] md:min-h-[460px]">
@@ -45,6 +65,23 @@ export function FeaturedProjectCard({ project }: FeaturedProjectCardProps) {
           loading="eager"
           fetchPriority="high"
         />
+
+        {/* Cinematic hover video preview (desktop only) */}
+        {project.heroVideo?.url && (
+          <video
+            ref={videoRef}
+            src={project.heroVideo.url}
+            muted
+            loop
+            playsInline
+            preload="none"
+            aria-hidden="true"
+            className={cn(
+              "pointer-events-none absolute inset-0 hidden h-full w-full object-cover transition-opacity duration-700 ease-out md:block",
+              isHovered ? "opacity-100" : "opacity-0",
+            )}
+          />
+        )}
 
         {/* Top gradient scrim — guarantees contrast for top metadata on light imagery */}
         <div

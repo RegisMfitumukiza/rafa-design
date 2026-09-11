@@ -904,6 +904,8 @@ Use this section to record architectural decisions, blockers, or implementation 
 
 **2026-09-10:** Fixed project card typology truncation on real mobile phones. Removed `truncate` + mobile status badge from top metadata overline — typology now spans full card width. Moved `● STATUS · AREA M²` into the bottom mobile spec ledger. Commit `f5d8c65`.
 
+**2026-09-11:** Video Architecture Upgrade & Hardcoded Asset Removal. Removed static `public/videos/rafa-video.mp4` and `introVideo` from `site.ts`. Implemented native Sanity file-upload video infrastructure: (1) `project` schema `heroVideo` field + desktop card hover video preview on `ProjectCard` and `FeaturedProjectCard` with seamless opacity cross-fade; (2) `ProjectHeroParallax` ambient video loop with accessible play/pause & mute controls and cinematography credit; (3) `project` schema mixed `gallery` supporting `galleryVideo` plates with poster frames, narrative, intent tags, full-bleed presentation, and `ProjectLightbox` video playback; (4) `studio` schema `atelierVideo` field + dedicated `StudioFilm` component on `/studio`; (5) `journal` schema video block upgraded with direct file upload alongside URL embed. Verified with TypeScript, ESLint, and production build (34 routes).
+
 ---
 
 # Definition of Complete

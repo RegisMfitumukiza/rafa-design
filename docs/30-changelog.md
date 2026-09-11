@@ -64,7 +64,7 @@ Documentation updates.
 
 # [Unreleased]
 
-## Changed
+- Video architecture upgrade & static binary cleanup (2026-09-11) — deleted unused hardcoded intro video `public/videos/rafa-video.mp4` (~4MB) and removed `introVideo` from `src/config/site.ts`. Built native Sanity file-upload video infrastructure: added `heroVideo` file field to `project` schema, enabling silent desktop hover video preview loops on `ProjectCard` and `FeaturedProjectCard` with seamless opacity cross-fade; upgraded `ProjectHeroParallax` with ambient cinematic video playback, accessible PLAY/PAUSE and SOUND ON/MUTED controls, and cinematography credits; upgraded `project` gallery with `galleryVideo` object type supporting poster frames, editorial narratives, architectural intent tags, and `ProjectLightbox` video playback; added `atelierVideo` field to `studio` schema with dedicated `StudioFilm` component on `/studio`; upgraded `journal` Portable Text video block to support direct video file uploads to Sanity CDN alongside existing external embeds.
 
 - Mobile project card typology truncation fix (2026-09-10) — on real 360–390px phones, the typology metadata label (`ADAPTIVE REUSE`, `RESIDENTIAL`, etc.) was being clipped to `ADAPT...` because the top overline row tried to share space with the `● COMPLETED` status badge. Removed `truncate` and the `justify-between` flex layout from the overline row so typology text spans the full card width and wraps naturally. Relocated the `● STATUS` badge and `AREA M²` figure into the bottom mobile spec ledger (left column), keeping `Explore Monograph →` on the right — `f5d8c65`.
 

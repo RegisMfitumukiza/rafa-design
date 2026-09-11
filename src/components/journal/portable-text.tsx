@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Portable Text Components
  *
  * Custom React components for rendering Sanity portable text content blocks.
@@ -43,6 +43,12 @@ interface PullQuoteBlockValue {
 
 interface VideoBlockValue {
   url?: string;
+  videoFile?: {
+    asset?: {
+      url?: string;
+      [key: string]: unknown;
+    };
+  };
   caption?: string;
   credit?: string;
   [key: string]: unknown;
@@ -175,7 +181,30 @@ function PullQuoteBlock({ value }: { value: PullQuoteBlockValue }) {
  * Video Block Component
  */
 function VideoBlock({ value }: { value: VideoBlockValue }) {
-  if (!value?.url) return null;
+  const directFileUrl = value?.videoFile?.asset?.url;
+  const rawUrl = directFileUrl || value?.url;
+  if (!rawUrl) return null;
+
+  // Direct uploaded file to Sanity CDN
+  if (directFileUrl) {
+    return (
+      <figure className="my-2xl">
+        <div className="relative aspect-video overflow-hidden rounded-sm bg-black">
+          <video src={directFileUrl} controls playsInline className="h-full w-full object-cover" />
+        </div>
+        {(value.caption || value.credit) && (
+          <figcaption className="text-foreground/50 mt-sm flex items-baseline justify-between text-xs">
+            {value.caption && <span>{value.caption}</span>}
+            {value.credit && (
+              <span className="text-foreground/35 text-overline font-mono tracking-widest uppercase">
+                {value.credit}
+              </span>
+            )}
+          </figcaption>
+        )}
+      </figure>
+    );
+  }
 
   const getEmbedUrl = (url: string) => {
     if (url.includes("youtube.com") || url.includes("youtu.be")) {
@@ -191,16 +220,16 @@ function VideoBlock({ value }: { value: VideoBlockValue }) {
     return url;
   };
 
-  const embedUrl = getEmbedUrl(value.url);
+  const embedUrl = getEmbedUrl(rawUrl);
   if (!embedUrl) return null;
 
   const isDirectVideo = !embedUrl.includes("youtube.com") && !embedUrl.includes("vimeo.com");
 
   return (
     <figure className="my-2xl">
-      <div className="relative aspect-video overflow-hidden bg-black">
+      <div className="relative aspect-video overflow-hidden rounded-sm bg-black">
         {isDirectVideo ? (
-          <video src={embedUrl} controls className="h-full w-full" />
+          <video src={embedUrl} controls playsInline className="h-full w-full" />
         ) : (
           <iframe
             src={embedUrl}

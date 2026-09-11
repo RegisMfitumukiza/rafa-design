@@ -62,6 +62,17 @@ export interface ClientSector {
   clients?: string[];
 }
 
+export interface StudioVideo {
+  /** Video file URL */
+  url: string;
+  /** High-resolution poster frame */
+  poster?: ImageAsset;
+  /** Caption describing the film */
+  caption?: string;
+  /** Cinematographer or director credit */
+  credit?: string;
+}
+
 export interface Studio {
   name: string;
   overline: string;
@@ -72,6 +83,7 @@ export interface Studio {
   workingMethods: WorkingMethod[];
   history?: string;
   atelierImage?: ImageAsset;
+  atelierVideo?: StudioVideo;
   images: ImageAsset[];
   visit: {
     overline: string;

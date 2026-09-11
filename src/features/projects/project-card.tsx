@@ -1,6 +1,9 @@
+"use client";
+
 import type { Route } from "next";
 
 import Link from "next/link";
+import { useRef, useState } from "react";
 
 import { Image } from "@/components/media/Image";
 import { Heading } from "@/components/typography/Heading";
@@ -27,10 +30,30 @@ export function ProjectCard({
   contentClassName,
   className,
 }: ProjectCardProps) {
+  const [isHovered, setIsHovered] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+    if (videoRef.current) {
+      videoRef.current.currentTime = 0;
+      videoRef.current.play().catch(() => {});
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    if (videoRef.current) {
+      videoRef.current.pause();
+    }
+  };
+
   return (
     <Link
       href={`/projects/${project.slug}` as Route}
       className={cn("group block min-w-0 overflow-hidden", className)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <Card variant={variant} className="min-w-0 overflow-hidden">
         <Card.Image>
@@ -42,6 +65,23 @@ export function ProjectCard({
               imgClassName="transition-transform duration-700 ease-out motion-safe:group-hover:scale-[1.04]"
               sizes="(max-width: 48rem) 100vw, (max-width: 64rem) 50vw, 33vw"
             />
+
+            {/* Cinematic hover video preview (desktop only) */}
+            {project.heroVideo?.url && (
+              <video
+                ref={videoRef}
+                src={project.heroVideo.url}
+                muted
+                loop
+                playsInline
+                preload="none"
+                aria-hidden="true"
+                className={cn(
+                  "pointer-events-none absolute inset-0 hidden h-full w-full object-cover transition-opacity duration-700 ease-out md:block",
+                  isHovered ? "opacity-100" : "opacity-0",
+                )}
+              />
+            )}
 
             {/* ── Hover metadata overlay — slides up from bottom with architectural specs (desktop) ────────────── */}
             <div

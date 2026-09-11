@@ -1,14 +1,17 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
+import { useRef, useState } from "react";
 
 import { Image } from "@/components/media/Image";
+import type { ProjectHeroVideo } from "@/content/projects";
 import type { ImageAsset } from "@/content/types";
 import { cn } from "@/lib/cn";
 import { Parallax } from "@/motion";
 
 interface ProjectHeroParallaxProps {
   heroImage: ImageAsset;
+  heroVideo?: ProjectHeroVideo | undefined;
   title: string;
   subtitle?: string | undefined;
   year: number;
@@ -25,12 +28,12 @@ interface ProjectHeroParallaxProps {
  * A full-viewport cinematic opening composition for the project detail page.
  * Merges the project title + hero photography into one monumental opening frame.
  *
- * The hero image scrolls at a reduced speed via the Parallax motion component,
- * creating physical depth and cinematic weight. The title is anchored to the
- * bottom-left of the viewport with a gradient underlay for legibility.
+ * When heroVideo is uploaded, it plays an ambient loop in the parallax layer,
+ * backed by the heroImage for instant first paint and low-bandwidth resilience.
  */
 export function ProjectHeroParallax({
   heroImage,
+  heroVideo,
   title,
   subtitle,
   year,
@@ -40,6 +43,27 @@ export function ProjectHeroParallax({
   photographerCredit,
   className,
 }: ProjectHeroParallaxProps) {
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [isMuted, setIsMuted] = useState(true);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const togglePlay = () => {
+    if (!videoRef.current) return;
+    if (isPlaying) {
+      videoRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      videoRef.current.play().catch(() => {});
+      setIsPlaying(true);
+    }
+  };
+
+  const toggleMute = () => {
+    if (!videoRef.current) return;
+    videoRef.current.muted = !isMuted;
+    setIsMuted(!isMuted);
+  };
+
   return (
     <div
       className={cn(
@@ -47,18 +71,32 @@ export function ProjectHeroParallax({
         className,
       )}
     >
-      {/* Parallax image layer — scales up and scrolls slower to create depth */}
+      {/* Parallax layer — photo or cinematic ambient video */}
       <Parallax className="absolute inset-0 h-full w-full" speed={0.15}>
-        <Image
-          asset={heroImage}
-          fill
-          className="h-full w-full object-cover"
-          imgClassName="object-cover w-full h-full"
-          sizes="100vw"
-          priority
-          loading="eager"
-          fetchPriority="high"
-        />
+        <div className="relative h-full w-full">
+          <Image
+            asset={heroImage}
+            fill
+            className="h-full w-full object-cover"
+            imgClassName="object-cover w-full h-full"
+            sizes="100vw"
+            priority
+            loading="eager"
+            fetchPriority="high"
+          />
+          {heroVideo?.url && (
+            <video
+              ref={videoRef}
+              src={heroVideo.url}
+              autoPlay
+              muted
+              loop
+              playsInline
+              poster={heroImage.src}
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+          )}
+        </div>
       </Parallax>
 
       {/* Top gradient scrim — guarantees contrast for breadcrumb & top bar */}
@@ -120,21 +158,46 @@ export function ProjectHeroParallax({
             </p>
           )}
 
-          {/* Photographer credit — inline on mobile */}
-          {photographerCredit && (
+          {/* Photographer / film credit — inline on mobile */}
+          {(heroVideo?.credit || photographerCredit) && (
             <p className="mt-xs text-micro font-mono tracking-widest text-white/45 uppercase md:hidden">
-              Photography: {photographerCredit}
+              {heroVideo?.credit
+                ? `Film: ${heroVideo.credit}`
+                : `Photography: ${photographerCredit}`}
             </p>
           )}
         </div>
       </div>
 
-      {/* Photographer credit — bottom right on desktop */}
-      {photographerCredit && (
-        <p className="bottom-md text-overline absolute right-[var(--container-gutter)] z-10 hidden font-mono tracking-widest text-white/40 uppercase md:block">
-          Photography: {photographerCredit}
-        </p>
-      )}
+      {/* Media controls & credit — bottom right on desktop */}
+      <div className="bottom-md absolute right-[var(--container-gutter)] z-20 hidden items-center gap-4 md:flex">
+        {heroVideo?.url && (
+          <div className="text-micro flex items-center gap-2 rounded-full border border-white/15 bg-black/40 px-3 py-1 font-mono tracking-widest text-white/70 uppercase backdrop-blur-md">
+            <button
+              type="button"
+              onClick={togglePlay}
+              className="transition-colors hover:text-white"
+              aria-label={isPlaying ? "Pause cinematic reel" : "Play cinematic reel"}
+            >
+              {isPlaying ? "PAUSE" : "PLAY"}
+            </button>
+            <span className="text-white/20">|</span>
+            <button
+              type="button"
+              onClick={toggleMute}
+              className="transition-colors hover:text-white"
+              aria-label={isMuted ? "Unmute sound" : "Mute sound"}
+            >
+              {isMuted ? "SOUND ON" : "MUTED"}
+            </button>
+          </div>
+        )}
+        {(heroVideo?.credit || photographerCredit) && (
+          <p className="text-overline font-mono tracking-widest text-white/40 uppercase">
+            {heroVideo?.credit ? `Film: ${heroVideo.credit}` : `Photography: ${photographerCredit}`}
+          </p>
+        )}
+      </div>
     </div>
   );
 }
