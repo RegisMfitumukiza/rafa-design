@@ -8,6 +8,44 @@
 >
 > Unlike the Implementation Tracker, this document is historical and should never be rewritten. New entries are always added to the top.
 
+# 2026-09-12 (Industrial Editorial Cron Email Dispatcher)
+
+## Version
+
+0.16.15-alpha
+
+## Summary
+
+Upgraded the platform's monthly editorial inactivity cron monitor (`/api/cron/editorial-reminder`) from a silent JSON logging endpoint into a production-grade, automated email dispatcher. When the RAFA Journal archive experiences 6+ months (>= 180 days) of inactivity, the system now automatically dispatches a museum-grade architectural email notification to the studio curation team via Resend. The query layer was optimized from a heavy full-dataset fetch (`getArticles()`) to a microsecond 3-field projection (`latestPublishedArticleQuery`).
+
+## Changes
+
+### `src/lib/email/editorial-reminder-template.ts`
+
+- **NEW**: Created architectural email template generator producing high-contrast, branded HTML and plain-text fallback.
+- Design: Architectural monochrome dark palette (`#0d0d0d` background, `#141414` container, `#282828` hairline borders, `#f0f0f0` typography).
+- Editorial Ledger: Formatted table documenting latest published story title, publication date, elapsed duration (`diffInDays` / `diffInMonths`), and studio policy cadence goal (6 months).
+- Action CTAs: Direct buttons to compose a new story in Sanity Studio (`/admin/structure/journalArticle`) and browse the public archive (`/journal`).
+
+### `src/sanity/lib/queries.ts`
+
+- Added `latestPublishedArticleQuery`: Targets the single latest published document (`!(_id in path("drafts.**")) && defined(publishedAt)`), retrieving only `_id`, `title`, `slug`, and `publishedAt`. Replaces previous `getArticles()` call that loaded entire article payloads with all image projections.
+
+### `src/app/api/cron/editorial-reminder/route.ts`
+
+- Wired `latestPublishedArticleQuery` with dynamic `revalidate: 0` client fetch.
+- Dynamic recipient resolution: queries live Sanity `contactInformation.email`, falling back to `EDITORIAL_NOTIFICATION_EMAIL` env var or static config.
+- Resend integration: uses existing `RESEND_API_KEY` and `RESEND_FROM_EMAIL`. Gracefully degrades with diagnostic error messaging if the API key is not configured.
+- Added test flags: `?force=true` (forces alert generation for immediate testing) and `?dryRun=true` (renders payload without dispatching via Resend).
+- Compliant with TypeScript `exactOptionalPropertyTypes: true`.
+
+## Verification
+
+- `npx tsc --noEmit` — exit code 0
+- `npx eslint src/app/api/cron/editorial-reminder/route.ts src/lib/email/editorial-reminder-template.ts src/sanity/lib/queries.ts` — exit code 0
+
+---
+
 # 2026-09-11 (Team Dossier Modal — Responsive Bottom-Sheet & Scroll Fix)
 
 ## Version

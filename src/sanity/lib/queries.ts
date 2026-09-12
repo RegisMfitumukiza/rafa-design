@@ -227,6 +227,16 @@ export const projectsBySlugQuery = `
  * JOURNAL QUERIES
  */
 
+// Get single latest published article (ultra-lightweight projection for editorial monitoring & cron)
+export const latestPublishedArticleQuery = `
+  *[_type == "journalArticle" && !(_id in path("drafts.**")) && defined(publishedAt)] | order(publishedAt desc)[0] {
+    _id,
+    title,
+    "slug": slug.current,
+    publishedAt
+  }
+`;
+
 // Get all journal articles (for listing page)
 export const articlesQuery = `
   *[_type == "journalArticle" && !(_id in path("drafts.**"))] | order(publishedAt desc) {
