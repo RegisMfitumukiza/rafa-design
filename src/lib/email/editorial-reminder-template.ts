@@ -101,7 +101,7 @@ Kigali, Rwanda · Automated Editorial Monitor
       background-color: #161616;
     }
     .brand {
-      font-family: "SF Mono", Consolas, "Courier New", monospace;
+      font-family: "Century Gothic", "CenturyGothic", AppleGothic, sans-serif;
       font-size: 11px;
       letter-spacing: 0.18em;
       text-transform: uppercase;
@@ -123,7 +123,7 @@ Kigali, Rwanda · Automated Editorial Monitor
       background-color: #241414;
       border: 1px solid #4a2222;
       color: #e57373;
-      font-family: "SF Mono", Consolas, "Courier New", monospace;
+      font-family: "Century Gothic", "CenturyGothic", AppleGothic, sans-serif;
       font-size: 11px;
       letter-spacing: 0.1em;
       text-transform: uppercase;
@@ -156,7 +156,7 @@ Kigali, Rwanda · Automated Editorial Monitor
     .ledger-label {
       width: 38%;
       color: #707070;
-      font-family: "SF Mono", Consolas, "Courier New", monospace;
+      font-family: "Century Gothic", "CenturyGothic", AppleGothic, sans-serif;
       font-size: 11px;
       letter-spacing: 0.08em;
       text-transform: uppercase;
@@ -175,7 +175,7 @@ Kigali, Rwanda · Automated Editorial Monitor
       background-color: #f4f4f4;
       color: #0a0a0a !important;
       text-decoration: none;
-      font-family: "SF Mono", Consolas, "Courier New", monospace;
+      font-family: "Century Gothic", "CenturyGothic", AppleGothic, sans-serif;
       font-size: 12px;
       font-weight: 600;
       letter-spacing: 0.1em;
@@ -191,7 +191,7 @@ Kigali, Rwanda · Automated Editorial Monitor
       color: #999999 !important;
       text-decoration: none;
       border: 1px solid #333333;
-      font-family: "SF Mono", Consolas, "Courier New", monospace;
+      font-family: "Century Gothic", "CenturyGothic", AppleGothic, sans-serif;
       font-size: 12px;
       letter-spacing: 0.1em;
       text-transform: uppercase;
@@ -203,7 +203,7 @@ Kigali, Rwanda · Automated Editorial Monitor
       padding: 24px 32px;
       background-color: #0f0f0f;
       border-top: 1px solid #1e1e1e;
-      font-family: "SF Mono", Consolas, "Courier New", monospace;
+      font-family: "Century Gothic", "CenturyGothic", AppleGothic, sans-serif;
       font-size: 11px;
       color: #555555;
       line-height: 1.5;

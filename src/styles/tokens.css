@@ -5,7 +5,9 @@
   --font-display:
     "Century Gothic", "CenturyGothic", AppleGothic, var(--font-manrope), Manrope, system-ui,
     sans-serif;
-  --font-mono: ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --font-mono:
+    "Century Gothic", "CenturyGothic", AppleGothic, var(--font-manrope), Manrope, system-ui,
+    sans-serif;
 
   /* =============================================================================
      MICRO-TYPOGRAPHY SCALE
