@@ -42,7 +42,7 @@ export function Logo({ className, imgClassName, variant = "header", showWordmark
         height={2159}
         priority
         className={cn(
-          "w-auto object-contain invert transition-opacity hover:opacity-85 dark:invert-0",
+          "logo-theme-invert w-auto object-contain transition-opacity hover:opacity-85",
           sizeClass,
         )}
       />

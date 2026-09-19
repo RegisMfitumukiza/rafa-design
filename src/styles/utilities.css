@@ -192,3 +192,23 @@
 .max-w-4xl {
   max-width: var(--container-4xl) !important;
 }
+
+/* =============================================================================
+   BRAND LOGO THEME INVERSION
+   Inverts the white logo asset to black in light mode, keeps it white in dark mode.
+   Matches both class-based (.dark) and system preference (:root:not(.light))
+   so the logo can never desynchronize from the page background.
+   ============================================================================= */
+.logo-theme-invert {
+  filter: invert(1);
+}
+
+:where(.dark, .dark *) .logo-theme-invert {
+  filter: invert(0);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) .logo-theme-invert {
+    filter: invert(0);
+  }
+}

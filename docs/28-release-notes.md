@@ -8,6 +8,44 @@
 >
 > Unlike the Implementation Tracker, this document is historical and should never be rewritten. New entries are always added to the top.
 
+# 2026-09-19 (Dark Mode Brand Logo Inversion & Theme Synchronization Fix)
+
+## Version
+
+0.16.19-alpha
+
+## Summary
+
+Diagnosed and resolved the root cause of the hero logo rendering black on black on reload in dark mode. The issue stemmed from an architectural asymmetry: `:root:not(.light)` in `tokens.css` turned the page background black via CSS `@media (prefers-color-scheme: dark)`, but the logo relied on Tailwind's `dark:invert-0` which strictly requires the `.dark` class on `<html>`. When React hydrated, DOM reconciliation cleared `.dark` before JavaScript could re-assert it, and `ThemeProvider` lacked a mount assertion hook or media-query snapshot fallback. Resolved by: (1) creating `.logo-theme-invert` in `src/styles/utilities.css` which mirrors the media query `:root:not(.light)` in pure CSS so the logo can never desynchronize from the page background; (2) updating `ThemeProvider` with an immediate mount synchronization `useEffect`, a fallback snapshot resolver `getInitialTheme()`, and immediate subscription assertion.
+
+## Changes
+
+### `src/styles/utilities.css`
+
+- Added `.logo-theme-invert`:
+  - Default: `filter: invert(1)` (renders white logo asset as black in light mode).
+  - Class-based dark mode: `:where(.dark, .dark *) .logo-theme-invert { filter: invert(0); }`.
+  - System dark mode without explicit light class: `@media (prefers-color-scheme: dark) { :root:not(.light) .logo-theme-invert { filter: invert(0); } }`.
+  - Guarantees instant, zero-JS white logo rendering whenever the background is black.
+
+### `src/components/layout/Logo.tsx` & `src/features/landing/landing.tsx`
+
+- Replaced fragile Tailwind `invert dark:invert-0` pairing with the bulletproof `.logo-theme-invert` utility.
+
+### `src/providers/theme-provider.tsx`
+
+- Added `getInitialTheme()` helper checking `localStorage` with `window.matchMedia("(prefers-color-scheme: dark)")` fallback.
+- Enhanced `getSnapshot()` to query `getInitialTheme()` if neither `.dark` nor `.light` is on `documentElement` during initial hydration.
+- Added mount `useEffect` to strictly re-assert `.dark` or `.light` onto `document.documentElement.classList` post-hydration.
+- Updated `subscribeToTheme` to assert the active theme immediately if neither class is present on subscription.
+
+## Verification
+
+- `npx tsc --noEmit` — exit code 0
+- `npx eslint` across modified surfaces — exit code 0
+
+---
+
 # 2026-09-19 (Homepage Follow Rail & Navigation CMS Social Unification)
 
 ## Version

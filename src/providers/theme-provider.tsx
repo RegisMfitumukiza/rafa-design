@@ -4,6 +4,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useSyncExternalStore,
   type ReactNode,
 } from "react";
@@ -17,10 +18,26 @@ interface ThemeContextValue {
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
+function getInitialTheme(): boolean {
+  if (typeof window === "undefined") return false;
+  const stored = localStorage.getItem(theme.storageKey);
+  if (stored) return stored === "dark";
+  return window.matchMedia("(prefers-color-scheme: dark)").matches;
+}
+
 function subscribeToTheme(onStoreChange: () => void): () => void {
   const root = document.documentElement;
   const observer = new MutationObserver(onStoreChange);
   observer.observe(root, { attributes: true, attributeFilter: ["class"] });
+
+  // If root has neither .dark nor .light yet, assert it immediately
+  if (!root.classList.contains("dark") && !root.classList.contains("light")) {
+    const isDarkTheme = getInitialTheme();
+    root.classList.toggle("dark", isDarkTheme);
+    root.classList.toggle("light", !isDarkTheme);
+    root.style.colorScheme = isDarkTheme ? "dark" : "light";
+    onStoreChange();
+  }
 
   // Dynamically update theme if user changes their OS setting and has no stored manual preference
   const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
@@ -42,7 +59,9 @@ function subscribeToTheme(onStoreChange: () => void): () => void {
 
 function getSnapshot(): boolean {
   if (typeof document === "undefined") return false;
-  return document.documentElement.classList.contains("dark");
+  if (document.documentElement.classList.contains("dark")) return true;
+  if (document.documentElement.classList.contains("light")) return false;
+  return getInitialTheme();
 }
 
 function getServerSnapshot(): boolean {
@@ -51,6 +70,16 @@ function getServerSnapshot(): boolean {
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const isDark = useSyncExternalStore(subscribeToTheme, getSnapshot, getServerSnapshot);
+
+  // Synchronize on mount to ensure classList.dark / classList.light is strictly active
+  // even if React hydration touched the <html> root element attributes.
+  useEffect(() => {
+    const root = document.documentElement;
+    const isDarkTheme = getInitialTheme();
+    root.classList.toggle("dark", isDarkTheme);
+    root.classList.toggle("light", !isDarkTheme);
+    root.style.colorScheme = isDarkTheme ? "dark" : "light";
+  }, []);
 
   const toggleTheme = useCallback(() => {
     const root = document.documentElement;
