@@ -10,7 +10,8 @@ export type ProjectCategory =
   | "master-planning"
   | "research"
   | "renovation"
-  | "visualization";
+  | "visualization"
+  | (string & {});
 
 export type ProjectStatus = "completed" | "ongoing" | "concept" | "competition";
 

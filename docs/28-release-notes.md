@@ -8,7 +8,7 @@
 >
 > Unlike the Implementation Tracker, this document is historical and should never be rewritten. New entries are always added to the top.
 
-# 2026-09-19 (Sanity Project Typology Tags Validation Fix)
+# 2026-09-19 (Sanity Project Dynamic Typologies, Categories & Services Upgrade)
 
 ## Version
 
@@ -16,16 +16,19 @@
 
 ## Summary
 
-Resolved a Sanity Studio schema validation error on projects (`Typology / String: Value did not match any allowed values`). The root cause was an architectural conflict in `src/sanity/schemas/project.ts`: defining `options.list` on the `typology` array field caused Sanity Studio to treat it as a closed, hardcoded enum whitelist. As a result, anytime an editor entered a custom typology (e.g. "villa", "co-living", "hospitality") or a tag with alternate casing, Sanity's internal validator flagged it as an illegal value—even though the field's description and custom regex validation (`Rule.custom`) explicitly instructed editors to "add new ones" in lowercase-with-hyphens format.
+Resolved Sanity Studio schema validation errors on projects (`Value did not match any allowed values`). The root cause was an architectural conflict in `src/sanity/schemas/project.ts`: defining `options.list` on array fields (`typology`, `category`, and `services`) caused Sanity Studio to treat them as closed, static enum whitelists. As a result, anytime an editor entered a custom tag (e.g. "villa", "exhibition-design", "co-living", "sustainability-consulting") or a tag with alternate casing, Sanity's internal validator flagged it as an illegal value. Upgraded all three tag fields to open, dynamic tag inputs (`layout: "tags"` without restrictive static lists) with strict custom regex validation enforcing clean lowercase-hyphenated strings.
 
 ## Changes
 
 ### `src/sanity/schemas/project.ts`
 
-- Removed `list: [...]` from the `typology` field's `options` object while retaining `layout: "tags"`.
-- Kept the robust custom validation rule enforcing required presence, uniqueness, and lowercase-with-hyphens format (`/^[a-z0-9]+(-[a-z0-9]+)*$/`).
-- Updated the description to provide common architectural suggestions ("residential", "commercial", "cultural", "adaptive-reuse", "public", "hospitality", "mixed-use", "villa", "institutional") without artificially restricting editors to a static list.
-- Updated `category` description to clarify that categories are selected from the defined discipline list.
+- Removed `list: [...]` from `typology`, `category`, and `services` field options while retaining `options: { layout: "tags" }`.
+- Preserved strict custom validation rules across all three fields enforcing required presence, uniqueness, and lowercase-with-hyphens format (`/^[a-z0-9]+(-[a-z0-9]+)*$/`).
+- Updated field descriptions to provide clear architectural examples while welcoming custom tag entries.
+
+### `src/content/projects/index.ts`
+
+- Extended `ProjectCategory` with extensible string union `| (string & {})`, allowing any custom category string across the frontend while retaining IDE autocomplete for core disciplines.
 
 ### Dataset Cleanliness
 

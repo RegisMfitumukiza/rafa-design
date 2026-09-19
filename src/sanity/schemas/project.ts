@@ -87,16 +87,6 @@ export default defineType({
       of: [{ type: "string" }],
       options: {
         layout: "tags",
-        list: [
-          { title: "Architecture", value: "architecture" },
-          { title: "Interior", value: "interior" },
-          { title: "Landscape", value: "landscape" },
-          { title: "Urban Design", value: "urban-design" },
-          { title: "Master Planning", value: "master-planning" },
-          { title: "Research", value: "research" },
-          { title: "Renovation", value: "renovation" },
-          { title: "Visualization", value: "visualization" },
-        ],
       },
       validation: (Rule) =>
         Rule.required()
@@ -114,7 +104,7 @@ export default defineType({
             });
 
             if (invalidFormats.length > 0) {
-              return `Invalid format: "${invalidFormats.join('", "')}". Use lowercase with hyphens (e.g., "urban-design")`;
+              return `Invalid format: "${invalidFormats.join('", "')}". Use lowercase with hyphens (e.g., "architecture", "interior", "landscape", "urban-design")`;
             }
 
             // Check for duplicates
@@ -125,7 +115,8 @@ export default defineType({
 
             return true;
           }),
-      description: "Select project categories from the architectural discipline list.",
+      description:
+        'Add project categories as tags (press Enter after each). Examples: "architecture", "interior", "landscape", "urban-design", "master-planning", "research", "renovation", "visualization", or any custom category. Use lowercase with hyphens.',
     }),
     defineField({
       name: "typology",
@@ -647,18 +638,6 @@ export default defineType({
       of: [{ type: "string" }],
       options: {
         layout: "tags",
-        list: [
-          { title: "Architecture", value: "architecture" },
-          { title: "Interior Design", value: "interior-design" },
-          { title: "Master Planning", value: "master-planning" },
-          { title: "Urban Design", value: "urban-design" },
-          { title: "Landscape Design", value: "landscape-design" },
-          { title: "Feasibility Studies", value: "feasibility-studies" },
-          { title: "Project Management", value: "project-management" },
-          { title: "Construction Supervision", value: "construction-supervision" },
-          { title: "Renovation", value: "renovation" },
-          { title: "Visualization", value: "visualization" },
-        ],
       },
       validation: (Rule) =>
         Rule.required()
