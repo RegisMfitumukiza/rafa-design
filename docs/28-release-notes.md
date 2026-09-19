@@ -8,6 +8,37 @@
 >
 > Unlike the Implementation Tracker, this document is historical and should never be rewritten. New entries are always added to the top.
 
+# 2026-09-19 (Sanity Project Typology Tags Validation Fix)
+
+## Version
+
+0.16.16-alpha
+
+## Summary
+
+Resolved a Sanity Studio schema validation error on projects (`Typology / String: Value did not match any allowed values`). The root cause was an architectural conflict in `src/sanity/schemas/project.ts`: defining `options.list` on the `typology` array field caused Sanity Studio to treat it as a closed, hardcoded enum whitelist. As a result, anytime an editor entered a custom typology (e.g. "villa", "co-living", "hospitality") or a tag with alternate casing, Sanity's internal validator flagged it as an illegal value—even though the field's description and custom regex validation (`Rule.custom`) explicitly instructed editors to "add new ones" in lowercase-with-hyphens format.
+
+## Changes
+
+### `src/sanity/schemas/project.ts`
+
+- Removed `list: [...]` from the `typology` field's `options` object while retaining `layout: "tags"`.
+- Kept the robust custom validation rule enforcing required presence, uniqueness, and lowercase-with-hyphens format (`/^[a-z0-9]+(-[a-z0-9]+)*$/`).
+- Updated the description to provide common architectural suggestions ("residential", "commercial", "cultural", "adaptive-reuse", "public", "hospitality", "mixed-use", "villa", "institutional") without artificially restricting editors to a static list.
+- Updated `category` description to clarify that categories are selected from the defined discipline list.
+
+### Dataset Cleanliness
+
+- Diagnosed all existing project documents and drafts in the Sanity dataset; patched `drafts.largo-gallery` which was missing `typology` (`["cultural"]`). All 6 project documents now strictly adhere to array typology format.
+
+## Verification
+
+- `node scripts/diagnose-typology-strings.mjs` — verified 100% (6/6 projects valid array format, 0 string, 0 null).
+- `npx tsc --noEmit` — exit code 0
+- `npx eslint src/sanity/schemas/project.ts` — exit code 0
+
+---
+
 # 2026-09-12 (Industrial Editorial Cron Email Dispatcher)
 
 ## Version

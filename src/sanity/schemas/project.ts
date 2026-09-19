@@ -125,8 +125,7 @@ export default defineType({
 
             return true;
           }),
-      description:
-        'Select from existing categories or add new ones. Use lowercase-with-hyphens format (e.g., "exhibition-design")',
+      description: "Select project categories from the architectural discipline list.",
     }),
     defineField({
       name: "typology",
@@ -136,25 +135,6 @@ export default defineType({
       of: [{ type: "string" }],
       options: {
         layout: "tags",
-        list: [
-          // Core Typologies
-          { title: "Residential", value: "residential" },
-          { title: "Commercial", value: "commercial" },
-          { title: "Cultural", value: "cultural" },
-          { title: "Adaptive Reuse", value: "adaptive-reuse" },
-          { title: "Public", value: "public" },
-          // Extended Professional Typologies
-          { title: "Institutional", value: "institutional" },
-          { title: "Mixed-Use", value: "mixed-use" },
-          { title: "Industrial", value: "industrial" },
-          { title: "Infrastructure", value: "infrastructure" },
-          { title: "Hospitality", value: "hospitality" },
-          { title: "Healthcare", value: "healthcare" },
-          { title: "Educational", value: "educational" },
-          { title: "Retail", value: "retail" },
-          { title: "Sports & Recreation", value: "sports-recreation" },
-          { title: "Religious", value: "religious" },
-        ],
       },
       validation: (Rule) =>
         Rule.required()
@@ -172,7 +152,7 @@ export default defineType({
             });
 
             if (invalidFormats.length > 0) {
-              return `Invalid format: "${invalidFormats.join('", "')}". Use lowercase with hyphens (e.g., "mixed-use")`;
+              return `Invalid format: "${invalidFormats.join('", "')}". Use lowercase with hyphens (e.g., "residential", "adaptive-reuse", "mixed-use", "villa")`;
             }
 
             // Check for duplicates
@@ -184,7 +164,7 @@ export default defineType({
             return true;
           }),
       description:
-        'Select from existing typologies or add new ones. Use lowercase-with-hyphens format (e.g., "co-living")',
+        'Add architectural typologies as tags (press Enter after each). Examples: "residential", "commercial", "cultural", "adaptive-reuse", "public", "hospitality", "mixed-use", "villa", "institutional". Use lowercase with hyphens.',
     }),
     defineField({
       name: "status",
