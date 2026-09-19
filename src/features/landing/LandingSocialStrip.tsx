@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { gsap } from "gsap";
 import { useLayoutEffect, useRef } from "react";
@@ -67,6 +67,8 @@ export function LandingSocialStrip() {
     return () => context.revert();
   }, [reduced]);
 
+  if (socialLinks.length === 0) return null;
+
   return (
     <div
       ref={containerRef}
@@ -85,27 +87,17 @@ export function LandingSocialStrip() {
           Follow
         </span>
 
-        {/* Social links — animated in/out */}
+        {/* Social links — animated in/out strictly from Sanity CMS */}
         <div className="gap-xs pr-sm flex flex-col items-end">
-          <a
-            ref={(el) => {
-              if (el) linksRef.current[0] = el;
-            }}
-            href={`mailto:${contactInformation.email}`}
-            className="text-foreground/60 hover:text-foreground text-overline inline-flex min-h-(--touch-target) items-center py-1 pr-1 tracking-widest uppercase transition-colors"
-          >
-            {contactInformation.email}
-          </a>
-
           {socialLinks.map((link, index) => (
             <a
-              key={link.platform}
+              key={`${link.platform}-${link.url}`}
               ref={(el) => {
-                if (el) linksRef.current[index + 1] = el;
+                if (el) linksRef.current[index] = el;
               }}
               href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
+              target={link.url.startsWith("mailto:") ? undefined : "_blank"}
+              rel={link.url.startsWith("mailto:") ? undefined : "noopener noreferrer"}
               className="text-foreground/60 hover:text-foreground text-overline inline-flex min-h-(--touch-target) items-center py-1 pr-1 tracking-widest uppercase transition-colors"
             >
               {link.label || capitalize(link.platform)}

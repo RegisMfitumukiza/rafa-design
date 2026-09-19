@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { gsap } from "gsap";
 import Image from "next/image";
@@ -201,29 +201,25 @@ export function Landing() {
             Shown as a simple flat row: accessible, light, consistent with the rest of the
             landing typography.
           */}
-          <div
-            data-landing-social-mobile
-            className="border-border/20 mt-md pt-xs gap-md flex flex-wrap items-center border-t lg:hidden"
-            aria-label="Social links"
-          >
-            <a
-              href={`mailto:${contactInformation.email}`}
-              className="text-foreground/45 hover:text-foreground text-micro inline-flex min-h-(--touch-target) items-center font-mono tracking-[0.25em] uppercase transition-colors"
+          {socialLinks.length > 0 && (
+            <div
+              data-landing-social-mobile
+              className="border-border/20 mt-md pt-xs gap-md flex flex-wrap items-center border-t lg:hidden"
+              aria-label="Social links"
             >
-              Email
-            </a>
-            {socialLinks.map((link) => (
-              <a
-                key={link.platform}
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-foreground/45 hover:text-foreground text-micro inline-flex min-h-(--touch-target) items-center font-mono tracking-[0.25em] uppercase transition-colors"
-              >
-                {link.label || capitalize(link.platform)}
-              </a>
-            ))}
-          </div>
+              {socialLinks.map((link) => (
+                <a
+                  key={`${link.platform}-${link.url}`}
+                  href={link.url}
+                  target={link.url.startsWith("mailto:") ? undefined : "_blank"}
+                  rel={link.url.startsWith("mailto:") ? undefined : "noopener noreferrer"}
+                  className="text-foreground/45 hover:text-foreground text-micro inline-flex min-h-(--touch-target) items-center font-mono tracking-[0.25em] uppercase transition-colors"
+                >
+                  {link.label || capitalize(link.platform)}
+                </a>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 

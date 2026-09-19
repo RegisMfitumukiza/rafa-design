@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { gsap } from "gsap";
 import Link from "next/link";
@@ -274,13 +274,13 @@ export function FullscreenNavigation() {
                 <div className="gap-sm pt-xs flex flex-wrap">
                   {socialLinks.map((link) => (
                     <a
-                      key={link.platform}
+                      key={`${link.platform}-${link.url}`}
                       href={link.url}
                       className="text-foreground/50 hover:text-foreground inline-flex min-h-(--touch-target) items-center font-mono text-xs tracking-widest uppercase transition-colors"
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      target={link.url.startsWith("mailto:") ? undefined : "_blank"}
+                      rel={link.url.startsWith("mailto:") ? undefined : "noopener noreferrer"}
                     >
-                      {capitalize(link.platform)}
+                      {link.label || capitalize(link.platform)}
                     </a>
                   ))}
                 </div>

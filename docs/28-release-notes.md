@@ -8,6 +8,42 @@
 >
 > Unlike the Implementation Tracker, this document is historical and should never be rewritten. New entries are always added to the top.
 
+# 2026-09-19 (Homepage Follow Rail & Navigation CMS Social Unification)
+
+## Version
+
+0.16.18-alpha
+
+## Summary
+
+Removed the hardcoded/automatic primary email injection from the homepage "FOLLOW" rail ([`src/features/landing/LandingSocialStrip.tsx`](file:///e:/rafa-design-website/src/features/landing/LandingSocialStrip.tsx) and [`src/features/landing/landing.tsx`](file:///e:/rafa-design-website/src/features/landing/landing.tsx)). Previously, the desktop rail automatically prepended the raw 23-character email address (`RAFADESIGNHUB@GMAIL.COM`) above the social channels, creating typographic clash with the editorial labels (`CONNECT WITH US`, `FOLLOW THOUGHTS`, etc.) and a discrepancy with mobile (which rendered a hardcoded `Email` link). Both desktop and mobile now render strictly from the user's curated `socialLinks` array in Sanity Studio (`09 // Contact Page` -> `03 // Social`). Added mailto handling (`target` and `rel` omitted for `mailto:`) and label override support across the homepage strip, `Footer.tsx`, and `fullscreen-navigation.tsx`.
+
+## Changes
+
+### `src/features/landing/LandingSocialStrip.tsx`
+
+- Removed the auto-injected `<a href="mailto:{contactInformation.email}">` element.
+- Mapped strictly over `socialLinks` from Sanity CMS with `link.label || capitalize(link.platform)`.
+- Added empty array guard returning `null` when no social channels exist.
+- Added mailto protocol detection to avoid opening unwanted blank browser tabs.
+
+### `src/features/landing/landing.tsx`
+
+- Removed the hardcoded `<a href="mailto:{contactInformation.email}">Email</a>` element from the mobile landing strip.
+- Rendered mobile strip strictly from `socialLinks` when links exist.
+
+### `src/components/layout/Footer.tsx` & `src/features/navigation/fullscreen-navigation.tsx`
+
+- Supported Sanity `link.label` overrides alongside platform fallbacks.
+- Added mailto detection to safely omit `target="_blank"` on mail client protocols.
+
+## Verification
+
+- `npx tsc --noEmit` — exit code 0
+- `npx eslint` across modified surfaces — exit code 0
+
+---
+
 # 2026-09-19 (Contact Dynamic Project Types from Categories & Sanity Studio Cleanup)
 
 ## Version
