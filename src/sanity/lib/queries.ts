@@ -700,7 +700,6 @@ export const contactQuery = `
     phone,
     address,
     coordinates,
-    projectTypes[],
     offices[] {
       name,
       city,

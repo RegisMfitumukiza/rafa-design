@@ -18,7 +18,7 @@ export interface ContactInformation {
   coordinates: string;
   offices: Office[];
   socialLinks: SocialLink[];
-  projectTypes: string[];
+  projectTypes?: string[] | undefined;
   editorialImage: ImageAsset;
 }
 

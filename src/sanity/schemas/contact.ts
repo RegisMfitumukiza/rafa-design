@@ -70,15 +70,6 @@ export default defineType({
       description: 'e.g. "41.1579° N, 8.6291° W"',
     }),
 
-    defineField({
-      name: "projectTypes",
-      title: "Project Types",
-      type: "array",
-      group: "details",
-      of: [{ type: "string" }],
-      description: 'e.g. "Architecture", "Interior Design", "Renovation", "Other"',
-    }),
-
     // ═══════════════════════════════════════════════════════════════════════
     // 02 // OFFICES
     // ═══════════════════════════════════════════════════════════════════════

@@ -1,15 +1,17 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 
 import { Section } from "@/components/layout/Section";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema } from "@/config/schema";
 import { contactInformation as fallbackContact } from "@/content/company/contact";
 import { pageContent } from "@/content/pages";
+import { getActiveCategories } from "@/content/projects/sanity";
 import { ui } from "@/content/ui";
 import { ContactEditorial } from "@/features/contact/contact-editorial";
 import { ContactForm } from "@/features/contact/contact-form";
 import { ContactInformation } from "@/features/contact/contact-information";
 import { OfficeMap } from "@/features/contact/office-map";
+import { buildDynamicProjectTypes } from "@/lib/contact/project-types";
 import { Reveal } from "@/motion";
 import { getContactInformation, getPageIntros } from "@/sanity/lib";
 
@@ -29,9 +31,13 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function ContactPage() {
   const contact = pageContent.contact;
-  const cmsContact = await getContactInformation();
-  const cmsIntros = await getPageIntros();
+  const [cmsContact, cmsIntros, activeCategories] = await Promise.all([
+    getContactInformation(),
+    getPageIntros(),
+    getActiveCategories(),
+  ]);
   const contactInfo = cmsContact ?? fallbackContact;
+  const dynamicProjectTypes = buildDynamicProjectTypes(activeCategories);
 
   const cmsContactIntro = cmsIntros.contact ?? {};
   const overline = cmsContactIntro.overline ?? contact.overline;
@@ -88,7 +94,7 @@ export default async function ContactPage() {
                 <h2 className="font-display text-foreground mb-lg text-2xl font-medium tracking-tight md:text-3xl">
                   {briefHeading}
                 </h2>
-                <ContactForm />
+                <ContactForm projectTypes={dynamicProjectTypes} />
               </div>
             </Reveal>
           </div>

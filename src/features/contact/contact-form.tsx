@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
@@ -25,10 +25,20 @@ const contactFormSchema = z.object({
 
 type ContactFormValues = z.infer<typeof contactFormSchema>;
 
-export function ContactForm() {
+interface ContactFormProps {
+  projectTypes?: string[];
+}
+
+export function ContactForm({ projectTypes: propTypes }: ContactFormProps = {}) {
   const contactInformation = useContact();
-  // Dynamic project types from content layer (CMS-ready)
-  const projectTypes = contactInformation.projectTypes;
+  // Dynamic project types: prefer propTypes (derived dynamically from categories),
+  // then contact information context, then default architectural fallback
+  const projectTypes =
+    propTypes && propTypes.length > 0
+      ? propTypes
+      : contactInformation.projectTypes && contactInformation.projectTypes.length > 0
+        ? contactInformation.projectTypes
+        : ["Architecture", "Interior Design", "Other"];
   const defaultType = projectTypes[0] ?? "Architecture";
 
   const [submitted, setSubmitted] = useState(false);
@@ -162,21 +172,30 @@ export function ContactForm() {
 
         {/* 04 // PROJECT TYPE */}
         <div className="space-y-xs">
-          <label className="text-foreground/40 text-overline block font-mono tracking-widest uppercase">
+          <label
+            id="project-type-label"
+            className="text-foreground/40 text-overline block font-mono tracking-widest uppercase"
+          >
             {ui.form.projectType.label}
           </label>
-          <div className="gap-xs pt-xs flex flex-wrap">
+          <div
+            role="radiogroup"
+            aria-labelledby="project-type-label"
+            className="gap-xs sm:gap-sm pt-xs flex flex-wrap"
+          >
             {projectTypes.map((type) => {
               const isSelected = selectedType === type;
               return (
                 <button
                   key={type}
                   type="button"
+                  role="radio"
+                  aria-checked={isSelected}
                   onClick={() => handleSelectType(type)}
                   className={cn(
-                    "px-md py-xs text-overline rounded-xs border font-mono font-medium tracking-wider uppercase transition-all duration-300",
+                    "px-md py-xs text-overline focus-visible:ring-foreground min-h-[38px] rounded-xs border font-mono font-medium tracking-wider uppercase transition-all duration-300 focus-visible:ring-1 focus-visible:outline-none",
                     isSelected
-                      ? "border-foreground bg-foreground text-background"
+                      ? "border-foreground bg-foreground text-background shadow-xs"
                       : "border-border/50 text-foreground/60 hover:border-foreground/60 hover:text-foreground bg-transparent",
                   )}
                 >

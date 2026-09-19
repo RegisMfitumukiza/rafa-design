@@ -1093,7 +1093,7 @@ export interface SanityRawContact {
   phone?: string;
   address?: string;
   coordinates?: string;
-  projectTypes?: string[];
+  projectTypes?: string[] | undefined;
   offices?: SanityRawOffice[];
   socialLinks?: Array<{ platform?: string; url?: string; label?: string }>;
   editorialImage?: SanityRawImage;
@@ -1116,7 +1116,7 @@ export function transformSanityContact(sanityContact: SanityRawContact): Contact
     coordinates: sanityContact.coordinates || "",
     offices: (sanityContact.offices || []).map(transformOffice),
     socialLinks: transformSocialLinks(sanityContact.socialLinks || []),
-    projectTypes: sanityContact.projectTypes || [],
+    ...(sanityContact.projectTypes ? { projectTypes: sanityContact.projectTypes } : {}),
     editorialImage: editorialImage ?? fallbackImage,
   };
 

@@ -8,6 +8,66 @@
 >
 > Unlike the Implementation Tracker, this document is historical and should never be rewritten. New entries are always added to the top.
 
+# 2026-09-19 (Contact Dynamic Project Types from Categories & Sanity Studio Cleanup)
+
+## Version
+
+0.16.17-alpha
+
+## Summary
+
+Removed the manual, static `projectTypes` string array from the Sanity Studio Contact document schema (`src/sanity/schemas/contact.ts`) and eliminated content duplication across the CMS. Inquiries on the public Contact page (`/contact`) now dynamically derive their available discipline options directly from active project categories in the portfolio (`getActiveCategories()`), normalized to architectural title case and ordered by practice hierarchy with `"Other"` anchored as the permanent final selection. Sanitized the remote Sanity dataset by unsetting the legacy field on the `contact` singleton, and elevated the Contact Form UI with accessible radiogroup semantics (`role="radiogroup"`, `role="radio"`, `aria-checked`) and comfortable 38px+ touch targets.
+
+## Changes
+
+### `src/lib/contact/project-types.ts`
+
+- **NEW**: Created architectural category mapping and sorting engine:
+  - `formatCategoryToProjectType`: Normalizes kebab-case category slugs (`urban-design`, `interior`, `landscape`) to canonical presentation titles (`Urban Design`, `Interior Design`, `Landscape Architecture`).
+  - `buildDynamicProjectTypes`: Sorts categories using architectural studio priority hierarchy (Architecture -> Interior Design -> Landscape Architecture -> Urban Design -> Master Planning -> Renovation -> Adaptive Reuse -> Research -> 3D Visualization -> dynamic custom categories alphabetically), deduplicates entries, anchors `"Other"` as the permanent terminal option, and falls back to a curated discipline list if no categories exist.
+
+### `src/sanity/schemas/contact.ts`
+
+- Removed the `projectTypes` field definition from the Contact schema in Sanity Studio, eliminating manual maintenance and preventing schema drift between projects and the contact form.
+
+### `src/sanity/lib/queries.ts`
+
+- Removed `projectTypes[]` projection from `contactQuery`.
+
+### `src/sanity/lib/transforms.ts`
+
+- Updated `SanityRawContact` and `transformSanityContact` to make `projectTypes?: string[] | undefined` optional, using conditional spread syntax (`...(sanityContact.projectTypes ? { projectTypes: sanityContact.projectTypes } : {})`) in compliance with TypeScript `exactOptionalPropertyTypes: true`.
+
+### `src/content/company/contact.ts`
+
+- Updated shared `ContactInformation` interface to make `projectTypes?: string[] | undefined` optional.
+
+### `src/features/contact/contact-form.tsx`
+
+- Added `ContactFormProps` accepting dynamic `projectTypes?: string[]` from the page server component with graceful fallback to context or core disciplines.
+- Enhanced selector accessibility and ergonomics:
+  - Container equipped with `role="radiogroup"` and `aria-labelledby="project-type-label"`.
+  - Individual buttons equipped with `role="radio"`, `aria-checked={isSelected}`, and keyboard focus rings (`focus-visible:ring-1`).
+  - Tactile responsive mobile touch targets with `min-h-[38px]` and responsive spacing (`gap-xs sm:gap-sm flex-wrap`).
+
+### `src/app/(site)/contact/page.tsx`
+
+- Concurrently resolved `getContactInformation()`, `getPageIntros()`, and `getActiveCategories()` via `Promise.all`.
+- Computed `dynamicProjectTypes = buildDynamicProjectTypes(activeCategories)` and passed down to `<ContactForm projectTypes={dynamicProjectTypes} />`.
+
+### Dataset Sanitization
+
+- Cleaned legacy `projectTypes` array from the `contact` singleton in the remote Sanity dataset, ensuring zero schema mismatch or unknown field warnings in Studio.
+
+## Verification
+
+- Verified dynamic calculation against live Sanity dataset: `[ 'architecture', 'interior', 'renovation', 'landscape' ]` -> `[ 'Architecture', 'Interior Design', 'Landscape Architecture', 'Renovation', 'Other' ]`.
+- `npx tsc --noEmit` — exit code 0
+- `npx eslint` across modified files — exit code 0
+- `npm run build` — exit code 0 (all 33 routes rendered and optimized cleanly).
+
+---
+
 # 2026-09-19 (Sanity Project Dynamic Typologies, Categories & Services Upgrade)
 
 ## Version
