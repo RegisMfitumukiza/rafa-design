@@ -46,11 +46,11 @@ export const viewport: Viewport = {
   ],
 };
 
-// Inline theme initialisation — runs synchronously in <head> before first paint.
-// Guarantees zero flash of wrong theme/background during page reload or navigation.
+// Inline theme & splash initialization — runs synchronously in <head> before first paint.
+// Guarantees zero flash of wrong theme/background and zero flicker of unmounted splash curtain.
 const themeScript = `(function(){try{var p=localStorage.getItem(${JSON.stringify(
   theme.storageKey,
-)});var isDark=p?p==="dark":window.matchMedia("(prefers-color-scheme: dark)").matches;var r=document.documentElement;if(isDark){r.classList.add("dark");r.classList.remove("light");r.style.colorScheme="dark";}else{r.classList.add("light");r.classList.remove("dark");r.style.colorScheme="light";}}catch(e){}})();`;
+)});var isDark=p?p==="dark":window.matchMedia("(prefers-color-scheme: dark)").matches;var r=document.documentElement;if(isDark){r.classList.add("dark");r.classList.remove("light");r.style.colorScheme="dark";}else{r.classList.add("light");r.classList.remove("dark");r.style.colorScheme="light";}if(sessionStorage.getItem("rafa-splash-played")==="1"){r.classList.add("splash-skip");}}catch(e){}})();`;
 
 export default async function RootLayout({
   children,

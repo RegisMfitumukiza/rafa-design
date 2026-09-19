@@ -14,19 +14,6 @@ interface SplashProviderProps {
   children: ReactNode;
 }
 
-function waitForPageReady(): Promise<void> {
-  return new Promise((resolve) => {
-    const done = () => resolve();
-
-    if (document.readyState === "complete") {
-      void done();
-      return;
-    }
-
-    window.addEventListener("load", done, { once: true });
-  });
-}
-
 function lockScroll(): () => void {
   const html = document.documentElement;
   const body = document.body;
@@ -54,23 +41,46 @@ function lockScroll(): () => void {
 }
 
 export function SplashProvider({ children }: SplashProviderProps) {
-  // Start in "cover" phase on frame 0 so the SplashScreen is rendered immediately
-  // without any flash of the page underneath during initial render/hydration.
-  const [state, setState] = useState<SplashState>("cover");
+  // If already played in this session or marked by the pre-hydration script,
+  // initialize immediately as "done" to eliminate any render flash on reload.
+  const [state, setState] = useState<SplashState>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        if (
+          document.documentElement.classList.contains("splash-skip") ||
+          sessionStorage.getItem(SPLASH_SESSION_KEY) === "1"
+        ) {
+          return "done";
+        }
+      } catch {
+        // Storage access restricted
+      }
+    }
+    return "cover";
+  });
+
   const completed = useRef(false);
 
   useLayoutEffect(() => {
-    const reducedMotion = window.matchMedia(REDUCED_MOTION_QUERY).matches;
-    const alreadyPlayed = sessionStorage.getItem(SPLASH_SESSION_KEY) === "1";
+    try {
+      const reducedMotion = window.matchMedia(REDUCED_MOTION_QUERY).matches;
+      const alreadyPlayed =
+        document.documentElement.classList.contains("splash-skip") ||
+        sessionStorage.getItem(SPLASH_SESSION_KEY) === "1";
 
-    if (reducedMotion || alreadyPlayed) {
-      // Defer state update to avoid synchronous setState in effect
-      setTimeout(() => setState("done"), 0);
-      return;
+      if (reducedMotion || alreadyPlayed) {
+        document.documentElement.classList.add("splash-skip");
+        if (state !== "done") {
+          setTimeout(() => setState("done"), 0);
+        }
+        return;
+      }
+    } catch {
+      // Storage access restricted
     }
 
     window.scrollTo(0, 0);
-  }, []);
+  }, [state]);
 
   useEffect(() => {
     if (state !== "cover") {
@@ -80,8 +90,11 @@ export function SplashProvider({ children }: SplashProviderProps) {
     let cancelled = false;
 
     const startAnim = async () => {
-      await waitForPageReady();
-      await document.fonts.ready;
+      // Wait for typography to be ready so the architectural reveal has zero font jump
+      await document.fonts?.ready;
+
+      // Small tick (60ms) to ensure layout is measured and rendered smoothly
+      await new Promise((resolve) => setTimeout(resolve, 60));
 
       if (!cancelled) {
         setState("playing");
@@ -90,7 +103,11 @@ export function SplashProvider({ children }: SplashProviderProps) {
 
     void startAnim();
 
-    const fallback = setTimeout(() => setState("playing"), MAX_READY_WAIT_MS);
+    const fallback = setTimeout(() => {
+      if (!cancelled) {
+        setState("playing");
+      }
+    }, MAX_READY_WAIT_MS);
 
     return () => {
       cancelled = true;
@@ -107,17 +124,22 @@ export function SplashProvider({ children }: SplashProviderProps) {
     return unlock;
   }, [state]);
 
-  if (state === "done") {
-    return <>{children}</>;
-  }
-
   function finishSplash() {
     if (completed.current) {
       return;
     }
     completed.current = true;
-    sessionStorage.setItem(SPLASH_SESSION_KEY, "1");
+    try {
+      sessionStorage.setItem(SPLASH_SESSION_KEY, "1");
+      document.documentElement.classList.add("splash-skip");
+    } catch {
+      // Storage access restricted
+    }
     setState("done");
+  }
+
+  if (state === "done") {
+    return <>{children}</>;
   }
 
   const phase: SplashPhase = state;

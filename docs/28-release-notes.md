@@ -8,6 +8,48 @@
 >
 > Unlike the Implementation Tracker, this document is historical and should never be rewritten. New entries are always added to the top.
 
+# 2026-09-20 (Industrial Intro Splash Screen Upgrade)
+
+## Version
+
+0.16.21-alpha
+
+## Summary
+
+Upgraded the home-page intro splash screen into an industrial, museum-grade architectural monograph reveal. Resolved three critical defects: (1) premature drafting hairline leakage during the initial `"cover"` state; (2) jarring SSR reload flicker via a synchronous pre-hydration suppression script (`html.splash-skip`); and (3) truncated GPS coordinates / hurried playback on hard reload by replacing full `window load` blocking with non-blocking font readiness (`document.fonts.ready`), dynamic studio/location data injection, and calibrated editorial dwell time (~0.65s hold) before architectural curtain elevation (`yPercent: -100`).
+
+## Changes
+
+### `src/app/layout.tsx`
+
+- Integrated `sessionStorage.getItem("rafa-splash-played") === "1"` check into the synchronous pre-paint `<head>` script, immediately injecting `.splash-skip` onto `<html>` before frame 0 paint on repeat visits.
+
+### `src/styles/utilities.css`
+
+- Added `html.splash-skip [data-splash-screen] { display: none !important; }` to eliminate visual flicker on page reload.
+
+### `src/components/splash/SplashProvider.tsx`
+
+- Added `data-splash-screen` awareness and synchronous state initializer skipping immediately when `.splash-skip` or `sessionStorage` is present.
+- Removed blocking `waitForPageReady()` (which awaited all uncached page images); now initiates promptly on `document.fonts?.ready` ensuring the intro plays smoothly while heavy assets load in the background.
+- Cleaned up layout effects and scroll locks to ensure zero cascading renders.
+
+### `src/components/splash/SplashScreen.tsx`
+
+- Marked container with `data-splash-screen`.
+- Set initial CSS on the 1px drafting rule to `scale-x-0 opacity-0`, ensuring the `"cover"` state is a serene, monolithic background canvas with zero premature visual artifacts.
+- Injected dynamic studio name from `useSiteConfig()` and coordinates/address specification from `useContact()`.
+- Choreographed GSAP timeline with deliberate editorial pacing and an architectural reading dwell time (~0.65s hold) prior to curtain elevation.
+
+## Verification
+
+- `npm run typecheck` (`tsc --noEmit`) — exit code 0
+- `npx eslint ...` — exit code 0
+- `npm run build` — exit code 0 (33 static routes generated)
+- `npm run audit` — exit code 0 (`audit ok.`)
+
+---
+
 # 2026-09-19 (Sanity CLI Transitive Security Advisory 1239030 Resolution)
 
 ## Version

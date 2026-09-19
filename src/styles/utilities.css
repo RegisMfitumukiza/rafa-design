@@ -212,3 +212,12 @@
     filter: invert(0);
   }
 }
+
+/* =============================================================================
+   INTRO SPLASH PRE-HYDRATION SUPPRESSION
+   Suppresses the splash screen before first paint on reload / repeat session visit.
+   Guarantees zero-flicker instant page load when returning to or refreshing home.
+   ============================================================================= */
+html.splash-skip [data-splash-screen] {
+  display: none !important;
+}
