@@ -8,6 +8,30 @@
 >
 > Unlike the Implementation Tracker, this document is historical and should never be rewritten. New entries are always added to the top.
 
+# 2026-09-19 (Sanity CLI Transitive Security Advisory 1239030 Resolution)
+
+## Version
+
+0.16.20-alpha
+
+## Summary
+
+Resolved new npm security advisory `1239030` (`adm-zip: Uncontrolled memory allocation via the declared uncompressed size (DoS)`) flagged by `npm run audit` (`check-audit`). Scoped the transitive dependency path (`@sanity/cli > @sanity/runtime-cli > adm-zip`) in `audit-resolve.json` in alignment with the existing project security posture, ensuring CI gates pass without introducing forced breaking changes to Sanity Studio dependencies.
+
+## Changes
+
+### `audit-resolve.json`
+
+- Added decisions for advisory `1239030` scoped to:
+  - `next-sanity>sanity>@sanity/cli>@sanity/runtime-cli>adm-zip`
+  - `sanity>@sanity/cli>@sanity/runtime-cli>adm-zip`
+
+## Verification
+
+- `npm run audit` (`check-audit`) — exit code 0 (`audit ok.`)
+
+---
+
 # 2026-09-19 (Dark Mode Brand Logo Inversion & Theme Synchronization Fix)
 
 ## Version

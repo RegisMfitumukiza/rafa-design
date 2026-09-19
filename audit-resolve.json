@@ -90,6 +90,16 @@
       "decision": "ignore",
       "madeAt": 1757464800000,
       "reason": "Sanity Studio CLI toolchain only; not shipped to the production site. No safe upstream fix (would force breaking sanity downgrade)."
+    },
+    "1239030|next-sanity>sanity>@sanity/cli>@sanity/runtime-cli>adm-zip": {
+      "decision": "ignore",
+      "madeAt": 1758296112939,
+      "reason": "Sanity Studio CLI toolchain only; not shipped to the production site. No safe upstream fix (would force breaking sanity downgrade)."
+    },
+    "1239030|sanity>@sanity/cli>@sanity/runtime-cli>adm-zip": {
+      "decision": "ignore",
+      "madeAt": 1758296112939,
+      "reason": "Sanity Studio CLI toolchain only; not shipped to the production site. No safe upstream fix (would force breaking sanity downgrade)."
     }
   }
 }
