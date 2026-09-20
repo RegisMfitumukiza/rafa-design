@@ -43,12 +43,15 @@ function lockScroll(): () => void {
 export function SplashProvider({ children }: SplashProviderProps) {
   // If already played in this session or marked by the pre-hydration script,
   // initialize immediately as "done" to eliminate any render flash on reload.
+  // Supports ?splash=true query parameter to easily replay/test anytime.
   const [state, setState] = useState<SplashState>(() => {
     if (typeof window !== "undefined") {
       try {
+        const forceSplash = window.location.search.includes("splash=");
         if (
-          document.documentElement.classList.contains("splash-skip") ||
-          sessionStorage.getItem(SPLASH_SESSION_KEY) === "1"
+          !forceSplash &&
+          (document.documentElement.classList.contains("splash-skip") ||
+            sessionStorage.getItem(SPLASH_SESSION_KEY) === "1")
         ) {
           return "done";
         }
@@ -63,10 +66,12 @@ export function SplashProvider({ children }: SplashProviderProps) {
 
   useLayoutEffect(() => {
     try {
+      const forceSplash = window.location.search.includes("splash=");
       const reducedMotion = window.matchMedia(REDUCED_MOTION_QUERY).matches;
       const alreadyPlayed =
-        document.documentElement.classList.contains("splash-skip") ||
-        sessionStorage.getItem(SPLASH_SESSION_KEY) === "1";
+        !forceSplash &&
+        (document.documentElement.classList.contains("splash-skip") ||
+          sessionStorage.getItem(SPLASH_SESSION_KEY) === "1");
 
       if (reducedMotion || alreadyPlayed) {
         document.documentElement.classList.add("splash-skip");
