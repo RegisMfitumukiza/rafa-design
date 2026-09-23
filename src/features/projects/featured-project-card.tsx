@@ -131,7 +131,7 @@ export function FeaturedProjectCard({ project }: FeaturedProjectCardProps) {
 
           {/* Subtitle — always clearly visible with editorial elegance, brightens on hover */}
           {project.subtitle && (
-            <p className="mt-xs md:mt-sm max-w-(--container-lg) text-xs leading-relaxed font-light text-white/80 transition-colors duration-300 [text-shadow:_0_1px_8px_rgba(0,0,0,0.8)] group-hover:text-white sm:text-sm md:text-base">
+            <p className="mt-xs md:mt-sm line-clamp-3 max-w-(--container-lg) overflow-hidden text-xs leading-relaxed font-light text-white/80 transition-colors duration-300 [text-shadow:_0_1px_8px_rgba(0,0,0,0.8)] group-hover:text-white sm:line-clamp-none sm:text-sm md:text-base">
               {project.subtitle}
             </p>
           )}

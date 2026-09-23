@@ -153,7 +153,7 @@ export function ProjectHeroParallax({
 
           {/* Subtitle */}
           {subtitle && (
-            <p className="mt-xs md:mt-sm max-w-2xl text-sm leading-relaxed font-light text-white/80 [text-shadow:_0_1px_8px_rgba(0,0,0,0.8)] sm:text-base md:text-lg">
+            <p className="mt-xs md:mt-sm line-clamp-4 max-w-2xl overflow-hidden text-sm leading-relaxed font-light text-white/80 [text-shadow:_0_1px_8px_rgba(0,0,0,0.8)] sm:line-clamp-none sm:text-base md:text-lg">
               {subtitle}
             </p>
           )}
