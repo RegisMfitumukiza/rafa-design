@@ -8,6 +8,36 @@
 >
 > Unlike the Implementation Tracker, this document is historical and should never be rewritten. New entries are always added to the top.
 
+# 2026-09-23 (Mobile Subtitle Overflow Fix)
+
+## Version
+
+0.16.22-alpha
+
+## Summary
+
+Fixed subtitle text overflowing its container on narrow mobile viewports in two places:
+
+1. **Featured Commission card** (`/projects` page): long subtitles (e.g. 187-character Yvan-villa description) now clamp to **3 lines** on mobile via `line-clamp-3`, expanding to full display at `sm:` breakpoint (`line-clamp-none`). Added `overflow-hidden` to prevent any residual bleed past the card edge.
+
+2. **Project hero** (`/projects/[slug]` page): same pattern with **4 lines** on mobile (`line-clamp-4 sm:line-clamp-none`) — slightly more generous given the full-viewport hero context.
+
+Both changes are pure Tailwind utility classes (no hardcoded values), use design system breakpoints, and are fully compatible with all existing animation and hover interactions.
+
+## Files Changed
+
+- `src/features/projects/featured-project-card.tsx` — line 134: added `overflow-hidden line-clamp-3 sm:line-clamp-none`
+- `src/features/projects/project-hero-parallax.tsx` — line 156: added `overflow-hidden line-clamp-4 sm:line-clamp-none`
+
+## Quality Gates
+
+- TypeScript: 0 errors
+- ESLint: 0 warnings
+- Build: exit 0 (33+ static routes prerendered)
+- Commit: `3169ccf`
+
+---
+
 # 2026-09-20 (Industrial Intro Splash Screen Upgrade)
 
 ## Version

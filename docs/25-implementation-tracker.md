@@ -106,6 +106,19 @@ Project release v0.2.0 (first public launch documentation pass)
 
 ---
 
+# Post-Ship Polish Log
+
+> This section tracks bug fixes, UX improvements, and security patches applied after initial 100% completion.
+
+| Date       | Commit    | Type     | Summary                                                                                                                                                                        |
+| ---------- | --------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 2026-09-19 | `46df73e` | security | Exempt adm-zip advisory 1239030 (Sanity CLI transitive dep, DoS — no user impact)                                                                                              |
+| 2026-09-20 | `b5641ce` | fix/ux   | Industrial splash screen upgrade: no premature line flash, zero-flicker reload, full GPS coordinates visible                                                                   |
+| 2026-09-20 | `46ffc70` | feat     | Add `?splash=true` URL query param to force-replay splash for QA                                                                                                               |
+| 2026-09-23 | `3169ccf` | fix/ux   | Clamp Featured Commission subtitle to 3 lines on mobile (line-clamp-3 sm:line-clamp-none); project hero to 4 lines — prevents text bleeding past card edge on narrow viewports |
+
+---
+
 # Progress Legend
 
 | Status | Meaning        |
