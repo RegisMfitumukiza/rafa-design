@@ -4,7 +4,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import { usePathname } from "next/navigation";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 
 import { motion } from "@/design-system/motion";
 
@@ -15,7 +15,9 @@ interface LenisProviderProps {
 export function LenisProvider({ children }: LenisProviderProps) {
   const pathname = usePathname();
   const isAdmin = pathname?.startsWith("/admin");
+  const lenisRef = useRef<Lenis | null>(null);
 
+  // ── Create the Lenis instance once (or when toggling admin) ──────────────
   useEffect(() => {
     // Disable Lenis on Sanity Studio (/admin) to allow seamless native trackpad,
     // two-finger gesture, and mouse wheel scrolling across all nested Studio panes
@@ -30,6 +32,8 @@ export function LenisProvider({ children }: LenisProviderProps) {
       gestureOrientation: "vertical",
       smoothWheel: true,
     });
+
+    lenisRef.current = lenis;
 
     const update = (time: number) => {
       lenis.raf(time * 1000);
@@ -59,6 +63,7 @@ export function LenisProvider({ children }: LenisProviderProps) {
     window.addEventListener("load", handleLoad);
 
     return () => {
+      lenisRef.current = null;
       clearTimeout(resizeTimer);
       resizeObserver.disconnect();
       window.removeEventListener("load", handleLoad);
@@ -66,6 +71,27 @@ export function LenisProvider({ children }: LenisProviderProps) {
       lenis.destroy();
     };
   }, [isAdmin]);
+
+  // ── On every client-side route change: reset scroll + refresh triggers ───
+  // Without this, the old Lenis scroll position bleeds into the new page,
+  // leaving ScrollTrigger in a stale/pinned state that blocks scrolling.
+  useEffect(() => {
+    if (isAdmin) return;
+
+    const lenis = lenisRef.current;
+    if (!lenis) return;
+
+    // Jump to top immediately (no smooth animation) so the new page starts clean
+    lenis.scrollTo(0, { immediate: true });
+
+    // Allow one frame for the new page's DOM to settle, then recalculate
+    // all ScrollTrigger positions against the new page height
+    const raf = requestAnimationFrame(() => {
+      ScrollTrigger.refresh();
+    });
+
+    return () => cancelAnimationFrame(raf);
+  }, [pathname, isAdmin]);
 
   return <>{children}</>;
 }
