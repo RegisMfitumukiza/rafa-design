@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -21,6 +21,8 @@ const contactFormSchema = z.object({
   location: z.string().trim().optional(),
   message: z.string().trim().min(10, ui.form.message.required),
   timeline: z.string().trim().optional(),
+  // Bot trap — hidden from real users, bots auto-fill it
+  honeypot: z.string().optional(),
 });
 
 type ContactFormValues = z.infer<typeof contactFormSchema>;
@@ -45,6 +47,16 @@ export function ContactForm({ projectTypes: propTypes }: ContactFormProps = {}) 
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [selectedType, setSelectedType] = useState<string>(defaultType);
 
+  // Mount timestamp stored as state (not a ref) — state values are safe to close over
+  // in callbacks without triggering react-hooks/refs lint errors.
+  // Set to 0 initially (pure), then to the actual epoch ms in useEffect after mount.
+  const [mountedAt, setMountedAt] = useState<number>(0);
+  useEffect(() => {
+    // Deferred one tick per react-hooks/set-state-in-effect rule
+    const t = setTimeout(() => setMountedAt(Date.now()), 0);
+    return () => clearTimeout(t);
+  }, []);
+
   const {
     register,
     handleSubmit,
@@ -63,25 +75,33 @@ export function ContactForm({ projectTypes: propTypes }: ContactFormProps = {}) 
     setValue("projectType", type, { shouldValidate: true });
   }
 
-  async function onSubmit(values: ContactFormValues) {
-    setSubmitError(null);
+  const onSubmit = useCallback(
+    async (values: ContactFormValues) => {
+      setSubmitError(null);
 
-    const response = await fetch("/api/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(values),
-    });
+      // Elapsed ms since form mount — bots submit instantly (< 1500ms)
+      const elapsed = mountedAt > 0 ? Date.now() - mountedAt : Date.now();
 
-    if (!response.ok) {
-      const data = (await response.json().catch(() => null)) as {
-        error?: string;
-      } | null;
-      setSubmitError(data?.error ?? ui.form.errorFallback);
-      return;
-    }
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...values, elapsed }),
+      });
 
-    setSubmitted(true);
-  }
+      if (!response.ok) {
+        const data = (await response.json().catch(() => null)) as {
+          error?: string;
+        } | null;
+        setSubmitError(data?.error ?? ui.form.errorFallback);
+        return;
+      }
+
+      setSubmitted(true);
+    },
+    [mountedAt],
+  );
+
+  const handleFormSubmit = handleSubmit(onSubmit);
 
   // ── SUCCESS STATE ────────────────────────────────────────────────────────────
   if (submitted) {
@@ -139,7 +159,34 @@ export function ContactForm({ projectTypes: propTypes }: ContactFormProps = {}) 
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)} className="space-y-lg">
+    <Form onSubmit={handleFormSubmit} className="space-y-lg">
+      {/*
+       * ── BOT TRAP (honeypot) ────────────────────────────────────────────────
+       * Positioned absolutely offscreen — invisible to real users.
+       * Bots auto-fill all fields; if this has a value the API silently rejects.
+       * Never use display:none or visibility:hidden — some bots detect those.
+       */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          left: "-9999px",
+          top: "auto",
+          width: "1px",
+          height: "1px",
+          overflow: "hidden",
+        }}
+      >
+        <label htmlFor="website">Website</label>
+        <input
+          id="website"
+          type="text"
+          autoComplete="off"
+          tabIndex={-1}
+          {...register("honeypot")}
+        />
+      </div>
+
       {/* ── PRIMARY CONTACT INFORMATION ── */}
       <div className="space-y-lg pb-lg border-border/20 border-b">
         {/* 01 // NAME */}

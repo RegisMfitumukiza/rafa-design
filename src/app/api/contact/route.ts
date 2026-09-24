@@ -12,6 +12,10 @@ interface ContactPayload {
   timeline?: string;
   subject?: string;
   message: string;
+  /** Bot trap — offscreen field that real users never fill; bots auto-populate it */
+  honeypot?: string;
+  /** Milliseconds elapsed since the form mounted — instant submissions are bots */
+  elapsed?: number;
 }
 
 export async function POST(request: Request) {
@@ -23,7 +27,18 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
   }
 
-  const { name, email, organization, projectType, location, timeline, subject, message } = payload;
+  const {
+    name,
+    email,
+    organization,
+    projectType,
+    location,
+    timeline,
+    subject,
+    message,
+    honeypot,
+    elapsed,
+  } = payload;
 
   if (!name || !name.trim()) {
     return NextResponse.json({ error: "Name is required." }, { status: 400 });
@@ -36,6 +51,19 @@ export async function POST(request: Request) {
   if (!message || !message.trim()) {
     return NextResponse.json({ error: "Message is required." }, { status: 400 });
   }
+
+  // ── Bot protection ────────────────────────────────────────────────────────
+  // Return 200 OK silently — never tell a bot it was caught, or it will adapt.
+  //
+  // 1. Honeypot: real users never see or fill this field; bots auto-populate it.
+  if (honeypot && honeypot.trim().length > 0) {
+    return NextResponse.json({ ok: true });
+  }
+  // 2. Timing: a human cannot read and fill the form in under 1.5 seconds.
+  if (typeof elapsed === "number" && elapsed < 1500) {
+    return NextResponse.json({ ok: true });
+  }
+  // ─────────────────────────────────────────────────────────────────────────
 
   const apiKey = process.env.RESEND_API_KEY;
 
