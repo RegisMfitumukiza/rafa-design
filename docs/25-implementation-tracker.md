@@ -118,7 +118,7 @@ Project release v0.2.0 (first public launch documentation pass)
 | 2026-09-23 | `3169ccf` | fix/ux   | Clamp Featured Commission subtitle to 3 lines on mobile (line-clamp-3 sm:line-clamp-none); project hero to 4 lines — prevents text bleeding past card edge on narrow viewports                                             |
 | 2026-09-24 | `c972ad7` | feat/sec | Add honeypot and timing bot protection to contact form (/api/contact and ContactForm)                                                                                                                                      |
 | 2026-10-01 | `ec98062` | security | Upgrade Next.js & eslint-config-next to 16.3.8 (resolving critical next/og RCE 1240609) and configure npm overrides for dompurify, markdown-it, brace-expansion, undici, and adm-zip                                       |
-| 2026-10-01 | `HEAD`    | fix/ux   | Small viewport (< 490px) responsiveness overhaul: root overflow-x clip, FeaturedProjectCard subtitle/title wrapping, taxonomy toolbar min-w-0 and responsive view mode buttons, and system-wide mobile wrapping safeguards |
+| 2026-10-01 | `edbb97c` | fix/ux   | Small viewport (< 490px) responsiveness overhaul: root overflow-x clip, FeaturedProjectCard subtitle/title wrapping, taxonomy toolbar min-w-0 and responsive view mode buttons, and system-wide mobile wrapping safeguards |
 
 ---
 
