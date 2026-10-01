@@ -259,7 +259,7 @@ export function FullscreenNavigation() {
               <div className="gap-xs flex flex-col">
                 <a
                   href={`mailto:${contactInformation.email}`}
-                  className="text-foreground/70 hover:text-foreground inline-flex min-h-(--touch-target) items-center text-sm font-medium transition-colors"
+                  className="text-foreground/70 hover:text-foreground inline-flex min-h-(--touch-target) items-center text-sm font-medium break-all transition-colors sm:break-normal"
                 >
                   {contactInformation.email}
                 </a>

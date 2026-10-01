@@ -8,6 +8,41 @@
 >
 > Unlike the Implementation Tracker, this document is historical and should never be rewritten. New entries are always added to the top.
 
+# 2026-10-01 (Small Viewport < 490px Responsiveness Overhaul)
+
+## Version
+
+0.16.24-alpha
+
+## Summary
+
+Comprehensive responsive layout and typography overhaul for compact mobile viewports (<= 490px down to 320px) across the entire platform:
+
+1. **Root Horizontal Overflow Prevention:** Added `overflow-x: clip;` and `max-width: 100%;` to `html` and `body` in `src/styles/base.css`, eliminating horizontal page stretching and scrollbar leakage while preserving CSS `sticky` positioning.
+2. **FeaturedProjectCard Responsiveness:**
+   - Upgraded title and subtitle containers with `w-full min-w-0 break-words`.
+   - Converted arbitrary `max-w-(--container-lg)` to design system tokens `max-w-xl` and `max-w-3xl`.
+   - Guaranteed full subtitle visibility without right-edge truncation or card overflow on viewports <= 490px (e.g. 432x650 and 360x640).
+3. **Projects Archive Taxonomy Toolbar:**
+   - Added `w-full min-w-0` to the filter container and horizontal scroll rails to eliminate the 460px+ intrinsic width barrier.
+   - Introduced responsive view mode button labels (`01 GRID`, `02 TABLE`, `03 INDEX` on mobile, expanding to `02 SPEC TABLE` and `03 GEOGRAPHIC INDEX` on `sm+`).
+4. **Platform-Wide Mobile Edge Refinements:**
+   - `project-hero-parallax.tsx`: Added `break-words w-full min-w-0` to hero title and subtitle.
+   - `project-card.tsx`: Added `flex-wrap gap-xs` to the mobile spec ledger (Status, Area, and CTA).
+   - `project-metadata.tsx`: Added `shrink-0` to `dt` and `text-right break-words` to `dd` for clean multi-line wrapping.
+   - `discipline-hero.tsx`: Added `flex-wrap gap-xs w-full min-w-0` to lead photograph caption and credit row.
+   - `discipline-index.tsx`: Responsive typography scaling (`text-2xl sm:text-3xl md:text-4xl break-words`) for discipline titles.
+   - `sustainability/page.tsx` & `careers/page.tsx`: Added `flex-wrap gap-xs w-full min-w-0` to section headers.
+   - `fullscreen-navigation.tsx` & `Footer.tsx`: Added `break-all sm:break-normal` to email address links.
+
+## Quality Gates
+
+- `npm run typecheck`: 0 errors (exit 0)
+- `npm run lint`: 0 errors, 0 warnings (exit 0)
+- `npm run build`: 33+ static routes prerendered cleanly (exit 0)
+
+---
+
 # 2026-10-01 (Security Audit Resolution & Next.js 16.3.8 Upgrade)
 
 ## Version

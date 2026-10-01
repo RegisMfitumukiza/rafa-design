@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import type { Route } from "next";
 
@@ -105,7 +105,7 @@ export function DisciplineIndex({
                   </span>
 
                   {/* Discipline title */}
-                  <h2 className="font-display text-foreground/90 group-hover:text-foreground text-3xl font-medium tracking-tight transition-all group-hover:translate-x-2 md:col-span-5 md:text-4xl">
+                  <h2 className="font-display text-foreground/90 group-hover:text-foreground text-2xl font-medium tracking-tight break-words transition-all group-hover:translate-x-2 sm:text-3xl md:col-span-5 md:text-4xl">
                     {service.title}
                   </h2>
 

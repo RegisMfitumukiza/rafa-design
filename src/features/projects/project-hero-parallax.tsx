@@ -135,7 +135,7 @@ export function ProjectHeroParallax({
         <div className="flex-1" />
 
         {/* Bottom title composition */}
-        <div className="pb-md sm:pb-lg md:pb-xl">
+        <div className="pb-md sm:pb-lg md:pb-xl w-full min-w-0">
           {/* Overline metadata */}
           <p className="mb-xs md:mb-sm text-overline font-mono tracking-widest text-white/60 uppercase [text-shadow:_0_1px_12px_rgba(0,0,0,0.9)]">
             {year}
@@ -147,13 +147,13 @@ export function ProjectHeroParallax({
           </p>
 
           {/* Monumental title with design system display font */}
-          <h1 className="font-display max-w-4xl text-3xl leading-[0.95] font-medium tracking-tight text-white [text-shadow:_0_2px_16px_rgba(0,0,0,0.8),_0_4px_32px_rgba(0,0,0,0.6)] sm:text-5xl md:text-6xl lg:text-7xl">
+          <h1 className="font-display max-w-4xl text-3xl leading-[0.95] font-medium tracking-tight break-words text-white [text-shadow:_0_2px_16px_rgba(0,0,0,0.8),_0_4px_32px_rgba(0,0,0,0.6)] sm:text-5xl md:text-6xl lg:text-7xl">
             {title}
           </h1>
 
           {/* Subtitle */}
           {subtitle && (
-            <p className="mt-xs md:mt-sm line-clamp-4 max-w-2xl overflow-hidden text-sm leading-relaxed font-light text-white/80 [text-shadow:_0_1px_8px_rgba(0,0,0,0.8)] sm:line-clamp-none sm:text-base md:text-lg">
+            <p className="mt-xs md:mt-sm line-clamp-4 w-full max-w-2xl overflow-hidden text-sm leading-relaxed font-light break-words text-white/80 [text-shadow:_0_1px_8px_rgba(0,0,0,0.8)] sm:line-clamp-none sm:text-base md:text-lg">
               {subtitle}
             </p>
           )}

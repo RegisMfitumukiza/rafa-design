@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import type { Route } from "next";
 
 import Link from "next/link";
@@ -72,8 +72,8 @@ export default async function CareersPage() {
 
       {/* ── 02. OPEN POSITIONS INDEX ── */}
       <Section container="wide" className="mt-xl md:mt-2xl" id="positions">
-        <Reveal>
-          <div className="mb-md border-border/40 pb-sm text-overline flex items-baseline justify-between border-b font-mono tracking-widest uppercase">
+        <Reveal className="w-full min-w-0">
+          <div className="mb-md border-border/40 pb-sm text-overline gap-xs flex w-full min-w-0 flex-wrap items-baseline justify-between border-b font-mono tracking-widest uppercase">
             <div className="gap-xs text-foreground/45 flex items-center">
               <span className="bg-foreground/40 inline-block h-1 w-1 rounded-full" />
               <span>{ui.sections.openPositionsOverline}</span>

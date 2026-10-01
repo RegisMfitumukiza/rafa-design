@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import type { Route } from "next";
 
@@ -66,8 +66,8 @@ export function DisciplineHero({ service, leadProject, className }: DisciplineHe
       </ImageReveal>
 
       {/* Caption row */}
-      <Reveal delay={0.15}>
-        <div className="mt-sm gap-md flex items-baseline justify-between">
+      <Reveal delay={0.15} className="w-full min-w-0">
+        <div className="mt-sm gap-x-md gap-y-xs flex w-full min-w-0 flex-wrap items-baseline justify-between">
           {/* Left: custom caption OR project reference link */}
           {customCaption ? (
             <span className="text-foreground/40 text-overline font-mono tracking-widest uppercase">

@@ -134,7 +134,10 @@ export function Footer({ className }: FooterProps) {
               ))}
             </ul>
             <div className="gap-xs mt-md pt-xs border-border/30 flex flex-col border-t">
-              <a href={`mailto:${contactInformation.email}`} className={directoryLinkClassName}>
+              <a
+                href={`mailto:${contactInformation.email}`}
+                className={cn(directoryLinkClassName, "break-all sm:break-normal")}
+              >
                 {contactInformation.email}
               </a>
               {phoneHref && (

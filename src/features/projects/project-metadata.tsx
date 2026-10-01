@@ -1,4 +1,4 @@
-﻿import type { Project } from "@/content/projects";
+import type { Project } from "@/content/projects";
 import { cn } from "@/lib/cn";
 import { Reveal } from "@/motion";
 
@@ -20,8 +20,8 @@ export function ProjectMetadata({ project, className }: ProjectMetadataProps) {
       {/* Semantic dl wrapper — dt/dd pairs are only valid inside a dl */}
       <dl className={cn("border-border/40 divide-border/40 divide-y border-y font-mono text-xs")}>
         <div className="py-xs gap-sm flex justify-between">
-          <dt className="text-foreground/40 uppercase">TYPOLOGY</dt>
-          <dd className="text-foreground/90 font-medium">
+          <dt className="text-foreground/40 shrink-0 uppercase">TYPOLOGY</dt>
+          <dd className="text-foreground/90 text-right font-medium break-words">
             {project.typology && Array.isArray(project.typology) && project.typology.length > 0
               ? project.typology.join(", ")
               : project.category[0]}
@@ -29,8 +29,8 @@ export function ProjectMetadata({ project, className }: ProjectMetadataProps) {
         </div>
 
         <div className="py-xs gap-sm flex justify-between">
-          <dt className="text-foreground/40 uppercase">LOCATION</dt>
-          <dd className="text-foreground/90 font-medium">
+          <dt className="text-foreground/40 shrink-0 uppercase">LOCATION</dt>
+          <dd className="text-foreground/90 text-right font-medium break-words">
             {project.location.city}, {project.location.country}
           </dd>
         </div>

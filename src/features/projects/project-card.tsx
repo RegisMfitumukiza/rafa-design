@@ -139,7 +139,7 @@ export function ProjectCard({
           )}
 
           {/* Mobile-only spec ledger: Status · Area & Explore Monograph CTA */}
-          <div className="border-border/30 mt-sm pt-xs text-foreground/50 text-micro flex items-center justify-between border-t font-mono tracking-widest uppercase md:hidden">
+          <div className="border-border/30 mt-sm pt-xs text-foreground/50 text-micro gap-xs flex flex-wrap items-center justify-between border-t font-mono tracking-widest uppercase md:hidden">
             <span className="flex items-center gap-1.5">
               <span
                 className={cn(

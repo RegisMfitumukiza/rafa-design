@@ -107,7 +107,7 @@ export function FeaturedProjectCard({ project }: FeaturedProjectCardProps) {
         </div>
 
         {/* Title composition — bottom left */}
-        <div className="p-sm sm:p-lg md:p-xl absolute right-0 bottom-0 left-0 z-10">
+        <div className="p-sm sm:p-lg md:p-xl absolute right-0 bottom-0 left-0 z-10 w-full min-w-0">
           {/* Additional backdrop for text area - dynamically adjusted */}
           <div
             aria-hidden="true"
@@ -125,13 +125,13 @@ export function FeaturedProjectCard({ project }: FeaturedProjectCardProps) {
           </p>
 
           {/* Title with enhanced text shadow and design system display font */}
-          <h2 className="font-display max-w-(--container-3xl) text-2xl leading-[0.95] font-medium tracking-tight text-white [text-shadow:_0_2px_16px_rgba(0,0,0,0.8),_0_4px_32px_rgba(0,0,0,0.6),_0_1px_4px_rgba(0,0,0,0.9)] sm:text-4xl md:text-5xl lg:text-6xl">
+          <h2 className="font-display max-w-3xl text-2xl leading-[0.95] font-medium tracking-tight break-words text-white [text-shadow:_0_2px_16px_rgba(0,0,0,0.8),_0_4px_32px_rgba(0,0,0,0.6),_0_1px_4px_rgba(0,0,0,0.9)] sm:text-4xl md:text-5xl lg:text-6xl">
             {project.title}
           </h2>
 
           {/* Subtitle — always clearly visible with editorial elegance, brightens on hover */}
           {project.subtitle && (
-            <p className="mt-xs md:mt-sm line-clamp-3 max-w-(--container-lg) overflow-hidden text-xs leading-relaxed font-light text-white/80 transition-colors duration-300 [text-shadow:_0_1px_8px_rgba(0,0,0,0.8)] group-hover:text-white sm:line-clamp-none sm:text-sm md:text-base">
+            <p className="mt-xs md:mt-sm line-clamp-3 w-full max-w-xl overflow-hidden text-xs leading-relaxed font-light break-words text-white/80 transition-colors duration-300 [text-shadow:_0_1px_8px_rgba(0,0,0,0.8)] group-hover:text-white sm:line-clamp-none sm:text-sm md:text-base">
               {project.subtitle}
             </p>
           )}

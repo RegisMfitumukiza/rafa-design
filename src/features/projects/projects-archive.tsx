@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { gsap } from "gsap";
 import Link from "next/link";
@@ -306,12 +306,12 @@ export function ProjectsArchive({ initialProjects, categories, intro }: Projects
       </Reveal>
 
       {/* ── Taxonomy Toolbar ────────────────────────────────────────────────── */}
-      <Reveal delay={0.1}>
-        <div className="border-border/30 divide-border/30 divide-y border-y">
+      <Reveal delay={0.1} className="w-full min-w-0">
+        <div className="border-border/30 divide-border/30 w-full min-w-0 divide-y border-y">
           {/* Row 1 — View mode switcher + search */}
-          <div className="py-sm gap-sm flex flex-col justify-between sm:flex-row sm:items-center">
+          <div className="py-sm gap-sm flex w-full min-w-0 flex-col justify-between sm:flex-row sm:items-center">
             {/* View mode */}
-            <div className="gap-md scrollbar-hide flex items-center overflow-x-auto font-mono text-xs whitespace-nowrap">
+            <div className="gap-md scrollbar-hide flex w-full min-w-0 items-center overflow-x-auto font-mono text-xs whitespace-nowrap">
               {(["grid", "list", "map"] as ViewMode[]).map((mode, i) => (
                 <button
                   key={mode}
@@ -332,19 +332,29 @@ export function ProjectsArchive({ initialProjects, categories, intro }: Projects
                     aria-hidden="true"
                   />
                   0{i + 1}{" "}
-                  {mode === "grid" ? "GRID" : mode === "list" ? "SPEC TABLE" : "GEOGRAPHIC INDEX"}
+                  {mode === "grid" ? (
+                    "GRID"
+                  ) : mode === "list" ? (
+                    <>
+                      <span className="hidden sm:inline">SPEC </span>TABLE
+                    </>
+                  ) : (
+                    <>
+                      <span className="hidden sm:inline">GEOGRAPHIC </span>INDEX
+                    </>
+                  )}
                 </button>
               ))}
             </div>
 
             {/* Search */}
-            <div className="relative flex items-center">
+            <div className="relative flex w-full min-w-0 items-center sm:w-auto">
               <input
                 type="text"
                 placeholder="[ SEARCH ARCHIVE_ ]"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="border-border/30 focus:border-foreground placeholder:text-foreground/35 py-xs w-full border-b bg-transparent font-mono text-xs transition-colors outline-none sm:w-56"
+                className="border-border/30 focus:border-foreground placeholder:text-foreground/35 py-xs w-full min-w-0 border-b bg-transparent font-mono text-xs transition-colors outline-none sm:w-56"
               />
               {searchQuery && (
                 <button
