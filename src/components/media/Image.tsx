@@ -64,13 +64,19 @@ export function Image({
 
   const useFill = fill || (asset.width === undefined && asset.height === undefined);
 
+  // In fill mode NextImage is position:absolute inset-0 — it MUST be a direct
+  // child of the positioned container declared by the call site. Wrapping it in
+  // an extra <div> that has no explicit height collapses that wrapper to 0px and
+  // makes the image invisible. Only add the wrapper for intrinsic-size mode.
+  if (useFill) {
+    return (
+      <NextImage {...sharedProps} fill className={cn("object-cover", imgClassName, className)} />
+    );
+  }
+
   return (
     <div className={cn("relative overflow-hidden", className)}>
-      {useFill ? (
-        <NextImage {...sharedProps} fill />
-      ) : (
-        <NextImage {...sharedProps} width={asset.width!} height={asset.height!} />
-      )}
+      <NextImage {...sharedProps} width={asset.width!} height={asset.height!} />
     </div>
   );
 }

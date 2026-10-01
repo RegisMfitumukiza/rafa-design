@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <title>RAFA Design Hub</title>
+  <!-- Angular K mark — mirrors the architectural monogram from the RAFA logo -->
+  <path
+    d="M7 4 L7 28 M7 16 L20 4 M13.5 13 L25 28"
+    stroke="#0a0a0a"
+    stroke-width="2.4"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <style>
+    @media (prefers-color-scheme: dark) {
+      path { stroke: #fafafa; }
+    }
+  </style>
+</svg>
