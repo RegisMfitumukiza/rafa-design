@@ -150,11 +150,38 @@ export function Footer({ className }: FooterProps) {
         </div>
 
         {/* Sub-footer Bar */}
-        <div className="border-border/40 text-foreground/40 mt-xl gap-sm pt-md flex flex-col items-center justify-between border-t text-xs md:flex-row">
-          <p>
+        <div className="border-border/40 text-foreground/40 mt-xl pt-md flex flex-col gap-4 border-t text-xs md:flex-row md:items-center md:justify-between">
+          {/* Copyright — always on its own row on mobile */}
+          <p className="text-center md:text-left">
             &copy; {year} {config.name}. {rights}
           </p>
-          <div className="gap-sm lg:gap-md flex flex-wrap items-center justify-center">
+
+          {/* Social links + back-to-top
+              XS: 2-column grid so labels never orphan with bullets
+              sm+: horizontal flex-wrap with bullet separators */}
+          <div className="grid grid-cols-2 gap-x-4 gap-y-1 sm:hidden">
+            {socialLinks.map((link) => (
+              <a
+                key={`${link.platform}-${link.url}`}
+                href={link.url}
+                className="hover:text-foreground inline-flex min-h-(--touch-target) items-center font-mono text-xs transition-colors"
+                target={link.url.startsWith("mailto:") ? undefined : "_blank"}
+                rel={link.url.startsWith("mailto:") ? undefined : "noopener noreferrer"}
+              >
+                {link.label || capitalize(link.platform)}
+              </a>
+            ))}
+            <button
+              type="button"
+              onClick={scrollToTop}
+              className="hover:text-foreground col-span-2 mt-1 inline-flex min-h-(--touch-target) items-center justify-center font-mono text-xs transition-colors"
+            >
+              Back to top ↑
+            </button>
+          </div>
+
+          {/* sm+ horizontal row with bullet separators */}
+          <div className="gap-sm lg:gap-md hidden flex-wrap items-center justify-center sm:flex">
             {subFooterItems.map((item, index) => (
               <Fragment key={index}>
                 {index > 0 && (

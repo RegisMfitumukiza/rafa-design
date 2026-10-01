@@ -54,8 +54,9 @@ export function FeaturedProjectCard({ project }: FeaturedProjectCardProps) {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {/* Photography — fills container, parallax on hover */}
-      <div className="relative aspect-[4/3] min-h-[360px] overflow-hidden sm:aspect-[16/9] sm:min-h-[420px] md:aspect-[21/9] md:min-h-[460px]">
+      {/* Photography — fills container. XS: no aspect ratio so card grows to
+          fit all text (nothing clipped). sm+: editorial aspect ratios restored. */}
+      <div className="relative min-h-[420px] overflow-hidden sm:aspect-[16/9] sm:min-h-[420px] md:aspect-[21/9] md:min-h-[460px]">
         <Image
           asset={project.heroImage}
           fill
@@ -131,7 +132,7 @@ export function FeaturedProjectCard({ project }: FeaturedProjectCardProps) {
 
           {/* Subtitle — always clearly visible with editorial elegance, brightens on hover */}
           {project.subtitle && (
-            <p className="mt-xs md:mt-sm line-clamp-3 w-full max-w-xl overflow-hidden text-xs leading-relaxed font-light break-words text-white/80 transition-colors duration-300 [text-shadow:_0_1px_8px_rgba(0,0,0,0.8)] group-hover:text-white sm:line-clamp-none sm:text-sm md:text-base">
+            <p className="mt-xs md:mt-sm w-full max-w-xl overflow-hidden text-xs leading-relaxed font-light break-words text-white/80 transition-colors duration-300 [text-shadow:_0_1px_8px_rgba(0,0,0,0.8)] group-hover:text-white sm:text-sm md:text-base">
               {project.subtitle}
             </p>
           )}
