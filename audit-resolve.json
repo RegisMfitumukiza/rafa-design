@@ -100,6 +100,76 @@
       "decision": "ignore",
       "madeAt": 1758296112939,
       "reason": "Sanity Studio CLI toolchain only; not shipped to the production site. No safe upstream fix (would force breaking sanity downgrade)."
+    },
+    "1112714|next-sanity>sanity>@sanity/cli>@vercel/frameworks>js-yaml": {
+      "decision": "ignore",
+      "madeAt": 1759330900000,
+      "reason": "Sanity Studio CLI toolchain only; not shipped to the production site. No safe upstream fix (would force breaking sanity downgrade)."
+    },
+    "1112714|sanity>@sanity/cli>@vercel/frameworks>js-yaml": {
+      "decision": "ignore",
+      "madeAt": 1759330900000,
+      "reason": "Sanity Studio CLI toolchain only; not shipped to the production site. No safe upstream fix (would force breaking sanity downgrade)."
+    },
+    "1121859|next-sanity>sanity>@sanity/cli>@vercel/frameworks>js-yaml": {
+      "decision": "ignore",
+      "madeAt": 1759330900000,
+      "reason": "Sanity Studio CLI toolchain only; not shipped to the production site. No safe upstream fix (would force breaking sanity downgrade)."
+    },
+    "1121859|sanity>@sanity/cli>@vercel/frameworks>js-yaml": {
+      "decision": "ignore",
+      "madeAt": 1759330900000,
+      "reason": "Sanity Studio CLI toolchain only; not shipped to the production site. No safe upstream fix (would force breaking sanity downgrade)."
+    },
+    "1123912|next-sanity>sanity>@sanity/cli>@vercel/frameworks>js-yaml": {
+      "decision": "ignore",
+      "madeAt": 1759330900000,
+      "reason": "Sanity Studio CLI toolchain only; not shipped to the production site. No safe upstream fix (would force breaking sanity downgrade)."
+    },
+    "1123912|sanity>@sanity/cli>@vercel/frameworks>js-yaml": {
+      "decision": "ignore",
+      "madeAt": 1759330900000,
+      "reason": "Sanity Studio CLI toolchain only; not shipped to the production site. No safe upstream fix (would force breaking sanity downgrade)."
+    },
+    "1138114|next-sanity>sanity>@sanity/cli>@vercel/frameworks>js-yaml": {
+      "decision": "ignore",
+      "madeAt": 1759330900000,
+      "reason": "Sanity Studio CLI toolchain only; not shipped to the production site. No safe upstream fix (would force breaking sanity downgrade)."
+    },
+    "1138114|sanity>@sanity/cli>@vercel/frameworks>js-yaml": {
+      "decision": "ignore",
+      "madeAt": 1759330900000,
+      "reason": "Sanity Studio CLI toolchain only; not shipped to the production site. No safe upstream fix (would force breaking sanity downgrade)."
+    },
+    "1193726|next-sanity>sanity>@sanity/cli>@vercel/frameworks>js-yaml": {
+      "decision": "ignore",
+      "madeAt": 1759330900000,
+      "reason": "Sanity Studio CLI toolchain only; not shipped to the production site. No safe upstream fix (would force breaking sanity downgrade)."
+    },
+    "1193726|sanity>@sanity/cli>@vercel/frameworks>js-yaml": {
+      "decision": "ignore",
+      "madeAt": 1759330900000,
+      "reason": "Sanity Studio CLI toolchain only; not shipped to the production site. No safe upstream fix (would force breaking sanity downgrade)."
+    },
+    "1193727|next-sanity>sanity>@sanity/cli>@vercel/frameworks>js-yaml": {
+      "decision": "ignore",
+      "madeAt": 1759330900000,
+      "reason": "Sanity Studio CLI toolchain only; not shipped to the production site. No safe upstream fix (would force breaking sanity downgrade)."
+    },
+    "1193727|sanity>@sanity/cli>@vercel/frameworks>js-yaml": {
+      "decision": "ignore",
+      "madeAt": 1759330900000,
+      "reason": "Sanity Studio CLI toolchain only; not shipped to the production site. No safe upstream fix (would force breaking sanity downgrade)."
+    },
+    "1119441|next-sanity>sanity>@sanity/cli>@vercel/frameworks>js-yaml>typeid-js>uuid": {
+      "decision": "ignore",
+      "madeAt": 1759330900000,
+      "reason": "Sanity Studio CLI toolchain only; not shipped to the production site. No safe upstream fix (would force breaking sanity downgrade)."
+    },
+    "1119441|sanity>@sanity/cli>@vercel/frameworks>js-yaml>typeid-js>uuid": {
+      "decision": "ignore",
+      "madeAt": 1759330900000,
+      "reason": "Sanity Studio CLI toolchain only; not shipped to the production site. No safe upstream fix (would force breaking sanity downgrade)."
     }
   }
 }

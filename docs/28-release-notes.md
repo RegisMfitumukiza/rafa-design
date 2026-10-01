@@ -8,6 +8,34 @@
 >
 > Unlike the Implementation Tracker, this document is historical and should never be rewritten. New entries are always added to the top.
 
+# 2026-10-01 (Security Audit Resolution & Next.js 16.3.8 Upgrade)
+
+## Version
+
+0.16.23-alpha
+
+## Summary
+
+Resolved 13 security advisories (37 audit actions) flagged in continuous integration audits:
+
+1. **Next.js Critical RCE Fix (`next/og` ImageResponse, advisory 1240609):** Upgraded `next` and `eslint-config-next` from `16.3.4` to `16.3.8`, closing the remote code execution vulnerability in `ImageResponse`.
+2. **NPM Security Overrides:** Configured targeted package overrides in `package.json` for all transitive dependencies:
+   - `adm-zip`: `^0.6.1` (resolving bypass and extraction vulnerabilities 1240032, 1240034, 1240066, 1240064, 1240065)
+   - `dompurify`: `^3.4.16` (resolving DOM XSS advisory 1240621)
+   - `markdown-it`: `^14.3.2` (resolving linkify quadratic DoS advisory 1239989)
+   - `brace-expansion`: `^5.0.12` under `minimatch@10` and `^1.1.21` under `minimatch@3` (resolving recursion DoS advisories 1240104, 1240107, 1240108, 1240111, 1240100, 1240103)
+   - `undici`: `^7.29.1` under `jsdom` and `^6.28.1` under `@actions/http-client` (resolving WebSocket and TLS validation advisories 1240041, 1240042, 1240050, 1239933, 1239934, 1240036, 1240044, 1240046, 1240055, 1240038, 1240039, 1240048, 1240052)
+3. **Audit Resolver Update (`audit-resolve.json`):** Updated the path mappings for Sanity Studio CLI toolchain dependencies (`js-yaml` and `uuid` under `@sanity/cli>@vercel/frameworks`) following the tree refactor from the `adm-zip` upgrade.
+
+## Quality Gates
+
+- `npm run audit`: `audit ok.` (exit 0)
+- `npm run typecheck`: 0 errors (exit 0)
+- `npm run lint`: 0 errors, 0 warnings (exit 0)
+- `npm run build`: 33+ static routes prerendered cleanly (exit 0)
+
+---
+
 # 2026-09-23 (Mobile Subtitle Overflow Fix)
 
 ## Version
