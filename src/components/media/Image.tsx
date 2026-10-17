@@ -41,6 +41,10 @@ export function Image({
     return <div role="img" aria-label={asset.alt} className={cn("bg-muted", className)} />;
   }
 
+  const isContain =
+    className?.includes("object-contain") || imgClassName?.includes("object-contain");
+  const fitClass = isContain ? "object-contain" : "object-cover";
+
   const sharedProps = {
     src: asset.src,
     alt: asset.alt,
@@ -59,15 +63,13 @@ export function Image({
         });
       }
     },
-    className: cn("object-cover", imgClassName),
+    className: cn(fitClass, imgClassName),
   } as const;
 
   // When `fill` is explicitly requested as a prop, the caller manages their own
   // positioned container (e.g. hero parallax, absolute background layer, full-bleed card).
   if (fill) {
-    return (
-      <NextImage {...sharedProps} fill className={cn("object-cover", imgClassName, className)} />
-    );
+    return <NextImage {...sharedProps} fill className={cn(fitClass, imgClassName, className)} />;
   }
 
   // Standard mode: Image component renders the wrapper <div> with `className`
@@ -82,7 +84,7 @@ export function Image({
           {...sharedProps}
           width={asset.width!}
           height={asset.height!}
-          className={cn("h-full w-full object-cover", imgClassName)}
+          className={cn("h-full w-full", fitClass, imgClassName)}
         />
       ) : (
         <NextImage {...sharedProps} fill />
