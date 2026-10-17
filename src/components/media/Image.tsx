@@ -62,21 +62,31 @@ export function Image({
     className: cn("object-cover", imgClassName),
   } as const;
 
-  const useFill = fill || (asset.width === undefined && asset.height === undefined);
-
-  // In fill mode NextImage is position:absolute inset-0 — it MUST be a direct
-  // child of the positioned container declared by the call site. Wrapping it in
-  // an extra <div> that has no explicit height collapses that wrapper to 0px and
-  // makes the image invisible. Only add the wrapper for intrinsic-size mode.
-  if (useFill) {
+  // When `fill` is explicitly requested as a prop, the caller manages their own
+  // positioned container (e.g. hero parallax, absolute background layer, full-bleed card).
+  if (fill) {
     return (
       <NextImage {...sharedProps} fill className={cn("object-cover", imgClassName, className)} />
     );
   }
 
+  // Standard mode: Image component renders the wrapper <div> with `className`
+  // (which provides aspect-ratio, width, height, borders, etc.) so that it
+  // never collapses to 0 height even if intrinsic dimensions are not provided.
+  const hasDimensions = typeof asset.width === "number" && typeof asset.height === "number";
+
   return (
     <div className={cn("relative overflow-hidden", className)}>
-      <NextImage {...sharedProps} width={asset.width!} height={asset.height!} />
+      {hasDimensions ? (
+        <NextImage
+          {...sharedProps}
+          width={asset.width!}
+          height={asset.height!}
+          className={cn("h-full w-full object-cover", imgClassName)}
+        />
+      ) : (
+        <NextImage {...sharedProps} fill />
+      )}
     </div>
   );
 }

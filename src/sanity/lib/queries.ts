@@ -38,9 +38,7 @@ export const videoProjection = `
 
 // Chapter image projection (extends base with narrative and intent)
 export const chapterImageProjection = `
-  asset,
-  alt,
-  caption,
+  ${imageProjection},
   narrative,
   intent,
   fullBleed
@@ -132,9 +130,17 @@ export const projectBySlugQuery = `
       heading,
       body,
       image {
-        "asset": asset.asset,
+        "asset": asset.asset->{
+          _id,
+          url,
+          metadata {
+            dimensions,
+            lqip
+          }
+        },
         alt,
         caption,
+        credit,
         narrative,
         intent,
         fullBleed
@@ -156,7 +162,9 @@ export const projectBySlugQuery = `
       ${galleryMediaProjection}
     },
     drawings[] {
-      image,
+      image {
+        ${imageProjection}
+      },
       title,
       code,
       scale,

@@ -60,7 +60,7 @@ export function FeaturedProjectCard({ project }: FeaturedProjectCardProps) {
         <Image
           asset={project.heroImage}
           fill
-          className="h-full w-full object-cover transition-transform duration-[1200ms] ease-out motion-safe:group-hover:scale-[1.04]"
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] ease-out motion-safe:group-hover:scale-[1.04]"
           sizes="100vw"
           priority={true}
           loading="eager"
