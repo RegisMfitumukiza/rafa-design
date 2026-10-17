@@ -8,6 +8,33 @@
 >
 > Unlike the Implementation Tracker, this document is historical and should never be rewritten. New entries are always added to the top.
 
+# 2026-10-17 (Project Gallery & Sanity Image Restoration)
+
+## Version
+
+0.16.26-alpha
+
+## Summary
+
+Resolved critical rendering issue where uploaded Sanity gallery images on project detail pages (`/projects/[slug]`) were collapsing to 0px height, causing only captions to be visible on an empty white canvas:
+
+1. **`Image.tsx` Architectural Correction:**
+   - Standard mode (`fill={false}`) now consistently renders the wrapping `<div className={cn("relative overflow-hidden", className)}>` containing `className` (which carries `aspect-landscape`, `aspect-[4/3]`, `w-full`, etc.).
+   - If intrinsic dimensions (`asset.width` & `asset.height`) are available, renders `<NextImage width={width} height={height} className="h-full w-full object-cover" />`. If missing, renders `<NextImage fill />` safely constrained inside the aspect-ratio wrapper div.
+   - Only when `fill={true}` is explicitly passed as a prop does `Image` render directly without a wrapper div (for caller-managed containers like parallax and hero elements).
+2. **`featured-project-card.tsx` Image Positioning:**
+   - Added `absolute inset-0` to the `Image fill` element so it reliably expands across the full height of `relative min-h-[420px]` containers on XS mobile screens without collapsing.
+3. **GROQ Query Optimization (`queries.ts`):**
+   - Dereferenced image assets (`asset->{ _id, url, metadata { dimensions, lqip } }`) in `chapterImageProjection`, `drawings[]`, and `chapters[].image`.
+   - Populated true image dimensions and LQIP metadata across all Sanity-powered project media.
+
+## Quality Gates
+
+- `npm run typecheck`: 0 errors (exit 0)
+- `npm run lint`: 0 errors, 0 warnings (exit 0)
+
+---
+
 # 2026-10-01 (Small Viewport < 490px Responsiveness Overhaul)
 
 ## Version
