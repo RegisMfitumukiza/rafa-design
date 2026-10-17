@@ -170,6 +170,101 @@
       "decision": "ignore",
       "madeAt": 1759330900000,
       "reason": "Sanity Studio CLI toolchain only; not shipped to the production site. No safe upstream fix (would force breaking sanity downgrade)."
+    },
+    "1240992|eslint-config-next>@next/eslint-plugin-next>fast-glob>micromatch>braces": {
+      "decision": "ignore",
+      "madeAt": 1760693900000,
+      "reason": "ESLint plugin dev dependency only; not shipped to production site."
+    },
+    "1240992|next-sanity>sanity>@sanity/cli>@sanity/codegen>chokidar>braces": {
+      "decision": "ignore",
+      "madeAt": 1760693900000,
+      "reason": "Sanity Studio CLI toolchain only; not shipped to the production site."
+    },
+    "1240992|sanity>@sanity/cli>@sanity/codegen>chokidar>braces": {
+      "decision": "ignore",
+      "madeAt": 1760693900000,
+      "reason": "Sanity Studio CLI toolchain only; not shipped to the production site."
+    },
+    "1123912|next-sanity>sanity>@sanity/cli>@sanity/codegen>chokidar>braces>globby>fast-glob>micromatch>@vercel/frameworks>js-yaml": {
+      "decision": "ignore",
+      "madeAt": 1760693900000,
+      "reason": "Sanity Studio CLI toolchain only; not shipped to the production site."
+    },
+    "1123912|sanity>@sanity/cli>@sanity/codegen>chokidar>braces>globby>fast-glob>micromatch>@vercel/frameworks>js-yaml": {
+      "decision": "ignore",
+      "madeAt": 1760693900000,
+      "reason": "Sanity Studio CLI toolchain only; not shipped to the production site."
+    },
+    "1138114|next-sanity>sanity>@sanity/cli>@sanity/codegen>chokidar>braces>globby>fast-glob>micromatch>@vercel/frameworks>js-yaml": {
+      "decision": "ignore",
+      "madeAt": 1760693900000,
+      "reason": "Sanity Studio CLI toolchain only; not shipped to the production site."
+    },
+    "1138114|sanity>@sanity/cli>@sanity/codegen>chokidar>braces>globby>fast-glob>micromatch>@vercel/frameworks>js-yaml": {
+      "decision": "ignore",
+      "madeAt": 1760693900000,
+      "reason": "Sanity Studio CLI toolchain only; not shipped to the production site."
+    },
+    "1193726|next-sanity>sanity>@sanity/cli>@sanity/codegen>chokidar>braces>globby>fast-glob>micromatch>@vercel/frameworks>js-yaml": {
+      "decision": "ignore",
+      "madeAt": 1760693900000,
+      "reason": "Sanity Studio CLI toolchain only; not shipped to the production site."
+    },
+    "1193726|sanity>@sanity/cli>@sanity/codegen>chokidar>braces>globby>fast-glob>micromatch>@vercel/frameworks>js-yaml": {
+      "decision": "ignore",
+      "madeAt": 1760693900000,
+      "reason": "Sanity Studio CLI toolchain only; not shipped to the production site."
+    },
+    "1193727|next-sanity>sanity>@sanity/cli>@sanity/codegen>chokidar>braces>globby>fast-glob>micromatch>@vercel/frameworks>js-yaml": {
+      "decision": "ignore",
+      "madeAt": 1760693900000,
+      "reason": "Sanity Studio CLI toolchain only; not shipped to the production site."
+    },
+    "1193727|sanity>@sanity/cli>@sanity/codegen>chokidar>braces>globby>fast-glob>micromatch>@vercel/frameworks>js-yaml": {
+      "decision": "ignore",
+      "madeAt": 1760693900000,
+      "reason": "Sanity Studio CLI toolchain only; not shipped to the production site."
+    },
+    "1112714|next-sanity>sanity>@sanity/cli>@sanity/codegen>chokidar>braces>globby>fast-glob>micromatch>@vercel/frameworks>js-yaml": {
+      "decision": "ignore",
+      "madeAt": 1760693900000,
+      "reason": "Sanity Studio CLI toolchain only; not shipped to the production site."
+    },
+    "1112714|sanity>@sanity/cli>@sanity/codegen>chokidar>braces>globby>fast-glob>micromatch>@vercel/frameworks>js-yaml": {
+      "decision": "ignore",
+      "madeAt": 1760693900000,
+      "reason": "Sanity Studio CLI toolchain only; not shipped to the production site."
+    },
+    "1121859|next-sanity>sanity>@sanity/cli>@sanity/codegen>chokidar>braces>globby>fast-glob>micromatch>@vercel/frameworks>js-yaml": {
+      "decision": "ignore",
+      "madeAt": 1760693900000,
+      "reason": "Sanity Studio CLI toolchain only; not shipped to the production site."
+    },
+    "1121859|sanity>@sanity/cli>@sanity/codegen>chokidar>braces>globby>fast-glob>micromatch>@vercel/frameworks>js-yaml": {
+      "decision": "ignore",
+      "madeAt": 1760693900000,
+      "reason": "Sanity Studio CLI toolchain only; not shipped to the production site."
+    },
+    "1241202|next-sanity>sanity>@sanity/cli>@sanity/codegen>chokidar>braces>globby>fast-glob>micromatch>@vercel/frameworks>js-yaml>argparse>sprintf-js": {
+      "decision": "ignore",
+      "madeAt": 1760693900000,
+      "reason": "Sanity Studio CLI toolchain only; not shipped to the production site."
+    },
+    "1241202|sanity>@sanity/cli>@sanity/codegen>chokidar>braces>globby>fast-glob>micromatch>@vercel/frameworks>js-yaml>argparse>sprintf-js": {
+      "decision": "ignore",
+      "madeAt": 1760693900000,
+      "reason": "Sanity Studio CLI toolchain only; not shipped to the production site."
+    },
+    "1119441|next-sanity>sanity>@sanity/cli>@sanity/codegen>chokidar>braces>globby>fast-glob>micromatch>@vercel/frameworks>js-yaml>argparse>sprintf-js>typeid-js>uuid": {
+      "decision": "ignore",
+      "madeAt": 1760693900000,
+      "reason": "Sanity Studio CLI toolchain only; not shipped to the production site."
+    },
+    "1119441|sanity>@sanity/cli>@sanity/codegen>chokidar>braces>globby>fast-glob>micromatch>@vercel/frameworks>js-yaml>argparse>sprintf-js>typeid-js>uuid": {
+      "decision": "ignore",
+      "madeAt": 1760693900000,
+      "reason": "Sanity Studio CLI toolchain only; not shipped to the production site."
     }
   }
 }
